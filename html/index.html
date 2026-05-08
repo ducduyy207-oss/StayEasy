@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>StayEasy - Đặt phòng khách sạn nhanh chóng</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="css/style.css">
+   </head>
+   <body>
+      <nav class="navbar navbar-dark navbar-custom shadow">
+         <div class="container">
+            <a class="navbar-brand" href="index.html">✈️ StayEasy</a>
+            <a class="btn btn-outline-light btn-sm" href="admin.html">Dành cho Admin</a>
+         </div>
+      </nav>
+
+      <div class="container mt-4">
+         <div class="row mb-4 bg-white p-3 rounded shadow-sm align-items-center">
+            <div class="col-md-3 fw-bold text-primary">🔍 Tìm kiếm nhanh:</div>
+            <div class="col-md-4">
+               <select id="filterType" class="form-select border-primary">
+                  <option value="">Tất cả loại phòng</option>
+                  <option value="Standard">Standard (Tiêu chuẩn)</option>
+                  <option value="Deluxe">Deluxe (Cao cấp)</option>
+                  <option value="VIP">VIP</option>
+                  <option value="Suite">Suite (Gia đình)</option>
+               </select>
+            </div>
+         </div>
+
+         <div id="loading" class="text-center my-5" style="display: none;">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p>Đang tìm kiếm phòng tốt nhất...</p>
+         </div>
+
+         <div id="room-list" class="row g-4 mb-5"></div>
+      </div>
+
+      <div class="modal fade" id="bookingModal" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content border-0 shadow-lg">
+               <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title">Xác nhận đặt: <span id="modalRoomName"></span></h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+               </div>
+               <div class="modal-body">
+                  <form id="bookingForm">
+                     <input type="hidden" id="roomId">
+                     <input type="hidden" id="roomPrice">
+
+                     <div class="mb-3">
+                        <label class="fw-bold">Họ và tên người đặt (*)</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="Nhập tên của bạn">
+                        <small class="text-danger" id="nameError"></small>
+                     </div>
+                     <div class="row">
+                        <div class="col-6 mb-3">
+                           <label class="fw-bold">Nhận phòng</label>
+                           <input type="date" id="checkIn" class="form-control">
+                        </div>
+                        <div class="col-6 mb-3">
+                           <label class="fw-bold">Trả phòng</label>
+                           <input type="date" id="checkOut" class="form-control">
+                        </div>
+                     </div>
+                     <small class="text-danger d-block mb-2" id="dateError"></small>
+
+                     <div class="alert alert-success" id="pricePreview" style="display:none;">
+                        <div class="d-flex justify-content-between">
+                           <span>Thời gian lưu trú:</span>
+                           <strong><span id="nightsCount">0</span> đêm</strong>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fs-5 text-danger fw-bold">
+                           <span>Tổng thanh toán:</span>
+                           <span><span id="totalPriceCalc">0</span> VND</span>
+                        </div>
+                     </div>
+
+                     <button type="submit" class="btn btn-book-now w-100 fs-5">Xác nhận đặt phòng</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="js/utils.js"></script>
+      <script src="js/api.js"></script>
+      <script src="js/main.js"></script>
+   </body>
+</html>

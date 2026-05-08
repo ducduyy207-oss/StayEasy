@@ -1,0 +1,75 @@
+/* Tùy chỉnh font chữ hiện đại */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f7fa; /* Màu nền xám nhạt dịu mắt */
+}
+
+/* Navbar chuẩn Traveloka */
+.navbar-custom {
+    background-color: #0071c2; /* Xanh dương đậm uy tín */
+    padding: 15px 0;
+}
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+/* Thẻ Card Phòng (Agoda Style) */
+.room-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background: #fff;
+}
+.room-card:hover {
+    transform: translateY(-5px); /* Hiệu ứng nảy lên */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+.room-card img {
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 3px solid #ff6d70; /* Đường viền đỏ tạo điểm nhấn */
+}
+.room-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ff567d; /* Màu giá tiền đỏ cam thu hút */
+}
+.room-type-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* Nút bấm chuẩn UI */
+.btn-book-now {
+    background-color: #5392f9; /* Xanh Agoda */
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    transition: background 0.3s;
+}
+.btn-book-now:hover {
+    background-color: #0071c2;
+    color: white;
+}
+
+/* Admin Table */
+.admin-table-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
