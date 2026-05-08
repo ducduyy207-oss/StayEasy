@@ -1,5 +1,5 @@
-// THAY LINK MOCKAPI CỦA BẠN VÀO ĐÂY
-const API_URL = "https://69ead53215c7e2d5126a102c.mockapi.io/v1/rooms";
+// Chỉ lấy link gốc, KHÔNG chứa /rooms hay /bookings ở cuối
+const API_URL = "https://69ead53215c7e2d5126a102c.mockapi.io/v1";
 
 // --- API CHO PHÒNG (ROOMS) ---
 async function fetchRooms() {
