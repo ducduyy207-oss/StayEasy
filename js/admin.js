@@ -1,121 +1,100 @@
-let roomModal;
+let allRooms = [];
+let itemsPerPage = 10; // Một trang hiện 10 dòng là đẹp nhất
+let currentPage = 1;
 
-// Tải dữ liệu bảng Phòng
-async function loadAdminRooms() {
-   let rooms = await fetchRooms();
-   let html = '';
-   for (let r of rooms) {
-      html += `
-            <tr>
-                <td>${r.id}</td>
-                <td><img src="${r.image}" width="60" height="40" style="object-fit:cover; border-radius:4px;"></td>
-                <td class="fw-bold">${r.name}</td>
-                <td><span class="badge bg-secondary">${r.type}</span></td>
-                <td>${r.capacity} người</td>
-                <td class="text-danger fw-bold">${formatCurrency(r.price)}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning btn-edit" data-id="${r.id}" data-obj='${JSON.stringify(r)}'>Sửa</button>
-                    <button class="btn btn-sm btn-danger btn-delete" data-id="${r.id}">Xóa</button>
-                </td>
-            </tr>
-        `;
-   }
-   $('#admin-room-list').html(html);
-}
-
-// Tải dữ liệu bảng Đơn Đặt Phòng
-async function loadAdminBookings() {
-   let bookings = await fetchBookings();
-   let html = '';
-   for (let b of bookings) {
-      let statusBadge = b.status === "Confirmed" ? "bg-success" : (b.status === "Cancelled" ? "bg-danger" : "bg-warning text-dark");
-      html += `
-            <tr>
-                <td>#${b.id}</td>
-                <td>Phòng ${b.roomId}</td>
-                <td class="fw-bold">${b.customerName}</td>
-                <td>${b.checkIn}</td>
-                <td>${b.checkOut}</td>
-                <td class="text-danger fw-bold">${formatCurrency(b.totalPrice)}</td>
-                <td><span class="badge ${statusBadge}">${b.status}</span></td>
-                <td>
-                    ${b.status === "Pending" ? `
-                        <button class="btn btn-sm btn-success btn-approve" data-id="${b.id}">Duyệt</button>
-                        <button class="btn btn-sm btn-danger btn-reject" data-id="${b.id}">Từ chối</button>
-                    ` : '<i>Đã xử lý</i>'}
-                </td>
-            </tr>
-        `;
-   }
-   $('#admin-booking-list').html(html);
-}
+const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
 
 $(document).ready(function () {
-   roomModal = new bootstrap.Modal(document.getElementById('roomModal'));
+    loadAdminRooms();
 
-   // Chạy lúc load trang
-   loadAdminRooms();
-   loadAdminBookings();
-
-   // Mở form Thêm mới
-   $('#btnAddRoom').click(function () {
-      $('#adminRoomForm')[0].reset();
-      $('#editRoomId').val("");
-      $('#roomModalTitle').text("Thêm phòng mới");
-      roomModal.show();
-   });
-
-   // Mở form Sửa
-   $('#admin-room-list').on('click', '.btn-edit', function () {
-      let r = JSON.parse($(this).attr('data-obj'));
-      $('#editRoomId').val(r.id);
-      $('#rName').val(r.name);
-      $('#rType').val(r.type);
-      $('#rPrice').val(r.price);
-      $('#rCap').val(r.capacity);
-      $('#rImg').val(r.image);
-      $('#roomModalTitle').text("Sửa thông tin phòng");
-      roomModal.show();
-   });
-
-   // Submit Thêm/Sửa
-   $('#adminRoomForm').on('submit', async function (e) {
-      e.preventDefault();
-      let id = $('#editRoomId').val();
-      let data = {
-         name: $('#rName').val(),
-         type: $('#rType').val(),
-         price: $('#rPrice').val(),
-         capacity: $('#rCap').val(),
-         image: $('#rImg').val()
-      };
-
-      if (id) {
-         await updateRoom(id, data);
-         alert("Cập nhật thành công!");
-      } else {
-         await createRoom(data);
-         alert("Thêm phòng thành công!");
-      }
-      roomModal.hide();
-      loadAdminRooms();
-   });
-
-   // Xóa phòng
-   $('#admin-room-list').on('click', '.btn-delete', async function () {
-      if (confirm("Bạn có chắc chắn muốn xóa phòng này?")) {
-         await deleteRoom($(this).data('id'));
-         loadAdminRooms();
-      }
-   });
-
-   // Duyệt / Từ chối Đơn
-   $('#admin-booking-list').on('click', '.btn-approve', async function () {
-      await updateBookingStatus($(this).data('id'), "Confirmed");
-      loadAdminBookings();
-   });
-   $('#admin-booking-list').on('click', '.btn-reject', async function () {
-      await updateBookingStatus($(this).data('id'), "Cancelled");
-      loadAdminBookings();
-   });
+    // Bắt sự kiện bấm vào số trang
+    $(document).on('click', '#adminPagination .page-link', function (e) {
+        e.preventDefault();
+        const targetPage = $(this).attr('data-page');
+        if (targetPage) {
+            currentPage = parseInt(targetPage);
+            renderAdminTable();
+        }
+    });
 });
+
+async function loadAdminRooms() {
+    try {
+        // Lấy toàn bộ 100 phòng từ MockAPI[cite: 1]
+        allRooms = await API.getRooms();
+        renderAdminTable();
+    } catch (error) {
+        console.error("Lỗi:", error);
+    }
+}
+
+function renderAdminTable() {
+    const tbody = $('#adminRoomList');
+    tbody.empty();
+
+    // Tính toán vị trí bắt đầu và kết thúc của trang hiện tại
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const pagedRooms = allRooms.slice(start, end);
+
+    pagedRooms.forEach(room => {
+        tbody.append(`
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img src="${room.image}" class="rounded-3 me-3" style="width: 45px; height: 45px; object-fit: cover;">
+                        <div>
+                            <div class="fw-bold">${room.name}</div>
+                            <div class="text-muted small">${room.location || 'Việt Nam'}</div>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="badge badge-soft-primary">${room.type}</span></td>
+                <td class="fw-bold text-primary">${formatVND(room.price)}</td>
+                <td><i class="bi bi-people me-1"></i>${room.guests} người</td>
+                <td><span class="badge badge-soft-success">Sẵn sàng</span></td>
+                <td class="text-end">
+                    <button class="btn btn-action btn-edit-act" onclick="editRoom('${room.id}')"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-action btn-del-act" onclick="deleteRoom('${room.id}')"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        `);
+    });
+
+    // Cập nhật dòng chữ thông báo số lượng
+    $('#adminPaginationInfo').text(`Hiển thị dòng ${start + 1} đến ${Math.min(end, allRooms.length)} trong tổng số ${allRooms.length}`);
+
+    renderPaginationButtons();
+}
+
+function renderPaginationButtons() {
+    const totalPages = Math.ceil(allRooms.length / itemsPerPage);
+    const pagContainer = $('#adminPagination');
+    pagContainer.empty();
+
+    if (totalPages <= 1) return;
+
+    // Nút Trước
+    pagContainer.append(`
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-page="${currentPage - 1}"><i class="bi bi-chevron-left"></i></a>
+        </li>
+    `);
+
+    // Các số trang 1, 2, 3...
+    for (let i = 1; i <= totalPages; i++) {
+        // Tối ưu: Nếu quá nhiều trang thì bạn có thể code thêm logic rút gọn dấu "..."
+        pagContainer.append(`
+            <li class="page-item ${currentPage === i ? 'active' : ''}">
+                <a class="page-link" href="#" data-page="${i}">${i}</a>
+            </li>
+        `);
+    }
+
+    // Nút Sau
+    pagContainer.append(`
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" data-page="${currentPage + 1}"><i class="bi bi-chevron-right"></i></a>
+        </li>
+    `);
+}

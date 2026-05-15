@@ -1,50 +1,40 @@
-// Chỉ lấy link gốc, KHÔNG chứa /rooms hay /bookings ở cuối
-const API_URL = "https://69ead53215c7e2d5126a102c.mockapi.io/v1";
+const API_URL = 'https://69ead53215c7e2d5126a102c.mockapi.io/v1';
 
-// --- API CHO PHÒNG (ROOMS) ---
-async function fetchRooms() {
-   let res = await fetch(`${API_URL}/rooms`);
-   return await res.json();
-}
-
-async function createRoom(data) {
-   await fetch(`${API_URL}/rooms`, {
+const API = {
+   // API Quản lý Phòng (Fetch API)
+   getRooms: () => fetch(`${API_URL}/rooms`).then(res => res.json()),
+   addRoom: (data) => fetch(`${API_URL}/rooms`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
-   });
-}
-
-async function updateRoom(id, data) {
-   await fetch(`${API_URL}/rooms/${id}`, {
+   }).then(res => res.json()),
+   updateRoom: (id, data) => fetch(`${API_URL}/rooms/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
-   });
-}
+   }).then(res => res.json()),
+   deleteRoom: (id) => fetch(`${API_URL}/rooms/${id}`, { method: 'DELETE' }),
 
-async function deleteRoom(id) {
-   await fetch(`${API_URL}/rooms/${id}`, { method: 'DELETE' });
-}
+   // API Quản lý Booking
+   getBookings: () => fetch(`${API_URL}/bookings`).then(res => res.json()),
 
-// --- API CHO ĐẶT PHÒNG (BOOKINGS) ---
-async function fetchBookings() {
-   let res = await fetch(`${API_URL}/bookings`);
-   return await res.json();
-}
+   // Sử dụng jQuery AJAX theo yêu cầu bắt buộc của đề bài (Tích hợp Promise để đồng bộ)
+   createBooking: (data) => {
+      return new Promise((resolve, reject) => {
+         $.ajax({
+            url: `${API_URL}/bookings`,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: resolve,
+            error: reject
+         });
+      });
+   },
 
-async function createBooking(data) {
-   await fetch(`${API_URL}/bookings`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-   });
-}
-
-async function updateBookingStatus(id, status) {
-   await fetch(`${API_URL}/bookings/${id}`, {
+   updateBookingStatus: (id, status) => fetch(`${API_URL}/bookings/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: status })
-   });
-}
+      body: JSON.stringify({ status })
+   }).then(res => res.json())
+};

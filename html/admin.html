@@ -1,104 +1,169 @@
 <!DOCTYPE html>
 <html lang="vi">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Admin - StayEasy</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="css/style.css">
-   </head>
-   <body class="bg-light">
-      <nav class="navbar navbar-dark bg-dark shadow mb-4">
-         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">⚙️ StayEasy Admin Panel</a>
-            <a class="btn btn-outline-light btn-sm" href="index.html">Trang Khách</a>
-         </div>
-      </nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard - StayEasy</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <!-- Đã sửa admin-body-bg-image thành bg-light -->
+    <body class="bg-light">
 
-      <div class="container-fluid px-4">
-         <ul class="nav nav-tabs mb-4" id="adminTabs">
-            <li class="nav-item">
-               <a class="nav-link active fw-bold" data-bs-toggle="tab" href="#roomsTab">🏨 Quản lý Phòng</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link fw-bold" data-bs-toggle="tab" href="#bookingsTab">📝 Quản lý Đặt phòng</a>
-            </li>
-         </ul>
+        <nav class="navbar navbar-expand-lg admin-navbar sticky-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="admin.html">
+                    <i class="bi bi-grid-1x2-fill text-warning fs-4"></i> Quản trị StayEasy
+                </a>
+                <div class="navbar-nav ms-auto">
+                    <a class="btn btn-outline-light btn-sm fw-bold px-3 rounded-pill" href="index.html">
+                        <i class="bi bi-box-arrow-left me-1"></i> Về Trang Khách
+                    </a>
+                </div>
+            </div>
+        </nav>
 
-         <div class="tab-content">
-            <div class="tab-pane fade show active admin-table-container" id="roomsTab">
-               <button class="btn btn-success mb-3" id="btnAddRoom">+ Thêm phòng mới</button>
-               <div class="table-responsive">
-                  <table class="table table-hover align-middle">
-                     <thead class="table-dark">
-                        <tr>
-                           <th>ID</th>
-                           <th>Ảnh</th>
-                           <th>Tên phòng</th>
-                           <th>Loại</th>
-                           <th>Sức chứa</th>
-                           <th>Giá (VND)</th>
-                           <th>Hành động</th>
-                        </tr>
-                     </thead>
-                     <tbody id="admin-room-list"></tbody>
-                  </table>
-               </div>
+        <div class="container mt-4 mb-5">
+            <div class="row mb-5 g-4">
+                <div class="col-md-6">
+                    <div class="admin-stat-card-1 card-stat h-100 p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold opacity-75 mb-1 letter-spacing-1">Tổng số phòng</h6>
+                                <h1 class="fw-bolder mb-0 display-4" id="statTotalRooms">0</h1>
+                            </div>
+                            <i class="bi bi-buildings fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="admin-stat-card-2 card-stat h-100 p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase fw-bold opacity-75 mb-1 letter-spacing-1">Đơn chờ duyệt</h6>
+                                <h1 class="fw-bolder mb-0 display-4" id="statPendingBookings">0</h1>
+                            </div>
+                            <i class="bi bi-bell-fill fs-1 opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="tab-pane fade admin-table-container" id="bookingsTab">
-               <div class="table-responsive">
-                  <table class="table table-hover align-middle">
-                     <thead class="table-dark">
-                        <tr>
-                           <th>Mã Đơn</th>
-                           <th>ID Phòng</th>
-                           <th>Khách hàng</th>
-                           <th>Check-in</th>
-                           <th>Check-out</th>
-                           <th>Tổng tiền</th>
-                           <th>Trạng thái</th>
-                           <th>Duyệt</th>
-                        </tr>
-                     </thead>
-                     <tbody id="admin-booking-list"></tbody>
-                  </table>
-               </div>
-            </div>
-         </div>
-      </div>
+            <div class="admin-table-card">
+                <div class="card-header d-flex justify-content-between align-items-center p-4 bg-white border-bottom">
+                    <ul class="nav nav-pills admin-tabs mb-0" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-rooms">Kho
+                                Phòng</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link tab-danger" data-bs-toggle="pill"
+                                data-bs-target="#tab-bookings">Quản lý Đơn Đặt</button>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm" id="btnAddRoom">
+                        <i class="bi bi-plus-lg me-1"></i> Thêm Phòng Mới
+                    </button>
+                </div>
 
-      <div class="modal fade" id="roomModal" tabindex="-1">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header bg-dark text-white">
-                  <h5 class="modal-title" id="roomModalTitle">Thêm phòng mới</h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-               </div>
-               <div class="modal-body">
-                  <form id="adminRoomForm">
-                     <input type="hidden" id="editRoomId">
-                     <div class="mb-2"><label>Tên phòng</label><input type="text" id="rName" class="form-control"
-                           required></div>
-                     <div class="mb-2"><label>Loại (Standard/VIP...)</label><input type="text" id="rType"
-                           class="form-control" required></div>
-                     <div class="mb-2"><label>Giá tiền (Số)</label><input type="number" id="rPrice" class="form-control"
-                           required></div>
-                     <div class="mb-2"><label>Sức chứa (Người)</label><input type="number" id="rCap"
-                           class="form-control" required></div>
-                     <div class="mb-2"><label>Link Ảnh</label><input type="text" id="rImg" class="form-control"
-                           required></div>
-                     <button type="submit" class="btn btn-primary w-100 mt-3">Lưu thông tin</button>
-                  </form>
-               </div>
-            </div>
-         </div>
-      </div>
+                <div class="card-body p-0 tab-content">
+                    <div class="tab-pane fade show active" id="tab-rooms">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-custom align-middle">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">ID</th>
+                                        <th width="10%">Hình ảnh</th>
+                                        <th width="30%">Tên phòng</th>
+                                        <th width="15%">Hạng phòng</th>
+                                        <th width="20%">Giá / Đêm</th>
+                                        <th width="20%" class="text-end px-4">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminRoomTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
 
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="js/utils.js"></script>
-      <script src="js/api.js"></script>
-      <script src="js/admin.js"></script>
-   </body>
+                    <div class="tab-pane fade" id="tab-bookings">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-custom align-middle">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Mã ĐĐ</th>
+                                        <th width="20%">Khách hàng</th>
+                                        <th width="25%">Phòng</th>
+                                        <th width="15%">Thời gian</th>
+                                        <th width="15%">Tổng thu</th>
+                                        <th width="15%">Trạng thái</th>
+                                        <th class="text-end px-4">Xử lý</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminBookingTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="roomModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <form id="roomForm">
+                        <div class="modal-header bg-light border-0 px-4 pt-4">
+                            <h4 class="modal-title fw-bold text-dark" id="roomModalTitle">Thêm Phòng</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body px-4 py-3">
+                            <input type="hidden" id="adminRoomId">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Tên phòng (*)</label>
+                                <input type="text" class="form-control form-control-lg bg-light border-0" id="admName"
+                                    required>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-bold text-muted small">Giá bán (VNĐ)</label>
+                                    <input type="number" class="form-control bg-light border-0" id="admPrice" min="1"
+                                        required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-bold text-muted small">Khách tối đa</label>
+                                    <input type="number" class="form-control bg-light border-0" id="admGuests" value="2"
+                                        min="1" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Hạng phòng</label>
+                                <select class="form-select bg-light border-0" id="admType">
+                                    <option value="Standard">Standard</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Homestay">Homestay</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">URL Hình ảnh</label>
+                                <input type="url" class="form-control bg-light border-0" id="admImage" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Mô tả ngắn</label>
+                                <textarea class="form-control bg-light border-0" id="admDesc" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0 px-4 pb-4">
+                            <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary fw-bold px-4 rounded-pill">Lưu Dữ Liệu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../js/api.js"></script>
+        <script src="../js/admin.js"></script>
+    </body>
 </html>

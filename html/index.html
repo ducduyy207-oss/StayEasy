@@ -3,92 +3,172 @@
    <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>StayEasy - Đặt phòng khách sạn nhanh chóng</title>
+      <title>StayEasy - Nền tảng Đặt phòng Trực tuyến</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" href="css/style.css">
    </head>
    <body>
-      <nav class="navbar navbar-dark navbar-custom shadow">
+
+      <nav class="navbar navbar-expand-lg navbar-custom">
          <div class="container">
-            <a class="navbar-brand" href="index.html">✈️ StayEasy</a>
-            <a class="btn btn-outline-light btn-sm" href="admin.html">Dành cho Admin</a>
+            <a class="navbar-brand" href="index.html">
+               <i class="bi bi-buildings-fill"></i> StayEasy
+            </a>
+            <button class="navbar-toggler text-white border-white" type="button" data-bs-toggle="collapse"
+               data-bs-target="#navbarNav">
+               <i class="bi bi-list"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+                  <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
+               </ul>
+               <ul class="navbar-nav align-items-center gap-3">
+                  <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-headset"></i> Hỗ trợ</a></li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="admin.html"><i
+                           class="bi bi-shield-lock"></i> Quản trị viên</a></li>
+                  <li class="nav-item"><a class="nav-link btn-nav-login" href="#">Đăng nhập</a></li>
+                  <li class="nav-item"><a class="nav-link btn-nav-register" href="#">Đăng ký</a></li>
+               </ul>
+            </div>
          </div>
       </nav>
 
-      <div class="container mt-4">
-         <div class="row mb-4 bg-white p-3 rounded shadow-sm align-items-center">
-            <div class="col-md-3 fw-bold text-primary">🔍 Tìm kiếm nhanh:</div>
-            <div class="col-md-4">
-               <select id="filterType" class="form-select border-primary">
-                  <option value="">Tất cả loại phòng</option>
-                  <option value="Standard">Standard (Tiêu chuẩn)</option>
-                  <option value="Deluxe">Deluxe (Cao cấp)</option>
-                  <option value="VIP">VIP</option>
-                  <option value="Suite">Suite (Gia đình)</option>
-               </select>
-            </div>
-         </div>
+      <section class="hero-section text-center">
+         <div class="container">
+            <h1 class="mb-3 fw-bold text-white display-5" style="text-shadow: 0 2px 10px rgba(0,0,0,0.6);">
+               Tìm chỗ nghỉ hoàn hảo, tận hưởng kỳ nghỉ trọn vẹn
+            </h1>
+            <p class="text-white fs-5 mb-5 opacity-75" style="text-shadow: 0 1px 5px rgba(0,0,0,0.5);">Hơn 10.000 khách
+               sạn, homestay và resort đang chờ đón bạn</p>
 
-         <div id="loading" class="text-center my-5" style="display: none;">
-            <div class="spinner-border text-primary" role="status"></div>
-            <p>Đang tìm kiếm phòng tốt nhất...</p>
-         </div>
-
-         <div id="room-list" class="row g-4 mb-5"></div>
-      </div>
-
-      <div class="modal fade" id="bookingModal" tabindex="-1">
-         <div class="modal-dialog">
-            <div class="modal-content border-0 shadow-lg">
-               <div class="modal-header bg-primary text-white">
-                  <h5 class="modal-title">Xác nhận đặt: <span id="modalRoomName"></span></h5>
-                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <div class="mx-auto text-start" style="max-width: 950px;">
+               <div class="search-tabs justify-content-center mb-4 border-0">
+                  <div class="tab-item active" data-type=""><i class="bi bi-grid-fill"></i> Tất cả</div>
+                  <div class="tab-item" data-type="Standard"><i class="bi bi-building"></i> Khách sạn</div>
+                  <div class="tab-item" data-type="Homestay"><i class="bi bi-house-door"></i> Homestay</div>
+                  <div class="tab-item" data-type="Resort"><i class="bi bi-stars"></i> Resort</div>
+                  <div class="tab-item" data-type="Deluxe"><i class="bi bi-key"></i> Căn hộ cao cấp</div>
                </div>
-               <div class="modal-body">
-                  <form id="bookingForm">
-                     <input type="hidden" id="roomId">
-                     <input type="hidden" id="roomPrice">
 
-                     <div class="mb-3">
-                        <label class="fw-bold">Họ và tên người đặt (*)</label>
-                        <input type="text" id="customerName" class="form-control" placeholder="Nhập tên của bạn">
-                        <small class="text-danger" id="nameError"></small>
+               <div class="search-bar-container">
+                  <div class="search-input-group" style="flex: 2;">
+                     <i class="bi bi-geo-alt"></i>
+                     <div class="w-100">
+                        <p class="search-label">Điểm đến của bạn?</p>
+                        <input type="text" id="searchName" placeholder="Tên thành phố, khu vực hoặc khách sạn...">
                      </div>
-                     <div class="row">
-                        <div class="col-6 mb-3">
-                           <label class="fw-bold">Nhận phòng</label>
-                           <input type="date" id="checkIn" class="form-control">
-                        </div>
-                        <div class="col-6 mb-3">
-                           <label class="fw-bold">Trả phòng</label>
-                           <input type="date" id="checkOut" class="form-control">
-                        </div>
-                     </div>
-                     <small class="text-danger d-block mb-2" id="dateError"></small>
+                  </div>
 
-                     <div class="alert alert-success" id="pricePreview" style="display:none;">
-                        <div class="d-flex justify-content-between">
-                           <span>Thời gian lưu trú:</span>
-                           <strong><span id="nightsCount">0</span> đêm</strong>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between fs-5 text-danger fw-bold">
-                           <span>Tổng thanh toán:</span>
-                           <span><span id="totalPriceCalc">0</span> VND</span>
+                  <div class="search-input-group" style="flex: 1.8;">
+                     <i class="bi bi-calendar-event"></i>
+                     <div class="w-100">
+                        <p class="search-label">Ngày nhận & Trả phòng:</p>
+                        <div class="d-flex align-items-center">
+                           <input type="date" id="searchCheckIn"
+                              style="width: 43%; font-size: 13px; color: #333; cursor: pointer;">
+                           <span class="mx-1 text-muted">-</span>
+                           <input type="date" id="searchCheckOut"
+                              style="width: 43%; font-size: 13px; color: #333; cursor: pointer;">
                         </div>
                      </div>
+                  </div>
 
-                     <button type="submit" class="btn btn-book-now w-100 fs-5">Xác nhận đặt phòng</button>
-                  </form>
+                  <div class="search-input-group" style="flex: 1.5;">
+                     <i class="bi bi-person"></i>
+                     <div class="w-100">
+                        <p class="search-label">Số khách & Loại phòng:</p>
+                        <select id="filterType">
+                           <option value="">Tất cả hạng phòng</option>
+                           <option value="Standard">Khách sạn</option>
+                           <option value="Homestay">Homestay</option>
+                           <option value="Resort">Resort</option>
+                           <option value="Deluxe">Căn hộ cao cấp</option>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="px-2">
+                     <button class="btn-search-hero shadow-sm" id="btnFilter" title="Tìm kiếm">
+                        <i class="bi bi-search"></i>
+                     </button>
+                  </div>
                </div>
             </div>
          </div>
+      </section>
+
+      <!-- KHU VỰC DANH SÁCH CHÍNH -->
+      <div class="container mb-5 mt-4">
+         <!-- Thanh Tab Thành Phố CHUNG -->
+         <div class="city-tabs-container mb-4">
+            <ul class="nav nav-pills city-tabs flex-nowrap overflow-auto pb-2" id="cityTabs">
+               <li class="nav-item"><button class="nav-link active" data-city="">Tất cả thành phố</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Đà Nẵng">Đà Nẵng</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Nha Trang">Nha Trang</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Hồ Chí Minh">Tp. Hồ Chí Minh</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Hà Nội">Hà Nội</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Đà Lạt">Đà Lạt</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Sapa">Sa Pa</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Phú Quốc">Phú Quốc</button></li>
+               <li class="nav-item"><button class="nav-link" data-city="Hội An">Hội An</button></li>
+            </ul>
+         </div>
+
+         <!-- BLOCK 1: KHÁCH SẠN, RESORT, CĂN HỘ -->
+         <div id="hotelSectionBlock" class="mb-5 pb-3">
+            <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
+               <i class="bi bi-building-fill-check me-2" style="color: var(--primary-color);"></i> Khách sạn & Resort
+               Nổi bật
+            </h3>
+            <div class="row g-4" id="hotelContainer"></div>
+            <!-- Phân trang Khách sạn -->
+            <div class="d-flex justify-content-center mt-4" id="hotelPagination"></div>
+         </div>
+
+         <!-- BLOCK 2: BANNER QUẢNG CÁO -->
+         <div id="promoBannerBlock" class="mb-5">
+            <div class="promo-banner-small">
+               <div>
+                  <h4 class="fw-bolder mb-1">Giảm ngay 15% cho lần đầu đặt phòng</h4>
+                  <p class="mb-0 fs-6">Nhập mã ưu đãi <strong
+                        class="bg-white text-primary px-2 py-1 rounded ms-1">STAYEASY15</strong> khi thanh toán.</p>
+               </div>
+               <button class="btn btn-light text-primary fw-bold ms-auto rounded-pill px-4 py-2 shadow-sm">Lấy mã
+                  ngay</button>
+            </div>
+         </div>
+
+         <!-- BLOCK 3: HOMESTAY -->
+         <div id="homestaySectionBlock" class="mb-5">
+            <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
+               <i class="bi bi-house-heart-fill me-2 text-danger"></i> Homestay Ấm Cúng
+            </h3>
+            <div class="row g-4" id="homestayContainer"></div>
+            <!-- Phân trang Homestay -->
+            <div class="d-flex justify-content-center mt-4" id="homestayPagination"></div>
+         </div>
+
       </div>
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="js/utils.js"></script>
-      <script src="js/api.js"></script>
-      <script src="js/main.js"></script>
+      <script src="../js/api.js"></script>
+      <script src="../js/main.js"></script>
+
+      <script>
+         $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+               $('.navbar-custom').css({ 'background-color': '#fff', 'box-shadow': '0 4px 15px rgba(0,0,0,0.05)' }).removeClass('navbar-dark');
+               $('.navbar-custom .navbar-brand, .navbar-custom .nav-link').attr('style', 'color: #2563eb !important; text-shadow: none;');
+               $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
+            } else {
+               $('.navbar-custom').css({ 'background-color': 'transparent', 'box-shadow': 'none' });
+               $('.navbar-custom .navbar-brand, .navbar-custom .nav-link').attr('style', 'color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5);');
+               $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
+            }
+         });
+      </script>
    </body>
 </html>
