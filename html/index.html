@@ -7,9 +7,124 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" href="css/style.css">
+
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+      <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+
+      <style>
+         #locationDropdown {
+            max-height: 240px;
+            overflow-y: auto;
+         }
+
+         #locationDropdown::-webkit-scrollbar {
+            width: 6px;
+         }
+
+         #locationDropdown::-webkit-scrollbar-track {
+            background: transparent;
+         }
+
+         #locationDropdown::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+         }
+
+         #locationDropdown::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+         }
+
+         .flatpickr-calendar {
+            border: none !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+            border-radius: 16px !important;
+            padding: 10px !important;
+            font-family: inherit !important;
+         }
+
+         .flatpickr-day.selected,
+         .flatpickr-day.startRange,
+         .flatpickr-day.endRange,
+         .flatpickr-day.selected.inRange,
+         .flatpickr-day.startRange.inRange,
+         .flatpickr-day.endRange.inRange,
+         .flatpickr-day.selected:focus,
+         .flatpickr-day.startRange:focus,
+         .flatpickr-day.endRange:focus,
+         .flatpickr-day.selected:hover,
+         .flatpickr-day.startRange:hover,
+         .flatpickr-day.endRange:hover,
+         .flatpickr-day.selected.prevMonthDay,
+         .flatpickr-day.startRange.prevMonthDay,
+         .flatpickr-day.endRange.prevMonthDay,
+         .flatpickr-day.selected.nextMonthDay,
+         .flatpickr-day.startRange.nextMonthDay,
+         .flatpickr-day.endRange.nextMonthDay {
+            background: #2563eb !important;
+            border-color: #2563eb !important;
+         }
+
+         .why-choose-section {
+            background-color: #f8fafc;
+            padding: 60px 0;
+            border-top: 1px solid #e2e8f0;
+         }
+
+         .reason-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+            background-color: white;
+            transition: all 0.3s ease;
+            text-align: center;
+         }
+
+         .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border-color: #bfdbfe;
+         }
+
+         .reason-icon {
+            font-size: 40px;
+            color: #2563eb;
+            margin-bottom: 15px;
+         }
+
+         .footer-custom {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            padding: 60px 0 30px;
+         }
+
+         .footer-custom h5 {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+         }
+
+         .footer-custom a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+            margin-bottom: 10px;
+         }
+
+         .footer-custom a:hover {
+            color: #60a5fa;
+         }
+
+         .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+         }
+      </style>
    </head>
    <body>
-
       <nav class="navbar navbar-expand-lg navbar-custom">
          <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -37,9 +152,8 @@
 
       <section class="hero-section text-center">
          <div class="container">
-            <h1 class="mb-3 fw-bold text-white display-5" style="text-shadow: 0 2px 10px rgba(0,0,0,0.6);">
-               Tìm chỗ nghỉ hoàn hảo, tận hưởng kỳ nghỉ trọn vẹn
-            </h1>
+            <h1 class="mb-3 fw-bold text-white display-5" style="text-shadow: 0 2px 10px rgba(0,0,0,0.6);">Tìm chỗ nghỉ
+               hoàn hảo, tận hưởng kỳ nghỉ trọn vẹn</h1>
             <p class="text-white fs-5 mb-5 opacity-75" style="text-shadow: 0 1px 5px rgba(0,0,0,0.5);">Hơn 10.000 khách
                sạn, homestay và resort đang chờ đón bạn</p>
 
@@ -52,12 +166,54 @@
                   <div class="tab-item" data-type="Deluxe"><i class="bi bi-key"></i> Căn hộ cao cấp</div>
                </div>
 
-               <div class="search-bar-container">
-                  <div class="search-input-group" style="flex: 2;">
+               <div class="search-bar-container position-relative">
+                  <div class="search-input-group position-relative" style="flex: 2; z-index: 1050;">
                      <i class="bi bi-geo-alt"></i>
                      <div class="w-100">
                         <p class="search-label">Điểm đến của bạn?</p>
-                        <input type="text" id="searchName" placeholder="Tên thành phố, khu vực hoặc khách sạn...">
+                        <input type="text" id="searchName" placeholder="Tên thành phố, khu vực..." autocomplete="off"
+                           style="width: 100%; border: none; outline: none; background: transparent;">
+
+                        <ul class="dropdown-menu shadow-lg border-0 rounded-4 mt-2" id="locationDropdown"
+                           style="width: 100%; position: absolute; left: 0; top: 100%;">
+                           <li>
+                              <h6 class="dropdown-header text-dark fw-bold fs-6"><i
+                                    class="bi bi-geo text-primary me-2"></i>Điểm đến phổ biến</h6>
+                           </li>
+                           <li>
+                              <hr class="dropdown-divider">
+                           </li>
+                           <li><a class="dropdown-item py-2 d-flex justify-content-between align-items-center loc-item"
+                                 href="#">
+                                 <div><span class="fw-bold d-block text-dark">Đà Lạt</span><small class="text-muted">Lâm
+                                       Đồng, Việt Nam</small></div>
+                                 <span class="badge bg-light text-primary rounded-pill">Thành phố</span>
+                              </a></li>
+                           <li><a class="dropdown-item py-2 d-flex justify-content-between align-items-center loc-item"
+                                 href="#">
+                                 <div><span class="fw-bold d-block text-dark">Nha Trang</span><small
+                                       class="text-muted">Khánh Hòa, Việt Nam</small></div>
+                                 <span class="badge bg-light text-primary rounded-pill">Thành phố</span>
+                              </a></li>
+                           <li><a class="dropdown-item py-2 d-flex justify-content-between align-items-center loc-item"
+                                 href="#">
+                                 <div><span class="fw-bold d-block text-dark">Phú Quốc</span><small
+                                       class="text-muted">Kiên Giang, Việt Nam</small></div>
+                                 <span class="badge bg-light text-primary rounded-pill">Đảo</span>
+                              </a></li>
+                           <li><a class="dropdown-item py-2 d-flex justify-content-between align-items-center loc-item"
+                                 href="#">
+                                 <div><span class="fw-bold d-block text-dark">Sapa</span><small class="text-muted">Lào
+                                       Cai, Việt Nam</small></div>
+                                 <span class="badge bg-light text-primary rounded-pill">Thành phố</span>
+                              </a></li>
+                           <li><a class="dropdown-item py-2 d-flex justify-content-between align-items-center loc-item"
+                                 href="#">
+                                 <div><span class="fw-bold d-block text-dark">Hội An</span><small
+                                       class="text-muted">Quảng Nam, Việt Nam</small></div>
+                                 <span class="badge bg-light text-primary rounded-pill">Phố cổ</span>
+                              </a></li>
+                        </ul>
                      </div>
                   </div>
 
@@ -65,13 +221,10 @@
                      <i class="bi bi-calendar-event"></i>
                      <div class="w-100">
                         <p class="search-label">Ngày nhận & Trả phòng:</p>
-                        <div class="d-flex align-items-center">
-                           <input type="date" id="searchCheckIn"
-                              style="width: 43%; font-size: 13px; color: #333; cursor: pointer;">
-                           <span class="mx-1 text-muted">-</span>
-                           <input type="date" id="searchCheckOut"
-                              style="width: 43%; font-size: 13px; color: #333; cursor: pointer;">
-                        </div>
+                        <input type="text" id="searchDateRange" placeholder="Chọn ngày đi - ngày về" readonly
+                           style="width: 100%; border: none; outline: none; background: transparent; font-size: 14px; cursor: pointer;">
+                        <input type="hidden" id="searchCheckIn">
+                        <input type="hidden" id="searchCheckOut">
                      </div>
                   </div>
 
@@ -79,7 +232,8 @@
                      <i class="bi bi-person"></i>
                      <div class="w-100">
                         <p class="search-label">Số khách & Loại phòng:</p>
-                        <select id="filterType">
+                        <select id="filterType"
+                           style="width: 100%; border: none; outline: none; background: transparent;">
                            <option value="">Tất cả hạng phòng</option>
                            <option value="Standard">Khách sạn</option>
                            <option value="Homestay">Homestay</option>
@@ -90,18 +244,15 @@
                   </div>
 
                   <div class="px-2">
-                     <button class="btn-search-hero shadow-sm" id="btnFilter" title="Tìm kiếm">
-                        <i class="bi bi-search"></i>
-                     </button>
+                     <button class="btn-search-hero shadow-sm" id="btnFilter" title="Tìm kiếm"><i
+                           class="bi bi-search"></i></button>
                   </div>
                </div>
             </div>
          </div>
       </section>
 
-      <!-- KHU VỰC DANH SÁCH CHÍNH -->
       <div class="container mb-5 mt-4">
-         <!-- Thanh Tab Thành Phố CHUNG -->
          <div class="city-tabs-container mb-4">
             <ul class="nav nav-pills city-tabs flex-nowrap overflow-auto pb-2" id="cityTabs">
                <li class="nav-item"><button class="nav-link active" data-city="">Tất cả thành phố</button></li>
@@ -116,18 +267,14 @@
             </ul>
          </div>
 
-         <!-- BLOCK 1: KHÁCH SẠN, RESORT, CĂN HỘ -->
          <div id="hotelSectionBlock" class="mb-5 pb-3">
             <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
-               <i class="bi bi-building-fill-check me-2" style="color: var(--primary-color);"></i> Khách sạn & Resort
-               Nổi bật
+               <i class="bi bi-building-fill-check me-2" style="color: var(--primary-color);"></i> Khách sạn Nổi bật
             </h3>
             <div class="row g-4" id="hotelContainer"></div>
-            <!-- Phân trang Khách sạn -->
             <div class="d-flex justify-content-center mt-4" id="hotelPagination"></div>
          </div>
 
-         <!-- BLOCK 2: BANNER QUẢNG CÁO -->
          <div id="promoBannerBlock" class="mb-5">
             <div class="promo-banner-small">
                <div>
@@ -140,24 +287,152 @@
             </div>
          </div>
 
-         <!-- BLOCK 3: HOMESTAY -->
-         <div id="homestaySectionBlock" class="mb-5">
+         <div id="homestaySectionBlock" class="mb-5 pb-3">
             <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
                <i class="bi bi-house-heart-fill me-2 text-danger"></i> Homestay Ấm Cúng
             </h3>
             <div class="row g-4" id="homestayContainer"></div>
-            <!-- Phân trang Homestay -->
             <div class="d-flex justify-content-center mt-4" id="homestayPagination"></div>
+         </div>
+
+         <div id="resortSectionBlock" class="mb-5 pb-3">
+            <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
+               <i class="bi bi-stars me-2 text-warning"></i> Resort Đẳng Cấp
+            </h3>
+            <div class="row g-4" id="resortContainer"></div>
+            <div class="d-flex justify-content-center mt-4" id="resortPagination"></div>
          </div>
 
       </div>
 
+      <section class="why-choose-section">
+         <div class="container">
+            <div class="text-center mb-5">
+               <h2 class="fw-bold text-dark mb-3">Lý do nên đặt phòng với StayEasy?</h2>
+               <p class="text-muted fs-5">Hàng triệu khách hàng đã tin tưởng lựa chọn StayEasy cho kỳ nghỉ của họ.</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+               <div class="col-md-4">
+                  <div class="reason-card">
+                     <i class="bi bi-tags-fill reason-icon"></i>
+                     <h5 class="fw-bold mb-3">Giá tốt mỗi ngày</h5>
+                     <p class="text-muted mb-0">Hệ thống AI liên tục cập nhật để đảm bảo bạn luôn có mức giá tốt nhất
+                        không lo hớ khi đặt phòng.</p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="reason-card">
+                     <i class="bi bi-calendar2-check reason-icon text-success"></i>
+                     <h5 class="fw-bold mb-3">Miễn phí hủy phòng</h5>
+                     <p class="text-muted mb-0">Hầu hết các phòng trên StayEasy đều cho phép bạn hủy hoặc đổi ngày hoàn
+                        toàn miễn phí sát ngày đi.</p>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="reason-card">
+                     <i class="bi bi-shield-check reason-icon text-warning"></i>
+                     <h5 class="fw-bold mb-3">Thanh toán an toàn</h5>
+                     <p class="text-muted mb-0">Mọi giao dịch đều được mã hóa tuyệt đối. Nhiều phương thức thanh toán
+                        tiện lợi và nhanh chóng.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <footer class="footer-custom">
+         <div class="container">
+            <div class="row g-4">
+               <div class="col-lg-4 pe-lg-5">
+                  <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="#">
+                     <i class="bi bi-buildings-fill text-primary"></i> StayEasy
+                  </a>
+                  <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam. Mang đến cho bạn những kỳ nghỉ
+                     tuyệt vời với mức giá tốt nhất.</p>
+                  <div class="d-flex gap-3">
+                     <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+                  </div>
+               </div>
+               <div class="col-lg-2 col-md-4">
+                  <h5>Về StayEasy</h5>
+                  <a href="#">Giới thiệu</a>
+                  <a href="#">Tuyển dụng</a>
+                  <a href="#">Quy chế hoạt động</a>
+                  <a href="#">Điều khoản & Điều kiện</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Hỗ trợ Khách hàng</h5>
+                  <a href="#">Trung tâm trợ giúp</a>
+                  <a href="#">Chính sách bảo mật</a>
+                  <a href="#">Chính sách hoàn tiền</a>
+                  <a href="#">Hướng dẫn đặt phòng</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Liên hệ</h5>
+                  <p class="mb-2"><i class="bi bi-geo-alt me-2 text-primary"></i> Trường Đại Học Đại Nam, Hà Nội</p>
+                  <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
+                  <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+               </div>
+            </div>
+            <div class="footer-bottom">
+               <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
+            </div>
+         </div>
+      </footer>
+
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
       <script src="../js/api.js"></script>
       <script src="../js/main.js"></script>
 
       <script>
+         $(document).ready(function () {
+            flatpickr("#searchDateRange", {
+               mode: "range",
+               minDate: "today",
+               dateFormat: "d/m/Y",
+               locale: "vn",
+               showMonths: 2,
+               onChange: function (selectedDates, dateStr, instance) {
+                  if (selectedDates.length === 2) {
+                     $('#searchCheckIn').val(instance.formatDate(selectedDates[0], "Y-m-d"));
+                     $('#searchCheckOut').val(instance.formatDate(selectedDates[1], "Y-m-d"));
+                  }
+               }
+            });
+
+            const locInput = $('#searchName');
+            const locDropdown = $('#locationDropdown');
+
+            locInput.on('focus', function () { locDropdown.addClass('show'); });
+
+            $(document).on('click', function (e) {
+               if (!$(e.target).closest('#searchName').length && !$(e.target).closest('#locationDropdown').length) {
+                  locDropdown.removeClass('show');
+               }
+            });
+
+            $('.loc-item').on('click', function (e) {
+               e.preventDefault();
+               const selectedCity = $(this).find('span.fw-bold').text();
+               locInput.val(selectedCity);
+               locDropdown.removeClass('show');
+               setTimeout(() => { $('#searchDateRange').focus(); }, 100);
+            });
+
+            $('#searchName, #searchDateRange, #filterType').on('keypress', function (e) {
+               if (e.which === 13) {
+                  e.preventDefault();
+                  $('#btnFilter').click();
+               }
+            });
+         });
+
          $(window).scroll(function () {
             if ($(this).scrollTop() > 50) {
                $('.navbar-custom').css({ 'background-color': '#fff', 'box-shadow': '0 4px 15px rgba(0,0,0,0.05)' }).removeClass('navbar-dark');

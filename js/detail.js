@@ -1,14 +1,12 @@
 let currentRoom = null;
-let discountPercent = 0; // Lưu tỷ lệ giảm giá (vd: 0.15 là 15%)
+let discountPercent = 0;
 
 const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
 
 $(document).ready(function () {
-   // 1. Lấy tham số id từ URL
    const urlParams = new URLSearchParams(window.location.search);
    const roomId = urlParams.get('id');
 
-   // Hỗ trợ điền sẵn ngày nếu khách chuyển sang từ trang chủ
    const urlIn = urlParams.get('in');
    const urlOut = urlParams.get('out');
    if (urlIn) $('#cIn').val(urlIn);
@@ -23,33 +21,35 @@ $(document).ready(function () {
 
    initDateValidation();
 
-   // Sự kiện bấm nút áp dụng mã giảm giá
+   // Gắn sự kiện nút áp dụng khuyến mãi
    $('#btnApplyPromo').on('click', applyPromoCode);
 
-   // Sự kiện thay đổi ngày tháng thì tính lại giá
+   // Thay đổi ngày tự động tính tiền
    $('.calc-date').on('change', calculatePrice);
 });
 
-// 2. Tải thông tin chi tiết phòng
 async function loadRoomDetail(id) {
    try {
       const rooms = await API.getRooms();
       currentRoom = rooms.find(r => r.id == id);
 
       if (currentRoom) {
-         // Đổ dữ liệu vào giao diện
          $('#breadCrumbName').text(currentRoom.name);
          $('#dtlMainImg').attr('src', currentRoom.image);
          $('#dtlType').text(currentRoom.type);
          $('#dtlName').text(currentRoom.name);
          $('#dtlDesc').text(currentRoom.description);
          $('#dtlGuests').text(currentRoom.guests);
-         $('#dtlPrice').text(formatVND(currentRoom.price));
+
+         const price = Number(currentRoom.price) || 0;
+         $('#dtlPrice').text(formatVND(price));
+         $('#dtlOldPrice').text(formatVND(price * 1.25));
+
+         generateFakeReviews(); // Gọi hàm tạo bình luận ảo
 
          $('#loadingDetail').hide();
          $('#detailContent').fadeIn(400);
 
-         // Tính tiền ngay nếu đã có ngày sẵn
          calculatePrice();
       } else {
          alert("Phòng không tồn tại!");
@@ -60,7 +60,58 @@ async function loadRoomDetail(id) {
    }
 }
 
-// 3. Ràng buộc ngày trả phòng phải sau ngày nhận phòng
+// HÀM TẠO BÌNH LUẬN ẢO
+function generateFakeReviews() {
+   const rating = (8.5 + Math.random() * 1.3).toFixed(1);
+   const reviewCount = Math.floor(Math.random() * 800) + 150;
+
+   let ratingText = "Tuyệt hảo";
+   if (rating < 9.0) ratingText = "Rất tốt";
+   if (rating >= 9.5) ratingText = "Xuất sắc";
+
+   $('#dtlRatingNum').text(rating);
+   $('#dtlRatingText').text(ratingText);
+   $('#dtlReviewCount').text(`Từ ${reviewCount} đánh giá chân thực`);
+
+   const fakeNames = ["Stephen E.", "Mai T.", "Trần Q.", "David L.", "Sophia W.", "Hoàng N."];
+   const fakeContents = [
+      "Phòng sạch sẽ và được trình bày đẹp. Luôn có nước nóng và nhân viên rất tuyệt vời và rất hữu ích. Đáng giá tiền.",
+      "Trải nghiệm thật tuyệt vời khi lưu trú tại đây. Điểm ăn sáng ngon, view nhìn ra trung tâm rất ấn tượng.",
+      "Tôi đã có một kỳ nghỉ rất thoải mái. Giường êm, không gian yên tĩnh dù nằm ở trung tâm.",
+      "Mọi thứ đều hoàn hảo, từ lúc check-in đến lúc check-out. Chắc chắn sẽ quay lại vào năm sau."
+   ];
+
+   const reviewsHtml = [];
+   for (let i = 0; i < 3; i++) {
+      const name = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+      const content = fakeContents[Math.floor(Math.random() * fakeContents.length)];
+      const indvRating = (parseFloat(rating) + (Math.random() * 0.4 - 0.2)).toFixed(1);
+
+      reviewsHtml.push(`
+            <div class="review-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center text-primary fw-bold me-3" style="width: 40px; height: 40px;">
+                            ${name.charAt(0)}
+                        </div>
+                        <div>
+                            <span class="fw-bold d-block">${name}</span>
+                            <small class="text-muted">Đã lưu trú 2 đêm</small>
+                        </div>
+                    </div>
+                    <div class="text-primary fw-bold" style="background: #eef2ff; padding: 4px 10px; border-radius: 6px;">
+                        ${indvRating} / 10
+                    </div>
+                </div>
+                <p class="mb-0 text-dark" style="line-height: 1.6;">"${content}"</p>
+                <div class="text-end mt-2"><small class="text-muted" style="font-size: 0.7rem;">translated by Google</small></div>
+            </div>
+        `);
+   }
+
+   $('#reviewsList').html(reviewsHtml.join(''));
+}
+
 function initDateValidation() {
    const today = new Date().toISOString().split('T')[0];
    $('#cIn').attr('min', today);
@@ -80,7 +131,6 @@ function initDateValidation() {
    });
 }
 
-// 4. Logic tính toán giá tiền & mã giảm giá
 function calculatePrice() {
    const inVal = $('#cIn').val();
    const outVal = $('#cOut').val();
@@ -97,7 +147,6 @@ function calculatePrice() {
 
          $('#totalNights').text(nights + ' đêm');
 
-         // Xử lý hiển thị khi có/không có giảm giá
          if (discountPercent > 0) {
             $('#originalPriceDisplay').html(`<del class="text-muted small">${formatVND(originalTotal)}</del>`);
             $('#discountDisplay').text(`- ${formatVND(discountAmount)}`).parent().attr('style', 'display: flex !important;');
@@ -116,22 +165,31 @@ function calculatePrice() {
 }
 
 function applyPromoCode() {
-   const code = $('#promoCode').val().trim().toUpperCase();
+   const codeInput = $('#promoCode').val().trim().toUpperCase();
 
-   if (code === 'STAYEASY15') {
-      discountPercent = 0.15;
-      alert('🎉 Mã giảm giá 15% đã được áp dụng!');
-   } else if (code === 'SUMMER2026') {
-      discountPercent = 0.20;
-      alert('🎉 Mã giảm giá hè 20% đã được áp dụng!');
+   if (!codeInput) {
+      alert("Vui lòng nhập mã khuyến mãi!");
+      return;
+   }
+
+   const activePromos = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
+      { code: 'STAYEASY15', discount: 15 },
+      { code: 'SUMMER2026', discount: 20 }
+   ];
+
+   const validPromo = activePromos.find(p => p.code === codeInput);
+
+   if (validPromo) {
+      discountPercent = validPromo.discount / 100;
+      alert(`🎉 Áp dụng mã ${validPromo.code} thành công (Giảm ${validPromo.discount}%)!`);
    } else {
       discountPercent = 0;
-      alert('❌ Mã không hợp lệ!');
+      alert('❌ Mã không hợp lệ hoặc đã bị vô hiệu hóa!');
    }
+
    calculatePrice();
 }
 
-// 5. Gửi đơn đặt phòng
 $('#bookingForm').on('submit', async function (e) {
    e.preventDefault();
 
@@ -162,6 +220,6 @@ $('#bookingForm').on('submit', async function (e) {
    } catch (error) {
       alert('Lỗi khi gửi yêu cầu đặt phòng.');
    } finally {
-      btn.prop('disabled', false).text('Yêu Cầu Đặt Phòng');
+      btn.prop('disabled', false).text('Chọn phòng ngay');
    }
 });

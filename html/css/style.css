@@ -497,3 +497,75 @@ select option {
     background-color: #2563eb;
     border-color: #2563eb;
 }
+/* =========================================
+   ADMIN DASHBOARD SAAS STYLE
+   ========================================= */
+.tracking-wider { letter-spacing: 0.05em; }
+.tracking-tight { letter-spacing: -0.03em; }
+.cursor-pointer { cursor: pointer; }
+
+/* Menu Trái */
+#adminSidebarMenu .nav-link {
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+#adminSidebarMenu .nav-link:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+#adminSidebarMenu .nav-link.active {
+    background-color: rgba(37, 99, 235, 0.1) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Các thẻ Badge mềm */
+.badge-soft-primary { background-color: rgba(37, 99, 235, 0.1); color: #2563eb; padding: 6px 12px; font-weight: 700; border-radius: 6px;}
+.badge-soft-success { background-color: rgba(16, 185, 129, 0.1); color: #10b981; padding: 6px 12px; font-weight: 700; border-radius: 6px;}
+.badge-soft-warning { background-color: rgba(245, 158, 11, 0.1); color: #d97706; padding: 6px 12px; font-weight: 700; border-radius: 6px;}
+.badge-soft-danger { background-color: rgba(244, 63, 94, 0.1); color: #e11d48; padding: 6px 12px; font-weight: 700; border-radius: 6px;}
+
+/* Bảng sọc ngang mờ */
+.table-striped-custom tbody tr:nth-of-type(odd) {
+    background-color: rgba(248, 250, 252, 0.5);
+}
+.table-custom td {
+    padding: 16px 10px;
+    color: #334155;
+}
+
+/* Phân trang Admin */
+.pagination .page-link {
+    border: none;
+    color: #475569;
+    font-weight: 600;
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    color: white;
+}
+/* Hiệu ứng nổi Card khi đưa chuột vào */
+.room-card-hover {
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent !important;
+}
+
+/* Đổ bóng màu xanh nhạt và nảy thẻ lên */
+.room-card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.15) !important; 
+    border-color: rgba(37, 99, 235, 0.2) !important; 
+    z-index: 2;
+}
+
+/* Hiệu ứng zoom ảnh mượt mà bên trong thẻ */
+.room-card-hover .position-relative {
+    overflow: hidden; /* Giữ ảnh không bị tràn ra ngoài viền bo góc */
+}
+
+.room-card-hover img.card-img-top {
+    transition: transform 0.5s ease;
+}
+
+.room-card-hover:hover img.card-img-top {
+    transform: scale(1.08); /* Phóng to ảnh lên 8% */
+}

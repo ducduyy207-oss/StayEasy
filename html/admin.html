@@ -3,158 +3,403 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Dashboard - StayEasy</title>
+        <title>Hệ thống Quản trị - StayEasy</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
-    <!-- Đã sửa admin-body-bg-image thành bg-light -->
-    <body class="bg-light">
+    <body class="bg-light overflow-hidden">
 
-        <nav class="navbar navbar-expand-lg admin-navbar sticky-top">
-            <div class="container-fluid px-4">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="admin.html">
-                    <i class="bi bi-grid-1x2-fill text-warning fs-4"></i> Quản trị StayEasy
-                </a>
-                <div class="navbar-nav ms-auto">
-                    <a class="btn btn-outline-light btn-sm fw-bold px-3 rounded-pill" href="index.html">
-                        <i class="bi bi-box-arrow-left me-1"></i> Về Trang Khách
-                    </a>
-                </div>
-            </div>
-        </nav>
-
-        <div class="container mt-4 mb-5">
-            <div class="row mb-5 g-4">
-                <div class="col-md-6">
-                    <div class="admin-stat-card-1 card-stat h-100 p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase fw-bold opacity-75 mb-1 letter-spacing-1">Tổng số phòng</h6>
-                                <h1 class="fw-bolder mb-0 display-4" id="statTotalRooms">0</h1>
-                            </div>
-                            <i class="bi bi-buildings fs-1 opacity-50"></i>
-                        </div>
+        <div class="d-flex vh-100">
+            <aside class="admin-sidebar bg-white border-end d-flex flex-column transition-all"
+                style="width: 280px; z-index: 1040;">
+                <div class="p-4 border-bottom d-flex align-items-center gap-2">
+                    <div class="bg-primary text-white rounded p-2 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-airplane-engines-fill fs-5"></i>
                     </div>
+                    <h4 class="fw-bolder text-dark mb-0 tracking-tight">StayEasy</h4>
                 </div>
-                <div class="col-md-6">
-                    <div class="admin-stat-card-2 card-stat h-100 p-4">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-uppercase fw-bold opacity-75 mb-1 letter-spacing-1">Đơn chờ duyệt</h6>
-                                <h1 class="fw-bolder mb-0 display-4" id="statPendingBookings">0</h1>
-                            </div>
-                            <i class="bi bi-bell-fill fs-1 opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="admin-table-card">
-                <div class="card-header d-flex justify-content-between align-items-center p-4 bg-white border-bottom">
-                    <ul class="nav nav-pills admin-tabs mb-0" role="tablist">
+                <div class="p-3 flex-grow-1 overflow-auto">
+                    <p class="text-uppercase text-muted fw-bold small mb-2 px-3 opacity-75" style="font-size: 11px;">
+                        Menu Chính</p>
+                    <ul class="nav nav-pills flex-column gap-1" id="adminSidebarMenu" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-rooms">Kho
-                                Phòng</button>
+                            <button
+                                class="nav-link active w-100 text-start fw-bold d-flex align-items-center py-2 px-3 rounded-3"
+                                data-bs-toggle="pill" data-bs-target="#tab-dashboard">
+                                <i class="bi bi-grid-fill me-3 fs-5"></i> Tổng quan
+                            </button>
                         </li>
-                        <li class="nav-item">
-                            <button class="nav-link tab-danger" data-bs-toggle="pill"
-                                data-bs-target="#tab-bookings">Quản lý Đơn Đặt</button>
+                        <li class="nav-item mt-2">
+                            <button
+                                class="nav-link w-100 text-start fw-bold d-flex align-items-center py-2 px-3 rounded-3"
+                                data-bs-toggle="pill" data-bs-target="#tab-rooms">
+                                <i class="bi bi-building me-3 fs-5"></i> Kho phòng nghỉ
+                            </button>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <button
+                                class="nav-link w-100 text-start fw-bold d-flex align-items-center py-2 px-3 rounded-3"
+                                data-bs-toggle="pill" data-bs-target="#tab-bookings">
+                                <i class="bi bi-calendar2-check me-3 fs-5"></i> Đơn đặt phòng
+                            </button>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <button
+                                class="nav-link w-100 text-start fw-bold d-flex align-items-center py-2 px-3 rounded-3"
+                                data-bs-toggle="pill" data-bs-target="#tab-revenue">
+                                <i class="bi bi-wallet2 me-3 fs-5"></i> Doanh thu
+                            </button>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <button
+                                class="nav-link w-100 text-start fw-bold d-flex align-items-center py-2 px-3 rounded-3"
+                                data-bs-toggle="pill" data-bs-target="#tab-promotions">
+                                <i class="bi bi-tags me-3 fs-5"></i> Khuyến mãi
+                            </button>
                         </li>
                     </ul>
-                    <button class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm" id="btnAddRoom">
-                        <i class="bi bi-plus-lg me-1"></i> Thêm Phòng Mới
-                    </button>
                 </div>
 
-                <div class="card-body p-0 tab-content">
-                    <div class="tab-pane fade show active" id="tab-rooms">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-custom align-middle">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">ID</th>
-                                        <th width="10%">Hình ảnh</th>
-                                        <th width="30%">Tên phòng</th>
-                                        <th width="15%">Hạng phòng</th>
-                                        <th width="20%">Giá / Đêm</th>
-                                        <th width="20%" class="text-end px-4">Thao tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="adminRoomTable"></tbody>
-                            </table>
+                <div class="p-3 border-top">
+                    <a href="index.html"
+                        class="btn btn-light w-100 text-start fw-bold text-danger d-flex align-items-center py-2 px-3 rounded-3">
+                        <i class="bi bi-box-arrow-left me-3 fs-5"></i> Về trang khách
+                    </a>
+                </div>
+            </aside>
+
+            <main class="flex-grow-1 d-flex flex-column overflow-hidden bg-light">
+
+                <header
+                    class="bg-white p-3 border-bottom d-flex justify-content-between align-items-center px-4 shadow-sm"
+                    style="z-index: 1030;">
+                    <h5 class="fw-bold mb-0 text-dark" id="headerTitle">Tổng quan</h5>
+
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="dropdown">
+                                <a href="#" class="d-flex align-items-center text-dark text-decoration-none"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="position-relative">
+                                        <i class="bi bi-bell fs-5 text-muted"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                            id="notificationCount" style="font-size: 0.6rem;">0</span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0" id="notificationList"
+                                    style="width: 320px;">
+                                </ul>
+                            </div>
+
+                            <div class="vr"></div>
+                            <div class="d-flex align-items-center gap-2 cursor-pointer">
+                                <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff&bold=true"
+                                    class="rounded-circle shadow-sm" width="38" height="38">
+                                <div class="d-none d-lg-block text-end">
+                                    <p class="mb-0 fw-bold small lh-1">ADMIN</p>
+                                    <small class="text-muted" style="font-size: 11px;">Quản trị viên cấp cao</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="flex-grow-1 overflow-auto p-4 tab-content">
+
+                    <div class="tab-pane fade show active" id="tab-dashboard">
+                        <div class="row g-4 mb-4">
+                            <div class="col-xl-3 col-sm-6">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 admin-stat-card bg-white position-relative overflow-hidden cursor-pointer"
+                                    onclick="switchAdminTab('#tab-revenue')">
+                                    <div class="position-absolute top-0 end-0 p-3 opacity-10"><i class="bi bi-wallet2"
+                                            style="font-size: 5rem;"></i></div>
+                                    <p class="text-muted fw-bold small mb-1 text-uppercase tracking-wider">Doanh thu dự
+                                        kiến</p>
+                                    <h3 class="fw-bolder mb-2 text-primary" id="dashRevenue">0 đ</h3>
+                                    <p class="mb-0 small text-success"><i class="bi bi-arrow-up-right me-1"></i>Xem chi
+                                        tiết doanh thu</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 admin-stat-card bg-white position-relative overflow-hidden cursor-pointer"
+                                    onclick="switchAdminTab('#tab-bookings')">
+                                    <div class="position-absolute top-0 end-0 p-3 opacity-10"><i
+                                            class="bi bi-calendar-check" style="font-size: 5rem;"></i></div>
+                                    <p class="text-muted fw-bold small mb-1 text-uppercase tracking-wider">Tổng Đơn Đặt
+                                    </p>
+                                    <h3 class="fw-bolder mb-2 text-dark" id="dashTotalBookings">0</h3>
+                                    <p class="mb-0 small text-warning fw-bold" id="dashPendingBookings"><i
+                                            class="bi bi-clock-history me-1"></i>0 đơn đang chờ duyệt</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 admin-stat-card bg-white position-relative overflow-hidden cursor-pointer"
+                                    onclick="switchAdminTab('#tab-rooms')">
+                                    <div class="position-absolute top-0 end-0 p-3 opacity-10"><i class="bi bi-buildings"
+                                            style="font-size: 5rem;"></i></div>
+                                    <p class="text-muted fw-bold small mb-1 text-uppercase tracking-wider">Kho Phòng
+                                        (Sẵn sàng)</p>
+                                    <h3 class="fw-bolder mb-2 text-dark" id="dashTotalRooms">0</h3>
+                                    <p class="mb-0 small text-muted"><i
+                                            class="bi bi-check-circle-fill text-success me-1"></i>Quản lý kho phòng</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6">
+                                <div class="card border-0 shadow-sm rounded-4 p-4 h-100 admin-stat-card position-relative overflow-hidden cursor-pointer"
+                                    style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);"
+                                    onclick="switchAdminTab('#tab-promotions')">
+                                    <div class="position-absolute top-0 end-0 p-3 opacity-25 text-white"><i
+                                            class="bi bi-tags" style="font-size: 5rem;"></i></div>
+                                    <p class="text-white opacity-75 fw-bold small mb-1 text-uppercase tracking-wider">
+                                        Khuyến mãi</p>
+                                    <h3 class="fw-bolder mb-2 text-white">Quản lý mã</h3>
+                                    <p class="mb-0 small text-white opacity-75">Tạo mã giảm giá mới</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-rooms">
+                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                            <div
+                                class="p-4 border-bottom d-flex flex-wrap gap-3 justify-content-between align-items-center">
+                                <div class="d-flex align-items-center gap-3">
+                                    <h5 class="fw-bold mb-0">Danh sách phòng</h5>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2"
+                                        id="roomCountBadge">0 phòng</span>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <input type="text" id="searchRoomInput"
+                                        class="form-control form-control-sm bg-light border-0 px-3"
+                                        placeholder="Tìm tên, địa điểm..." style="width: 200px;">
+
+                                    <button
+                                        class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
+                                        onclick="loadAdminData()">
+                                        <i class="bi bi-arrow-clockwise me-1"></i> Làm mới
+                                    </button>
+
+                                    <button
+                                        class="btn btn-primary btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
+                                        id="btnAddRoom">
+                                        <i class="bi bi-plus-lg me-1"></i> Thêm mới
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-hover align-middle mb-0 table-borderless table-striped-custom">
+                                    <thead class="table-light text-muted small text-uppercase tracking-wider">
+                                        <tr>
+                                            <th class="ps-4 py-3 fw-bold">Thông tin chi tiết</th>
+                                            <th class="py-3 fw-bold">Loại hình</th>
+                                            <th class="py-3 fw-bold">Giá / Đêm</th>
+                                            <th class="py-3 fw-bold">Sức chứa</th>
+                                            <th class="text-end pe-4 py-3 fw-bold">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminRoomTable"></tbody>
+                                </table>
+                            </div>
+                            <div class="p-3 border-top d-flex justify-content-between align-items-center bg-white">
+                                <span class="small text-muted fw-bold" id="roomPaginationInfo">Đang tải...</span>
+                                <ul class="pagination pagination-sm mb-0 shadow-sm rounded-3" id="roomPagination"></ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="tab-bookings">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-custom align-middle">
-                                <thead>
-                                    <tr>
-                                        <th width="10%">Mã ĐĐ</th>
-                                        <th width="20%">Khách hàng</th>
-                                        <th width="25%">Phòng</th>
-                                        <th width="15%">Thời gian</th>
-                                        <th width="15%">Tổng thu</th>
-                                        <th width="15%">Trạng thái</th>
-                                        <th class="text-end px-4">Xử lý</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="adminBookingTable"></tbody>
-                            </table>
+                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                            <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold mb-0">Yêu cầu đặt phòng</h5>
+                                <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
+                                    onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
+                                    mới</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-hover align-middle mb-0 table-borderless table-striped-custom">
+                                    <thead class="table-light text-muted small text-uppercase tracking-wider">
+                                        <tr>
+                                            <th class="ps-4 py-3 fw-bold">Khách hàng</th>
+                                            <th class="py-3 fw-bold">Chi tiết phòng</th>
+                                            <th class="py-3 fw-bold">Check in - out</th>
+                                            <th class="py-3 fw-bold">Tổng thu</th>
+                                            <th class="py-3 fw-bold">Trạng thái</th>
+                                            <th class="text-end pe-4 py-3 fw-bold">Duyệt/Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="adminBookingTable"></tbody>
+                                </table>
+                            </div>
+                            <div class="p-3 border-top d-flex justify-content-between align-items-center bg-white">
+                                <span class="small text-muted fw-bold" id="bookingPaginationInfo">Đang tải...</span>
+                                <ul class="pagination pagination-sm mb-0 shadow-sm rounded-3" id="bookingPagination">
+                                </ul>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="tab-pane fade" id="tab-revenue">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <div
+                                    class="card border-0 shadow-sm rounded-4 p-4 bg-white d-flex flex-row align-items-center justify-content-between">
+                                    <div>
+                                        <p class="text-muted fw-bold small mb-1 text-uppercase">TỔNG DOANH THU THỰC TẾ
+                                        </p>
+                                        <h2 class="fw-bolder mb-0 text-success" id="revTotalAmount">0 đ</h2>
+                                    </div>
+                                    <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle"><i
+                                            class="bi bi-cash-stack fs-1"></i></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div
+                                    class="card border-0 shadow-sm rounded-4 p-4 bg-white d-flex flex-row align-items-center justify-content-between">
+                                    <div>
+                                        <p class="text-muted fw-bold small mb-1 text-uppercase">ĐƠN HÀNG THÀNH CÔNG</p>
+                                        <h2 class="fw-bolder mb-0 text-dark" id="revTotalBookings">0 đơn</h2>
+                                    </div>
+                                    <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle"><i
+                                            class="bi bi-check2-circle fs-1"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                            <div class="p-4 border-bottom">
+                                <h5 class="fw-bold mb-0">Lịch sử giao dịch (Đã duyệt)</h5>
+                            </div>
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-hover align-middle mb-0 table-borderless table-striped-custom">
+                                    <thead class="table-light text-muted small text-uppercase tracking-wider">
+                                        <tr>
+                                            <th class="ps-4 py-3 fw-bold">Khách hàng</th>
+                                            <th class="py-3 fw-bold">Phòng</th>
+                                            <th class="py-3 fw-bold">Thời gian</th>
+                                            <th class="py-3 fw-bold text-end pe-4">Doanh thu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="revenueTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tab-promotions">
+                        <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                            <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold mb-0">Quản lý mã giảm giá</h5>
+                                <button
+                                    class="btn btn-danger btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
+                                    data-bs-toggle="modal" data-bs-target="#promoModal">
+                                    <i class="bi bi-plus-lg me-1"></i> Tạo mã mới
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0 table-borderless">
+                                    <thead class="table-light text-muted small text-uppercase tracking-wider">
+                                        <tr>
+                                            <th class="ps-4 py-3 fw-bold">Mã Khuyến Mãi</th>
+                                            <th class="py-3 fw-bold">Tỉ lệ giảm</th>
+                                            <th class="py-3 fw-bold">Trạng thái</th>
+                                            <th class="text-end pe-4 py-3 fw-bold">Xóa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="promoTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            </main>
         </div>
 
         <div class="modal fade" id="roomModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow-lg rounded-4">
                     <form id="roomForm">
-                        <div class="modal-header bg-light border-0 px-4 pt-4">
-                            <h4 class="modal-title fw-bold text-dark" id="roomModalTitle">Thêm Phòng</h4>
+                        <div class="modal-header bg-light border-0 px-4 pt-4 rounded-top-4">
+                            <h5 class="modal-title fw-bold text-dark" id="roomModalTitle">Thêm Phòng Mới</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <div class="modal-body px-4 py-3">
+                        <div class="modal-body px-4 py-4">
                             <input type="hidden" id="adminRoomId">
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">Tên phòng (*)</label>
-                                <input type="text" class="form-control form-control-lg bg-light border-0" id="admName"
-                                    required>
+                                <label class="form-label fw-bold text-muted small">Tên chỗ nghỉ (*)</label>
+                                <input type="text" class="form-control bg-light border-0" id="admName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Địa điểm / Thành phố (*)</label>
+                                <input type="text" class="form-control bg-light border-0" id="admLocation"
+                                    placeholder="VD: Đà Lạt" required>
                             </div>
                             <div class="row g-3 mb-3">
                                 <div class="col-6">
-                                    <label class="form-label fw-bold text-muted small">Giá bán (VNĐ)</label>
-                                    <input type="number" class="form-control bg-light border-0" id="admPrice" min="1"
+                                    <label class="form-label fw-bold text-muted small">Giá / Đêm (VNĐ)</label>
+                                    <input type="number" class="form-control bg-light border-0" id="admPrice" min="0"
                                         required>
                                 </div>
                                 <div class="col-6">
-                                    <label class="form-label fw-bold text-muted small">Khách tối đa</label>
-                                    <input type="number" class="form-control bg-light border-0" id="admGuests" value="2"
-                                        min="1" required>
+                                    <label class="form-label fw-bold text-muted small">Sức chứa (Khách)</label>
+                                    <input type="number" class="form-control bg-light border-0" id="admGuests" min="1"
+                                        value="2" required>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">Hạng phòng</label>
+                                <label class="form-label fw-bold text-muted small">Phân loại</label>
                                 <select class="form-select bg-light border-0" id="admType">
-                                    <option value="Standard">Standard</option>
-                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Standard">Khách sạn</option>
+                                    <option value="Deluxe">Căn hộ cao cấp</option>
                                     <option value="Homestay">Homestay</option>
+                                    <option value="Resort">Resort</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">URL Hình ảnh</label>
+                                <label class="form-label fw-bold text-muted small">Link Hình ảnh</label>
                                 <input type="url" class="form-control bg-light border-0" id="admImage" required>
                             </div>
+                        </div>
+                        <div class="modal-footer border-0 px-4 pb-4 bg-white rounded-bottom-4">
+                            <button type="button" class="btn btn-light fw-bold px-4"
+                                data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary fw-bold px-4 rounded-3 shadow-sm">Lưu Dữ
+                                Liệu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="promoModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <form id="promoForm">
+                        <div class="modal-header bg-light border-0 px-4 pt-4 rounded-top-4">
+                            <h6 class="modal-title fw-bold text-dark">Tạo Mã Mới</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body px-4 py-3">
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">Mô tả ngắn</label>
-                                <textarea class="form-control bg-light border-0" id="admDesc" rows="2"></textarea>
+                                <label class="form-label fw-bold text-muted small">Tên Mã (VD: TET2026)</label>
+                                <input type="text" class="form-control text-uppercase fw-bold text-danger"
+                                    id="promoCodeInput" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Mức giảm (%)</label>
+                                <input type="number" class="form-control" id="promoDiscountInput" min="1" max="99"
+                                    placeholder="VD: 15" required>
                             </div>
                         </div>
                         <div class="modal-footer border-0 px-4 pb-4">
-                            <button type="button" class="btn btn-light fw-bold" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary fw-bold px-4 rounded-pill">Lưu Dữ Liệu</button>
+                            <button type="submit" class="btn btn-danger w-100 fw-bold rounded-3 shadow-sm">Thêm Mã Ưu
+                                Đãi</button>
                         </div>
                     </form>
                 </div>

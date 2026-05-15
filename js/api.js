@@ -1,9 +1,9 @@
 const API_URL = 'https://69ead53215c7e2d5126a102c.mockapi.io/v1';
 
 const API = {
-   // API Quản lý Phòng (Fetch API)
+   // API KHO PHÒNG
    getRooms: () => fetch(`${API_URL}/rooms`).then(res => res.json()),
-   addRoom: (data) => fetch(`${API_URL}/rooms`, {
+   createRoom: (data) => fetch(`${API_URL}/rooms`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -15,10 +15,8 @@ const API = {
    }).then(res => res.json()),
    deleteRoom: (id) => fetch(`${API_URL}/rooms/${id}`, { method: 'DELETE' }),
 
-   // API Quản lý Booking
+   // API ĐƠN ĐẶT PHÒNG
    getBookings: () => fetch(`${API_URL}/bookings`).then(res => res.json()),
-
-   // Sử dụng jQuery AJAX theo yêu cầu bắt buộc của đề bài (Tích hợp Promise để đồng bộ)
    createBooking: (data) => {
       return new Promise((resolve, reject) => {
          $.ajax({
@@ -31,10 +29,12 @@ const API = {
          });
       });
    },
-
-   updateBookingStatus: (id, status) => fetch(`${API_URL}/bookings/${id}`, {
+   // Đã đồng bộ tên hàm để Admin gọi được
+   updateBooking: (id, data) => fetch(`${API_URL}/bookings/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
-   }).then(res => res.json())
+      body: JSON.stringify(data)
+   }).then(res => res.json()),
+   // Đã bổ sung hàm Xóa để dọn rác
+   deleteBooking: (id) => fetch(`${API_URL}/bookings/${id}`, { method: 'DELETE' })
 };

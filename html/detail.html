@@ -7,6 +7,38 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" href="css/style.css">
+      <style>
+         .review-badge {
+            background-color: #0071c2;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         .review-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+         }
+
+         .review-tag {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: inline-block;
+         }
+      </style>
    </head>
    <body>
 
@@ -39,24 +71,27 @@
             <div class="gallery-container mb-4">
                <div class="row g-2">
                   <div class="col-md-6">
-                     <img src="" id="dtlMainImg" class="img-main" alt="Ảnh chính">
+                     <img src="" id="dtlMainImg" class="img-main w-100 rounded-3" alt="Ảnh chính"
+                        style="height: 410px; object-fit: cover;">
                   </div>
                   <div class="col-md-6">
-                     <div class="row g-2">
+                     <div class="row g-2 h-100">
                         <div class="col-6"><img
                               src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=600&auto=format&fit=crop"
-                              class="img-sub rounded" alt="Sub"></div>
+                              class="img-sub w-100 rounded-3" alt="Sub" style="height: 200px; object-fit: cover;"></div>
                         <div class="col-6"><img
                               src="https://images.unsplash.com/photo-1595576508898-0ad5c879a061?q=80&w=600&auto=format&fit=crop"
-                              class="img-sub rounded" alt="Sub"></div>
+                              class="img-sub w-100 rounded-3" alt="Sub" style="height: 200px; object-fit: cover;"></div>
                         <div class="col-6"><img
                               src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=600&auto=format&fit=crop"
-                              class="img-sub rounded" alt="Sub"></div>
+                              class="img-sub w-100 rounded-3" alt="Sub" style="height: 200px; object-fit: cover;"></div>
                         <div class="col-6 position-relative">
                            <img
                               src="https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?q=80&w=600&auto=format&fit=crop"
-                              class="img-sub rounded" alt="Sub" style="filter: brightness(0.5);">
-                           <div class="position-absolute top-50 start-50 translate-middle text-white fw-bold">
+                              class="img-sub w-100 rounded-3" alt="Sub"
+                              style="height: 200px; object-fit: cover; filter: brightness(0.5);">
+                           <div
+                              class="position-absolute top-50 start-50 translate-middle text-white fw-bold cursor-pointer">
                               <i class="bi bi-images"></i> Xem thêm ảnh
                            </div>
                         </div>
@@ -71,12 +106,20 @@
                      <span class="badge me-2" style="background-color: var(--primary-color);" id="dtlType"></span>
                      <div class="text-warning">
                         <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                           class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                           class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
                      </div>
                   </div>
                   <h2 class="fw-bold mb-3" id="dtlName">Đang tải...</h2>
                   <p class="text-muted"><i class="bi bi-geo-alt-fill" style="color: var(--secondary-color);"></i> Vị trí
                      đắc địa · <i class="bi bi-check-circle-fill text-success"></i> Cam kết giá tốt nhất</p>
+
+                  <div
+                     class="alert alert-primary d-flex align-items-center rounded-3 border-0 bg-primary bg-opacity-10 py-2 mt-3"
+                     role="alert">
+                     <i class="bi bi-stopwatch fs-4 text-primary me-3"></i>
+                     <div>Dừng khoảng chừng là 2 giây! Chỉ còn <strong class="text-danger">5 phòng</strong> có giá thấp
+                        nhất này!</div>
+                  </div>
 
                   <hr class="my-4">
                   <h5 class="fw-bold mb-3">Tổng quan chỗ nghỉ</h5>
@@ -95,18 +138,45 @@
                      <div><i class="bi bi-water fs-4 d-block mb-1" style="color: var(--primary-color);"></i> Hồ bơi
                      </div>
                   </div>
+
+                  <hr class="my-5">
+
+                  <h4 class="fw-bold mb-4">Đánh giá của khách hàng</h4>
+                  <div class="d-flex align-items-center mb-4">
+                     <div class="review-badge" id="dtlRatingNum">8.7</div>
+                     <div class="ms-3">
+                        <h5 class="fw-bold mb-0" id="dtlRatingText">Tuyệt hảo</h5>
+                        <small class="text-muted" id="dtlReviewCount">Từ 422 đánh giá chân thực</small>
+                     </div>
+                  </div>
+
+                  <div class="mb-4">
+                     <h6 class="fw-bold mb-3">Khách nói gì về kỳ nghỉ của họ</h6>
+                     <div id="reviewTagsContainer">
+                        <span class="review-tag"><i class="bi bi-plus text-success"></i> Khoảng cách đến trung
+                           tâm</span>
+                        <span class="review-tag"><i class="bi bi-plus text-success"></i> Nhân viên thân thiện</span>
+                        <span class="review-tag"><i class="bi bi-plus text-success"></i> Phòng ốc sạch sẽ</span>
+                        <span class="review-tag"><i class="bi bi-plus text-success"></i> Đáng giá tiền</span>
+                     </div>
+                  </div>
+
+                  <div id="reviewsList">
+                  </div>
+
                </div>
 
                <div class="col-lg-4">
-                  <div class="booking-card p-4">
-                     <div class="mb-3">
-                        <span class="text-muted" style="font-size: 13px;">Giá mỗi đêm từ</span>
-                        <div class="price-display" id="dtlPrice">0 VND</div>
+                  <div class="booking-card p-4 sticky-top" style="top: 20px;">
+                     <div class="mb-3 text-end">
+                        <span class="text-muted text-decoration-line-through d-block" id="dtlOldPrice"
+                           style="font-size: 14px;">0 VND</span>
+                        <div class="text-danger fw-bold" style="font-size: 1.5rem;" id="dtlPrice">0 VND</div>
                      </div>
 
                      <form id="bookingForm">
                         <div class="mb-3">
-                           <label class="form-label fw-bold small">Họ và Tên người đặt (*)</label>
+                           <label class="form-label fw-bold small">Họ và Tên (*)</label>
                            <input type="text" class="form-control" id="cName" required>
                         </div>
                         <div class="mb-3">
@@ -124,48 +194,43 @@
                            </div>
                         </div>
 
-                        <!-- ĐÃ THÊM: Ô Nhập mã ưu đãi -->
                         <div class="mb-3">
-                           <label class="form-label fw-bold small">Mã ưu đãi (nếu có)</label>
+                           <label class="form-label fw-bold small">Mã ưu đãi</label>
                            <div class="input-group">
-                              <input type="text" id="promoCode" class="form-control" placeholder="VD: STAYEASY15">
+                              <input type="text" id="promoCode" class="form-control" placeholder="Mã giảm giá">
                               <button type="button" class="btn btn-outline-primary fw-bold" id="btnApplyPromo">Áp
                                  dụng</button>
                            </div>
                         </div>
 
-                        <!-- ĐÃ NÂNG CẤP: Khung tổng tiền hiển thị được cả giảm giá -->
                         <div class="bg-light p-3 rounded mb-4" id="priceSummary" style="display: none;">
                            <div class="d-flex justify-content-between text-muted mb-2">
                               <span>Thời gian lưu trú:</span>
                               <strong id="totalNights">0 đêm</strong>
                            </div>
-
-                           <!-- Dòng hiển thị giảm giá (Sẽ ẩn nếu không có mã) -->
                            <div class="d-flex justify-content-between mb-2 text-success"
                               style="display: none !important;">
                               <span>Giảm giá ưu đãi:</span>
                               <strong id="discountDisplay">0 đ</strong>
                            </div>
-
                            <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-2">
-                              <span class="fw-bold mt-1">Tổng thanh toán:</span>
+                              <span class="fw-bold mt-1">Tổng cộng:</span>
                               <div class="text-end">
-                                 <!-- Chỗ hiện giá cũ bị gạch ngang -->
                                  <div id="originalPriceDisplay"></div>
                                  <span class="text-danger fw-bold fs-5" id="totalPriceDisplay">0 đ</span>
                               </div>
                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-booking-submit w-100 py-3 fs-6" id="btnSubmit">Yêu Cầu Đặt
-                           Phòng</button>
+                        <button type="submit" class="btn btn-booking-submit w-100 py-3 fs-6" id="btnSubmit"
+                           style="background-color: #ff5e1f; color: white;">Chọn phòng ngay</button>
                      </form>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="../js/api.js"></script>
       <script src="../js/detail.js"></script>
