@@ -1,9 +1,23 @@
+// Auth Guard - Bảo vệ trang quản trị nâng cao, ngăn chặn truy cập dữ liệu trái phép
+if (localStorage.getItem('isLoggedIn') !== 'true' || localStorage.getItem('userRole') !== 'admin') {
+    window.location.href = 'admin-login.html'; // Thoát ra thư mục gốc để đăng nhập lại
+}
+
+// Hàm toàn cục xử lý đăng xuất hệ thống an toàn
+window.logoutAdmin = function () {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    window.location.href = 'admin-login.html';
+}
+
 let allRooms = [];
 let allBookings = [];
 let itemsPerPage = 8;
 
 let currentRoomPage = 1;
 let currentBookingPage = 1;
+let currentCustomerPage = 1;
 let roomModal;
 
 let promotions = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
@@ -11,20 +25,51 @@ let promotions = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
     { code: 'SUMMER2026', discount: 20 }
 ];
 
+// Khởi tạo danh sách Đánh giá giả lập (Vì MockAPI chưa có bảng này)
+let fakeReviews = JSON.parse(localStorage.getItem('stayeasy_reviews')) || [];
+if (fakeReviews.length === 0) {
+    fakeReviews = [
+        { id: 1, roomName: "Vinpearl Resort & Spa Phú Quốc", customerName: "Mai T.", rating: 9.5, content: "Trải nghiệm thật tuyệt vời khi lưu trú tại đây.", date: "15/05/2026", status: "published" },
+        { id: 2, roomName: "Novotel Đà Nẵng Premier", customerName: "David L.", rating: 8.8, content: "Phòng sạch sẽ, nhân viên thân thiện.", date: "12/05/2026", status: "published" },
+        { id: 3, roomName: "Sapa Eco Homestay", customerName: "Hoàng N.", rating: 4.5, content: "Mạng wifi hơi yếu vào buổi tối.", date: "10/05/2026", status: "published" }
+    ];
+    localStorage.setItem('stayeasy_reviews', JSON.stringify(fakeReviews));
+}
+
 const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
 
-// HÀM BỎ DẤU (ĐÃ NÂNG CẤP CHỐNG LỖI SẬP WEB)
 function removeAccents(str) {
     if (!str) return '';
-    // Ép kiểu String() để tránh lỗi nếu dữ liệu API vô tình bị biến thành Số
     return String(str).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
+// Điều hướng hoán đổi Tab thủ công chuẩn và mượt mà hơn bằng Native Bootstrap 5 JS API
 window.switchAdminTab = function (targetTabId) {
-    $(`#adminSidebarMenu button[data-bs-target="${targetTabId}"]`).tab('show');
+    const triggerEl = document.querySelector(`#adminSidebarMenu button[data-bs-target="${targetTabId}"]`);
+    if (triggerEl) {
+        const tab = bootstrap.Tab.getOrCreateInstance(triggerEl);
+        tab.show();
+    }
 }
 
 $(document).ready(function () {
+    // =================================================================
+    // ĐỒNG BỘ THÔNG TIN TÀI KHOẢN ĐĂNG NHẬP THẬT LÊN DROPDOWN TRÊN HEADER
+    // =================================================================
+    const currentAdminName = localStorage.getItem('userName') || "Tổng Quản Trị Viên";
+    const currentAdminRole = localStorage.getItem('userRole') || "admin";
+
+    // Đổ text ra thanh Header ngoài
+    $('#adminHeaderName').text(currentAdminName.toUpperCase());
+    $('#adminHeaderRole').text(currentAdminRole === 'admin' ? "Quản trị viên cấp cao" : "Điều phối viên");
+
+    // Đổ text ra phần khối tiêu đề nhỏ bên trong thẻ Dropdown panel
+    $('#dropdownUserFullname').text(currentAdminName);
+    $('#dropdownUserRole').text("Quyền hạn: " + currentAdminRole);
+
+    // Tự động tạo ảnh đại diện tròn theo Tên chữ cái viết tắt của người dùng (Avatar generator chuyên nghiệp)
+    $('#adminHeaderAvatar').attr('src', `https://ui-avatars.com/api/?name=${encodeURIComponent(currentAdminName)}&background=2563eb&color=fff&bold=true`);
+
     roomModal = new bootstrap.Modal(document.getElementById('roomModal'));
 
     loadAdminData();
@@ -103,6 +148,13 @@ $(document).ready(function () {
         renderBookingTable();
     });
 
+    $(document).on('click', '#customerPagination .page-link', function (e) {
+        e.preventDefault();
+        if ($(this).parent().hasClass('disabled')) return;
+        currentCustomerPage = parseInt($(this).attr('data-page'));
+        renderCustomerTable();
+    });
+
     $('#promoForm').on('submit', function (e) {
         e.preventDefault();
         const code = $('#promoCodeInput').val().trim().toUpperCase();
@@ -122,13 +174,11 @@ $(document).ready(function () {
     });
 });
 
-// TẢI DỮ LIỆU (ĐÃ NÂNG CẤP CHỐNG LỖI MOCKAPI)
 async function loadAdminData() {
     try {
         let resRooms = await API.getRooms().catch(() => []);
         let resBookings = await API.getBookings().catch(() => []);
 
-        // Đảm bảo dữ liệu luôn là mảng, phòng ngừa API trả về chuỗi "Not found"
         allRooms = Array.isArray(resRooms) ? resRooms : [];
         allBookings = Array.isArray(resBookings) ? resBookings : [];
 
@@ -137,6 +187,8 @@ async function loadAdminData() {
         renderBookingTable();
         renderRevenueTab();
         renderPromotions();
+        renderCustomerTable();
+        renderReviewTable();
     } catch (error) {
         console.error("Lỗi:", error);
     }
@@ -332,6 +384,118 @@ function renderPromotions() {
             </tr>
         `);
     });
+}
+
+function renderCustomerTable() {
+    const tbody = $('#customerTableBody');
+    tbody.empty();
+
+    const uniqueCustomers = [];
+    const customerMap = new Map();
+
+    allBookings.forEach(b => {
+        if (!b.customerName || !b.customerPhone) return;
+        const key = b.customerPhone;
+        if (!customerMap.has(key)) {
+            customerMap.set(key, {
+                name: b.customerName,
+                phone: b.customerPhone,
+                totalSpent: 0,
+                bookingCount: 0
+            });
+        }
+
+        const customer = customerMap.get(key);
+        customer.bookingCount += 1;
+        if (b.status === "Confirmed") {
+            customer.totalSpent += (Number(b.totalPrice) || 0);
+        }
+    });
+
+    uniqueCustomers.push(...customerMap.values());
+
+    if (uniqueCustomers.length === 0) {
+        tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Chưa có dữ liệu khách hàng.</td></tr>`);
+        $('#customerPagination').empty();
+        $('#customerPaginationInfo').text('');
+        return;
+    }
+
+    const start = (currentCustomerPage - 1) * itemsPerPage;
+    const pagedCustomers = uniqueCustomers.slice(start, start + itemsPerPage);
+
+    pagedCustomers.forEach((c, index) => {
+        let membership = '<span class="badge bg-secondary">Mới</span>';
+        if (c.totalSpent >= 20000000) membership = '<span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>VIP Vàng</span>';
+        else if (c.totalSpent >= 5000000) membership = '<span class="badge bg-info text-white"><i class="bi bi-star-half me-1"></i>Bạc</span>';
+
+        tbody.append(`
+            <tr>
+                <td class="ps-4">
+                    <div class="fw-bold text-dark">${c.name}</div>
+                    <small class="text-muted">${c.bookingCount} lần đặt (${formatVND(c.totalSpent)})</small>
+                </td>
+                <td class="text-primary">${c.phone}</td>
+                <td>${membership}</td>
+                <td class="text-end pe-4">
+                    <button class="btn btn-light btn-sm text-danger shadow-sm" title="Khóa tài khoản" onclick="alert('Tính năng chặn khách hàng đang được phát triển!')"><i class="bi bi-lock"></i></button>
+                </td>
+            </tr>
+        `);
+    });
+
+    const totalPages = Math.ceil(uniqueCustomers.length / itemsPerPage);
+    $('#customerPaginationInfo').text(`Trang ${currentCustomerPage} / ${totalPages || 1}`);
+    renderPaginationUI(totalPages, currentCustomerPage, 'customerPagination');
+}
+
+function renderReviewTable() {
+    const tbody = $('#reviewTableBody');
+    tbody.empty();
+
+    if (fakeReviews.length === 0) {
+        tbody.html(`<tr><td colspan="5" class="text-center text-muted py-4">Chưa có đánh giá nào.</td></tr>`);
+        return;
+    }
+
+    fakeReviews.forEach((review, index) => {
+        let statusBadge = review.status === "published"
+            ? '<span class="badge badge-soft-success">Đã duyệt</span>'
+            : '<span class="badge badge-soft-danger">Đã ẩn</span>';
+
+        let actionBtn = review.status === "published"
+            ? `<button class="btn btn-sm btn-light text-danger shadow-sm" onclick="toggleReviewStatus(${index})" title="Ẩn đánh giá"><i class="bi bi-eye-slash"></i></button>`
+            : `<button class="btn btn-sm btn-light text-success shadow-sm" onclick="toggleReviewStatus(${index})" title="Hiện đánh giá"><i class="bi bi-eye"></i></button>`;
+
+        tbody.append(`
+            <tr>
+                <td class="ps-4">
+                    <div class="fw-bold text-dark">${review.customerName}</div>
+                    <small class="text-muted">${review.date}</small>
+                </td>
+                <td class="text-primary" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${review.roomName}</td>
+                <td><span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>${review.rating}</span></td>
+                <td style="max-width: 300px;">
+                    <div class="small text-muted" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">"${review.content}"</div>
+                </td>
+                <td class="text-end pe-4">
+                    ${statusBadge}
+                    ${actionBtn}
+                </td>
+            </tr>
+        `);
+    });
+}
+
+window.toggleReviewStatus = function (index) {
+    if (fakeReviews[index].status === "published") {
+        if (!confirm('Bạn muốn ẩn đánh giá này khỏi người dùng?')) return;
+        fakeReviews[index].status = "hidden";
+    } else {
+        fakeReviews[index].status = "published";
+    }
+    localStorage.setItem('stayeasy_reviews', JSON.stringify(fakeReviews));
+    renderReviewTable();
 }
 
 function renderPaginationUI(totalPages, currentPage, elementId) {
