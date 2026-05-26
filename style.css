@@ -43,7 +43,7 @@ select option {
    ========================================= */
 .navbar-custom {
     background-color: transparent !important;
-    position: absolute; top: 0; width: 100%; z-index: 1000;
+    position: fixed; top: 0; width: 100%; z-index: 1060;
     box-shadow: none !important; padding-top: 15px;
     transition: all 0.3s ease-in-out;
 }
@@ -70,6 +70,49 @@ select option {
     box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
 }
 .btn-nav-register:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+/* =================================================================
+   LỚP ĐẶC TRỊ KHẮC PHỤC LỖI: BIẾN NAVBAR THÀNH THANH TRẮNG CHỮ ĐEN KHI CUỘN 
+   ================================================================= */
+.navbar-custom.navbar-scrolled {
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+/* Ép logo chữ thương hiệu chuyển sang màu đen tinh tế tương phản cao */
+.navbar-custom.navbar-scrolled .navbar-brand {
+    color: #0f172a !important;
+    text-shadow: none !important;
+}
+
+/* Ép các mục menu chữ chuyển sang màu đen thanh lịch giống ảnh mẫu */
+.navbar-custom.navbar-scrolled .nav-link {
+    color: #0f172a !important;
+    text-shadow: none !important;
+}
+
+.navbar-custom.navbar-scrolled .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Ép nút Đăng nhập đổi tông nền tối dịu khi cuộn trên nền trắng */
+.navbar-custom.navbar-scrolled .btn-nav-login {
+    background: rgba(15, 23, 42, 0.05) !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15, 23, 42, 0.1) !important;
+}
+
+.navbar-custom.navbar-scrolled .btn-nav-login:hover {
+    background: rgba(15, 23, 42, 0.1) !important;
+}
+
+/* Đồng bộ nút Toggler trên mobile đổi màu */
+.navbar-custom.navbar-scrolled .navbar-toggler {
+    color: #0f172a !important;
+    border-color: #334155 !important;
+}
 
 /* =========================================
    HERO SECTION
@@ -99,9 +142,6 @@ select option {
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
 }
 
-/* =========================================
-   THANH TÌM KIẾM
-   ========================================= */
 .search-bar-container {
     background: white;
     border-radius: 16px; 
@@ -181,10 +221,10 @@ select option {
 }
 .price-display { color: var(--secondary-color); font-weight: 800; font-size: 1.6rem; }
 .btn-booking-submit {
-    background-color: var(--secondary-color); border: none; color: white; font-weight: bold; border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+    background-color: var(--primary-color); border: none; color: white; font-weight: bold; border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
-.btn-booking-submit:hover { background-color: var(--secondary-hover); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(244, 63, 94, 0.4); }
+.btn-booking-submit:hover { background-color: var(--primary-hover); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
 
 /* =========================================
    DASHBOARD ADMIN CHUYÊN NGHIỆP TỪNG CENTIMET
@@ -335,7 +375,7 @@ select option {
         padding: 15px;
     }
 
-    /* Sửa các ô nhập liệu: Bỏ vạch kẻ dọc, thêm vạch kẻ ngang */
+    /* Sửa các ô nhập liệu: Bỏ vạch kẻ dọc, thêm vạch kẻ nang */
     .search-input-group {
         border-right: none !important;
         border-bottom: 1px solid #f1f5f9;
@@ -568,4 +608,524 @@ select option {
 
 .room-card-hover:hover img.card-img-top {
     transform: scale(1.08); /* Phóng to ảnh lên 8% */
+}
+
+/* =========================================================
+   TỐI ƯU THU NHỎ KÍCH THƯỚC CỤM AVATAR VÀ CHỮ DROPDOWN USER
+   ========================================================= */
+.navbar-custom .user-dropdown img {
+    width: 28px !important;
+    height: 28px !important;
+}
+.navbar-custom .user-dropdown span {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+.navbar-custom .user-dropdown .dropdown-toggle {
+    padding: 6px 12px !important;
+}
+
+/* Thu nhỏ kích thước thanh chuyển trang (phân trang) */
+.pagination .page-link {
+    padding: 6px 11px !important;
+    font-size: 12px !important;
+}
+
+/* =========================================================
+   BỔ SUNG KHẮC PHỤC TRIỆT ĐỂ LỖI MENU 3 GẠCH TRÊN MOBILE
+   ========================================================= */
+@media (max-width: 991.98px) {
+    /* Ép toàn bộ khối menu đổ xuống luôn có nền trắng đục và bo góc đổ bóng rõ ràng */
+    .navbar-custom .navbar-collapse {
+        background-color: #ffffff !important;
+        border-radius: 14px !important;
+        padding: 20px !important;
+        margin-top: 12px !important;
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.15) !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        /* Làm mượt animation mở/đóng */
+        transition: opacity 0.25s ease, transform 0.25s ease !important;
+        transform-origin: top center;
+    }
+
+    /* Trạng thái đang collapse: mờ dần + thu lên nhẹ, không bị khựng */
+    .navbar-custom .navbar-collapse.collapsing {
+        opacity: 0 !important;
+        transform: scaleY(0.95) !important;
+        transition: opacity 0.2s ease, transform 0.2s ease, height 0.2s ease !important;
+    }
+
+    /* Trạng thái đã mở hoàn toàn */
+    .navbar-custom .navbar-collapse.show {
+        opacity: 1 !important;
+        transform: scaleY(1) !important;
+    }
+
+    /* Ép tất cả chữ menu điều hướng hiển thị màu xám đậm tương phản nét căng */
+    .navbar-custom .navbar-collapse .nav-link {
+        color: #334155 !important;
+        text-shadow: none !important;
+        padding: 10px 12px !important;
+        font-weight: 600 !important;
+        text-align: left !important;
+    }
+
+    /* Hiệu ứng hover chạm mục chọn đổi tông nền sáng chữ xanh Royal */
+    .navbar-custom .navbar-collapse .nav-link:hover {
+        color: var(--primary-color) !important;
+        background-color: #f8fafc !important;
+        border-radius: 8px !important;
+    }
+
+    /* Đổi chữ Quản trị viên sang tông cam sẫm tương phản rõ nét trên nền trắng */
+    .navbar-custom .navbar-collapse .nav-link.text-warning {
+        color: #ea580c !important;
+    }
+
+    /* Định hình hàng dọc co giãn đối xứng cho cụm nút Đăng nhập / Đăng ký */
+    .navbar-custom .navbar-collapse .navbar-nav.align-items-center {
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-top: 10px !important;
+        padding: 0 12px !important;
+    }
+
+    /* Nút Đăng nhập chuyển sang viền xám nền trong trên di động */
+    .navbar-custom .navbar-collapse .btn-nav-login {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        text-align: center !important;
+        box-shadow: none !important;
+    }
+    .navbar-custom .navbar-collapse .btn-nav-login:hover {
+        background: #e2e8f0 !important;
+    }
+
+    /* Căn giữa nút Đăng ký màu trắng chữ nổi */
+    .navbar-custom .navbar-collapse .btn-nav-register {
+        text-align: center !important;
+        color: #ffffff !important;
+    }
+    
+    /* Fix riêng màu chữ hover cho 2 nút Đăng nhập / Đăng ký trên mobile không bị hóa xanh */
+    .navbar-custom.navbar-scrolled .nav-link.btn-nav-login:hover,
+    .navbar-custom .navbar-collapse .nav-link.btn-nav-login:hover {
+        color: #0f172a !important;
+    }
+    .navbar-custom.navbar-scrolled .nav-link.btn-nav-register:hover,
+    .navbar-custom .navbar-collapse .nav-link.btn-nav-register:hover {
+        color: #ffffff !important;
+    }
+}
+
+/* Ép riêng nút Đăng nhập khi hover giữ màu chữ trắng tinh khi cuộn xuống trên PC */
+@media (min-width: 992px) {
+    .navbar-custom.navbar-scrolled .nav-link.btn-nav-login:hover {
+        background: rgb(25, 73, 186) !important;
+        color: #ffffff !important; 
+    }
+    .navbar-custom.navbar-scrolled .nav-link.btn-nav-register:hover {
+        color: #ffffff !important; 
+    }
+}
+
+/* =========================================================
+   MOBILE NAVBAR: Hiệu ứng mượt mà khi mở/đóng menu
+   ========================================================= */
+@media (max-width: 991.98px) {
+    /* Cải thiện hiệu ứng collapse mượt mà */
+    .navbar-custom .navbar-collapse {
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow: hidden !important;
+    }
+    .navbar-custom .navbar-collapse:not(.show):not(.collapsing) {
+        max-height: 0 !important;
+        opacity: 0 !important;
+    }
+    .navbar-custom .navbar-collapse.show {
+        max-height: 500px !important;
+        opacity: 1 !important;
+    }
+    .navbar-custom .navbar-collapse.collapsing {
+        max-height: 500px !important;
+        opacity: 0.5 !important;
+        height: auto !important;
+    }
+
+    /* Nút toggler mượt hơn */
+    .navbar-toggler {
+        transition: transform 0.3s ease !important;
+        border: none !important;
+        padding: 6px 10px !important;
+    }
+    .navbar-toggler:focus { box-shadow: none !important; }
+}
+
+/* =========================================================
+   DETAIL PAGE MOBILE: Booking card lên trước, review xuống sau
+   ========================================================= */
+@media (max-width: 991.98px) {
+    /* Đảo thứ tự: booking card lên trên, review section xuống dưới */
+    .col-lg-8 { order: 2 !important; }
+    .col-lg-4 { order: 1 !important; }
+
+    /* Booking card không sticky trên mobile, tự nhiên theo luồng */
+    .booking-card {
+        position: static !important;
+        top: auto !important;
+        margin-bottom: 24px !important;
+    }
+
+    /* Giá tiền màu xanh trên mobile */
+    #dtlPrice {
+        color: var(--primary-color) !important;
+    }
+
+    /* Gallery mobile: ảnh chính full width, ảnh phụ cuộn ngang */
+    .gallery-container .col-md-6:last-child .row {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        gap: 8px !important;
+        padding-bottom: 4px !important;
+    }
+    .gallery-container .col-md-6:last-child .col-6 {
+        flex: 0 0 auto !important;
+        width: 160px !important;
+    }
+    .gallery-container .img-sub {
+        height: 120px !important;
+        width: 160px !important;
+        border-radius: 10px !important;
+    }
+}
+
+/* =========================================================
+   MỚI: SỬA LỖI TRÀN LỊCH VÀ MẤT SỐ 1 TRÊN THANH PHÂN TRANG MOBILE
+   ========================================================= */
+@media (max-width: 767.98px) {
+    /* 1. Sửa lỗi vuốt phân trang không thấy số 1: Hủy flex ép căn giữa, cho đẩy sát lề trái */
+    #hotelSectionBlock .d-flex.justify-content-center,
+    #homestaySectionBlock .d-flex.justify-content-center,
+    #resortSectionBlock .d-flex.justify-content-center {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important; /* Vuốt ngang mượt mà */
+        white-space: nowrap !important;
+        padding: 10px 5px !important;
+        text-align: center !important;
+    }
+
+    .pagination {
+        display: inline-flex !important; /* Xếp thành một hàng ngang dài liên tục */
+        justify-content: flex-start !important; /* Luôn xuất phát từ số 1 bên trái */
+        padding-left: 0 !important;
+        margin: 0 auto !important;
+    }
+}
+
+/* =========================================================
+   BỘ LỊCH CHỌN NGÀY — FLATPICKR PHIÊN BẢN HOÀN CHỈNH
+   ========================================================= */
+
+/* Khung lịch tổng thể */
+.flatpickr-calendar {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.14), 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+    border-radius: 20px !important;
+    padding: 16px 12px 12px !important;
+    font-family: inherit !important;
+}
+
+/* Desktop: mở rộng lịch 2 tháng để không bị cắt cột CN */
+@media (min-width: 768px) {
+    .flatpickr-calendar.multiMonth {
+        width: auto !important;
+        overflow: visible !important;
+    }
+    .flatpickr-rContainer {
+        overflow: visible !important;
+    }
+    /* Thu nhỏ nhẹ ô ngày để 2 tháng vừa khung, không bị cắt cột CN */
+    .flatpickr-days {
+        width: 490px !important;
+    }
+    .dayContainer {
+        width: 245px !important;
+        min-width: 245px !important;
+        max-width: 245px !important;
+    }
+    .flatpickr-day {
+        max-width: 35px !important;
+        height: 34px !important;
+    }
+}
+
+/* Thanh điều hướng tháng */
+.flatpickr-months {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 4px 12px !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    margin-bottom: 8px !important;
+}
+
+/* Mỗi ô tháng — căn giữa header */
+.flatpickr-months .flatpickr-month {
+    flex: 1 !important;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Header "Tháng X YYYY" — 1 hàng ngang, căn giữa */
+.flatpickr-current-month {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    width: 100% !important;
+    position: static !important;
+    height: auto !important;
+}
+
+/* Dropdown chọn Tháng */
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #121927 !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid #2563eb !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    flex-shrink: 0 !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background: transparent !important;
+    color: #2563eb !important;
+}
+
+/* Triệt tiêu hover đen mờ từ flatpickr default CSS trên container tháng */
+.flatpickr-months .flatpickr-month:hover,
+.flatpickr-current-month:hover,
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month .flatpickr-monthDropdown-months option:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* Năm: tĩnh, không highlight khi hover/click */
+.flatpickr-current-month .numInputWrapper {
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    pointer-events: none !important;
+}
+.flatpickr-current-month input.cur-year {
+    font-family: inherit !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #273045 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 2px 0 !important;
+    outline: none !important;
+    width: 48px !important;
+    text-align: left !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    pointer-events: none !important;
+    cursor: default !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+}
+/* Ẩn mũi tên tăng giảm năm */
+.flatpickr-current-month .numInputWrapper span {
+    display: none !important;
+}
+
+/* Nút mũi tên < > chuyển tháng */
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 64px !important;
+    border-radius: 8px !important;
+    background: #f8fafc !important;
+    fill: #475569 !important;
+    padding: 6px !important;
+    flex-shrink: 0 !important;
+    transition: background 0.18s, fill 0.18s !important;
+}
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+    background: #eff6ff !important;
+    fill: #2563eb !important;
+}
+
+/* Hàng Thứ (T2 T3...) */
+.flatpickr-weekdays {
+    margin-bottom: 2px !important;
+}
+span.flatpickr-weekday {
+    font-family: inherit !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #94a3b8 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+}
+
+/* Ô ngày — căn giữa số hoàn hảo bằng flex */
+.flatpickr-day {
+    font-family: inherit !important;
+    color: #1e293b !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    height: 36px !important;
+    transition: background 0.15s, color 0.15s !important;
+}
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+    color: #cbd5e1 !important;
+    font-weight: 400 !important;
+}
+
+/* Ngày quá khứ: mờ nhạt, không cho bấm */
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
+    color: #d1d5db !important;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    background: transparent !important;
+    text-decoration: line-through !important;
+}
+
+/* Hover ngày thường */
+.flatpickr-day:hover:not(.selected):not(.startRange):not(.endRange):not(.flatpickr-disabled) {
+    background: #f1f5f9 !important;
+    color: #2563eb !important;
+    border-radius: 8px !important;
+}
+
+/* Ngày bắt đầu & kết thúc */
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.30) !important;
+    font-weight: 700 !important;
+}
+
+/* Khoảng giữa 2 ngày — xanh nhạt, chữ đen dễ đọc */
+.flatpickr-day.inRange {
+    background: #dbeafe !important;
+    border-color: transparent !important;
+    color: #1e293b !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-weight: 500 !important;
+}
+
+/* Ngày hôm nay */
+.flatpickr-day.today:not(.selected):not(.startRange):not(.endRange) {
+    border-bottom: 2px solid #2563eb !important;
+    color: #2563eb !important;
+    font-weight: 700 !important;
+    background: transparent !important;
+}
+
+/* =========================================================
+   MOBILE: Full width, ô ngày vuông vừa tay, có đường kẻ chia
+   ========================================================= */
+@media (max-width: 767.98px) {
+    .flatpickr-calendar {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 20px) !important;
+        max-width: 400px !important;
+        border-radius: 16px !important;
+        padding: 12px 8px 10px !important;
+    }
+
+    /* Đường kẻ ngang chia phần header và lưới ngày */
+    .flatpickr-days {
+        border-top: 1px solid #e2e8f0 !important;
+        padding-top: 8px !important;
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+    }
+
+    .dayContainer {
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+    }
+
+    /* Ô ngày: vuông nhẹ, to dễ bấm */
+    .flatpickr-day {
+        max-width: 42px !important;
+        height: 42px !important;
+        font-size: 14px !important;
+        border-radius: 10px !important;
+    }
+
+    /* Giữ khoảng inRange phẳng */
+    .flatpickr-day.inRange {
+        border-radius: 0 !important;
+    }
+
+    /* Start/End vẫn bo góc */
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange {
+        border-radius: 10px !important;
+    }
+
+    .flatpickr-current-month {
+        width: 100% !important;
+        left: auto !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year {
+        font-size: 14px !important;
+    }
+    span.flatpickr-weekday {
+        font-size: 11px !important;
+    }
 }

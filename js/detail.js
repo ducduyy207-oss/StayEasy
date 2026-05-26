@@ -153,7 +153,7 @@ function renderRoomReviews() {
    let avgScore = (sumScore / allReviewsToRender.length).toFixed(1);
    $('#dtlRatingNum').text(avgScore);
 
-   let ratingText = "Tuyệt hảo";
+   let ratingText = "Tuyệt vời";
    if (parseFloat(avgScore) < 8.0) ratingText = "Tốt";
    else if (parseFloat(avgScore) < 9.0) ratingText = "Rất tốt";
    $('#dtlRatingText').text(ratingText);
@@ -201,22 +201,9 @@ function renderRoomReviews() {
 }
 
 function initDateValidation() {
-   const today = new Date().toISOString().split('T')[0];
-   $('#cIn').attr('min', today);
-
-   $('#cIn').on('change', function () {
-      const checkInDate = new Date($(this).val());
-      if (!isNaN(checkInDate.getTime())) {
-         checkInDate.setDate(checkInDate.getDate() + 1);
-         const minOut = checkInDate.toISOString().split('T')[0];
-         $('#cOut').attr('min', minOut);
-
-         if ($('#cOut').val() && $('#cOut').val() < minOut) {
-            $('#cOut').val('');
-            $('#priceSummary').slideUp();
-         }
-      }
-   });
+   // Ngày tháng giờ dùng flatpickr ở detail.html nên chỉ cần lắng nghe hidden inputs
+   // Khi flatpickr set giá trị vào #cIn / #cOut, tính giá tự động
+   $('#cIn, #cOut').on('change', calculatePrice);
 }
 
 function calculatePrice() {
@@ -253,7 +240,7 @@ function calculatePrice() {
 }
 
 function applyPromoCode() {
-   const codeInput = $('#promoCode').val().trim().toUpperCase();
+   const codeInput = $('#promoCode').val().trim().toUpperCase(); // Tự đổi về in hoa để so sánh
 
    if (!codeInput) {
       alert("Vui lòng nhập mã khuyến mãi!");

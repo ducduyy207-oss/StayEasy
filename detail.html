@@ -7,6 +7,7 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
       <style>
          .review-badge {
             background-color: #0071c2;
@@ -38,29 +39,636 @@
             margin-bottom: 8px;
             display: inline-block;
          }
+
+         /* Giá xanh, nút xanh */
+         #dtlPrice {
+            color: var(--primary-color) !important;
+         }
+
+         #dtlOldPrice {
+            color: #94a3b8 !important;
+         }
+
+         /* Lightbox */
+         #imgLightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.93);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+         }
+
+         #imgLightbox.open {
+            display: flex;
+         }
+
+         #imgLightbox img {
+            max-width: 82vw;
+            max-height: 85vh;
+            border-radius: 12px;
+            object-fit: contain;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            user-select: none;
+         }
+
+         .lb-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            color: white;
+            font-size: 1.6rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.12);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 10;
+         }
+
+         .lb-close:hover {
+            background: rgba(255, 255, 255, 0.28);
+         }
+
+         .lb-prev,
+         .lb-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            line-height: 1;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            user-select: none;
+            z-index: 10;
+         }
+
+         .lb-prev {
+            left: 20px;
+         }
+
+         .lb-next {
+            right: 20px;
+         }
+
+         .lb-prev:hover,
+         .lb-next:hover {
+            background: rgba(255, 255, 255, 0.28);
+         }
+
+         .lb-counter {
+            position: absolute;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 13px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 4px 14px;
+            border-radius: 20px;
+         }
+
+         /* ===== FLATPICKR CALENDAR STYLING ===== */
+         .flatpickr-calendar {
+            z-index: 99999 !important;
+            border: none !important;
+            border-radius: 16px !important;
+            box-shadow: 0 8px 40px rgba(15, 23, 42, 0.16), 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+            padding: 12px !important;
+            font-family: inherit !important;
+            background: #fff !important;
+            width: 320px !important;
+         }
+
+         /* Header: tháng + năm */
+         .flatpickr-months {
+            align-items: center;
+            padding: 0 4px 8px;
+            border-bottom: 1px solid #f1f5f9;
+            margin-bottom: 8px;
+            position: relative;
+         }
+
+         .flatpickr-month {
+            height: 36px !important;
+            overflow: visible !important;
+         }
+
+         /* Ẩn native controls — dùng custom header */
+         .flatpickr-current-month {
+            display: none !important;
+         }
+
+         /* Custom header */
+         .fp-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 36px;
+            position: relative;
+         }
+
+         .fp-sel-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: #1e40af;
+            cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
+            line-height: 1;
+         }
+
+         .fp-sel-btn:hover {
+            background: #dbeafe;
+         }
+
+         .fp-sel-btn svg {
+            width: 9px;
+            height: 9px;
+            fill: #1e40af;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+         }
+
+         .fp-sel-btn.open svg {
+            transform: rotate(180deg);
+         }
+
+         .fp-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.14), 0 2px 8px rgba(15, 23, 42, 0.06);
+            border: 1px solid #f1f5f9;
+            z-index: 200;
+            overflow: hidden;
+            display: none;
+            min-width: 130px;
+         }
+
+         .fp-dropdown.open {
+            display: block;
+         }
+
+         .fp-dropdown ul {
+            list-style: none;
+            margin: 0;
+            padding: 6px;
+            max-height: 220px;
+            overflow-y: auto;
+         }
+
+         .fp-dropdown ul::-webkit-scrollbar {
+            width: 4px;
+         }
+
+         .fp-dropdown ul::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 4px;
+         }
+
+         .fp-dropdown li {
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.84rem;
+            font-weight: 500;
+            color: #334155;
+            transition: background 0.12s, color 0.12s;
+         }
+
+         .fp-dropdown li:hover {
+            background: #eff6ff;
+            color: #1d4ed8;
+         }
+
+         .fp-dropdown li.fp-active {
+            background: #1d4ed8;
+            color: #fff;
+            font-weight: 700;
+         }
+
+         /* Lưới ngày full width — hiển thị đủ T2–CN */
+         .flatpickr-days,
+         .dayContainer {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+         }
+
+         /* Mũi tên prev/next */
+         .flatpickr-prev-month,
+         .flatpickr-next-month {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: background 0.15s !important;
+            padding: 0 !important;
+         }
+
+         .flatpickr-prev-month:hover,
+         .flatpickr-next-month:hover {
+            background: #f1f5f9 !important;
+         }
+
+         .flatpickr-prev-month svg,
+         .flatpickr-next-month svg {
+            fill: #374151 !important;
+            width: 14px !important;
+            height: 14px !important;
+         }
+
+         /* Tên thứ */
+         .flatpickr-weekdays {
+            background: transparent !important;
+            margin-bottom: 4px !important;
+         }
+
+         .flatpickr-weekday {
+            color: #94a3b8 !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            background: transparent !important;
+         }
+
+         /* Ngày */
+         .flatpickr-day {
+            border-radius: 8px !important;
+            font-size: 0.83rem !important;
+            font-weight: 500 !important;
+            color: #1e293b !important;
+            height: 36px !important;
+            line-height: 36px !important;
+            max-width: 40px !important;
+            transition: background 0.12s, color 0.12s !important;
+            border: none !important;
+         }
+
+         .flatpickr-day:hover {
+            background: #eff6ff !important;
+            color: #1d4ed8 !important;
+         }
+
+         .flatpickr-day.today {
+            border: 2px solid #1d4ed8 !important;
+            color: #1d4ed8 !important;
+            font-weight: 700 !important;
+         }
+
+         .flatpickr-day.today:hover {
+            background: #eff6ff !important;
+         }
+
+         .flatpickr-day.selected,
+         .flatpickr-day.startRange,
+         .flatpickr-day.endRange {
+            background: #1d4ed8 !important;
+            color: #fff !important;
+            border-radius: 8px !important;
+            border: none !important;
+            font-weight: 700 !important;
+         }
+
+         .flatpickr-day.inRange {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+         }
+
+         .flatpickr-day.startRange {
+            border-radius: 8px 0 0 8px !important;
+         }
+
+         .flatpickr-day.endRange {
+            border-radius: 0 8px 8px 0 !important;
+         }
+
+         .flatpickr-day.startRange.endRange {
+            border-radius: 8px !important;
+         }
+
+         .flatpickr-day.flatpickr-disabled,
+         .flatpickr-day.prevMonthDay,
+         .flatpickr-day.nextMonthDay {
+            color: #cbd5e1 !important;
+         }
+
+         /* Ảnh clickable */
+         .img-main,
+         .img-sub {
+            cursor: pointer !important;
+         }
+
+         /* ===== RATING SELECT ===== */
+         .rating-select-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+         }
+
+         .rating-select-icon {
+            position: absolute;
+            left: 12px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            pointer-events: none;
+            z-index: 1;
+         }
+
+         .rating-select {
+            width: 100%;
+            padding: 8px 36px 7px 34px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 7px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #334155;
+            background-color: #fff;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'%3E%3Cpath fill='%2394a3b8' d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            line-height: 1.5;
+         }
+
+         .rating-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 113, 194, 0.1);
+         }
+
+         .rating-select:hover {
+            border-color: #94a3b8;
+         }
+
+         .rating-select option {
+            font-weight: 500;
+            padding: 8px;
+         }
+
+         /* ==========================================
+            DETAIL PAGE NAVBAR — đồng bộ index.html
+         ========================================== */
+         .detail-navbar {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e8edf2;
+            box-shadow: 0 2px 16px rgba(15, 23, 42, 0.07);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+         }
+
+         .detail-navbar .container {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+         }
+
+         .detail-navbar .nb-brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            text-decoration: none;
+            flex-shrink: 0;
+         }
+
+         .detail-navbar .nb-brand .nb-icon {
+            width: 34px;
+            height: 34px;
+            background: #1d4ed8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+         }
+
+         .detail-navbar .nb-brand .nb-name {
+            font-size: 1.18rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+         }
+
+         .detail-navbar .nb-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            padding-left: 24px;
+         }
+
+         .detail-navbar .nb-links a {
+            padding: 6px 14px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 7px;
+            transition: background 0.18s, color 0.18s;
+            white-space: nowrap;
+         }
+
+         .detail-navbar .nb-links a:hover {
+            background: #f1f5f9;
+            color: #1d4ed8;
+         }
+
+         .detail-navbar .nb-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+         }
+
+         .detail-navbar .nb-right .nb-icon-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            white-space: nowrap;
+         }
+
+         .detail-navbar .nb-right .nb-icon-btn:hover {
+            background: #f1f5f9;
+            color: #1d4ed8;
+         }
+
+         .detail-navbar .nb-right .nb-divider {
+            width: 1px;
+            height: 22px;
+            background: #e2e8f0;
+            margin: 0 2px;
+         }
+
+         .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            background: #1d4ed8;
+            color: #fff !important;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            text-decoration: none !important;
+            border: none;
+            white-space: nowrap;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: 0 2px 8px rgba(29, 78, 216, 0.18);
+            cursor: pointer;
+         }
+
+         .btn-back-home:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(29, 78, 216, 0.28);
+         }
+
+         .nb-user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+         }
+
+         .nb-user-wrap {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.18s;
+            text-decoration: none;
+         }
+
+         .nb-user-wrap:hover {
+            background: #f1f5f9;
+         }
+
+         .nb-user-name {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: #0f172a;
+         }
+
+         @media (max-width: 768px) {
+            .detail-navbar .nb-links {
+               display: none;
+            }
+
+            .nb-hide-mobile {
+               display: none !important;
+            }
+
+            .btn-back-home span {
+               display: none;
+            }
+
+            .btn-back-home {
+               padding: 7px 11px;
+            }
+         }
       </style>
+   </head>
    </head>
    <body>
 
-      <nav class="navbar navbar-expand-lg navbar-custom position-relative"
-         style="background-color: var(--primary-color) !important; padding: 10px 0;">
+      <!-- ========== NAVBAR DETAIL — đồng bộ index.html ========== -->
+      <nav class="detail-navbar">
          <div class="container">
-            <a class="navbar-brand text-white" href="index.html"><i class="bi bi-airplane-engines-fill"></i>
-               StayEasy</a>
+            <a class="nb-brand" href="index.html">
+               <div class="nb-icon"><i class="bi bi-buildings-fill"></i></div>
+               <span class="nb-name">StayEasy</span>
+            </a>
+            <div class="nb-links">
+               <a href="index.html">Trang chủ</a>
+               <a href="explore.html">Khám phá</a>
+            </div>
+            <div class="nb-right">
+               <a href="#" class="nb-icon-btn nb-hide-mobile">
+                  <i class="bi bi-headset"></i> Hỗ trợ
+               </a>
+               <div class="nb-divider nb-hide-mobile"></div>
+               <a href="index.html" class="nb-user-wrap" id="nbUserWrap" style="display:none;">
+                  <div class="nb-user-avatar" id="nbUserAvatar">DU</div>
+                  <span class="nb-user-name nb-hide-mobile" id="nbUserName">Người dùng</span>
+                  <i class="bi bi-chevron-down nb-hide-mobile" style="font-size:0.7rem;color:#94a3b8;"></i>
+               </a>
+               <div class="nb-divider"></div>
+               <a href="index.html" class="btn-back-home">
+                  <i class="bi bi-arrow-left-short" style="font-size:1rem;"></i>
+                  <span>Trang chủ</span>
+               </a>
+            </div>
          </div>
       </nav>
-
-      <div class="container mt-4">
-         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="font-size: 13px;">
-               <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none"
-                     style="color: var(--primary-color);">Trang chủ</a></li>
-               <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none"
-                     style="color: var(--primary-color);">Khách sạn</a></li>
-               <li class="breadcrumb-item active" id="breadCrumbName" aria-current="page">Đang tải...</li>
-            </ol>
-         </nav>
-      </div>
+      <script>
+         (function () {
+            var isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            var email = localStorage.getItem('test_user_email') || '';
+            if (isLoggedIn && email) {
+               var name = email.split('@')[0];
+               var initials = name.slice(0, 2).toUpperCase();
+               document.getElementById('nbUserWrap').style.display = 'flex';
+               document.getElementById('nbUserAvatar').textContent = initials;
+               document.getElementById('nbUserName').textContent = name;
+            }
+         })();
+      </script>
 
       <div class="container mb-5">
          <div id="loadingDetail" class="text-center my-5">
@@ -100,8 +708,18 @@
                </div>
             </div>
 
-            <div class="row g-4">
-               <div class="col-lg-8">
+            <!-- Lightbox xem ảnh full screen -->
+            <div id="imgLightbox">
+               <span class="lb-close" id="lbClose">&times;</span>
+               <span class="lb-prev" id="lbPrev">&#8249;</span>
+               <img src="" id="lbImg" alt="Xem ảnh">
+               <span class="lb-next" id="lbNext">&#8250;</span>
+               <div class="lb-counter" id="lbCounter"></div>
+            </div>
+
+            <div class="row g-4" style="--bs-gutter-x:1.5rem;">
+               <div class="col-lg-8 order-1 order-lg-2">
+                  <!-- nội dung review giữ nguyên -->
                   <div class="d-flex align-items-center mb-2">
                      <span class="badge me-2" style="background-color: var(--primary-color);" id="dtlType"></span>
                      <div class="text-warning">
@@ -173,13 +791,21 @@
                            </div>
                            <div class="col-md-6">
                               <label class="form-label fw-bold small text-muted">Điểm số (*)</label>
-                              <select id="revRating" class="form-select" required>
-                                 <option value="10">10 / 10 - Tuyệt hảo</option>
-                                 <option value="9">9 / 10 - Xuất sắc</option>
-                                 <option value="8" selected>8 / 10 - Rất tốt</option>
-                                 <option value="7">7 / 10 - Tốt</option>
-                                 <option value="5">5 / 10 - Trung bình</option>
-                              </select>
+                              <div class="rating-select-wrapper">
+                                 <i class="bi bi-star-half rating-select-icon"></i>
+                                 <select id="revRating" class="rating-select" required>
+                                    <option value="10">10 / 10 &nbsp;·&nbsp; Tuyệt vời</option>
+                                    <option value="9">9 / 10 &nbsp;·&nbsp; Xuất sắc</option>
+                                    <option value="8" selected>8 / 10 &nbsp;·&nbsp; Rất tốt</option>
+                                    <option value="7">7 / 10 &nbsp;·&nbsp; Tốt</option>
+                                    <option value="6">6 / 10 &nbsp;·&nbsp; Khá ổn</option>
+                                    <option value="5">5 / 10 &nbsp;·&nbsp; Trung bình</option>
+                                    <option value="4">4 / 10 &nbsp;·&nbsp; Dưới trung bình</option>
+                                    <option value="3">3 / 10 &nbsp;·&nbsp; Tệ</option>
+                                    <option value="2">2 / 10 &nbsp;·&nbsp; Rất tệ</option>
+                                    <option value="1">1 / 10 &nbsp;·&nbsp; Cực kỳ tệ</option>
+                                 </select>
+                              </div>
                            </div>
                         </div>
                         <div class="mb-3">
@@ -197,64 +823,112 @@
 
                </div>
 
-               <div class="col-lg-4">
-                  <div class="booking-card p-4 sticky-top" style="top: 20px;">
-                     <div class="mb-3 text-end">
-                        <span class="text-muted text-decoration-line-through d-block" id="dtlOldPrice"
-                           style="font-size: 14px;">0 VND</span>
-                        <div class="text-danger fw-bold" style="font-size: 1.5rem;" id="dtlPrice">0 VND</div>
+               <div class="col-lg-4 order-2 order-lg-1">
+                  <div class="booking-card p-4 sticky-top"
+                     style="top: 80px; max-height: calc(100vh - 96px); overflow-y: auto;">
+
+                     <!-- Giá -->
+                     <div class="mb-4 pb-3 border-bottom">
+                        <div class="d-flex align-items-center justify-content-between">
+                           <span class="text-muted small">Giá mỗi đêm</span>
+                           <span class="text-muted text-decoration-line-through small" id="dtlOldPrice">0 VND</span>
+                        </div>
+                        <div class="fw-bold mt-1"
+                           style="font-size: 1.75rem; color: var(--primary-color); line-height:1;" id="dtlPrice">0 VND
+                        </div>
+                        <div class="mt-1">
+                           <span class="badge rounded-pill"
+                              style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:600;">
+                              <i class="bi bi-tag-fill me-1"></i>Tiết kiệm 20%
+                           </span>
+                        </div>
                      </div>
 
                      <form id="bookingForm">
+                        <!-- Họ tên -->
                         <div class="mb-3">
-                           <label class="form-label fw-bold small">Họ và Tên (*)</label>
-                           <input type="text" class="form-control" id="cName" required>
-                        </div>
-                        <div class="mb-3">
-                           <label class="form-label fw-bold small">Số điện thoại (*)</label>
-                           <input type="tel" class="form-control" id="cPhone" required>
-                        </div>
-                        <div class="row g-2 mb-3">
-                           <div class="col-6">
-                              <label class="form-label fw-bold small">Nhận phòng</label>
-                              <input type="date" class="form-control calc-date" id="cIn" required>
-                           </div>
-                           <div class="col-6">
-                              <label class="form-label fw-bold small">Trả phòng</label>
-                              <input type="date" class="form-control calc-date" id="cOut" required>
-                           </div>
-                        </div>
-
-                        <div class="mb-3">
-                           <label class="form-label fw-bold small">Mã ưu đãi</label>
+                           <label class="form-label fw-semibold small text-secondary">Họ và Tên <span
+                                 class="text-danger">*</span></label>
                            <div class="input-group">
-                              <input type="text" id="promoCode" class="form-control" placeholder="Mã giảm giá">
-                              <button type="button" class="btn btn-outline-primary fw-bold" id="btnApplyPromo">Áp
-                                 dụng</button>
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-person"></i></span>
+                              <input type="text" class="form-control border-start-0 ps-0" id="cName"
+                                 placeholder="Nhập họ tên đầy đủ..." required style="border-left:none !important;">
                            </div>
                         </div>
 
-                        <div class="bg-light p-3 rounded mb-4" id="priceSummary" style="display: none;">
-                           <div class="d-flex justify-content-between text-muted mb-2">
-                              <span>Thời gian lưu trú:</span>
-                              <strong id="totalNights">0 đêm</strong>
+                        <!-- SĐT: chỉ nhập số -->
+                        <div class="mb-3">
+                           <label class="form-label fw-semibold small text-secondary">Số điện thoại <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-telephone"></i></span>
+                              <input type="tel" class="form-control border-start-0 ps-0" id="cPhone"
+                                 placeholder="0xxxxxxxxx" pattern="[0-9]{9,11}" inputmode="numeric" maxlength="11"
+                                 required style="border-left:none !important;">
                            </div>
-                           <div class="d-flex justify-content-between mb-2 text-success"
+                           <div class="invalid-feedback">Vui lòng nhập số điện thoại hợp lệ (9-11 chữ số).</div>
+                        </div>
+
+                        <!-- Ngày nhận/trả: flatpickr -->
+                        <div class="mb-3">
+                           <label class="form-label fw-semibold small text-secondary">Ngày nhận & Trả phòng <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-calendar-range"></i></span>
+                              <input type="text" class="form-control border-start-0 ps-0" id="bookingDateRange"
+                                 placeholder="Chọn ngày nhận – trả phòng" readonly
+                                 style="border-left:none !important; cursor:pointer;">
+                           </div>
+                           <input type="hidden" id="cIn">
+                           <input type="hidden" id="cOut">
+                        </div>
+
+                        <!-- Mã ưu đãi -->
+                        <div class="mb-3">
+                           <label class="form-label fw-semibold small text-secondary">Mã ưu đãi</label>
+                           <div class="input-group">
+                              <span class="input-group-text bg-white border-end-0 text-muted"><i
+                                    class="bi bi-ticket-perforated"></i></span>
+                              <input type="text" id="promoCode" class="form-control border-start-0 ps-0 text-uppercase"
+                                 placeholder="Nhập mã giảm giá..."
+                                 style="border-left:none !important; letter-spacing:0.05em;">
+                              <button type="button" class="btn btn-outline-primary fw-bold px-3" id="btnApplyPromo"
+                                 style="border-radius:0 8px 8px 0;">Áp dụng</button>
+                           </div>
+                        </div>
+
+                        <!-- Tóm tắt giá -->
+                        <div class="rounded-3 mb-4" id="priceSummary"
+                           style="display:none; background:#f8faff; border:1px solid #dbeafe; padding:14px 16px;">
+                           <div class="d-flex justify-content-between text-muted small mb-2">
+                              <span><i class="bi bi-moon-stars me-1"></i>Thời gian lưu trú:</span>
+                              <strong class="text-dark" id="totalNights">0 đêm</strong>
+                           </div>
+                           <div class="d-flex justify-content-between small mb-2 text-success"
                               style="display: none !important;">
-                              <span>Giảm giá ưu đãi:</span>
+                              <span><i class="bi bi-gift me-1"></i>Giảm giá ưu đãi:</span>
                               <strong id="discountDisplay">0 đ</strong>
                            </div>
-                           <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-2">
-                              <span class="fw-bold mt-1">Tổng cộng:</span>
+                           <div class="d-flex justify-content-between align-items-center border-top pt-2 mt-1">
+                              <span class="fw-bold small">Tổng cộng:</span>
                               <div class="text-end">
                                  <div id="originalPriceDisplay"></div>
-                                 <span class="text-danger fw-bold fs-5" id="totalPriceDisplay">0 đ</span>
+                                 <span class="fw-bold" style="font-size:1.15rem;color:var(--primary-color);"
+                                    id="totalPriceDisplay">0 đ</span>
                               </div>
                            </div>
                         </div>
 
-                        <button type="submit" class="btn btn-booking-submit w-100 py-3 fs-6" id="btnSubmit"
-                           style="background-color: #ff5e1f; color: white;">Chọn phòng ngay</button>
+                        <button type="submit" class="btn btn-booking-submit w-100 py-3 fw-bold fs-6 rounded-3"
+                           id="btnSubmit">
+                           <i class="bi bi-bag-check me-2"></i>Chọn phòng ngay
+                        </button>
+                        <p class="text-center text-muted mt-2 mb-0" style="font-size:12px;">
+                           <i class="bi bi-shield-check text-success me-1"></i>Miễn phí hủy · Thanh toán an toàn
+                        </p>
                      </form>
                   </div>
                </div>
@@ -264,7 +938,307 @@
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+      <script src="https://npmcdn.com/flatpickr/dist/l10n/vn.js"></script>
       <script src="../js/api.js"></script>
       <script src="../js/detail.js"></script>
+
+      <script>
+         /* ===== FLATPICKR CHO BOOKING CARD ===== */
+         document.addEventListener('DOMContentLoaded', function () {
+
+            var MONTHS = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+               'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+            var chevronSVG = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>';
+
+            function buildHeader(fp) {
+               var monthEl = fp.calendarContainer.querySelector('.flatpickr-month');
+               var startY = new Date().getFullYear();
+               var years = Array.from({ length: 6 }, function (_, i) { return startY + i; });
+
+               var hdr = document.createElement('div');
+               hdr.className = 'fp-hdr';
+               hdr.innerHTML =
+                  '<button class="fp-sel-btn" id="fp-mbtn">' + MONTHS[fp.currentMonth] + ' ' + chevronSVG + '</button>' +
+                  '<div class="fp-dropdown" id="fp-mdd"><ul>' +
+                  MONTHS.map(function (m, i) {
+                     return '<li data-mi="' + i + '"' + (i === fp.currentMonth ? ' class="fp-active"' : '') + '>' + m + '</li>';
+                  }).join('') +
+                  '</ul></div>' +
+                  '<button class="fp-sel-btn" id="fp-ybtn">' + fp.currentYear + ' ' + chevronSVG + '</button>' +
+                  '<div class="fp-dropdown" id="fp-ydd"><ul>' +
+                  years.map(function (y) {
+                     return '<li data-yr="' + y + '"' + (y === fp.currentYear ? ' class="fp-active"' : '') + '>' + y + '</li>';
+                  }).join('') +
+                  '</ul></div>';
+
+               monthEl.appendChild(hdr);
+
+               var mBtn = hdr.querySelector('#fp-mbtn');
+               var mDd = hdr.querySelector('#fp-mdd');
+               var yBtn = hdr.querySelector('#fp-ybtn');
+               var yDd = hdr.querySelector('#fp-ydd');
+
+               function closeAll() {
+                  [mDd, yDd].forEach(function (d) { d.classList.remove('open'); });
+                  [mBtn, yBtn].forEach(function (b) { b.classList.remove('open'); });
+               }
+
+               mBtn.addEventListener('click', function (e) {
+                  e.stopPropagation();
+                  var isOpen = mDd.classList.contains('open');
+                  closeAll();
+                  if (!isOpen) { mDd.classList.add('open'); mBtn.classList.add('open'); }
+               });
+
+               yBtn.addEventListener('click', function (e) {
+                  e.stopPropagation();
+                  var isOpen = yDd.classList.contains('open');
+                  closeAll();
+                  if (!isOpen) { yDd.classList.add('open'); yBtn.classList.add('open'); }
+               });
+
+               /* Chọn tháng: dùng changeMonth(delta) — trigger onMonthChange */
+               mDd.querySelectorAll('li').forEach(function (li) {
+                  li.addEventListener('click', function (e) {
+                     e.stopPropagation();
+                     var delta = parseInt(this.dataset.mi) - fp.currentMonth;
+                     if (delta !== 0) fp.changeMonth(delta, true);
+                     closeAll();
+                  });
+               });
+
+               /* Chọn năm: đổi qua số tháng tương đương — trigger onMonthChange + onYearChange */
+               yDd.querySelectorAll('li').forEach(function (li) {
+                  li.addEventListener('click', function (e) {
+                     e.stopPropagation();
+                     var delta = (parseInt(this.dataset.yr) - fp.currentYear) * 12;
+                     if (delta !== 0) fp.changeMonth(delta, true);
+                     closeAll();
+                  });
+               });
+
+               document.addEventListener('click', closeAll);
+            }
+
+            function syncHeader(fp) {
+               var hdr = fp.calendarContainer.querySelector('.fp-hdr');
+               if (!hdr) return;
+               /* Cập nhật text nút */
+               var mBtn = hdr.querySelector('#fp-mbtn');
+               var yBtn = hdr.querySelector('#fp-ybtn');
+               mBtn.innerHTML = MONTHS[fp.currentMonth] + ' ' + chevronSVG;
+               yBtn.innerHTML = fp.currentYear + ' ' + chevronSVG;
+               /* Cập nhật active item */
+               hdr.querySelectorAll('#fp-mdd li').forEach(function (li) {
+                  li.classList.toggle('fp-active', parseInt(li.dataset.mi) === fp.currentMonth);
+               });
+               hdr.querySelectorAll('#fp-ydd li').forEach(function (li) {
+                  li.classList.toggle('fp-active', parseInt(li.dataset.yr) === fp.currentYear);
+               });
+            }
+
+            flatpickr("#bookingDateRange", {
+               mode: "range",
+               minDate: "today",
+               dateFormat: "d/m/Y",
+               monthSelectorType: "static",
+               yearSelectorType: "static",
+               locale: {
+                  rangeSeparator: " – ",
+                  weekdays: {
+                     shorthand: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                     longhand: ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"]
+                  },
+                  months: {
+                     shorthand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                     longhand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
+                  },
+                  ordinal: () => "",
+                  firstDayOfWeek: 1
+               },
+               onReady: function (sd, ds, fp) {
+                  var cal = fp.calendarContainer;
+                  document.body.appendChild(cal);
+                  cal.style.position = 'fixed';
+                  cal.style.zIndex = '99999';
+                  buildHeader(fp);
+               },
+               onMonthChange: function (sd, ds, fp) { syncHeader(fp); },
+               onYearChange: function (sd, ds, fp) { syncHeader(fp); },
+               onOpen: function (sd, ds, fp) {
+                  var inp = fp.element;
+                  var cal = fp.calendarContainer;
+                  function reposition() {
+                     var rect = inp.getBoundingClientRect();
+                     var cRect = cal.getBoundingClientRect();
+                     var calH = cRect.height || 330;
+                     var calW = cRect.width || 320;
+                     var below = window.innerHeight - rect.bottom;
+                     var top = below < calH + 8 ? rect.top - calH - 4 : rect.bottom + 4;
+                     var left = Math.max(8, Math.min(rect.left, window.innerWidth - calW - 8));
+                     cal.style.top = top + 'px';
+                     cal.style.left = left + 'px';
+                  }
+                  reposition();
+                  setTimeout(reposition, 30);
+                  function onScroll(e) {
+                     /* Bỏ qua scroll bên trong calendar (cuộn danh sách tháng/năm) */
+                     if (fp.calendarContainer && fp.calendarContainer.contains(e.target)) return;
+                     fp.close();
+                     window.removeEventListener('scroll', onScroll, true);
+                  }
+                  window.addEventListener('scroll', onScroll, true);
+               },
+               onChange: function (selectedDates, dateStr, fp) {
+                  if (selectedDates.length === 2) {
+                     var fmt = function (d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+                     document.getElementById('cIn').value = fmt(selectedDates[0]);
+                     document.getElementById('cOut').value = fmt(selectedDates[1]);
+                     $('.calc-date').trigger('change');
+                     calculatePrice();
+                  }
+               }
+            });
+
+            /* ===== SĐT: chỉ cho nhập số ===== */
+            document.getElementById('cPhone').addEventListener('input', function () {
+               this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            /* ===== MÃ GIẢM GIÁ: tự động in hoa khi gõ ===== */
+            document.getElementById('promoCode').addEventListener('input', function () {
+               var pos = this.selectionStart;
+               this.value = this.value.toUpperCase();
+               this.setSelectionRange(pos, pos);
+            });
+         });
+      </script>
+
+      <script>
+         /* ===== LIGHTBOX VỚI NÚT CHUYỂN ẢNH ===== */
+         (function () {
+            let lbImages = [];
+            let lbIndex = 0;
+
+            function collectImages() {
+               lbImages = [];
+               const main = document.getElementById('dtlMainImg');
+               if (main && main.src) lbImages.push(main.src);
+               document.querySelectorAll('.img-sub').forEach(function (img) {
+                  if (img.src) lbImages.push(img.src);
+               });
+            }
+
+            function openLightbox(idx) {
+               collectImages();
+               lbIndex = idx;
+               renderLightbox();
+               document.getElementById('imgLightbox').classList.add('open');
+               document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+               document.getElementById('imgLightbox').classList.remove('open');
+               document.body.style.overflow = '';
+            }
+
+            function renderLightbox() {
+               document.getElementById('lbImg').src = lbImages[lbIndex];
+               document.getElementById('lbCounter').textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+            }
+
+            function prevImg() {
+               lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+               renderLightbox();
+            }
+
+            function nextImg() {
+               lbIndex = (lbIndex + 1) % lbImages.length;
+               renderLightbox();
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+               var mainImg = document.getElementById('dtlMainImg');
+               if (mainImg) mainImg.addEventListener('click', function () { openLightbox(0); });
+
+               function bindSubImages() {
+                  document.querySelectorAll('.img-sub').forEach(function (img, i) {
+                     img.onclick = function () { openLightbox(i + 1); };
+                  });
+               }
+               bindSubImages();
+               new MutationObserver(bindSubImages).observe(
+                  document.querySelector('.gallery-container') || document.body,
+                  { childList: true, subtree: true }
+               );
+
+               document.getElementById('lbClose').addEventListener('click', closeLightbox);
+               document.getElementById('imgLightbox').addEventListener('click', function (e) {
+                  if (e.target === this) closeLightbox();
+               });
+               document.getElementById('lbPrev').addEventListener('click', function (e) {
+                  e.stopPropagation(); prevImg();
+               });
+               document.getElementById('lbNext').addEventListener('click', function (e) {
+                  e.stopPropagation(); nextImg();
+               });
+               document.addEventListener('keydown', function (e) {
+                  if (!document.getElementById('imgLightbox').classList.contains('open')) return;
+                  if (e.key === 'ArrowLeft') prevImg();
+                  else if (e.key === 'ArrowRight') nextImg();
+                  else if (e.key === 'Escape') closeLightbox();
+               });
+            });
+         })();
+      </script>
+
+      <script>
+         /* ===== RATING PICKER ===== */
+         (function () {
+            const ratingLabels = {
+               1: { text: 'Cực kỳ tệ', color: '#ef4444' },
+               2: { text: 'Rất tệ', color: '#f97316' },
+               3: { text: 'Tệ', color: '#fb923c' },
+               4: { text: 'Dưới TB', color: '#facc15' },
+               5: { text: 'Trung bình', color: '#a3e635' },
+               6: { text: 'Khá ổn', color: '#4ade80' },
+               7: { text: 'Tốt', color: '#34d399' },
+               8: { text: 'Rất tốt', color: '#22c55e' },
+               9: { text: 'Xuất sắc', color: '#0ea5e9' },
+               10: { text: 'Tuyệt vời!', color: '#6366f1' },
+            };
+
+            const container = document.getElementById('ratingDots');
+            const hiddenInput = document.getElementById('revRating');
+            const scoreEl = document.getElementById('ratingScore');
+            const textEl = document.getElementById('ratingText');
+
+            if (!container) return;
+
+            // Build dots
+            for (let i = 1; i <= 10; i++) {
+               const btn = document.createElement('button');
+               btn.type = 'button';
+               btn.className = 'rating-dot' + (i == 8 ? ' active' : '');
+               btn.dataset.val = i;
+               btn.textContent = i;
+               btn.addEventListener('click', function () {
+                  setRating(parseInt(this.dataset.val));
+               });
+               container.appendChild(btn);
+            }
+
+            function setRating(val) {
+               hiddenInput.value = val;
+               scoreEl.textContent = val;
+               textEl.textContent = ratingLabels[val].text;
+               scoreEl.style.color = ratingLabels[val].color;
+               container.querySelectorAll('.rating-dot').forEach(d => {
+                  d.classList.toggle('active', parseInt(d.dataset.val) === val);
+               });
+            }
+         })();
+      </script>
    </body>
 </html>

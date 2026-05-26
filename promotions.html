@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="vi">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Khuyến mãi - StayEasy</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
+         rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+      <style>
+         body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f8fafc;
+         }
+
+         /* Hero */
+         .promo-hero {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #f97316 100%);
+            padding: 140px 0 100px;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .promo-hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+         }
+
+         .promo-hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+            bottom: -80px;
+            left: 5%;
+         }
+
+         .countdown-box {
+            display: inline-flex;
+            gap: 12px;
+            margin-top: 20px;
+         }
+
+         .countdown-unit {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: center;
+            color: white;
+            min-width: 70px;
+         }
+
+         .countdown-number {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+            display: block;
+         }
+
+         .countdown-label {
+            font-size: 11px;
+            opacity: 0.75;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+         }
+
+         /* Filter tabs */
+         .promo-filter-bar {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+         }
+
+         .filter-tab {
+            background: none;
+            border: none;
+            padding: 16px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+         }
+
+         .filter-tab:hover {
+            color: #7c3aed;
+         }
+
+         .filter-tab.active {
+            color: #7c3aed;
+         }
+
+         .filter-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #7c3aed, #db2777);
+            border-radius: 2px;
+         }
+
+         /* Promo Cards */
+         .promo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+         }
+
+         .promo-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+         }
+
+         .promo-card-img {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+         }
+
+         .promo-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+         }
+
+         .promo-card:hover .promo-card-img img {
+            transform: scale(1.06);
+         }
+
+         .promo-discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-size: 18px;
+            font-weight: 800;
+            padding: 8px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            line-height: 1;
+         }
+
+         .promo-type-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+         }
+
+         .promo-card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+         }
+
+         .promo-code-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin: 12px 0;
+            cursor: pointer;
+            transition: 0.2s;
+         }
+
+         .promo-code-box:hover {
+            border-color: #7c3aed;
+            background: #faf5ff;
+         }
+
+         .promo-code-text {
+            font-weight: 800;
+            font-size: 15px;
+            color: #7c3aed;
+            letter-spacing: 0.05em;
+            flex: 1;
+         }
+
+         .promo-code-copy {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 600;
+         }
+
+         .promo-expiry {
+            font-size: 12px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+         }
+
+         .btn-get-promo {
+            background: linear-gradient(135deg, #7c3aed, #db2777);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: auto;
+            font-size: 14px;
+         }
+
+         .btn-get-promo:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+         }
+
+         /* Flash sale card */
+         .flash-sale-card {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: 20px;
+            overflow: hidden;
+            color: white;
+            position: relative;
+            border: 1px solid #334155;
+         }
+
+         .flash-sale-card::before {
+            content: '⚡';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.04;
+            right: -20px;
+            top: -40px;
+            line-height: 1;
+         }
+
+         /* Featured promo banner */
+         .promo-featured {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            min-height: 260px;
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 40px;
+         }
+
+         .promo-featured img.bg-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+
+         .promo-featured .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.75) 40%, transparent);
+         }
+
+         .promo-featured .content {
+            position: relative;
+            z-index: 2;
+         }
+
+         /* Voucher card */
+         .voucher-card {
+            display: flex;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+         }
+
+         .voucher-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: #c4b5fd;
+         }
+
+         .voucher-left {
+            width: 80px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+            padding: 20px 10px;
+         }
+
+         .voucher-divider {
+            width: 1px;
+            background: repeating-linear-gradient(to bottom, #e2e8f0, #e2e8f0 6px, transparent 6px, transparent 12px);
+            margin: 10px 0;
+         }
+
+         .voucher-right {
+            padding: 16px 20px;
+            flex: 1;
+         }
+
+         /* Membership section */
+         .membership-card {
+            border-radius: 20px;
+            padding: 32px;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+         }
+
+         .membership-card:hover {
+            transform: translateY(-4px);
+         }
+
+         .membership-card::after {
+            content: attr(data-tier);
+            position: absolute;
+            bottom: -20px;
+            right: -10px;
+            font-size: 100px;
+            opacity: 0.06;
+            font-weight: 900;
+            line-height: 1;
+         }
+
+         /* Toast */
+         .toast-custom {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            z-index: 9999;
+            transition: transform 0.4s ease;
+            white-space: nowrap;
+         }
+
+         .toast-custom.show {
+            transform: translateX(-50%) translateY(0);
+         }
+
+         /* Footer */
+         .footer-custom {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            padding: 60px 0 30px;
+         }
+
+         .footer-custom h5 {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+         }
+
+         .footer-custom a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: block;
+            margin-bottom: 10px;
+         }
+
+         .footer-custom a:hover {
+            color: #60a5fa;
+         }
+
+         .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+         }
+
+         /* ==========================================
+            CSS RIỆNG BIỆT CHO KHUNG POPUP AUTH NỔI
+         ========================================== */
+         .modal-auth-width {
+            max-width: 960px;
+         }
+
+         .shell-popup {
+            width: 100%;
+            height: 580px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+            background: #fff;
+            font-family: 'DM Sans', sans-serif;
+         }
+
+         .photo-panel {
+            flex: 1.1;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .slide-popup {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+         }
+
+         .slide-popup.active {
+            opacity: 1;
+         }
+
+         .slide-popup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+         }
+
+         .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(115, 173, 255, 0.149);
+         }
+
+         .diagonal-slash {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 110px;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+         }
+
+         .diagonal-slash::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1d65d1;
+            clip-path: polygon(55% 0, 100% 0, 100% 100%, 0% 100%);
+         }
+
+         .photo-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -1px;
+            bottom: 0;
+            width: 80px;
+            background: #fff;
+            clip-path: polygon(65% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 3;
+         }
+
+         .dots-popup {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 4;
+         }
+
+         .dot-popup {
+            width: 22px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            transition: background 0.3s, width 0.3s;
+         }
+
+         .dot-popup.active {
+            background: #fff;
+            width: 32px;
+         }
+
+         .form-panel {
+            width: 400px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 44px 44px 36px;
+            position: relative;
+            z-index: 1;
+         }
+
+         .welcome-label {
+            font-size: 13px;
+            color: #9aa0ab;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+            font-weight: 400;
+         }
+
+         .brand-popup {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 28px;
+            line-height: 1;
+         }
+
+         .brand-popup sample {
+            font-style: italic;
+            color: #1d65d1;
+            font-weight: 400;
+         }
+
+         .social-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+         }
+
+         .social-btn {
+            flex: 1;
+            height: 40px;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, background 0.2s;
+         }
+
+         .social-btn:hover {
+            border-color: #1d20d1;
+            background: #edf9fc;
+         }
+
+         .social-btn svg {
+            width: 20px;
+            height: 20px;
+         }
+
+         .or-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: #b0b8c1;
+         }
+
+         .or-line::before,
+         .or-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8ecef;
+         }
+
+         .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+         }
+
+         .field {
+            position: relative;
+         }
+
+         .field input {
+            width: 100%;
+            height: 44px;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            padding: 0 40px 0 14px;
+            font-size: 14px;
+            color: #1a1a2e;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+         }
+
+         .field input::placeholder {
+            color: #b0b8c1;
+         }
+
+         .field input:focus {
+            border-color: #1d65d1;
+            box-shadow: 0 0 0 3px rgba(29, 101, 209, 0.13);
+         }
+
+         .eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #b0b8c1;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            transition: color 0.2s;
+         }
+
+         .eye-btn:hover {
+            color: #1d32d1;
+         }
+
+         .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 12.5px;
+            color: #6b7280;
+            line-height: 1.4;
+         }
+
+         .terms-row input[type=checkbox] {
+            margin-top: 2px;
+            accent-color: #1d65d1;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+         }
+
+         .terms-row a {
+            color: #1d62d1;
+            text-decoration: none;
+         }
+
+         .terms-row a:hover {
+            text-decoration: underline;
+         }
+
+         .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+         }
+
+         .btn-primary-auth {
+            flex: 1.2;
+            height: 44px;
+            background: #1d5fd1;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+         }
+
+         .btn-primary-auth:hover {
+            background: #173db9;
+         }
+
+         .btn-primary-auth:active {
+            transform: scale(0.98);
+         }
+
+         .btn-secondary-auth {
+            flex: 1;
+            height: 44px;
+            background: #fff;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, color 0.2s;
+         }
+
+         .btn-secondary-auth:hover {
+            border-color: #1d29d1;
+            background: #edf9fc;
+            color: #1DAFD1;
+         }
+
+         .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 13px;
+            color: #9aa0ab;
+         }
+
+         .footer-brand-name {
+            font-weight: 600;
+            color: #1d4dd1;
+            font-size: 14px;
+         }
+
+         .btn-close-popup {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            z-index: 10;
+            transition: all 0.2s;
+         }
+
+         .btn-close-popup:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+         }
+
+         /* ==========================================
+            CSS ADMIN LOGIN MODAL (SCOPED)
+         ========================================== */
+         #adminLoginModal .modal-dialog {
+            max-width: 480px;
+         }
+
+         #adminLoginModal .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            padding: 40px;
+            border: 1px solid #e2e8f0;
+         }
+
+         #adminLoginModal .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+         }
+
+         #adminLoginModal .brand-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+         }
+
+         #adminLoginModal .brand-title {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 1.35rem;
+            margin: 0;
+            letter-spacing: -0.5px;
+         }
+
+         #adminLoginModal .brand-title span {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            justify-content: center;
+            gap: 20px;
+         }
+
+         #adminLoginModal .auth-nav-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 4px;
+            position: relative;
+            transition: all 0.2s ease;
+         }
+
+         #adminLoginModal .auth-nav-btn:hover {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #2563eb;
+            border-radius: 2px;
+         }
+
+         #adminLoginModal .form-group-custom {
+            margin-bottom: 20px;
+         }
+
+         #adminLoginModal .form-label-custom {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+            display: block;
+         }
+
+         #adminLoginModal .input-wrapper {
+            position: relative;
+            width: 100%;
+         }
+
+         #adminLoginModal .input-wrapper>i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 5;
+         }
+
+         #adminLoginModal .input-custom,
+         #adminLoginModal .select-custom {
+            width: 100%;
+            padding: 10px 16px 10px 42px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #0f172a;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            outline: none;
+            display: block;
+         }
+
+         #adminLoginModal .input-password-padding {
+            padding-right: 46px !important;
+         }
+
+         #adminLoginModal .input-custom:focus,
+         #adminLoginModal .select-custom:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+         }
+
+         #adminLoginModal .input-custom::placeholder {
+            color: #94a3b8;
+         }
+
+         #adminLoginModal .password-toggle-icon {
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            height: max-content;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         #adminLoginModal .password-toggle-icon:hover {
+            color: #475569;
+         }
+
+         #adminLoginModal .btn-submit-custom {
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            margin-top: 8px;
+            cursor: pointer;
+         }
+
+         #adminLoginModal .btn-submit-custom:hover {
+            background-color: #1d4ed8;
+         }
+
+         #adminLoginModal .form-pane {
+            display: none;
+         }
+
+         #adminLoginModal .form-pane.active {
+            display: block;
+         }
+      </style>
+   </head>
+   <body>
+
+      <nav class="navbar navbar-expand-lg navbar-custom">
+         <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="bi bi-buildings-fill"></i> StayEasy</a>
+            <button class="navbar-toggler text-white border-white" type="button" data-bs-toggle="collapse"
+               data-bs-target="#navbarNav">
+               <i class="bi bi-list"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+                  <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="promotions.html"><i
+                           class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
+               </ul>
+               <ul class="navbar-nav align-items-center gap-3">
+                  <li class="nav-item"><a class="nav-link" href="support.html"><i class="bi bi-headset"></i> Hỗ trợ</a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="#" data-bs-toggle="modal"
+                        data-bs-target="#adminLoginModal"><i class="bi bi-shield-lock"></i> Quản trị viên</a></li>
+                  <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-login" href="#"
+                        data-bs-toggle="modal" data-bs-target="#popupAuthModal" onclick="initAuthForm('signin')">Đăng
+                        nhập</a></li>
+                  <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-register" href="#"
+                        data-bs-toggle="modal" data-bs-target="#popupAuthModal" onclick="initAuthForm('signup')">Đăng
+                        ký</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+
+      <section class="promo-hero">
+         <div class="container text-center position-relative" style="z-index:2;">
+            <div
+               class="d-inline-flex align-items-center gap-2 bg-white bg-opacity-10 text-white rounded-pill px-4 py-2 mb-4 small fw-bold">
+               <i class="bi bi-fire text-warning"></i> DEAL HOT THÁNG 5/2026
+            </div>
+            <h1 class="display-4 fw-bold text-white mb-3">Săn Deal — Bùng Cháy Hè 🔥</h1>
+            <p class="text-white opacity-75 fs-5 mb-4">Hàng ngàn ưu đãi lên đến 60% cho kỳ nghỉ hè không thể quên</p>
+            <div class="countdown-box flex-wrap justify-content-center">
+               <div class="countdown-unit">
+                  <span class="countdown-number" id="ctDays">05</span>
+                  <span class="countdown-label">Ngày</span>
+               </div>
+               <div class="countdown-unit">
+                  <span class="countdown-number" id="ctHours">12</span>
+                  <span class="countdown-label">Giờ</span>
+               </div>
+               <div class="countdown-unit">
+                  <span class="countdown-number" id="ctMins">34</span>
+                  <span class="countdown-label">Phút</span>
+               </div>
+               <div class="countdown-unit">
+                  <span class="countdown-number" id="ctSecs">59</span>
+                  <span class="countdown-label">Giây</span>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <div class="promo-filter-bar">
+         <div class="container">
+            <div class="d-flex overflow-auto">
+               <button class="filter-tab active" onclick="filterPromo('all', this)"><i class="bi bi-grid-fill"></i> Tất
+                  cả</button>
+               <button class="filter-tab" onclick="filterPromo('flash', this)"><i
+                     class="bi bi-lightning-charge-fill text-warning"></i> Flash Sale</button>
+               <button class="filter-tab" onclick="filterPromo('hotel', this)"><i class="bi bi-building"></i> Khách
+                  sạn</button>
+               <button class="filter-tab" onclick="filterPromo('resort', this)"><i class="bi bi-stars"></i>
+                  Resort</button>
+               <button class="filter-tab" onclick="filterPromo('homestay', this)"><i class="bi bi-house-heart"></i>
+                  Homestay</button>
+               <button class="filter-tab" onclick="filterPromo('new', this)"><i class="bi bi-sparkle"></i> Khách hàng
+                  mới</button>
+               <button class="filter-tab" onclick="filterPromo('member', this)"><i class="bi bi-gem"></i> Thành
+                  viên</button>
+            </div>
+         </div>
+      </div>
+
+      <div class="container py-5">
+
+         <div class="mb-5" data-section="flash all">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <div>
+                  <h3 class="fw-bold text-dark mb-1"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Flash
+                     Sale — Chỉ hôm nay!</h3>
+                  <p class="text-muted mb-0">Số lượng có hạn — Đặt ngay kẻo hết</p>
+               </div>
+               <span class="badge text-bg-danger fw-bold fs-6 px-3 py-2 rounded-pill">⚡ Kết thúc lúc 23:59</span>
+            </div>
+            <div class="flash-sale-card p-4 mb-4">
+               <div class="row g-4 align-items-center">
+                  <div class="col-lg-6">
+                     <div
+                        class="d-inline-block bg-warning bg-opacity-20 text-warning rounded-pill px-3 py-1 small fw-bold mb-3">
+                        ⚡ FLASH SALE — CÒN 47 PHÒNG</div>
+                     <h2 class="fw-bold text-white mb-2">Vinpearl Resort Phú Quốc</h2>
+                     <p class="text-slate-400 mb-3" style="color:#94a3b8;">Khu nghỉ dưỡng 5 sao đẳng cấp quốc tế. Bãi
+                        biển riêng, 3 hồ bơi, spa cao cấp.</p>
+                     <div class="d-flex align-items-center gap-4 mb-4">
+                        <div>
+                           <div class="text-muted small text-decoration-line-through" style="color:#64748b!important;">
+                              3.200.000 ₫/đêm</div>
+                           <div class="text-warning fw-bold fs-3">1.920.000 ₫</div>
+                           <div class="text-muted small" style="color:#64748b!important;">/đêm · Đã gồm thuế</div>
+                        </div>
+                        <div class="bg-red-500 rounded-2 px-3 py-2 text-center"
+                           style="background:#ef4444;border-radius:10px;">
+                           <div class="text-white fw-black fs-4 lh-1">-40%</div>
+                           <div class="text-white small opacity-75">giảm</div>
+                        </div>
+                     </div>
+                     <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn btn-warning fw-bold rounded-pill px-4" onclick="copyCode('FLASH40')">
+                           <i class="bi bi-lightning-fill me-2"></i>Lấy deal ngay
+                        </button>
+                        <a href="index.html" class="btn btn-outline-light rounded-pill px-4">Xem chi tiết</a>
+                     </div>
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="row g-3">
+                        <div class="col-6">
+                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
+                              <i class="bi bi-water fs-3 text-primary mb-2 d-block"></i>
+                              <div class="text-white small fw-semibold">3 Hồ bơi</div>
+                           </div>
+                        </div>
+                        <div class="col-6">
+                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
+                              <i class="bi bi-restaurant fs-3 text-success mb-2 d-block"></i>
+                              <div class="text-white small fw-semibold">Bữa sáng miễn phí</div>
+                           </div>
+                        </div>
+                        <div class="col-6">
+                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
+                              <i class="bi bi-car-front fs-3 text-warning mb-2 d-block"></i>
+                              <div class="text-white small fw-semibold">Đưa đón sân bay</div>
+                           </div>
+                        </div>
+                        <div class="col-6">
+                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
+                              <i class="bi bi-heart-pulse fs-3 text-danger mb-2 d-block"></i>
+                              <div class="text-white small fw-semibold">Spa & Wellness</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="row g-4 mb-5" data-section="all">
+            <div class="col-md-7">
+               <div class="promo-featured">
+                  <img class="bg-img"
+                     src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200&auto=format&fit=crop"
+                     alt="">
+                  <div class="overlay"></div>
+                  <div class="content">
+                     <div class="d-inline-block bg-danger text-white rounded-pill px-3 py-1 small fw-bold mb-3">🏖️
+                        SUMMER DEAL</div>
+                     <h2 class="fw-bold mb-2">Chào Hè 2026 — Giảm 20%</h2>
+                     <p class="opacity-75 mb-3">Tất cả resort từ 3 đêm trở lên. Áp dụng đến 30/06/2026.</p>
+                     <div class="d-flex align-items-center gap-3">
+                        <div
+                           class="bg-white bg-opacity-10 border border-white border-opacity-25 rounded-pill px-3 py-2">
+                           <span class="fw-black" style="letter-spacing:0.1em;">SUMMER2026</span>
+                        </div>
+                        <button class="btn btn-warning fw-bold rounded-pill px-4" onclick="copyCode('SUMMER2026')">Sao
+                           chép</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-5">
+               <div class="promo-featured" style="min-height:260px;">
+                  <img class="bg-img"
+                     src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop"
+                     alt="">
+                  <div class="overlay" style="background:linear-gradient(90deg,rgba(0,0,0,0.8) 50%,transparent)"></div>
+                  <div class="content">
+                     <div class="d-inline-block bg-warning text-dark rounded-pill px-3 py-1 small fw-bold mb-3">🏔️
+                        KHÁCH HÀNG MỚI</div>
+                     <h3 class="fw-bold mb-2">Giảm 15% lần đầu</h3>
+                     <p class="opacity-75 small mb-3">Đăng ký và đặt phòng đầu tiên.</p>
+                     <div class="d-flex align-items-center gap-2">
+                        <div
+                           class="bg-white bg-opacity-10 border border-white border-opacity-25 rounded-pill px-3 py-2">
+                           <span class="fw-black small" style="letter-spacing:0.08em;">STAYEASY15</span>
+                        </div>
+                        <button class="btn btn-light fw-bold rounded-pill px-3 btn-sm"
+                           onclick="copyCode('STAYEASY15')">Copy</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <h3 class="fw-bold text-dark mb-0">Tất cả ưu đãi</h3>
+               <span class="text-muted small" id="promoCount">Hiển thị 9 ưu đãi</span>
+            </div>
+            <div class="row g-4" id="promoGrid">
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-35%</div>
+                        <div class="promo-type-tag">Resort</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Fusion Maia Resort Đà Nẵng</h6>
+                        <p class="text-muted small mb-2">Nghỉ dưỡng sang trọng bên bãi biển Mỹ Khê. Bao gồm spa và bữa
+                           sáng.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">4.500.000 ₫</span>
+                           <span class="fw-bold text-danger">2.925.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('DA35RESORT')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">DA35RESORT</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 15/06/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('DA35RESORT')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-25%</div>
+                        <div class="promo-type-tag">Khách sạn</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Mường Thanh Grand Hà Nội</h6>
+                        <p class="text-muted small mb-2">Khách sạn 5 sao trung tâm thủ đô. Miễn phí ăn sáng, hồ bơi
+                           rooftop.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">2.800.000 ₫</span>
+                           <span class="fw-bold text-danger">2.100.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('HN25HOTEL')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">HN25HOTEL</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 30/06/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('HN25HOTEL')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-40%</div>
+                        <div class="promo-type-tag">Homestay</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Sapa Mountain Homestay</h6>
+                        <p class="text-muted small mb-2">View ruộng bậc thang tuyệt đẹp, bếp riêng, lửa trại buổi tối.
+                        </p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">800.000 ₫</span>
+                           <span class="fw-bold text-danger">480.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('SAPA40HOME')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">SAPA40HOME</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 20/06/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('SAPA40HOME')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="new all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-15%</div>
+                        <div class="promo-type-tag" style="background:#7c3aed;">Mới</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Ưu đãi Khách hàng mới</h6>
+                        <p class="text-muted small mb-2">Giảm 15% cho lần đặt phòng đầu tiên tại bất kỳ khách sạn nào
+                           trên StayEasy.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="fw-bold text-success">Áp dụng tất cả phòng</span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('STAYEASY15')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">STAYEASY15</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Không giới hạn thời gian</div>
+                        <button class="btn-get-promo" onclick="getPromo('STAYEASY15')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-30%</div>
+                        <div class="promo-type-tag">Resort</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Premier Village Phú Quốc</h6>
+                        <p class="text-muted small mb-2">Biệt thự mặt biển, hồ bơi riêng, bao gồm bữa sáng và tối.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">8.000.000 ₫</span>
+                           <span class="fw-bold text-danger">5.600.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('PQ30VIP')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">PQ30VIP</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 10/07/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('PQ30VIP')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-20%</div>
+                        <div class="promo-type-tag">Khách sạn</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Novotel Danang Premier Han River</h6>
+                        <p class="text-muted small mb-2">Tầm nhìn sông Hàn tuyệt đẹp, hồ bơi tầng 35, ăn sáng tự chọn.
+                        </p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">3.500.000 ₫</span>
+                           <span class="fw-bold text-danger">2.800.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('NOVOTEL20')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">NOVOTEL20</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 25/06/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('NOVOTEL20')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="member all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-45%</div>
+                        <div class="promo-type-tag" style="background:#d97706;">VIP</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1"><i class="bi bi-gem text-warning me-1"></i>Ưu đãi Thành viên
+                           Vàng</h6>
+                        <p class="text-muted small mb-2">Giảm thêm 45% tại 500+ khách sạn đối tác. Chỉ dành cho thành
+                           viên Gold.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="fw-bold text-success">Áp dụng cho tất cả phòng</span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('GOLD45VIP')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">GOLD45VIP</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 31/07/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('GOLD45VIP')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-50%</div>
+                        <div class="promo-type-tag">Homestay</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Hội An Ancient Town Stays</h6>
+                        <p class="text-muted small mb-2">Ở giữa lòng phố cổ. Miễn phí xe đạp, tour phố đêm.</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">1.200.000 ₫</span>
+                           <span class="fw-bold text-danger">600.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('HOIAN50')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">HOIAN50</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 05/07/2026</div>
+                        <button class="btn-get-promo" onclick="getPromo('HOIAN50')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6 col-lg-4 promo-item" data-cat="flash all">
+                  <div class="promo-card">
+                     <div class="promo-card-img">
+                        <img
+                           src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop"
+                           alt="">
+                        <div class="promo-discount-badge">-60%</div>
+                        <div class="promo-type-tag" style="background:#ef4444;">⚡ Flash</div>
+                     </div>
+                     <div class="promo-card-body">
+                        <h6 class="fw-bold text-dark mb-1">Sheraton Grand Da Nang Resort</h6>
+                        <p class="text-muted small mb-2">5 sao quốc tế, bãi biển Non Nước. Flash sale chỉ 24h!</p>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                           <span class="text-decoration-line-through text-muted small">5.000.000 ₫</span>
+                           <span class="fw-bold text-danger">2.000.000 ₫<span
+                                 class="text-muted fw-normal small">/đêm</span></span>
+                        </div>
+                        <div class="promo-code-box" onclick="copyCode('FLASH60NOW')">
+                           <i class="bi bi-ticket-perforated text-muted"></i>
+                           <span class="promo-code-text">FLASH60NOW</span>
+                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                        </div>
+                        <div class="promo-expiry mb-3" style="color:#ef4444;"><i class="bi bi-clock"></i> ⚡ Còn 5 giờ 23
+                           phút</div>
+                        <button class="btn-get-promo" onclick="getPromo('FLASH60NOW')">Nhận ưu đãi ngay</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="mb-5">
+            <h3 class="fw-bold text-dark mb-2">🎫 Kho voucher của bạn</h3>
+            <p class="text-muted mb-4">Nhận và áp dụng trực tiếp khi đặt phòng</p>
+            <div class="row g-3">
+               <div class="col-md-6">
+                  <div class="voucher-card">
+                     <div class="voucher-left" style="background:linear-gradient(135deg,#7c3aed,#db2777);">
+                        <div class="fs-5 lh-1">20%</div>
+                        <div class="small opacity-75">OFF</div>
+                     </div>
+                     <div class="voucher-divider"></div>
+                     <div class="voucher-right">
+                        <h6 class="fw-bold mb-1">Giảm 20% toàn bộ đơn</h6>
+                        <p class="text-muted small mb-2">Áp dụng cho đặt phòng từ 2.000.000₫ trở lên</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <span class="text-muted small"><i class="bi bi-clock me-1"></i>HH: 30/06/2026</span>
+                           <button class="btn btn-sm btn-outline-primary rounded-pill fw-semibold px-3"
+                              onclick="copyCode('VOUCHER20')">Lấy mã</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="voucher-card">
+                     <div class="voucher-left" style="background:linear-gradient(135deg,#f97316,#ef4444);">
+                        <div style="font-size:14px;font-weight:800;">200K</div>
+                     </div>
+                     <div class="voucher-divider"></div>
+                     <div class="voucher-right">
+                        <h6 class="fw-bold mb-1">Giảm 200.000₫ tiền mặt</h6>
+                        <p class="text-muted small mb-2">Cho đơn đặt phòng từ 1.500.000₫. Không giới hạn loại phòng.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <span class="text-muted small"><i class="bi bi-clock me-1"></i>HH: 15/07/2026</span>
+                           <button class="btn btn-sm btn-outline-danger rounded-pill fw-semibold px-3"
+                              onclick="copyCode('CASH200K')">Lấy mã</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="voucher-card">
+                     <div class="voucher-left" style="background:linear-gradient(135deg,#0ea5e9,#2563eb);">
+                        <div class="small text-center" style="font-size:13px;font-weight:800;">FREE<br>SHIP</div>
+                     </div>
+                     <div class="voucher-divider"></div>
+                     <div class="voucher-right">
+                        <h6 class="fw-bold mb-1">Miễn phí dịch vụ đón sân bay</h6>
+                        <p class="text-muted small mb-2">Khi đặt từ 3 đêm tại các resort đối tác 5 sao.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <span class="text-muted small"><i class="bi bi-clock me-1"></i>HH: 31/08/2026</span>
+                           <button class="btn btn-sm btn-outline-info rounded-pill fw-semibold px-3"
+                              onclick="copyCode('FREEPICK5S')">Lấy mã</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="voucher-card">
+                     <div class="voucher-left" style="background:linear-gradient(135deg,#16a34a,#15803d);">
+                        <div style="font-size:14px;font-weight:800;">2X<br>XP</div>
+                     </div>
+                     <div class="voucher-divider"></div>
+                     <div class="voucher-right">
+                        <h6 class="fw-bold mb-1">Nhân đôi điểm thành viên</h6>
+                        <p class="text-muted small mb-2">Áp dụng cho tất cả đặt phòng trong tháng 6/2026.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                           <span class="text-muted small"><i class="bi bi-clock me-1"></i>HH: 30/06/2026</span>
+                           <button class="btn btn-sm btn-outline-success rounded-pill fw-semibold px-3"
+                              onclick="copyCode('DOUBLE2026')">Lấy mã</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="mb-5">
+            <div class="text-center mb-4">
+               <h3 class="fw-bold text-dark mb-1">💎 Chương trình thành viên StayEasy</h3>
+               <p class="text-muted">Tích lũy điểm — Nâng hạng — Nhận ưu đãi khủng</p>
+            </div>
+            <div class="row g-4">
+               <div class="col-md-4">
+                  <div class="membership-card" data-tier="SILVER"
+                     style="background:linear-gradient(135deg,#f8fafc,#e2e8f0);border:1px solid #cbd5e1;">
+                     <div class="mb-3"><i class="bi bi-award-fill fs-1" style="color:#94a3b8;"></i></div>
+                     <h5 class="fw-bold mb-1" style="color:#475569;">Thành viên Bạc</h5>
+                     <p class="text-muted small mb-3">Từ 0 - 4.999 điểm tích lũy</p>
+                     <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Giảm 5% toàn bộ đặt phòng
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Hủy miễn phí trước 24h
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Tích điểm mỗi đêm ở</li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="membership-card" data-tier="GOLD"
+                     style="background:linear-gradient(135deg,#fef9c3,#fef08a);border:1px solid #fde047;box-shadow:0 8px 24px rgba(234,179,8,0.2);">
+                     <div class="d-flex justify-content-between align-items-start mb-3">
+                        <i class="bi bi-award-fill fs-1" style="color:#d97706;"></i>
+                        <span class="badge" style="background:#d97706;color:white;font-size:11px;">PHỔ BIẾN NHẤT</span>
+                     </div>
+                     <h5 class="fw-bold mb-1" style="color:#92400e;">Thành viên Vàng</h5>
+                     <p class="small mb-3" style="color:#78350f;">Từ 5.000 - 19.999 điểm tích lũy</p>
+                     <ul class="list-unstyled small" style="color:#78350f;">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Giảm 15% toàn bộ đặt phòng
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Hủy miễn phí trước 48h
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Ưu tiên nâng hạng phòng
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Điểm x1.5 mỗi đêm ở</li>
+                     </ul>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="membership-card" data-tier="DIAMOND"
+                     style="background:linear-gradient(135deg,#0f172a,#1e3a8a);border:1px solid #3b82f6;color:white;box-shadow:0 8px 24px rgba(37,99,235,0.3);">
+                     <div class="mb-3"><i class="bi bi-gem fs-1 text-info"></i></div>
+                     <h5 class="fw-bold mb-1 text-white">Thành viên Kim Cương</h5>
+                     <p class="small mb-3" style="color:#93c5fd;">Từ 20.000 điểm trở lên</p>
+                     <ul class="list-unstyled small" style="color:#bfdbfe;">
+                        <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i>Giảm 30% + ưu tiên tốt nhất
+                        </li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i>Late checkout miễn phí</li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i>Concierge riêng 24/7</li>
+                        <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i>Điểm x2 mỗi đêm ở</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+
+      <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-none bg-transparent">
+               <div class="login-card">
+                  <div class="brand-header">
+                     <div class="brand-logo">
+                        <i class="bi bi-airplane-engines-fill"></i>
+                     </div>
+                     <h2 class="brand-title">StayEasy <span>Admin</span></h2>
+                  </div>
+
+                  <div class="auth-nav">
+                     <button type="button" class="auth-nav-btn active" data-admin-target="#admin-pane-login">Đăng
+                        nhập</button>
+                     <button type="button" class="auth-nav-btn" data-admin-target="#admin-pane-register">Cấp tài khoản
+                        mới</button>
+                  </div>
+
+                  <div class="form-pane active" id="admin-pane-login">
+                     <form id="adminLoginForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Email quản trị</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope"></i>
+                              <input type="email" id="adminLoginEmail" class="input-custom"
+                                 placeholder="admin@gmail.com" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-lock"></i>
+                              <input type="password" id="adminLoginPassword" class="input-custom input-password-padding"
+                                 placeholder="••••••••" required>
+                              <button type="button" class="password-toggle-icon admin-pw-toggle"><i
+                                    class="bi bi-eye"></i></button>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom">Đăng nhập ngay</button>
+                     </form>
+                  </div>
+
+                  <div class="form-pane" id="admin-pane-register">
+                     <form id="adminRegisterForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Tên thành viên</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-person"></i>
+                              <input type="text" id="adminRegName" class="input-custom" placeholder="Nguyễn Văn A"
+                                 required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Địa chỉ Email cấp</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope-plus"></i>
+                              <input type="email" id="adminRegEmail" class="input-custom"
+                                 placeholder="nhanvien@stayeasy.vn" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu cấp quyền</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-key"></i>
+                              <input type="password" id="adminRegPassword" class="input-custom"
+                                 placeholder="Tối thiểu 6 ký tự" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Phân cấp vai trò</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-shield-check"></i>
+                              <select id="adminRegRole" class="select-custom" required>
+                                 <option value="admin" selected>Quản trị viên (Admin)</option>
+                                 <option value="moderator">Điều phối viên</option>
+                              </select>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom"
+                           style="background-color: #0f172a; box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);">Khởi tạo
+                           tài khoản</button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-auth-width">
+            <div class="modal-content border-0 bg-transparent shadow-none">
+               <div class="shell-popup shadow-lg">
+                  <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close">
+                     <i class="bi bi-x-lg"></i>
+                  </button>
+                  <div class="photo-panel">
+                     <div class="slide-popup active" id="slide-0">
+                        <img src="https://www.thekarnatakatourism.com/assets/img/theme-holidays/nature-walk.webp"
+                           alt="Nature walk">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="slide-popup" id="slide-1">
+                        <img
+                           src="https://cdn3.ivivu.com/2019/11/cau-ban-tay-Phat-ngoc-trang-Thai-Hong-Tien-Thu-traveltimes-1.jpg"
+                           alt="Cầu Bàn Tay Vàng">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="diagonal-slash"></div>
+                     <div class="dots-popup">
+                        <div class="dot-popup active" onclick="goPopupSlide(0)"></div>
+                        <div class="dot-popup" onclick="goPopupSlide(1)"></div>
+                     </div>
+                  </div>
+                  <div class="form-panel">
+                     <p class="welcome-label" id="popupAuthTitleLabel">Welcome to</p>
+                     <div class="brand-popup">Stay<sample>Easy</sample>
+                     </div>
+
+                     <div class="social-row">
+                        <button class="social-btn" title="Google"><svg viewBox="0 0 24 24" fill="none">
+                              <path
+                                 d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5c-.2 1.2-1 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"
+                                 fill="#4285F4" />
+                              <path
+                                 d="M12 22c2.7 0 5-.9 6.7-2.5l-3.2-2.5c-.9.6-2 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.9v2.6C4.6 19.6 8.1 22 12 22z"
+                                 fill="#34A853" />
+                              <path
+                                 d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.7s.1-1.1.3-1.7V7.7H2.9C2.3 8.9 2 10.4 2 12s.3 3.1.9 4.3l3.3-2.6z"
+                                 fill="#FBBC05" />
+                              <path
+                                 d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.6 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
+                                 fill="#EA4335" />
+                           </svg></button>
+                        <button class="social-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2">
+                              <path
+                                 d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97H15.8c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
+                           </svg></button>
+                        <button class="social-btn" title="X"><svg viewBox="0 0 24 24" fill="#000">
+                              <path
+                                 d="M18.24 2h3.1l-6.78 7.76L22.5 22h-6.25l-4.89-6.39L5.76 22H2.64l7.25-8.29L2 2h6.41l4.42 5.78L18.24 2zm-1.08 18h1.72L7 3.6H5.16L17.16 20z" />
+                           </svg></button>
+                        <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#000">
+                              <path
+                                 d="M16.46 1.2a4.56 4.56 0 0 1-1.07 3.35 3.63 3.63 0 0 1-2.93 1.38 4.05 4.05 0 0 1 1.04-3.2A4.4 4.4 0 0 1 16.46 1.2zm2.52 13.37c-.09-.06-2.5-1.46-2.52-4.3a4.56 4.56 0 0 1 2.22-3.91 4.65 4.65 0 0 0-3.67-1.99c-1.6-.17-3.14.97-3.95.97-.83 0-2.1-.95-3.44-.92C5.7 4.44 4 5.67 3.09 7.5 1.3 11.2 2.64 16.7 4.4 19.7c.88 1.48 1.93 3.14 3.3 3.09 1.32-.06 1.82-.87 3.42-.87 1.6 0 2.04.87 3.44.84 1.43-.03 2.33-1.5 3.2-2.98a10.1 10.1 0 0 0 1.44-3.2c-.06-.02-.02 0-.22-.09z" />
+                           </svg></button>
+                     </div>
+                     <div class="or-line">or use your email</div>
+
+                     <div class="field-group">
+                        <div class="field" id="popupFieldRowName"><input type="text" id="popupAuthInputName"
+                              placeholder="Name"></div>
+                        <div class="field"><input type="email" id="popupAuthInputEmail" placeholder="Email"></div>
+                        <div class="field">
+                           <input type="password" id="popupAuthInputPw1" placeholder="Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
+                           </button>
+                        </div>
+                        <div class="field" id="popupFieldRowConfirmPw">
+                           <input type="password" id="popupAuthInputPw2" placeholder="Confirm Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+
+                     <div class="terms-row" id="popupTermsRow">
+                        <input type="checkbox" checked id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy
+                              Policy</a>.</label>
+                     </div>
+
+                     <div class="btn-row">
+                        <button class="btn-primary-auth" id="popupBtnSubmitAuth" onclick="executePopupAuth()">SIGN
+                           UP</button>
+                        <button class="btn-secondary-auth" id="popupBtnSwitchMode" onclick="togglePopupAuthMode()">Sign
+                           In</button>
+                     </div>
+
+                     <div class="footer-brand">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DAFD1" stroke-width="2"
+                           stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="2" y="7" width="20" height="15" rx="2" />
+                           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                           <path d="M12 12v4" />
+                           <path d="M8 12v4" />
+                           <path d="M16 12v4" />
+                        </svg>
+                        <span class="footer-brand-name">StayEasy</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="toast-custom" id="toastMsg"></div>
+
+      <footer class="footer-custom">
+         <div class="container">
+            <div class="row g-4">
+               <div class="col-lg-4 pe-lg-5">
+                  <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="index.html">
+                     <i class="bi bi-buildings-fill text-primary"></i> StayEasy
+                  </a>
+                  <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam.</p>
+                  <div class="d-flex gap-3">
+                     <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+                  </div>
+               </div>
+               <div class="col-lg-2 col-md-4">
+                  <h5>Về StayEasy</h5>
+                  <a href="#">Giới thiệu</a>
+                  <a href="partner.html">Hợp tác với chúng tôi</a>
+                  <a href="#">Điều khoản</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Hỗ trợ</h5>
+                  <a href="support.html">Trung tâm trợ giúp</a>
+                  <a href="#">Chính sách hoàn tiền</a>
+                  <a href="#">Hướng dẫn đặt phòng</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Liên hệ</h5>
+                  <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
+                  <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+               </div>
+            </div>
+            <div class="footer-bottom">
+               <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
+            </div>
+         </div>
+      </footer>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+         // Navbar scroll
+         $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+               $('.navbar-custom').addClass('navbar-scrolled');
+               $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
+            } else {
+               $('.navbar-custom').removeClass('navbar-scrolled');
+               $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
+            }
+         });
+
+         // Countdown timer
+         const endDate = new Date();
+         endDate.setDate(endDate.getDate() + 5);
+         endDate.setHours(23, 59, 59);
+         function updateCountdown() {
+            const now = new Date();
+            const diff = endDate - now;
+            if (diff <= 0) return;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById('ctDays').textContent = String(d).padStart(2, '0');
+            document.getElementById('ctHours').textContent = String(h).padStart(2, '0');
+            document.getElementById('ctMins').textContent = String(m).padStart(2, '0');
+            document.getElementById('ctSecs').textContent = String(s).padStart(2, '0');
+         }
+         updateCountdown();
+         setInterval(updateCountdown, 1000);
+
+         // Filter promo cards
+         function filterPromo(cat, btn) {
+            document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('.promo-item');
+            let count = 0;
+            items.forEach(item => {
+               const cats = item.dataset.cat || '';
+               if (cat === 'all' || cats.includes(cat)) {
+                  item.style.display = 'block';
+                  count++;
+               } else {
+                  item.style.display = 'none';
+               }
+            });
+            document.getElementById('promoCount').textContent = `Hiển thị ${count} ưu đãi`;
+         }
+
+         // Copy code
+         function copyCode(code) {
+            if (navigator.clipboard) {
+               navigator.clipboard.writeText(code).then(() => showToast(`✅ Đã sao chép mã: ${code}`));
+            } else {
+               showToast(`📋 Mã ưu đãi: ${code}`);
+            }
+         }
+
+         function getPromo(code) {
+            copyCode(code);
+            setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+         }
+
+         function showToast(msg) {
+            const t = document.getElementById('toastMsg');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+         }
+
+         $(document).ready(function () {
+            // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
+            const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+
+            if (isUserLoggedIn) {
+               const userName = localStorage.getItem('userName') || 'Khách';
+
+               const userMenu = `
+                  <li class="nav-item dropdown user-dropdown">
+                     <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+                        <span>${userName}</span>
+                     </a>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                        <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
+                           <div class="fw-bold text-dark small text-truncate">${userName}</div>
+                           <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
+                        </li>
+                        <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
+                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                     </ul>
+                  </li>
+               `;
+               $('.btn-nav-login').parent().hide();
+               $('.btn-nav-register').parent().hide();
+               $('.navbar-nav.align-items-center').append(userMenu);
+            }
+         });
+
+         // Logic Hàm Đăng xuất
+         window.logoutUser = function () {
+            localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            window.location.reload();
+         }
+
+         // ==========================================
+         // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
+         // ==========================================
+         let popupCurrentSlide = 0;
+         const popupTotalSlides = 2;
+         let popupSliderTimer;
+
+         function goPopupSlide(idx) {
+            document.getElementById('slide-' + popupCurrentSlide).classList.remove('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.remove('active');
+            popupCurrentSlide = idx;
+            document.getElementById('slide-' + popupCurrentSlide).classList.add('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.add('active');
+            clearInterval(popupSliderTimer);
+            startPopupSlider();
+         }
+
+         function startPopupSlider() {
+            popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
+         }
+         startPopupSlider();
+
+         function togglePopupPw(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
+         }
+
+         // ==========================================
+         // LOGIC PHÂN TÁCH TRẠNG THÁI FORM NỔI (ĐĂNG NHẬP / ĐĂNG KÝ)
+         // ==========================================
+         let currentPopupAuthMode = 'signup';
+
+         function initAuthForm(mode) {
+            currentPopupAuthMode = mode === 'signin' ? 'signup' : 'signin';
+            togglePopupAuthMode();
+         }
+
+         function togglePopupAuthMode() {
+            if (currentPopupAuthMode === 'signup') {
+               currentPopupAuthMode = 'signin';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome back to';
+               document.getElementById('popupFieldRowName').style.display = 'none';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'none';
+               document.getElementById('popupTermsRow').style.display = 'none';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN IN';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Create Account';
+            } else {
+               currentPopupAuthMode = 'signup';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome to';
+               document.getElementById('popupFieldRowName').style.display = 'block';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'block';
+               document.getElementById('popupTermsRow').style.display = 'flex';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN UP';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Sign In';
+            }
+         }
+
+         // ==========================================
+         // XỬ LÝ LOCALSTORAGE ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH HÀNG
+         // ==========================================
+         function executePopupAuth() {
+            const name = document.getElementById('popupAuthInputName').value.trim();
+            const email = document.getElementById('popupAuthInputEmail').value.trim();
+            const pw1 = document.getElementById('popupAuthInputPw1').value;
+            const pw2 = document.getElementById('popupAuthInputPw2').value;
+            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+
+            if (currentPopupAuthMode === 'signup') {
+               if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
+               if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
+               if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
+
+               users.push({ name, email, password: pw1 });
+               localStorage.setItem('stayeasy_users', JSON.stringify(users));
+               alert('🎉 Đăng ký tài khoản khách thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               togglePopupAuthMode();
+            } else {
+               if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
+               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+               if (matchedUser) {
+                  localStorage.setItem('isUserLoggedIn', 'true');
+                  localStorage.setItem('userName', matchedUser.name);
+                  localStorage.setItem('userEmail', matchedUser.email);
+                  alert('🎉 Đăng nhập thành công!');
+                  window.location.reload();
+               } else {
+                  alert('❌ Tài khoản hoặc mật khẩu không chính xác!');
+               }
+            }
+         }
+
+         // ==========================================
+         // LOGIC ADMIN LOGIN MODAL (từ admin-login.html)
+         // ==========================================
+         (function () {
+            function getFreshAdminAccounts() {
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               const hasAdmin = accounts.some(u => u.email === "admin@gmail.com");
+               if (!hasAdmin) {
+                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin", role: "admin" });
+                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               }
+               return accounts;
+            }
+            getFreshAdminAccounts();
+
+            // Tab điều hướng trong admin modal
+            document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
+                  this.classList.add('active');
+                  const target = this.getAttribute('data-admin-target');
+                  document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
+                  document.querySelector(target).classList.add('active');
+               });
+            });
+
+            // Toggle hiện mật khẩu
+            document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  const input = this.previousElementSibling;
+                  const icon = this.querySelector('i');
+                  if (input.type === 'password') {
+                     input.type = 'text';
+                     icon.classList.replace('bi-eye', 'bi-eye-slash');
+                  } else {
+                     input.type = 'password';
+                     icon.classList.replace('bi-eye-slash', 'bi-eye');
+                  }
+               });
+            });
+
+            // Xử lý đăng nhập admin
+            document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const email = document.getElementById('adminLoginEmail').value.trim();
+               const password = document.getElementById('adminLoginPassword').value;
+               const accounts = getFreshAdminAccounts();
+               const matchedUser = accounts.find(u => u.email === email && u.password === password);
+               if (matchedUser) {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'admin');
+                  localStorage.setItem('userName', matchedUser.name);
+                  alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
+                  window.location.href = 'admin.html';
+               } else {
+                  alert("❌ Tài khoản quản trị hoặc mật khẩu không chính xác.");
+               }
+            });
+
+            // Xử lý cấp tài khoản admin mới
+            document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const name = document.getElementById('adminRegName').value.trim();
+               const email = document.getElementById('adminRegEmail').value.trim();
+               const password = document.getElementById('adminRegPassword').value;
+               const role = document.getElementById('adminRegRole').value;
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === "admin@gmail.com") {
+                  alert("⚠️ Email này đã được đăng ký cấp quyền hệ thống!");
+                  return;
+               }
+               accounts.push({ name, email, password, role });
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
+               document.getElementById('adminRegisterForm').reset();
+            });
+         })();
+      </script>
+   </body>
+</html>

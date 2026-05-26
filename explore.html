@@ -7,10 +7,1088 @@
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <link rel="stylesheet" href="style.css">
+      <link
+         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
+         rel="stylesheet">
+
+      <style>
+         /* ===== SECTION HEADERS ===== */
+         .section-eyebrow {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #2563eb;
+            margin-bottom: 6px;
+         }
+
+         .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.2;
+         }
+
+         .section-sub {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 0;
+         }
+
+         /* ===== DESTINATION CARDS PREMIUM ===== */
+         .dest-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 16px;
+         }
+
+         .dest-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #0f172a;
+         }
+
+         .dest-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.55s cubic-bezier(.25, .46, .45, .94), opacity 0.4s;
+            opacity: .88;
+         }
+
+         .dest-card:hover img {
+            transform: scale(1.07);
+            opacity: .72;
+         }
+
+         .dest-card--sm {
+            height: 240px;
+         }
+
+         .dest-card--lg {
+            height: 240px;
+            grid-column: span 2;
+         }
+
+         .dest-card--wide {
+            height: 220px;
+            grid-column: span 2;
+         }
+
+         .dest-card--tall {
+            height: 220px;
+         }
+
+         .dest-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 22px 22px;
+            background: linear-gradient(to top, rgba(10, 18, 35, .85) 0%, transparent 100%);
+         }
+
+         .dest-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            line-height: 1.2;
+         }
+
+         .dest-info p {
+            font-size: 12.5px;
+            color: rgba(255, 255, 255, .72);
+            margin: 0;
+         }
+
+         .dest-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255, 255, 255, .18);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, .25);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: .04em;
+         }
+
+         .dest-badge.hot {
+            background: rgba(239, 68, 68, .75);
+            border-color: transparent;
+         }
+
+         .dest-badge.new {
+            background: rgba(16, 185, 129, .75);
+            border-color: transparent;
+         }
+
+         @media(max-width:768px) {
+            .dest-grid {
+               grid-template-columns: 1fr 1fr;
+            }
+
+            .dest-card--wide,
+            .dest-card--lg {
+               grid-column: span 2;
+            }
+         }
+
+         @media(max-width:480px) {
+            .dest-grid {
+               grid-template-columns: 1fr;
+            }
+
+            .dest-card--wide,
+            .dest-card--lg,
+            .dest-card--sm,
+            .dest-card--tall {
+               grid-column: span 1;
+               height: 200px;
+            }
+         }
+
+         /* ===== PROMO BANNER PREMIUM ===== */
+         .promo-strip {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);
+            padding: 44px 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+         }
+
+         .promo-strip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+         }
+
+         .promo-strip .promo-content {
+            position: relative;
+            z-index: 1;
+         }
+
+         .promo-strip h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+         }
+
+         .promo-strip p {
+            color: rgba(255, 255, 255, .82);
+            font-size: 15px;
+            margin: 0;
+         }
+
+         .promo-strip .promo-code-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, .18);
+            border: 1.5px dashed rgba(255, 255, 255, .5);
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 6px 18px;
+            border-radius: 8px;
+            letter-spacing: .1em;
+            margin-top: 12px;
+         }
+
+         .promo-strip .promo-action {
+            position: relative;
+            z-index: 1;
+         }
+
+         .promo-strip .btn-promo {
+            background: #fff;
+            color: #1d4ed8;
+            font-weight: 700;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 15px;
+            transition: all .22s;
+            white-space: nowrap;
+            cursor: pointer;
+         }
+
+         .promo-strip .btn-promo:hover {
+            background: #f0f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+         }
+
+         /* ===== EXPERIENCE CATEGORY CARDS ===== */
+         .exp-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+         }
+
+         .exp-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px 20px 24px;
+            text-align: center;
+            border: 1.5px solid #f1f5f9;
+            transition: all .25s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .exp-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            opacity: 0;
+            transition: opacity .25s;
+         }
+
+         .exp-card:hover::before {
+            opacity: 1;
+         }
+
+         .exp-card:hover {
+            border-color: #bfdbfe;
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(37, 99, 235, .12);
+         }
+
+         .exp-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #2563eb;
+            margin: 0 auto 16px;
+            position: relative;
+            transition: all .25s;
+         }
+
+         .exp-card:hover .exp-icon {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #fff;
+            transform: scale(1.08);
+         }
+
+         .exp-card h6 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+            position: relative;
+         }
+
+         .exp-card small {
+            font-size: 12.5px;
+            color: #64748b;
+            position: relative;
+         }
+
+         .exp-count {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+         }
+
+         @media(max-width:768px) {
+            .exp-grid {
+               grid-template-columns: repeat(2, 1fr);
+            }
+         }
+
+         /* ===== TRENDING TAGS ===== */
+         .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+         }
+
+         .explore-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1.5px solid #e2e8f0;
+            color: #334155;
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none;
+         }
+
+         .explore-tag:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+            transform: translateY(-2px);
+         }
+
+         .explore-tag i {
+            font-size: 14px;
+            color: #2563eb;
+         }
+
+         /* ===== STATS BAR ===== */
+         .stats-bar {
+            background: linear-gradient(135deg, #0f172a, #1e3a5f);
+            border-radius: 24px;
+            padding: 40px 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+         }
+
+         .stat-item {
+            text-align: center;
+         }
+
+         .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+         }
+
+         .stat-number span {
+            color: #60a5fa;
+         }
+
+         .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .58);
+            font-weight: 500;
+         }
+
+         .stat-divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(255, 255, 255, .1);
+         }
+
+         @media(max-width:600px) {
+            .stat-divider {
+               display: none;
+            }
+         }
+
+         /* ===== INSPIRE ARTICLES ===== */
+         .inspire-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #f1f5f9;
+            transition: all .25s;
+            cursor: pointer;
+         }
+
+         .inspire-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(15, 23, 42, .1);
+         }
+
+         .inspire-img {
+            height: 200px;
+            overflow: hidden;
+         }
+
+         .inspire-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s;
+         }
+
+         .inspire-card:hover .inspire-img img {
+            transform: scale(1.06);
+         }
+
+         .inspire-body {
+            padding: 20px;
+         }
+
+         .inspire-category {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #2563eb;
+            margin-bottom: 8px;
+         }
+
+         .inspire-body h5 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.35;
+         }
+
+         .inspire-body p {
+            font-size: 13.5px;
+            color: #64748b;
+            margin-bottom: 14px;
+         }
+
+         .inspire-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #94a3b8;
+         }
+
+         .inspire-meta img {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+         }
+
+         /* ===== FOOTER ===== */
+         .footer-custom {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            padding: 60px 0 30px;
+         }
+
+         .footer-custom h5 {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+         }
+
+         .footer-custom a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color .3s;
+            display: block;
+            margin-bottom: 10px;
+         }
+
+         .footer-custom a:hover {
+            color: #60a5fa;
+         }
+
+         .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+         }
+
+         /* ===== POPUP AUTH (copied from index) ===== */
+         .modal-auth-width {
+            max-width: 960px;
+         }
+
+         .shell-popup {
+            width: 100%;
+            height: 580px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+            background: #fff;
+            font-family: 'DM Sans', sans-serif;
+         }
+
+         .photo-panel {
+            flex: 1.1;
+            position: relative;
+            overflow: hidden;
+         }
+
+         .slide-popup {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+         }
+
+         .slide-popup.active {
+            opacity: 1;
+         }
+
+         .slide-popup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+         }
+
+         .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(115, 173, 255, .149);
+         }
+
+         .diagonal-slash {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 110px;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+         }
+
+         .diagonal-slash::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1d65d1;
+            clip-path: polygon(55% 0, 100% 0, 100% 100%, 0% 100%);
+         }
+
+         .photo-panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -1px;
+            bottom: 0;
+            width: 80px;
+            background: #fff;
+            clip-path: polygon(65% 0, 100% 0, 100% 100%, 0% 100%);
+            z-index: 3;
+         }
+
+         .dots-popup {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 4;
+         }
+
+         .dot-popup {
+            width: 22px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, .45);
+            cursor: pointer;
+            transition: background .3s, width .3s;
+         }
+
+         .dot-popup.active {
+            background: #fff;
+            width: 32px;
+         }
+
+         .form-panel {
+            width: 400px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 44px 44px 36px;
+            position: relative;
+            z-index: 1;
+         }
+
+         .welcome-label {
+            font-size: 13px;
+            color: #9aa0ab;
+            letter-spacing: .04em;
+            margin-bottom: 4px;
+            font-weight: 400;
+         }
+
+         .brand-popup {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 28px;
+            line-height: 1;
+         }
+
+         .brand-popup sample {
+            font-style: italic;
+            color: #1d65d1;
+            font-weight: 400;
+         }
+
+         .social-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 14px;
+         }
+
+         .social-btn {
+            flex: 1;
+            height: 40px;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color .2s, background .2s;
+         }
+
+         .social-btn:hover {
+            border-color: #1d20d1;
+            background: #edf9fc;
+         }
+
+         .social-btn svg {
+            width: 20px;
+            height: 20px;
+         }
+
+         .or-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            color: #b0b8c1;
+         }
+
+         .or-line::before,
+         .or-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8ecef;
+         }
+
+         .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+         }
+
+         .field {
+            position: relative;
+         }
+
+         .field input {
+            width: 100%;
+            height: 44px;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            padding: 0 40px 0 14px;
+            font-size: 14px;
+            color: #1a1a2e;
+            background: #fff;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+         }
+
+         .field input::placeholder {
+            color: #b0b8c1;
+         }
+
+         .field input:focus {
+            border-color: #1d65d1;
+            box-shadow: 0 0 0 3px rgba(29, 101, 209, .13);
+         }
+
+         .eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #b0b8c1;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            transition: color .2s;
+         }
+
+         .eye-btn:hover {
+            color: #1d32d1;
+         }
+
+         .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 12.5px;
+            color: #6b7280;
+            line-height: 1.4;
+         }
+
+         .terms-row input[type=checkbox] {
+            margin-top: 2px;
+            accent-color: #1d65d1;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+         }
+
+         .terms-row a {
+            color: #1d62d1;
+            text-decoration: none;
+         }
+
+         .terms-row a:hover {
+            text-decoration: underline;
+         }
+
+         .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+         }
+
+         .btn-primary-auth {
+            flex: 1.2;
+            height: 44px;
+            background: #1d5fd1;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: .06em;
+            cursor: pointer;
+            transition: background .2s, transform .1s;
+         }
+
+         .btn-primary-auth:hover {
+            background: #173db9;
+         }
+
+         .btn-primary-auth:active {
+            transform: scale(.98);
+         }
+
+         .btn-secondary-auth {
+            flex: 1;
+            height: 44px;
+            background: #fff;
+            border: 1.5px solid #e2e6ea;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color .2s, background .2s, color .2s;
+         }
+
+         .btn-secondary-auth:hover {
+            border-color: #1d29d1;
+            background: #edf9fc;
+            color: #1DAFD1;
+         }
+
+         .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-size: 13px;
+            color: #9aa0ab;
+         }
+
+         .footer-brand-name {
+            font-weight: 600;
+            color: #1d4dd1;
+            font-size: 14px;
+         }
+
+         .btn-close-popup {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #f1f5f9;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #64748b;
+            z-index: 10;
+            transition: all .2s;
+         }
+
+         .btn-close-popup:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+         }
+
+         /* ===== ADMIN MODAL (scoped, copied from index) ===== */
+         #adminLoginModal .modal-dialog {
+            max-width: 480px;
+         }
+
+         #adminLoginModal .login-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+            width: 100%;
+            padding: 40px;
+            border: 1px solid #e2e8f0;
+         }
+
+         #adminLoginModal .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+         }
+
+         #adminLoginModal .brand-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #2563eb;
+            color: #fff;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, .2);
+         }
+
+         #adminLoginModal .brand-title {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 1.35rem;
+            margin: 0;
+            letter-spacing: -.5px;
+         }
+
+         #adminLoginModal .brand-title span {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            justify-content: center;
+            gap: 20px;
+         }
+
+         #adminLoginModal .auth-nav-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: .9rem;
+            padding: 8px 4px;
+            position: relative;
+            transition: all .2s ease;
+         }
+
+         #adminLoginModal .auth-nav-btn:hover {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #2563eb;
+            border-radius: 2px;
+         }
+
+         #adminLoginModal .form-group-custom {
+            margin-bottom: 20px;
+         }
+
+         #adminLoginModal .form-label-custom {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+            display: block;
+         }
+
+         #adminLoginModal .input-wrapper {
+            position: relative;
+            width: 100%;
+         }
+
+         #adminLoginModal .input-wrapper>i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 5;
+         }
+
+         #adminLoginModal .input-custom,
+         #adminLoginModal .select-custom {
+            width: 100%;
+            padding: 10px 16px 10px 42px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: .95rem;
+            color: #0f172a;
+            background-color: #fff;
+            transition: all .2s ease;
+            outline: none;
+            display: block;
+         }
+
+         #adminLoginModal .input-password-padding {
+            padding-right: 46px !important;
+         }
+
+         #adminLoginModal .input-custom:focus,
+         #adminLoginModal .select-custom:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
+         }
+
+         #adminLoginModal .input-custom::placeholder {
+            color: #94a3b8;
+         }
+
+         #adminLoginModal .password-toggle-icon {
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            height: max-content;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         #adminLoginModal .password-toggle-icon:hover {
+            color: #475569;
+         }
+
+         #adminLoginModal .btn-submit-custom {
+            background-color: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            font-size: .95rem;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color .2s ease;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, .2);
+            margin-top: 8px;
+            cursor: pointer;
+         }
+
+         #adminLoginModal .btn-submit-custom:hover {
+            background-color: #1d4ed8;
+         }
+
+         #adminLoginModal .form-pane {
+            display: none;
+         }
+
+         #adminLoginModal .form-pane.active {
+            display: block;
+         }
+
+         #blogScroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+            cursor: grab;
+         }
+
+         #blogScroll:active {
+            cursor: grabbing;
+         }
+
+         #blogScroll::-webkit-scrollbar {
+            height: 5px;
+         }
+
+         #blogScroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+         }
+
+         #blogScroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+         }
+
+         #blogScroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+         }
+
+         #blogScroll .inspire-card {
+            min-width: 380px;
+            max-width: 380px;
+            flex-shrink: 0;
+         }
+      </style>
    </head>
    <body>
 
-      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-custom">
          <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -23,191 +1101,1350 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
                   <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-                  <!-- Đánh dấu đang ở trang Khám phá -->
                   <li class="nav-item"><a class="nav-link fw-bold text-warning" href="explore.html">Khám phá</a></li>
+                  <li class="nav-item"><a class="nav-link" href="promotions.html"><i
+                           class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
-                  <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-headset"></i> Hỗ trợ</a></li>
-                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="admin.html"><i
-                           class="bi bi-shield-lock"></i> Quản trị viên</a></li>
-                  <li class="nav-item"><a class="nav-link btn-nav-login" href="#">Đăng nhập</a></li>
-                  <li class="nav-item"><a class="nav-link btn-nav-register" href="#">Đăng ký</a></li>
+                  <li class="nav-item"><a class="nav-link" href="support.html"><i class="bi bi-headset"></i> Hỗ trợ</a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="#" data-bs-toggle="modal"
+                        data-bs-target="#adminLoginModal"><i class="bi bi-shield-lock"></i> Quản trị viên</a></li>
+                  <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-login" href="#"
+                        data-bs-toggle="modal" data-bs-target="#popupAuthModal" onclick="initAuthForm('signin')">Đăng
+                        nhập</a></li>
+                  <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-register" href="#"
+                        data-bs-toggle="modal" data-bs-target="#popupAuthModal" onclick="initAuthForm('signup')">Đăng
+                        ký</a></li>
                </ul>
             </div>
          </div>
       </nav>
 
-      <!-- Hero Section -->
       <section class="explore-hero d-flex align-items-center justify-content-center text-center">
          <div class="container mt-5">
-            <h1 class="display-4 fw-bolder text-white mb-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+            <p class="text-white opacity-75 fw-semibold mb-2"
+               style="letter-spacing:.12em;text-transform:uppercase;font-size:13px;">✈ Hơn 10,000+ điểm đến đang chờ bạn
+            </p>
+            <h1 class="display-4 fw-bolder text-white mb-3" style="text-shadow:0 4px 15px rgba(0,0,0,.6);">
                Mở khóa những vùng đất mới
             </h1>
-            <p class="text-white fs-5 mb-5 opacity-75" style="text-shadow: 0 2px 5px rgba(0,0,0,0.5);">
+            <p class="text-white fs-5 mb-5 opacity-75" style="text-shadow:0 2px 5px rgba(0,0,0,.5);">
                Lưu giữ từng khoảnh khắc đáng nhớ cùng StayEasy
             </p>
-
-            <!-- Ô tìm kiếm nhanh bo tròn viên thuốc -->
-            <div class="mx-auto" style="max-width: 650px;">
-               <div class="bg-white p-2 rounded-pill d-flex align-items-center shadow-lg" style="height: 65px;">
-                  <i class="bi bi-search text-muted ms-4 me-2 fs-5"></i>
-                  <input type="text" class="form-control border-0 shadow-none bg-transparent fs-5"
-                     placeholder="Bạn muốn đi đâu? (VD: Đà Lạt...)">
-                  <!-- Thêm text-nowrap và flex-shrink-0 vào nút này -->
-                  <button
-                     class="btn btn-primary-custom rounded-pill px-4 h-100 fw-bold fs-6 ms-2 text-nowrap flex-shrink-0">Tìm
-                     kiếm</button>
-               </div>
-            </div>
          </div>
       </section>
 
-      <!-- Main Content -->
-      <div class="container mb-5 pb-5">
+      <div class="container pt-0 py-5">
 
-         <!-- Section 1: Điểm đến thịnh hành -->
          <div class="d-flex justify-content-between align-items-end mb-4">
             <div>
-               <h3 class="fw-bold text-dark mb-1">Điểm đến thịnh hành</h3>
-               <p class="text-muted mb-0">Các điểm du lịch được tìm kiếm nhiều nhất tháng này</p>
+               <p class="section-eyebrow mb-1">🔥 Được tìm nhiều nhất</p>
+               <h3 class="section-title mb-1">Điểm đến thịnh hành</h3>
+               <p class="section-sub">Các điểm du lịch hot nhất tháng này trên StayEasy</p>
             </div>
-            <a href="#" class="text-primary text-decoration-none fw-bold">Xem tất cả <i
-                  class="bi bi-arrow-right"></i></a>
+            <a href="index.html" class="text-primary text-decoration-none fw-bold d-flex align-items-center gap-1">
+               Xem tất cả <i class="bi bi-arrow-right"></i>
+            </a>
          </div>
 
-         <div class="row g-4 mb-5">
-            <!-- Đà Lạt -->
-            <div class="col-md-6 col-lg-4">
-               <!-- Thêm onclick chuyển trang kèm từ khóa tìm kiếm -->
-               <div class="destination-card" onclick="window.location.href='index.html?search=Đà Lạt'">
-                  <img
-                     src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop"
-                     alt="Đà Lạt">
-                  <div class="destination-overlay">
-                     <h4 class="fw-bold mb-1">Đà Lạt</h4>
-                     <p class="mb-0 small opacity-75"><i class="bi bi-house-door-fill me-1"></i> 1,240 chỗ nghỉ</p>
-                  </div>
+         <div class="dest-grid mb-5">
+            <div class="dest-card dest-card--sm" onclick="openArticle('dalat')">
+               <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop"
+                  alt="Đà Lạt">
+               <span class="dest-badge hot">🔥 Hot</span>
+               <div class="dest-info">
+                  <h4>Đà Lạt</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>1,240 chỗ nghỉ</p>
                </div>
             </div>
-            <!-- Đà Nẵng -->
-            <div class="col-md-6 col-lg-4">
-               <div class="destination-card" onclick="window.location.href='index.html?search=Đà Nẵng'">
-                  <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop"
-                     alt="Đà Nẵng">
-                  <div class="destination-overlay">
-                     <h4 class="fw-bold mb-1">Đà Nẵng</h4>
-                     <p class="mb-0 small opacity-75"><i class="bi bi-house-door-fill me-1"></i> 980 chỗ nghỉ</p>
-                  </div>
+            <div class="dest-card dest-card--lg" onclick="openArticle('danang')">
+               <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop"
+                  alt="Đà Nẵng">
+               <span class="dest-badge">⭐ Nổi bật</span>
+               <div class="dest-info">
+                  <h4>Đà Nẵng</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>980 chỗ nghỉ · Biển đẹp nhất VN</p>
                </div>
             </div>
-            <!-- Sapa -->
-            <div class="col-md-6 col-lg-4">
-               <div class="destination-card" onclick="window.location.href='index.html?search=Sapa'">
-                  <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=800&auto=format&fit=crop"
-                     alt="Sapa">
-                  <div class="destination-overlay">
-                     <h4 class="fw-bold mb-1">Sapa</h4>
-                     <p class="mb-0 small opacity-75"><i class="bi bi-house-door-fill me-1"></i> 450 chỗ nghỉ</p>
-                  </div>
+            <div class="dest-card dest-card--wide" onclick="openArticle('phuquoc')">
+               <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop"
+                  alt="Phú Quốc">
+               <span class="dest-badge new">🌊 Đảo Ngọc</span>
+               <div class="dest-info">
+                  <h4>Đảo Ngọc Phú Quốc</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>820 chỗ nghỉ đẳng cấp · Resort 5 sao</p>
                </div>
             </div>
-            <!-- Phú Quốc -->
-            <div class="col-md-6 col-lg-8">
-               <div class="destination-card" onclick="window.location.href='index.html?search=Phú Quốc'">
-                  <img
-                     src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop"
-                     alt="Phú Quốc">
-                  <div class="destination-overlay">
-                     <h4 class="fw-bold mb-1">Đảo Ngọc Phú Quốc</h4>
-                     <p class="mb-0 small opacity-75"><i class="bi bi-house-door-fill me-1"></i> 820 chỗ nghỉ đẳng cấp
-                     </p>
-                  </div>
+            <div class="dest-card dest-card--tall" onclick="openArticle('sapa')">
+               <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=800&auto=format&fit=crop"
+                  alt="Sapa">
+               <span class="dest-badge new">🌿 Mới</span>
+               <div class="dest-info">
+                  <h4>Sapa</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>450 chỗ nghỉ</p>
                </div>
             </div>
-            <!-- Hội An -->
-            <div class="col-md-6 col-lg-4">
-               <div class="destination-card" onclick="window.location.href='index.html?search=Hội An'">
-                  <img
-                     src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop"
-                     alt="Hội An">
-                  <div class="destination-overlay">
-                     <h4 class="fw-bold mb-1">Phố cổ Hội An</h4>
-                     <p class="mb-0 small opacity-75"><i class="bi bi-house-door-fill me-1"></i> 320 chỗ nghỉ</p>
-                  </div>
+            <div class="dest-card dest-card--sm" onclick="openArticle('hoian')">
+               <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop"
+                  alt="Hội An">
+               <span class="dest-badge">🏮 Di sản</span>
+               <div class="dest-info">
+                  <h4>Phố cổ Hội An</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>320 chỗ nghỉ</p>
+               </div>
+            </div>
+            <div class="dest-card dest-card--sm" onclick="openArticle('hanoi')">
+               <img src="https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?q=80&w=800&auto=format&fit=crop"
+                  alt="Hà Nội">
+               <div class="dest-info">
+                  <h4>Hà Nội</h4>
+                  <p><i class="bi bi-house-door-fill me-1"></i>2,100 chỗ nghỉ</p>
                </div>
             </div>
          </div>
 
-         <!-- Section 2: Banner Khuyến mãi -->
-         <div class="promo-banner mb-5 d-flex flex-column flex-md-row align-items-center justify-content-between">
-            <div class="mb-3 mb-md-0 position-relative" style="z-index: 2;">
-               <h2 class="fw-bolder mb-2">Chào Hè Sôi Động ☀️</h2>
-               <p class="fs-5 mb-0 opacity-75">Giảm ngay <strong>20%</strong> cho các đặt phòng từ 3 đêm trở lên.</p>
-               <p class="small mt-2 mb-0">Mã: <span
-                     class="bg-white text-danger px-2 py-1 rounded fw-bold ms-1">SUMMER2026</span></p>
+         <div class="stats-bar mb-5">
+            <div class="stat-item">
+               <div class="stat-number">10<span>K+</span></div>
+               <div class="stat-label">Chỗ nghỉ</div>
             </div>
-            <button class="btn btn-light text-danger fw-bold rounded-pill px-4 py-2" style="z-index: 2;"
-               onclick="window.location.href='index.html'">
-               Săn ưu đãi ngay
-            </button>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+               <div class="stat-number">200<span>+</span></div>
+               <div class="stat-label">Điểm đến</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+               <div class="stat-number">98<span>%</span></div>
+               <div class="stat-label">Khách hài lòng</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+               <div class="stat-number">1.2<span>M</span></div>
+               <div class="stat-label">Lượt đặt phòng</div>
+            </div>
          </div>
 
-         <!-- Section 3: Phong cách & Trải nghiệm -->
+         <div class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+               <div>
+                  <p class="section-eyebrow mb-1">🏷 Xu hướng tìm kiếm</p>
+                  <h3 class="section-title mb-0">Đang được quan tâm</h3>
+               </div>
+            </div>
+            <div class="tag-cloud">
+               <a href="index.html" class="explore-tag"><i class="bi bi-water"></i> Khánh sạn</a>
+               <a href="index.html" class="explore-tag"><i class="bi bi-stars"></i> Resort</a>
+               <a href="index.html" class="explore-tag"><i class="bi bi-house-heart"></i> Homestay ấm
+                  cúng</a>
+               <a href="index.html" class="explore-tag"><i class="bi bi-camera"></i> Check-in sống ảo</a>
+               <a href="index.html" class="explore-tag"><i class="bi bi-sunset"></i> Ngắm hoàng hôn</a>
+            </div>
+         </div>
+
+         <div class="promo-strip mb-5">
+            <div class="promo-content">
+               <h2>Chào Hè Sôi Động ☀️</h2>
+               <p>Giảm ngay <strong>20%</strong> cho tất cả đặt phòng từ <strong>3 đêm</strong> trở lên.</p>
+               <div class="promo-code-badge">SUMMER2026</div>
+            </div>
+            <div class="promo-action">
+               <button class="btn-promo" onclick="copyPromoCode()">
+                  <i class="bi bi-lightning-charge-fill me-1"></i> Lấy ưu đãi
+               </button>
+            </div>
+         </div>
+
          <div class="text-center mb-4">
-            <h3 class="fw-bold text-dark mb-1">Trải nghiệm theo phong cách</h3>
-            <p class="text-muted">Chọn không gian phù hợp nhất với chuyến đi của bạn</p>
+            <p class="section-eyebrow">🎯 Phong cách của bạn</p>
+            <h3 class="section-title">Trải nghiệm theo phong cách</h3>
+            <p class="section-sub">Chọn không gian phù hợp nhất với chuyến đi của bạn</p>
          </div>
 
-         <div class="row g-4">
-            <div class="col-6 col-md-3">
-               <div class="category-card" onclick="window.location.href='index.html'">
-                  <div class="category-icon"><i class="bi bi-house-heart"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Homestay</h6>
-                  <small class="text-muted">Gần gũi, ấm cúng</small>
-               </div>
+         <div class="exp-grid mb-5">
+            <div class="exp-card" onclick="openArticle('ksan')">
+               <div class="exp-icon"><i class="bi bi-building"></i></div>
+               <h6>Khách sạn</h6>
+               <small>Riêng tư, sang trọng, đầy đủ tiện nghi</small>
             </div>
-            <div class="col-6 col-md-3">
-               <div class="category-card" onclick="window.location.href='index.html'">
-                  <div class="category-icon"><i class="bi bi-water"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Villa Hồ Bơi</h6>
-                  <small class="text-muted">Riêng tư, sang trọng</small>
-               </div>
+            <div class="exp-card" onclick="openArticle('homestay')">
+               <div class="exp-icon"><i class="bi bi-house-heart"></i></div>
+               <h6>Homestay</h6>
+               <small>Gần gũi, ấm cúng như ở nhà</small>
             </div>
-            <div class="col-6 col-md-3">
-               <div class="category-card" onclick="window.location.href='index.html'">
-                  <div class="category-icon"><i class="bi bi-building"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Căn hộ TT</h6>
-                  <small class="text-muted">Tiện lợi di chuyển</small>
-               </div>
+            <div class="exp-card" onclick="openArticle('resort')">
+               <div class="exp-icon"><i class="bi bi-water"></i></div>
+               <h6>Resort</h6>
+               <small>Nghỉ dưỡng đẳng cấp 5 sao</small>
             </div>
-            <div class="col-6 col-md-3">
-               <div class="category-card" onclick="window.location.href='index.html'">
-                  <div class="category-icon"><i class="bi bi-stars"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Resort 5 Sao</h6>
-                  <small class="text-muted">Nghỉ dưỡng đẳng cấp</small>
-               </div>
+            <div class="exp-card" onclick="openArticle('deluxe')">
+               <div class="exp-icon"><i class="bi bi-stars"></i></div>
+               <h6>Căn hộ cao cấp</h6>
+               <small>Tiện lợi, hiện đại, dài ngày</small>
             </div>
+         </div>
+
+         <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+               <p class="section-eyebrow mb-1">📖 Blog du lịch</p>
+               <h3 class="section-title mb-1">Cảm hứng cho chuyến đi</h3>
+               <p class="section-sub">Những bài viết hữu ích từ cộng đồng du lịch StayEasy</p>
+            </div>
+         </div>
+
+         <!-- BLOG SCROLL SECTION -->
+         <div class="position-relative">
+            <div id="blogScrollMirror" style="overflow-x:auto; overflow-y:hidden; margin-bottom:12px;">
+               <div id="blogScrollMirrorInner" style="height:1px;"></div>
+            </div>
+            <div id="blogScroll"
+               style="display:flex; gap:20px; overflow-x:auto; padding-bottom:16px; scroll-behavior:smooth; scrollbar-width:thin; scrollbar-color:#cbd5e1 transparent;">
+
+               <!-- Card 1: Hội An -->
+               <div class="inspire-card" onclick="openArticle('hoian')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?q=80&w=800" alt="Hội An">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Hội An · Quảng Nam</div>
+                     <h5>24 giờ tại phố cổ Hội An — ăn gì, đi đâu, chụp ở góc nào?</h5>
+                     <p>Hành trình dạo phố đèn lồng từ sáng đến đêm khuya với đầy đủ địa chỉ ẩm thực và check-in đỉnh
+                        cao.</p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Lan+Anh&background=7c3aed&color=fff" alt="Author">
+                        <span>Lan Anh</span><span>·</span><span>6 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Card 2: Fansipan -->
+               <div class="inspire-card" onclick="openArticle('fansipan')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800" alt="Sapa">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Sapa · Lào Cai</div>
+                     <h5>Cẩm nang chinh phục đỉnh Fansipan dành cho người mới</h5>
+                     <p>Mọi thứ bạn cần chuẩn bị trước khi leo núi cao nhất Đông Dương — từ trang phục đến lịch trình
+                        chi tiết.</p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Minh+Tú&background=2563eb&color=fff" alt="Author">
+                        <span>Minh Tú</span><span>·</span><span>8 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Card 3: Phú Quốc -->
+               <div class="inspire-card" onclick="openArticle('phuquoc')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=800" alt="Phú Quốc">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Phú Quốc · Kiên Giang</div>
+                     <h5>Top 10 resort Phú Quốc giá hợp lý — view biển đẹp không cần trả quá nhiều tiền</h5>
+                     <p>Danh sách resort 4–5 sao đặt được với giá ưu đãi qua StayEasy, kèm mẹo chọn phòng.</p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Hải+Nam&background=0ea5e9&color=fff" alt="Author">
+                        <span>Hải Nam</span><span>·</span><span>10 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Card 4: Hà Nội (mới) -->
+               <div class="inspire-card" onclick="openArticle('hanoi')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?q=80&w=800" alt="Hà Nội">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Hà Nội · Miền Bắc</div>
+                     <h5>48 giờ ở Hà Nội — từ phố cổ đến Hồ Tây, đi đâu ăn gì cho đúng chất?</h5>
+                     <p>Bản đồ ẩm thực và check-in Hà Nội dành cho khách lần đầu — bún chả Obama, cà phê trứng và hơn
+                        thế nữa.</p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Thu+Hà&background=f43f5e&color=fff" alt="Author">
+                        <span>Thu Hà</span><span>·</span><span>7 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Card 5: Đà Lạt (mới) -->
+               <div class="inspire-card" onclick="openArticle('dalat')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800" alt="Đà Lạt">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Đà Lạt · Lâm Đồng</div>
+                     <h5>Đà Lạt mùa hoa — lịch trình 3 ngày 2 đêm hoàn hảo cho cặp đôi</h5>
+                     <p>Săn mây, ngắm hoa dã quỳ, cà phê view thung lũng — hành trình lãng mạn nhất miền Nam Tây Nguyên.
+                     </p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Bảo+Thy&background=10b981&color=fff" alt="Author">
+                        <span>Bảo Thy</span><span>·</span><span>9 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Card 6: Đà Nẵng (mới) -->
+               <div class="inspire-card" onclick="openArticle('danang')"
+                  style="min-width:calc(33.333% - 14px); flex-shrink:0;">
+                  <div class="inspire-img">
+                     <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800" alt="Đà Nẵng">
+                  </div>
+                  <div class="inspire-body">
+                     <div class="inspire-category">📍 Đà Nẵng · Miền Trung</div>
+                     <h5>Đà Nẵng — Thành phố đáng sống: Biển xanh, cầu vàng và ẩm thực đỉnh cao</h5>
+                     <p>Từ bãi biển Mỹ Khê đến Bà Nà Hills — trọn bộ cẩm nang khám phá thành phố đáng yêu nhất Việt Nam.
+                     </p>
+                     <div class="inspire-meta">
+                        <img src="https://ui-avatars.com/api/?name=Lan+Anh&background=7c3aed&color=fff" alt="Author">
+                        <span>Lan Anh</span><span>·</span><span>7 phút đọc</span>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+
          </div>
 
       </div>
+      <footer class="footer-custom">
+         <div class="container">
+            <div class="row g-4">
+               <div class="col-lg-4 pe-lg-5">
+                  <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="index.html">
+                     <i class="bi bi-buildings-fill text-primary"></i> StayEasy
+                  </a>
+                  <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam. Mang đến cho bạn những kỳ nghỉ
+                     tuyệt vời với mức giá tốt nhất.</p>
+                  <div class="d-flex gap-3">
+                     <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+                  </div>
+               </div>
+               <div class="col-lg-2 col-md-4">
+                  <h5>Về StayEasy</h5>
+                  <a href="#">Giới thiệu</a>
+                  <a href="#">Tuyển dụng</a>
+                  <a href="partner.html">Hợp tác với chúng tôi</a>
+                  <a href="#">Điều khoản & Điều kiện</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Hỗ trợ Khách hàng</h5>
+                  <a href="support.html">Trung tâm trợ giúp</a>
+                  <a href="#">Chính sách bảo mật</a>
+                  <a href="#">Chính sách hoàn tiền</a>
+                  <a href="#">Hướng dẫn đặt phòng</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Liên hệ</h5>
+                  <p class="mb-2"><i class="bi bi-geo-alt me-2 text-primary"></i> Trường Đại Học Đại Nam, Hà Nội</p>
+                  <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
+                  <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+               </div>
+            </div>
+            <div class="footer-bottom">
+               <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
+            </div>
+         </div>
+      </footer>
 
-      <!-- Script chung -->
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+      <style>
+         .article-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 18, 35, 0.72);
+            z-index: 9000;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 24px 16px;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+         }
+
+         .article-modal-overlay.open {
+            display: flex;
+         }
+
+         .article-modal-box {
+            background: #fff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1150px;
+            /* ← tăng từ 760px lên 960px */
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: artSlideUp 0.3s cubic-bezier(.25, .46, .45, .94);
+            display: flex;
+            /* ← thêm */
+            flex-direction: row;
+            /* ← thêm */
+         }
+
+         .article-modal-box .article-modal-hero {
+            width: 380px;
+            height: auto;
+            /* ← đổi từ 100% thành auto */
+            min-height: 100%;
+            /* ← đổi min-height thành 100% */
+            object-fit: cover;
+            object-position: center top;
+            /* ← thêm dòng này để ảnh không bị cắt phần quan trọng */
+            flex-shrink: 0;
+            display: block;
+            align-self: stretch;
+            /* ← thêm dòng này: kéo ảnh giãn đủ chiều cao khung */
+            border-radius: 0;
+         }
+
+         /* Nội dung bên phải, cuộn độc lập */
+         .article-modal-box .article-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 90vh;
+            padding: 36px 40px 44px;
+         }
+
+         @keyframes artSlideUp {
+            from {
+               opacity: 0;
+               transform: translateY(40px);
+            }
+
+            to {
+               opacity: 1;
+               transform: translateY(0);
+            }
+         }
+
+         .article-modal-hero {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            display: block;
+         }
+
+         .article-modal-body {
+            padding: 36px 40px 44px;
+         }
+
+         .article-modal-category {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: #2563eb;
+            margin-bottom: 10px;
+         }
+
+         .article-modal-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.25;
+            margin-bottom: 14px;
+         }
+
+         .article-modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f1f5f9;
+         }
+
+         .article-modal-meta img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+         }
+
+         .article-modal-content {
+            font-size: 15.5px;
+            line-height: 1.8;
+            color: #334155;
+         }
+
+         .article-modal-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 28px 0 10px;
+         }
+
+         .article-modal-content p {
+            margin-bottom: 16px;
+         }
+
+         .article-modal-content ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+         }
+
+         .article-modal-content ul li {
+            margin-bottom: 6px;
+         }
+
+         .article-modal-content .tip-box {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            padding: 14px 18px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #1d4ed8;
+         }
+
+         .article-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+         }
+
+         .article-modal-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+         }
+
+         .article-cta {
+            margin-top: 32px;
+            padding: 24px 28px;
+            background: linear-gradient(135deg, #eff6ff, #f5f3ff);
+            border-radius: 16px;
+            text-align: center;
+         }
+
+         .article-cta h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+         }
+
+         .article-cta p {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 14px;
+         }
+
+         .article-cta .btn-cta {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+         }
+
+         .article-cta .btn-cta:hover {
+            background: #1d4ed8;
+         }
+
+         @media(max-width:600px) {
+            .article-modal-body {
+               padding: 24px 20px 32px;
+            }
+
+            .article-modal-title {
+               font-size: 20px;
+            }
+
+            .article-modal-hero {
+               height: 220px;
+            }
+         }
+      </style>
+
+      <div class="article-modal-overlay" id="articleOverlay" onclick="closeArticleOnOverlay(event)">
+         <div class="article-modal-box">
+            <button class="article-modal-close" onclick="closeArticle()">&#x2715;</button>
+            <img class="article-modal-hero" id="artHeroImg" src="" alt="">
+            <div class="article-modal-body">
+               <div class="article-modal-category" id="artCategory"></div>
+               <h2 class="article-modal-title" id="artTitle"></h2>
+               <div class="article-modal-meta" id="artMeta"></div>
+               <div class="article-modal-content" id="artContent"></div>
+               <div class="article-cta">
+                  <h4>Sẵn sàng cho chuyến đi?</h4>
+                  <p>Tìm chỗ nghỉ tuyệt vời với giá tốt nhất ngay trên StayEasy</p>
+                  <button class="btn-cta" id="artCtaBtn">
+                     <i class="bi bi-search me-1"></i> Tìm phòng ngay
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+
       <script>
-         // Hiệu ứng Navbar cuộn trang y hệt trang chủ
+         /* ===== DỮ LIỆU BÀI VIẾT ===== */
+         const ARTICLES = {
+            dalat: {
+               img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Đà Lạt · Lâm Đồng',
+               title: 'Đà Lạt — Thành phố ngàn hoa: Trải nghiệm trọn vẹn trong 3 ngày',
+               author: 'Minh Tú', authorBg: '2563eb', date: 'Tháng 5, 2026', readTime: '9 phút đọc',
+               search: 'Đà Lạt',
+               content: `
+                  <p>Đà Lạt — thành phố mộng mơ ở độ cao 1.500m — luôn là điểm đến lý tưởng quanh năm với khí hậu mát mẻ, hoa dã quỳ nở vàng và cà phê nóng bên thung lũng sương mù.</p>
+                  <h3>🌸 Ngày 1: Khám phá trung tâm thành phố</h3>
+                  <p>Bắt đầu ngày với ly cà phê chồn tại khu Hoà Bình, sau đó dạo bộ chợ Đà Lạt để thử bánh tráng nướng, nem nướng và sữa đậu nành nóng hổi. Chiều ghé Hồ Xuân Hương để đạp vịt hoặc đi thuyền.</p>
+                  <ul>
+                     <li>🍓 Thưởng thức dâu tây tươi hái thẳng từ vườn</li>
+                     <li>🌹 Tham quan làng hoa Thái Phiên</li>
+                     <li>☕ Cà phê Tùng — quán cà phê lâu đời nhất Đà Lạt từ năm 1958</li>
+                  </ul>
+                  <h3>🏞 Ngày 2: Thiên nhiên và thác nước</h3>
+                  <p>Thuê xe máy khám phá Thác Datanla, Thung lũng Tình Yêu và Đồi Chè Cầu Đất nổi tiếng với những hàng cây chè xanh mướt trải dài.</p>
+                  <div class="tip-box">💡 Mẹo: Đặt phòng homestay trên đồi thay vì khách sạn trung tâm — view đẹp hơn nhiều và giá chỉ từ 350.000đ/đêm.</div>
+                  <h3>🎨 Ngày 3: Kiến trúc độc đáo và ẩm thực</h3>
+                  <p>Không thể bỏ qua Dinh Bảo Đại, Nhà Thờ Con Gà và đặc biệt là Crazy House — công trình kiến trúc kỳ lạ nhất Việt Nam. Buổi tối thưởng thức lẩu thập cẩm Đà Lạt bên vỉa hè.</p>
+               `
+            },
+            danang: {
+               img: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Đà Nẵng · Duyên hải Miền Trung',
+               title: 'Đà Nẵng — Thành phố đáng sống: Biển xanh, cầu vàng và ẩm thực đỉnh cao',
+               author: 'Lan Anh', authorBg: '7c3aed', date: 'Tháng 4, 2026', readTime: '7 phút đọc',
+               search: 'Đà Nẵng',
+               content: `
+                  <p>Đà Nẵng liên tục lọt top thành phố đáng sống nhất Đông Nam Á. Biển Mỹ Khê cát trắng mịn, Cầu Vàng nằm trên lòng bàn tay khổng lồ — đây là điểm đến không thể bỏ qua.</p>
+                  <h3>🏖 Bãi biển đẹp nhất</h3>
+                  <p>Bãi biển Mỹ Khê được Forbes bình chọn là một trong 6 bãi biển đẹp nhất hành tinh. Nước trong xanh, sóng vừa phải, lý tưởng cho cả gia đình và cặp đôi.</p>
+                  <ul>
+                     <li>🌊 Mỹ Khê — biển đẹp nhất thành phố</li>
+                     <li>🏄 Non Nước — thiên đường lướt sóng</li>
+                     <li>🌅 Xuân Thiều — bình yên, ít khách du lịch</li>
+                  </ul>
+                  <h3>🌉 Cầu Vàng & Bà Nà Hills</h3>
+                  <p>Cáp treo dài nhất thế giới đưa bạn lên độ cao 1.487m để chiêm ngưỡng toàn cảnh thành phố. Cầu Vàng nằm trong lòng bàn tay đá khổng lồ — điểm check-in biểu tượng của Việt Nam.</p>
+                  <div class="tip-box">💡 Mẹo: Mua vé Bà Nà Hills trước 7 ngày để được giảm 15% và tránh xếp hàng dài vào cuối tuần.</div>
+                  <h3>🍜 Ẩm thực không thể bỏ qua</h3>
+                  <p>Mì Quảng gà, Bánh mì Madame Khanh, Bún chả cá và đặc biệt là bánh xèo tôm nhảy tại chợ Cồn — bộ tứ ẩm thực phải thử khi đến Đà Nẵng.</p>
+               `
+            },
+            phuquoc: {
+               img: 'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Phú Quốc · Kiên Giang',
+               title: 'Top 10 resort Phú Quốc giá hợp lý — view biển đẹp không cần trả quá nhiều tiền',
+               author: 'Hải Nam', authorBg: '0ea5e9', date: 'Tháng 5, 2026', readTime: '10 phút đọc',
+               search: 'Phú Quốc',
+               content: `
+                  <p>Đảo Ngọc Phú Quốc — hòn đảo lớn nhất Việt Nam với bờ biển cát trắng, nước biển trong vắt và hệ sinh thái san hô phong phú. Đây là thiên đường nghỉ dưỡng đẳng cấp quốc tế.</p>
+                  <h3>🌊 Bãi biển đẹp nhất Phú Quốc</h3>
+                  <ul>
+                     <li>🏖 Bãi Sao — cát trắng mịn nhất đảo, nước trong như pha lê</li>
+                     <li>🌅 Bãi Dài — hoang sơ, ít người, lý tưởng ngắm hoàng hôn</li>
+                     <li>🌊 Bãi Khem — sang trọng, nằm trong khu nghỉ dưỡng 5 sao</li>
+                  </ul>
+                  <h3>🐠 Lặn ngắm san hô</h3>
+                  <p>Quần đảo An Thới phía nam đảo là điểm lặn ngắm san hô tuyệt vời nhất. Tour lặn nửa ngày chỉ từ 350.000đ/người bao gồm thiết bị và hướng dẫn viên.</p>
+                  <div class="tip-box">💡 Mẹo: Book resort vào thứ 2–5 có giá thấp hơn cuối tuần đến 30%. Tháng 11–4 là mùa khô đẹp nhất.</div>
+                  <h3>🦞 Ẩm thực hải sản tươi sống</h3>
+                  <p>Chợ đêm Phú Quốc là thiên đường hải sản. Nhum biển nướng mỡ hành, ghẹ hấp bia và cá ngừ đại dương sashimi kiểu Nhật — tất cả giá cực tốt so với Hà Nội hay TP.HCM.</p>
+               `
+            },
+            sapa: {
+               img: 'https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Sapa · Lào Cai',
+               title: 'Sapa mùa lúa chín — hành trình vào vùng đất của mây và ruộng bậc thang vàng óng',
+               author: 'Văn Khoa', authorBg: '16a34a', date: 'Tháng 9, 2026', readTime: '8 phút đọc',
+               search: 'Sapa',
+               content: `
+                  <p>Tháng 9–10 là thời điểm đẹp nhất để đến Sapa — khi những thửa ruộng bậc thang chuyển từ xanh mướt sang vàng óng như tấm thảm khổng lồ phủ khắp thung lũng Mường Hoa.</p>
+                  <h3>🌾 Thung lũng Mường Hoa</h3>
+                  <p>Cánh đồng ruộng bậc thang đẹp nhất Việt Nam, được UNESCO công nhận là Di sản văn hóa thế giới. Trekking qua các bản làng H'Mông, Dao Đỏ với hành trình 2–3 giờ đi bộ.</p>
+                  <h3>⛰ Chinh phục Fansipan</h3>
+                  <ul>
+                     <li>🚡 Cáp treo — nhanh, an toàn, ngắm cảnh đẹp (220.000đ/người)</li>
+                     <li>🥾 Trekking 2 ngày 1 đêm — dành cho người thích thử thách</li>
+                     <li>🌡 Đỉnh cao 3.143m — nhiệt độ có thể xuống 0°C vào mùa đông</li>
+                  </ul>
+                  <div class="tip-box">💡 Mẹo: Mặc nhiều lớp quần áo, luôn mang theo áo mưa. Khí hậu Sapa thay đổi rất nhanh trong ngày.</div>
+                  <h3>🍲 Đặc sản không thể bỏ qua</h3>
+                  <p>Thắng cố ngựa, cá suối nướng lá dong, xôi ngũ sắc và rượu táo mèo — bộ tứ đặc sản Sapa mà du khách nào cũng phải thử một lần.</p>
+               `
+            },
+            hoian: {
+               img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Hội An · Quảng Nam',
+               title: '24 giờ tại phố cổ Hội An — ăn gì, đi đâu, chụp ở góc nào?',
+               author: 'Lan Anh', authorBg: 'f59e0b', date: 'Tháng 3, 2026', readTime: '6 phút đọc',
+               search: 'Hội An',
+               content: `
+                  <p>Phố cổ Hội An — Di sản Văn hóa Thế giới UNESCO — là nơi thời gian như ngừng lại với những ngôi nhà cổ mái ngói rêu phong, đèn lồng đủ màu sắc và dòng sông Thu Bồn thơ mộng.</p>
+                  <h3>🌅 Sáng sớm (6h–9h)</h3>
+                  <p>Dạo bộ phố cổ khi chưa có khách du lịch — đây là khoảng thời gian đẹp nhất để chụp ảnh. Ăn sáng với Cao Lầu hoặc Cơm Gà bà Buội ngay tại chợ Hội An.</p>
+                  <h3>🏮 Đêm rằm thả đèn hoa đăng</h3>
+                  <p>Vào ngày 14 âm lịch hàng tháng, toàn bộ phố cổ tắt điện, thắp đèn lồng — khung cảnh như trong cổ tích. Mua đèn hoa đăng thả xuống sông Thu Bồn để cầu may mắn.</p>
+                  <ul>
+                     <li>📸 Góc chụp đẹp nhất: Cầu Nhật Bản lúc hoàng hôn</li>
+                     <li>🌸 Chụp áo dài: Đường Nguyễn Thái Học buổi sáng</li>
+                     <li>🍜 Ăn Mì Quảng: Bà Vị số 1 Phan Chu Trinh</li>
+                  </ul>
+                  <div class="tip-box">💡 Mẹo: Thuê xe đạp (50.000đ/ngày) thay vì xe máy — vừa eco-friendly vừa dễ dạo quanh phố cổ hơn.</div>
+               `
+            },
+            hanoi: {
+               img: 'https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Hà Nội · Thủ đô',
+               title: 'Hà Nội — Ngàn năm văn hiến: Hành trình khám phá thủ đô từ góc nhìn ẩm thực',
+               author: 'Thu Hà', authorBg: 'dc2626', date: 'Tháng 4, 2026', readTime: '7 phút đọc',
+               search: 'Hà Nội',
+               content: `
+                  <p>Hà Nội — thủ đô ngàn năm tuổi — là nơi lịch sử và hiện đại đan xen hoàn hảo. Từ Hồ Hoàn Kiếm thơ mộng đến phố Tây Hồ sôi động, mỗi góc phố đều ẩn chứa một câu chuyện riêng.</p>
+                  <h3>🍜 Ẩm thực đường phố Hà Nội</h3>
+                  <ul>
+                     <li>🍲 Phở Bò Hà Nội — Phở Thìn Lò Đúc, phục vụ từ 6h sáng</li>
+                     <li>🥗 Bún Chả Obama — Lê Văn Hưu, nơi tổng thống Mỹ từng ăn</li>
+                     <li>🍺 Bia Hơi Hà Nội — Góc Lý Thường Kiệt & Đinh Tiên Hoàng</li>
+                     <li>☕ Cà phê trứng Giảng — đặc sản không đâu có</li>
+                  </ul>
+                  <h3>🏛 Kiến trúc & Di tích</h3>
+                  <p>Văn Miếu Quốc Tử Giám, Hoàng Thành Thăng Long, Lăng Bác, nhà tù Hỏa Lò — những công trình lịch sử tạo nên linh hồn của thủ đô.</p>
+                  <div class="tip-box">💡 Mẹo: Đi bộ quanh Hồ Hoàn Kiếm vào sáng thứ 7 và Chủ Nhật — tuyến phố đi bộ mở, không có xe cộ, rất thú vị.</div>
+               `
+            },
+            fansipan: {
+               img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Sapa · Lào Cai',
+               title: 'Cẩm nang chinh phục đỉnh Fansipan dành cho người mới — Đầy đủ từ A đến Z',
+               author: 'Minh Tú', authorBg: '2563eb', date: 'Tháng 10, 2025', readTime: '8 phút đọc',
+               search: 'Sapa',
+               content: `
+                  <p>Fansipan — "Nóc nhà Đông Dương" cao 3.143m — là ước mơ chinh phục của hàng triệu người Việt. Bài viết này cung cấp mọi thứ bạn cần biết trước khi lên đường.</p>
+                  <h3>🚡 Cách lên đỉnh Fansipan</h3>
+                  <ul>
+                     <li><strong>Cáp treo:</strong> 15 phút, an toàn, ngắm cảnh đẹp. Giá 750.000đ/người khứ hồi</li>
+                     <li><strong>Trekking 1 ngày:</strong> Khó, cần hướng dẫn viên, phù hợp người có kinh nghiệm</li>
+                     <li><strong>Trekking 2 ngày 1 đêm:</strong> Cắm trại lưng chừng núi, trải nghiệm độc đáo nhất</li>
+                  </ul>
+                  <h3>🎒 Chuẩn bị gì trước khi đi</h3>
+                  <p>Quần áo đủ ấm (nhiệt độ đỉnh núi có thể xuống 2°C), giày trekking chống trơn, áo mưa mỏng, đồ ăn nhẹ, nước uống đủ lượng và thuốc say độ cao nếu bạn nhạy cảm.</p>
+                  <div class="tip-box">💡 Mẹo: Đặt vé cáp treo online trước 3–7 ngày để tránh hết vé vào mùa cao điểm tháng 9–11 và dịp lễ Tết.</div>
+                  <h3>📸 Thời điểm đẹp nhất</h3>
+                  <p>Tháng 9–11 khi lúa vàng, tháng 12–1 khi có tuyết rơi nhẹ trên đỉnh. Tránh tháng 6–8 vì mưa nhiều, tầm nhìn hạn chế.</p>
+               `
+            },
+            ksan: {
+               img: 'https://images.unsplash.com/photo-1564501049412-61c2a3083791?q=80&w=1200&auto=format&fit=crop',
+               category: '🏨 Hướng dẫn lưu trú',
+               title: 'Cách chọn khách sạn hoàn hảo — 7 tiêu chí vàng để không bao giờ hối hận',
+               author: 'StayEasy Editorial', authorBg: '0f172a', date: 'Tháng 5, 2026', readTime: '5 phút đọc',
+               search: '',
+               content: `
+                  <p>Chọn sai khách sạn có thể phá hỏng cả chuyến đi. Dưới đây là 7 tiêu chí vàng mà team StayEasy đúc kết sau hàng triệu lượt đặt phòng thành công.</p>
+                  <h3>1️⃣ Vị trí địa lý</h3>
+                  <p>Ưu tiên khách sạn trong bán kính 2km từ điểm tham quan chính. Tiết kiệm thời gian di chuyển = tiết kiệm tiền taxi và năng lượng.</p>
+                  <h3>2️⃣ Đọc đánh giá thực tế</h3>
+                  <p>Tập trung vào đánh giá có ảnh thực tế, đặc biệt những đánh giá từ 3–6 tháng gần nhất. Phòng có thể được cải tạo hoặc xuống cấp theo thời gian.</p>
+                  <ul>
+                     <li>📍 Vị trí & giao thông</li>
+                     <li>🛏 Chất lượng giường và chăn ga</li>
+                     <li>🚿 Phòng tắm — vòi sen mạnh, nước nóng ổn định</li>
+                     <li>🔇 Cách âm — quan trọng nếu bạn ngủ nhạy</li>
+                     <li>🍳 Bữa sáng — có bao gồm không?</li>
+                  </ul>
+                  <div class="tip-box">💡 Mẹo StayEasy: Đặt phòng trước 30 ngày thường có giá thấp hơn 20–35% so với đặt gấp. Dùng mã STAYEASY15 để giảm thêm.</div>
+               `
+            },
+            homestay: {
+               img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1200&auto=format&fit=crop',
+               category: '🏠 Homestay & Trải nghiệm địa phương',
+               title: 'Tại sao homestay đang "soán ngôi" khách sạn — và cách chọn homestay xịn',
+               author: 'Lan Anh', authorBg: '7c3aed', date: 'Tháng 4, 2026', readTime: '6 phút đọc',
+               search: 'Homestay',
+               content: `
+                  <p>Gen Z và Millennials ngày càng ưa chuộng homestay hơn khách sạn — không chỉ vì giá rẻ hơn, mà vì trải nghiệm chân thực và kết nối với văn hóa địa phương sâu sắc hơn.</p>
+                  <h3>🏡 Homestay vs Khách sạn</h3>
+                  <ul>
+                     <li>✅ Không khí ấm cúng như ở nhà</li>
+                     <li>✅ Chủ nhà thường là người địa phương — biết nhiều địa điểm ăn uống "bí mật"</li>
+                     <li>✅ Giá thường thấp hơn 30–50% so với khách sạn cùng vị trí</li>
+                     <li>✅ Bếp dùng chung — tự nấu ăn tiết kiệm chi phí</li>
+                  </ul>
+                  <h3>🔍 Cách chọn homestay tốt</h3>
+                  <p>Xem rating ít nhất 4.5/5, đọc kỹ về chính sách check-in/out, hỏi trước về wifi, điều hòa và nước nóng. Nhắn tin cho chủ nhà trước để cảm nhận mức độ nhiệt tình phục vụ.</p>
+                  <div class="tip-box">💡 Mẹo: Homestay gần chợ địa phương thường có view đẹp và tiện mua đồ ăn sáng. Tránh homestay ở khu vực nightclub nếu bạn ngủ sớm.</div>
+               `
+            },
+            resort: {
+               img: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=1200&auto=format&fit=crop',
+               category: '🌴 Resort & Nghỉ dưỡng cao cấp',
+               title: 'Nghỉ dưỡng resort 5 sao — làm thế nào để đặt được giá tốt nhất?',
+               author: 'Hải Nam', authorBg: '0ea5e9', date: 'Tháng 3, 2026', readTime: '7 phút đọc',
+               search: 'Resort',
+               content: `
+                  <p>Resort 5 sao không nhất thiết phải tốn hàng triệu đồng mỗi đêm. Với chiến lược đúng, bạn hoàn toàn có thể tận hưởng hồ bơi vô cực, spa cao cấp và ẩm thực đẳng cấp với ngân sách hợp lý.</p>
+                  <h3>⏰ Thời điểm vàng để đặt resort</h3>
+                  <ul>
+                     <li>📅 Đặt trước 60–90 ngày cho mùa cao điểm</li>
+                     <li>🌧 Đặt vào mùa thấp điểm — giá giảm 40–60%</li>
+                     <li>📱 Theo dõi flash sale vào thứ 2 đầu tuần</li>
+                     <li>🏷 Dùng mã SUMMER2026 trên StayEasy để giảm 20%</li>
+                  </ul>
+                  <h3>🍽 Tận dụng tối đa tiện ích resort</h3>
+                  <p>Nhiều resort có buffet sáng đi kèm phòng — đừng bỏ lỡ! Hỏi về late checkout (thường miễn phí đến 14h) và early check-in (có thể thỏa thuận nếu phòng trống).</p>
+                  <div class="tip-box">💡 Mẹo: Phòng "Garden View" thường rẻ hơn "Ocean View" 20–30% nhưng thiết kế và tiện nghi hoàn toàn tương đương. Hãy cân nhắc!</div>
+               `
+            },
+            deluxe: {
+               img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop',
+               category: '🏙 Căn hộ & Lưu trú dài ngày',
+               title: 'Căn hộ cao cấp cho kỳ nghỉ dài — lựa chọn thông minh cho gia đình và nhóm bạn',
+               author: 'Thu Hà', authorBg: 'dc2626', date: 'Tháng 5, 2026', readTime: '5 phút đọc',
+               search: 'Deluxe',
+               content: `
+                  <p>Nếu kỳ nghỉ của bạn từ 5 ngày trở lên, hoặc đi cùng gia đình lớn hay nhóm bạn trên 4 người, căn hộ dịch vụ cao cấp là lựa chọn tối ưu về cả không gian lẫn chi phí.</p>
+                  <h3>💰 So sánh chi phí thực tế</h3>
+                  <p>Căn hộ 2 phòng ngủ tại trung tâm TP.HCM giá 1.800.000đ/đêm — nếu 4 người thuê chỉ 450.000đ/người/đêm, rẻ hơn khách sạn 3 sao thông thường!</p>
+                  <ul>
+                     <li>🍳 Bếp đầy đủ — tự nấu tiết kiệm 50–70% tiền ăn</li>
+                     <li>🛁 2–3 phòng tắm — không phải xếp hàng buổi sáng</li>
+                     <li>📺 Phòng khách rộng — thoải mái tụ tập buổi tối</li>
+                     <li>🏋️ Gym, hồ bơi — tiện nghi không kém resort</li>
+                  </ul>
+                  <div class="tip-box">💡 Mẹo: Đặt căn hộ từ 7 đêm trở lên thường được giảm 15–25% so với đặt từng đêm lẻ. Hỏi chủ nhà về giá theo tuần.</div>
+               `
+            }
+         };
+
+         function openArticle(key) {
+            const art = ARTICLES[key];
+            if (!art) return;
+            document.getElementById('artHeroImg').src = art.img;
+            document.getElementById('artCategory').textContent = art.category;
+            document.getElementById('artTitle').textContent = art.title;
+            document.getElementById('artMeta').innerHTML = `
+               <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(art.author)}&background=${art.authorBg}&color=fff" alt="${art.author}">
+               <span class="fw-semibold" style="color:#334155;">${art.author}</span>
+               <span>·</span><span>${art.date}</span>
+               <span>·</span>
+               <span><i class="bi bi-clock me-1"></i>${art.readTime}</span>
+            `;
+            document.getElementById('artContent').innerHTML = art.content;
+            const ctaBtn = document.getElementById('artCtaBtn');
+            ctaBtn.onclick = function () {
+               closeArticle();
+               if (art.search) window.location.href = 'index.html?search=' + encodeURIComponent(art.search);
+               else window.location.href = 'index.html';
+            };
+            document.getElementById('articleOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+         }
+
+         function closeArticle() {
+            document.getElementById('articleOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+         }
+
+         function closeArticleOnOverlay(e) {
+            if (e.target === document.getElementById('articleOverlay')) closeArticle();
+         }
+
+         document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeArticle();
+         });
+      </script>
+
+      <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-none bg-transparent">
+               <div class="login-card">
+                  <div class="brand-header">
+                     <div class="brand-logo">
+                        <i class="bi bi-airplane-engines-fill"></i>
+                     </div>
+                     <h2 class="brand-title">StayEasy <span>Admin</span></h2>
+                  </div>
+                  <div class="auth-nav">
+                     <button type="button" class="auth-nav-btn active" data-admin-target="#admin-pane-login">Đăng
+                        nhập</button>
+                     <button type="button" class="auth-nav-btn" data-admin-target="#admin-pane-register">Cấp tài khoản
+                        mới</button>
+                  </div>
+                  <div class="form-pane active" id="admin-pane-login">
+                     <form id="adminLoginForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Email quản trị</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope"></i>
+                              <input type="email" id="adminLoginEmail" class="input-custom"
+                                 placeholder="admin@gmail.com" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-lock"></i>
+                              <input type="password" id="adminLoginPassword" class="input-custom input-password-padding"
+                                 placeholder="••••••••" required>
+                              <button type="button" class="password-toggle-icon admin-pw-toggle"><i
+                                    class="bi bi-eye"></i></button>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom">Đăng nhập ngay</button>
+                     </form>
+                  </div>
+                  <div class="form-pane" id="admin-pane-register">
+                     <form id="adminRegisterForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Tên thành viên</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-person"></i>
+                              <input type="text" id="adminRegName" class="input-custom" placeholder="Nguyễn Văn A"
+                                 required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Địa chỉ Email cấp</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope-plus"></i>
+                              <input type="email" id="adminRegEmail" class="input-custom"
+                                 placeholder="nhanvien@stayeasy.vn" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu cấp quyền</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-key"></i>
+                              <input type="password" id="adminRegPassword" class="input-custom"
+                                 placeholder="Tối thiểu 6 ký tự" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Phân cấp vai trò</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-shield-check"></i>
+                              <select id="adminRegRole" class="select-custom" required>
+                                 <option value="admin" selected>Quản trị viên (Admin)</option>
+                                 <option value="moderator">Điều phối viên</option>
+                              </select>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom"
+                           style="background-color:#0f172a;box-shadow:0 4px 6px -1px rgba(15,23,42,.2);">Khởi tạo tài
+                           khoản</button>
+                     </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-auth-width">
+            <div class="modal-content border-0 bg-transparent shadow-none">
+               <div class="shell-popup shadow-lg">
+                  <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close">
+                     <i class="bi bi-x-lg"></i>
+                  </button>
+                  <div class="photo-panel">
+                     <div class="slide-popup active" id="slide-0">
+                        <img src="https://www.thekarnatakatourism.com/assets/img/theme-holidays/nature-walk.webp"
+                           alt="Nature walk">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="slide-popup" id="slide-1">
+                        <img
+                           src="https://cdn3.ivivu.com/2019/11/cau-ban-tay-Phat-ngoc-trang-Thai-Hong-Tien-Thu-traveltimes-1.jpg"
+                           alt="Cầu Bàn Tay Vàng">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="diagonal-slash"></div>
+                     <div class="dots-popup">
+                        <div class="dot-popup active" onclick="goPopupSlide(0)"></div>
+                        <div class="dot-popup" onclick="goPopupSlide(1)"></div>
+                     </div>
+                  </div>
+                  <div class="form-panel">
+                     <p class="welcome-label" id="popupAuthTitleLabel">Welcome to</p>
+                     <div class="brand-popup">Stay<sample>Easy</sample>
+                     </div>
+
+                     <div class="social-row">
+                        <button class="social-btn" title="Google"><svg viewBox="0 0 24 24" fill="none">
+                              <path
+                                 d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5c-.2 1.2-1 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"
+                                 fill="#4285F4" />
+                              <path
+                                 d="M12 22c2.7 0 5-.9 6.7-2.5l-3.2-2.5c-.9.6-2 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.9v2.6C4.6 19.6 8.1 22 12 22z"
+                                 fill="#34A853" />
+                              <path
+                                 d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.7s.1-1.1.3-1.7V7.7H2.9C2.3 8.9 2 10.4 2 12s.3 3.1.9 4.3l3.3-2.6z"
+                                 fill="#FBBC05" />
+                              <path
+                                 d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.6 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
+                                 fill="#EA4335" />
+                           </svg></button>
+                        <button class="social-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2">
+                              <path
+                                 d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97H15.8c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
+                           </svg></button>
+                        <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#1a1a2e">
+                              <path
+                                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.28-2.16 3.81.03 3.02 2.65 4.03 2.68 4.04l-.07.27zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                           </svg></button>
+                     </div>
+                     <div class="or-line">hoặc tiếp tục với email</div>
+
+                     <div class="field-group">
+                        <div class="field" id="popupFieldRowName">
+                           <input type="text" id="popupAuthInputName" placeholder="Họ và tên của bạn">
+                        </div>
+                        <div class="field">
+                           <input type="email" id="popupAuthInputEmail" placeholder="Địa chỉ email">
+                        </div>
+                        <div class="field">
+                           <input type="password" id="popupAuthInputPw1" placeholder="Mật khẩu">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1', this)" type="button">
+                              <i class="bi bi-eye" style="font-size:16px;"></i>
+                           </button>
+                        </div>
+                        <div class="field" id="popupFieldRowConfirmPw">
+                           <input type="password" id="popupAuthInputPw2" placeholder="Xác nhận mật khẩu">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2', this)" type="button">
+                              <i class="bi bi-eye" style="font-size:16px;"></i>
+                           </button>
+                        </div>
+                     </div>
+
+                     <div class="terms-row" id="popupTermsRow" style="display:flex;">
+                        <input type="checkbox" id="popupTermsCheck">
+                        <label for="popupTermsCheck">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a
+                              href="#">Chính sách bảo mật</a> của StayEasy</label>
+                     </div>
+
+                     <div class="btn-row">
+                        <button class="btn-primary-auth" id="popupBtnSubmitAuth" onclick="executePopupAuth()">SIGN
+                           UP</button>
+                        <button class="btn-secondary-auth" id="popupBtnSwitchMode" onclick="togglePopupAuthMode()">Sign
+                           In</button>
+                     </div>
+
+                     <div class="footer-brand">
+                        <i class="bi bi-buildings-fill" style="color:#1d65d1;font-size:16px;"></i>
+                        <span>Powered by</span>
+                        <span class="footer-brand-name">StayEasy</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script>
+         // ===== NAVBAR SCROLL =====
          $(window).scroll(function () {
             if ($(this).scrollTop() > 50) {
-               $('.navbar-custom').css({ 'background-color': '#fff', 'box-shadow': '0 4px 15px rgba(0,0,0,0.05)' }).removeClass('navbar-dark');
-               $('.navbar-custom .navbar-brand, .navbar-custom .nav-link').attr('style', 'color: #2563eb !important; text-shadow: none;');
+               $('.navbar-custom').addClass('navbar-scrolled');
                $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
             } else {
-               $('.navbar-custom').css({ 'background-color': 'transparent', 'box-shadow': 'none' });
-               $('.navbar-custom .navbar-brand, .navbar-custom .nav-link').attr('style', 'color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5);');
-               $('.navbar-custom .nav-link.text-warning').attr('style', 'color: #ffc107 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5);');
+               $('.navbar-custom').removeClass('navbar-scrolled');
                $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
             }
          });
+
+         // ===== AUTH STATE =====
+         document.addEventListener('DOMContentLoaded', function () {
+            const isLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+            if (isLoggedIn) {
+               const userName = localStorage.getItem('userName') || 'Khách';
+               document.querySelectorAll('.user-auth-nav-item').forEach(el => el.style.display = 'none');
+               const userMenu = `
+                  <li class="nav-item dropdown user-dropdown">
+                     <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+                        <span>${userName}</span>
+                     </a>
+                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                        <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
+                           <div class="fw-bold text-dark small">${userName}</div>
+                           <small class="text-muted" style="font-size:11px;">Khách hàng thành viên</small>
+                        </li>
+                        <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
+                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                     </ul>
+                  </li>`;
+               document.querySelector('.navbar-nav.align-items-center').insertAdjacentHTML('beforeend', userMenu);
+            }
+         });
+
+         window.logoutUser = function () {
+            localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            window.location.reload();
+         };
+
+         // ===== EXPLORE SEARCH =====
+         function doExploreSearch() {
+            const q = document.getElementById('exploreSearch').value.trim();
+            if (q) window.location.href = 'index.html?search=' + encodeURIComponent(q);
+            else window.location.href = 'index.html';
+         }
+         function quickSearch(city) {
+            window.location.href = 'index.html?search=' + encodeURIComponent(city);
+         }
+         document.getElementById('exploreSearch').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') doExploreSearch();
+         });
+
+         // ===== POPUP AUTH SLIDESHOW (copy từ index) =====
+         let popupCurrentSlide = 0;
+         const popupTotalSlides = 2;
+         let popupSliderTimer;
+
+         function goPopupSlide(idx) {
+            document.getElementById('slide-' + popupCurrentSlide).classList.remove('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.remove('active');
+            popupCurrentSlide = idx;
+            document.getElementById('slide-' + popupCurrentSlide).classList.add('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.add('active');
+            clearInterval(popupSliderTimer);
+            startPopupSlider();
+         }
+         function startPopupSlider() {
+            popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
+         }
+         startPopupSlider();
+
+         function togglePopupPw(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
+         }
+
+         // ===== POPUP AUTH MODE (copy từ index) =====
+         let currentPopupAuthMode = 'signup';
+
+         function initAuthForm(mode) {
+            currentPopupAuthMode = mode === 'signin' ? 'signup' : 'signin';
+            togglePopupAuthMode();
+         }
+
+         function togglePopupAuthMode() {
+            if (currentPopupAuthMode === 'signup') {
+               currentPopupAuthMode = 'signin';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome back to';
+               document.getElementById('popupFieldRowName').style.display = 'none';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'none';
+               document.getElementById('popupTermsRow').style.display = 'none';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN IN';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Create Account';
+            } else {
+               currentPopupAuthMode = 'signup';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome to';
+               document.getElementById('popupFieldRowName').style.display = 'block';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'block';
+               document.getElementById('popupTermsRow').style.display = 'flex';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN UP';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Sign In';
+            }
+         }
+
+         function executePopupAuth() {
+            const name = document.getElementById('popupAuthInputName').value.trim();
+            const email = document.getElementById('popupAuthInputEmail').value.trim();
+            const pw1 = document.getElementById('popupAuthInputPw1').value;
+            const pw2 = document.getElementById('popupAuthInputPw2').value;
+            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+
+            if (currentPopupAuthMode === 'signup') {
+               if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
+               if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
+               if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
+               users.push({ name, email, password: pw1 });
+               localStorage.setItem('stayeasy_users', JSON.stringify(users));
+               alert('🎉 Đăng ký tài khoản thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               togglePopupAuthMode();
+            } else {
+               if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
+               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+               if (matchedUser) {
+                  localStorage.setItem('isUserLoggedIn', 'true');
+                  localStorage.setItem('userName', matchedUser.name);
+                  localStorage.setItem('userEmail', matchedUser.email);
+                  alert('🎉 Đăng nhập thành công!');
+                  window.location.reload();
+               } else {
+                  alert('❌ Tài khoản hoặc mật khẩu không chính xác!');
+               }
+            }
+         }
+
+         // ===== ADMIN MODAL LOGIC (copy từ index) =====
+         (function () {
+            function getFreshAdminAccounts() {
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (!accounts.some(u => u.email === 'admin@gmail.com')) {
+                  accounts.push({ name: 'Quản Trị Viên', email: 'admin@gmail.com', password: 'admin', role: 'admin' });
+                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               }
+               return accounts;
+            }
+            getFreshAdminAccounts();
+
+            document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
+                  this.classList.add('active');
+                  const target = this.getAttribute('data-admin-target');
+                  document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
+                  document.querySelector(target).classList.add('active');
+               });
+            });
+
+            document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  const input = this.previousElementSibling;
+                  const icon = this.querySelector('i');
+                  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('bi-eye', 'bi-eye-slash'); }
+                  else { input.type = 'password'; icon.classList.replace('bi-eye-slash', 'bi-eye'); }
+               });
+            });
+
+            document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const email = document.getElementById('adminLoginEmail').value.trim();
+               const password = document.getElementById('adminLoginPassword').value;
+               const accounts = getFreshAdminAccounts();
+               const matchedUser = accounts.find(u => u.email === email && u.password === password);
+               if (matchedUser) {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'admin');
+                  localStorage.setItem('userName', matchedUser.name);
+                  alert('🎉 Đăng nhập thành công! Đang chuyển hướng...');
+                  window.location.href = 'admin.html';
+               } else {
+                  alert('❌ Tài khoản quản trị hoặc mật khẩu không chính xác.');
+               }
+            });
+
+            document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const name = document.getElementById('adminRegName').value.trim();
+               const email = document.getElementById('adminRegEmail').value.trim();
+               const password = document.getElementById('adminRegPassword').value;
+               const role = document.getElementById('adminRegRole').value;
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === 'admin@gmail.com') {
+                  alert('⚠️ Email này đã được đăng ký cấp quyền hệ thống!');
+                  return;
+               }
+               accounts.push({ name, email, password, role });
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
+               document.getElementById('adminRegisterForm').reset();
+            });
+         })();
+         function copyPromoCode() {
+            navigator.clipboard.writeText('SUMMER2026').then(() => {
+               const btn = document.querySelector('.btn-promo');
+               const original = btn.innerHTML;
+               btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Đã sao chép!';
+               btn.style.background = '#22c55e';
+               btn.style.color = '#fff';
+               setTimeout(() => {
+                  btn.innerHTML = original;
+                  btn.style.background = '';
+                  btn.style.color = '';
+               }, 2000);
+            });
+         }
+         (function () {
+            const el = document.getElementById('blogScroll');
+            const mirror = document.getElementById('blogScrollMirror');
+            const mirrorInner = document.getElementById('blogScrollMirrorInner');
+
+            // Ẩn scrollbar thật
+            el.style.cssText += '; scrollbar-width:none; -ms-overflow-style:none;';
+
+            // Sync chiều rộng mirror = chiều rộng nội dung thật
+            function syncMirror() {
+               mirrorInner.style.width = el.scrollWidth + 'px';
+               mirror.style.cssText = `overflow-x:auto; overflow-y:hidden; margin-bottom:12px; 
+            scrollbar-width:thin; scrollbar-color:#cbd5e1 #f1f5f9;`;
+            }
+            syncMirror();
+            window.addEventListener('resize', syncMirror);
+
+            // Scroll mirror → kéo blogScroll
+            mirror.addEventListener('scroll', () => {
+               el.scrollLeft = mirror.scrollLeft;
+            });
+
+            // Scroll blogScroll → cập nhật mirror
+            el.addEventListener('scroll', () => {
+               mirror.scrollLeft = el.scrollLeft;
+            });
+
+            // Kéo chuột trong card
+            let isDown = false, startX, scrollLeft;
+            el.addEventListener('mousedown', e => {
+               isDown = true;
+               startX = e.pageX - el.offsetLeft;
+               scrollLeft = el.scrollLeft;
+               el.style.cursor = 'grabbing';
+            });
+            document.addEventListener('mouseup', () => {
+               isDown = false;
+               el.style.cursor = 'grab';
+            });
+            el.addEventListener('mousemove', e => {
+               if (!isDown) return;
+               e.preventDefault();
+               const x = e.pageX - el.offsetLeft;
+               const walk = (x - startX) * 1.5;
+               el.scrollLeft = scrollLeft - walk;
+               mirror.scrollLeft = el.scrollLeft;
+            });
+
+            // Thêm webkit scrollbar style qua JS
+            const style = document.createElement('style');
+            style.textContent = `
+        #blogScrollMirror::-webkit-scrollbar { height: 5px; }
+        #blogScrollMirror::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        #blogScrollMirror::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        #blogScrollMirror::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        #blogScroll::-webkit-scrollbar { display: none; }
+        #blogScroll { cursor: grab; }
+    `;
+            document.head.appendChild(style);
+         })();
       </script>
    </body>
 </html>
