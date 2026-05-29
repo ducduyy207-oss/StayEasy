@@ -605,6 +605,412 @@
             color: #0f172a;
          }
 
+         /* ===== GUEST & TIME PICKER PANEL ===== */
+         .guest-trigger {
+            transition: box-shadow 0.2s, border-color 0.2s;
+         }
+
+         .guest-trigger:hover .form-control,
+         .guest-trigger:hover .input-group-text {
+            background: #f8faff !important;
+         }
+
+         .guest-trigger.active #guestChevron {
+            transform: rotate(180deg);
+         }
+
+         #guestChevron {
+            transition: transform 0.25s ease;
+         }
+
+         .guest-panel {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15), 0 4px 12px rgba(15, 23, 42, 0.06);
+            border: 1px solid #e2e8f0;
+            padding: 8px 0;
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+         }
+
+         .guest-panel.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+         }
+
+         .gp-section {
+            padding: 14px 18px;
+         }
+
+         .gp-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+         }
+
+         .gp-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+         }
+
+         .gp-info {
+            flex: 1;
+            min-width: 0;
+         }
+
+         .gp-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            line-height: 1.2;
+         }
+
+         .gp-sub {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+         }
+
+         .gp-divider {
+            height: 1px;
+            background: #f1f5f9;
+            margin: 0 18px;
+         }
+
+         /* Time label */
+         .gp-time-label i {
+            font-size: 1.1rem;
+         }
+
+         .gp-time-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 10px;
+            padding: 0 2px;
+         }
+
+         /* Time grid - 2 columns */
+         .gp-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+         }
+
+         .gp-time-col {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+         }
+
+         .gp-time-header {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2563eb;
+            padding: 5px 6px;
+            background: #eff6ff;
+            border-radius: 5px;
+            text-align: center;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            margin-bottom: 1px;
+         }
+
+         .gp-time-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+         }
+
+         .gp-time-item {
+            padding: 7px 8px;
+            border-radius: 5px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+            user-select: none;
+         }
+
+         .gp-time-item:hover {
+            background: #dbeafe;
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-1px);
+         }
+
+         .gp-time-item.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+         }
+
+         .gp-time-grid::-webkit-scrollbar {
+            width: 4px;
+         }
+
+         .gp-time-grid::-webkit-scrollbar-track {
+            background: transparent;
+         }
+
+         .gp-time-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+         }
+
+         .gp-time-grid::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+         }
+
+
+
+         /* Time select */
+         .gp-time-select {
+            background: #f1f5f9;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e40af;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.15s, border-color 0.15s;
+         }
+
+         .gp-time-select:hover,
+         .gp-time-select:focus {
+            background: #dbeafe;
+            border-color: #2563eb;
+         }
+
+         /* Counter buttons */
+         .gp-counter {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+         }
+
+         .gp-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1.5px solid #cbd5e1;
+            background: #fff;
+            color: #0f172a;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            line-height: 1;
+            padding: 0;
+         }
+
+         .gp-btn:hover:not(:disabled) {
+            border-color: #2563eb;
+            color: #2563eb;
+            background: #eff6ff;
+         }
+
+         .gp-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+         }
+
+         .gp-value {
+            min-width: 28px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+         }
+
+         .gp-apply-btn {
+            margin: 6px 18px 14px;
+            width: calc(100% - 36px);
+            padding: 10px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.15s;
+         }
+
+         .gp-apply-btn:hover {
+            background: #1d4ed8;
+         }
+
+         /* ===== TIME SELECT DROPDOWN STYLING ===== */
+         .time-picker-wrapper {
+            position: relative;
+         }
+
+         /* Wrapper cho field chứa time picker - tạo positioning context */
+         .time-picker-field {
+            position: relative;
+         }
+
+         .time-picker-trigger {
+            display: flex;
+            align-items: stretch;
+            cursor: pointer;
+            transition: box-shadow 0.2s, border-color 0.2s;
+         }
+
+         .time-picker-trigger.active .tp-chevron {
+            transform: rotate(180deg);
+         }
+
+         .tp-chevron {
+            transition: transform 0.25s ease;
+         }
+
+         .time-picker-panel {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15), 0 4px 12px rgba(15, 23, 42, 0.06);
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-8px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+         }
+
+         .time-picker-panel.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+         }
+
+         .tp-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+            padding: 0 2px;
+         }
+
+         .tp-title i {
+            font-size: 1rem;
+            color: #1d4ed8;
+         }
+
+         .tp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            max-height: 280px;
+            overflow-y: auto;
+         }
+
+         .tp-col {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+         }
+
+         .tp-col-header {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1d4ed8;
+            padding: 6px 8px;
+            background: #eff6ff;
+            border-radius: 6px;
+            text-align: center;
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            margin-bottom: 2px;
+         }
+
+         .tp-time-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+         }
+
+         .tp-time-item {
+            padding: 9px 8px;
+            border-radius: 7px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+            user-select: none;
+         }
+
+         .tp-time-item:hover {
+            background: #dbeafe;
+            border-color: #2563eb;
+            color: #1d4ed8;
+            transform: translateY(-1px);
+         }
+
+         .tp-time-item.active {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(29, 78, 216, 0.3);
+         }
+
+         .tp-grid::-webkit-scrollbar {
+            width: 4px;
+         }
+
+         .tp-grid::-webkit-scrollbar-track {
+            background: transparent;
+         }
+
+         .tp-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+         }
+
+         .tp-grid::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+         }
+
          @media (max-width: 768px) {
             .detail-navbar .nb-links {
                display: none;
@@ -621,6 +1027,56 @@
             .btn-back-home {
                padding: 7px 11px;
             }
+         }
+
+         /* ===== TIME SELECT DROPDOWN STYLING ===== */
+         #cCheckInTime,
+         #cCheckOutTime {
+            font-weight: 500;
+            color: #1e293b;
+            font-size: 0.92rem;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+         }
+
+         #cCheckInTime:focus,
+         #cCheckOutTime:focus {
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+         }
+
+         #cCheckInTime optgroup,
+         #cCheckOutTime optgroup {
+            font-weight: 700;
+            font-style: normal;
+            color: #1d4ed8;
+            background: #eff6ff;
+            padding: 6px 0;
+            font-size: 0.82rem;
+            letter-spacing: 0.3px;
+         }
+
+         #cCheckInTime option,
+         #cCheckOutTime option {
+            font-weight: 500;
+            color: #334155;
+            background: #fff;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+         }
+
+         #cCheckInTime option:checked,
+         #cCheckOutTime option:checked {
+            background: linear-gradient(0deg, #1d4ed8, #1d4ed8) !important;
+            color: #fff !important;
+            font-weight: 700;
+         }
+
+         #cCheckInTime option:hover,
+         #cCheckOutTime option:hover {
+            background: #dbeafe;
+            color: #1d4ed8;
          }
       </style>
    </head>
@@ -857,6 +1313,22 @@
                            </div>
                         </div>
 
+                        <!-- Email -->
+                        <div class="mb-3">
+                           <label class="form-label fw-semibold small text-secondary">Email <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-envelope"></i></span>
+                              <input type="email" class="form-control border-start-0 ps-0" id="cEmail"
+                                 placeholder="Nhập email của bạn..." required style="border-left:none !important;">
+                           </div>
+                           <div class="invalid-feedback" id="emailError"
+                              style="display:none; color:#dc3545; font-size:0.875rem; margin-top:0.25rem;">
+                              Email phải chứa ký tự @
+                           </div>
+                        </div>
+
                         <!-- SĐT: chỉ nhập số -->
                         <div class="mb-3">
                            <label class="form-label fw-semibold small text-secondary">Số điện thoại <span
@@ -885,6 +1357,178 @@
                            <input type="hidden" id="cIn">
                            <input type="hidden" id="cOut">
                         </div>
+
+                        <!-- Giờ nhận phòng -->
+                        <div class="mb-3 time-picker-field">
+                           <label class="form-label fw-semibold small text-secondary">Giờ nhận phòng <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group time-picker-wrapper">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-door-open"></i></span>
+                              <input type="text" class="form-control border-start-0 ps-0" id="cCheckInTimeDisplay"
+                                 readonly placeholder="Chọn giờ nhận phòng"
+                                 style="border-left:none !important; cursor:pointer; background:#fff;">
+                              <input type="hidden" id="cCheckInTime" value="14:00">
+                           </div>
+
+                           <!-- Time picker panel -->
+                           <div class="time-picker-panel" id="checkInTimePanel">
+                              <div class="tp-title"><i class="bi bi-door-open"></i>Chọn giờ nhận phòng</div>
+                              <div class="tp-grid">
+                                 <div class="tp-col">
+                                    <div class="tp-col-header">🌙 Tối (0h - 12h)</div>
+                                    <div class="tp-time-list">
+                                       <div class="tp-time-item" data-time="00:00">00:00</div>
+                                       <div class="tp-time-item" data-time="01:00">01:00</div>
+                                       <div class="tp-time-item" data-time="02:00">02:00</div>
+                                       <div class="tp-time-item" data-time="03:00">03:00</div>
+                                       <div class="tp-time-item" data-time="04:00">04:00</div>
+                                       <div class="tp-time-item" data-time="05:00">05:00</div>
+                                       <div class="tp-time-item" data-time="06:00">06:00</div>
+                                       <div class="tp-time-item" data-time="07:00">07:00</div>
+                                       <div class="tp-time-item" data-time="08:00">08:00</div>
+                                       <div class="tp-time-item" data-time="09:00">09:00</div>
+                                       <div class="tp-time-item" data-time="10:00">10:00</div>
+                                       <div class="tp-time-item" data-time="11:00">11:00</div>
+                                    </div>
+                                 </div>
+                                 <div class="tp-col">
+                                    <div class="tp-col-header">☀️ Sáng (12h - 0h)</div>
+                                    <div class="tp-time-list">
+                                       <div class="tp-time-item" data-time="12:00">12:00</div>
+                                       <div class="tp-time-item" data-time="13:00">13:00</div>
+                                       <div class="tp-time-item active" data-time="14:00">14:00</div>
+                                       <div class="tp-time-item" data-time="15:00">15:00</div>
+                                       <div class="tp-time-item" data-time="16:00">16:00</div>
+                                       <div class="tp-time-item" data-time="17:00">17:00</div>
+                                       <div class="tp-time-item" data-time="18:00">18:00</div>
+                                       <div class="tp-time-item" data-time="19:00">19:00</div>
+                                       <div class="tp-time-item" data-time="20:00">20:00</div>
+                                       <div class="tp-time-item" data-time="21:00">21:00</div>
+                                       <div class="tp-time-item" data-time="22:00">22:00</div>
+                                       <div class="tp-time-item" data-time="23:00">23:00</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Giờ trả phòng -->
+                        <div class="mb-3 time-picker-field">
+                           <label class="form-label fw-semibold small text-secondary">Giờ trả phòng <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group time-picker-wrapper">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-door-closed"></i></span>
+                              <input type="text" class="form-control border-start-0 ps-0" id="cCheckOutTimeDisplay"
+                                 readonly placeholder="Chọn giờ trả phòng"
+                                 style="border-left:none !important; cursor:pointer; background:#fff;">
+                              <input type="hidden" id="cCheckOutTime" value="12:00">
+                           </div>
+
+                           <!-- Time picker panel -->
+                           <div class="time-picker-panel" id="checkOutTimePanel">
+                              <div class="tp-title"><i class="bi bi-door-closed"></i>Chọn giờ trả phòng</div>
+                              <div class="tp-grid">
+                                 <div class="tp-col">
+                                    <div class="tp-col-header">🌙 Tối (0h - 12h)</div>
+                                    <div class="tp-time-list">
+                                       <div class="tp-time-item" data-time="00:00">00:00</div>
+                                       <div class="tp-time-item" data-time="01:00">01:00</div>
+                                       <div class="tp-time-item" data-time="02:00">02:00</div>
+                                       <div class="tp-time-item" data-time="03:00">03:00</div>
+                                       <div class="tp-time-item" data-time="04:00">04:00</div>
+                                       <div class="tp-time-item" data-time="05:00">05:00</div>
+                                       <div class="tp-time-item" data-time="06:00">06:00</div>
+                                       <div class="tp-time-item" data-time="07:00">07:00</div>
+                                       <div class="tp-time-item" data-time="08:00">08:00</div>
+                                       <div class="tp-time-item" data-time="09:00">09:00</div>
+                                       <div class="tp-time-item" data-time="10:00">10:00</div>
+                                       <div class="tp-time-item" data-time="11:00">11:00</div>
+                                    </div>
+                                 </div>
+                                 <div class="tp-col">
+                                    <div class="tp-col-header">☀️ Sáng (12h - 0h)</div>
+                                    <div class="tp-time-list">
+                                       <div class="tp-time-item active" data-time="12:00">12:00</div>
+                                       <div class="tp-time-item" data-time="13:00">13:00</div>
+                                       <div class="tp-time-item" data-time="14:00">14:00</div>
+                                       <div class="tp-time-item" data-time="15:00">15:00</div>
+                                       <div class="tp-time-item" data-time="16:00">16:00</div>
+                                       <div class="tp-time-item" data-time="17:00">17:00</div>
+                                       <div class="tp-time-item" data-time="18:00">18:00</div>
+                                       <div class="tp-time-item" data-time="19:00">19:00</div>
+                                       <div class="tp-time-item" data-time="20:00">20:00</div>
+                                       <div class="tp-time-item" data-time="21:00">21:00</div>
+                                       <div class="tp-time-item" data-time="22:00">22:00</div>
+                                       <div class="tp-time-item" data-time="23:00">23:00</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Combo: Số khách -->
+                        <div class="mb-3 position-relative">
+                           <label class="form-label fw-semibold small text-secondary">Số khách <span
+                                 class="text-danger">*</span></label>
+                           <div class="input-group guest-trigger" id="guestTrigger" style="cursor:pointer;">
+                              <span class="input-group-text bg-white border-end-0 text-primary"><i
+                                    class="bi bi-people-fill"></i></span>
+                              <input type="text" class="form-control border-start-0 ps-0" id="guestSummary" readonly
+                                 placeholder="Chọn số khách"
+                                 style="border-left:none !important; cursor:pointer; background:#fff;">
+                              <span class="input-group-text bg-white border-start-0 text-muted"><i
+                                    class="bi bi-chevron-down" id="guestChevron"></i></span>
+                           </div>
+
+                           <!-- Hidden values -->
+                           <input type="hidden" id="cAdults" value="2">
+                           <input type="hidden" id="cChildren" value="0">
+
+                           <!-- Dropdown panel -->
+                           <div class="guest-panel" id="guestPanel">
+                              <div class="gp-section">
+                                 <div class="gp-row">
+                                    <div class="gp-icon"><i class="bi bi-person-fill"></i></div>
+                                    <div class="gp-info">
+                                       <div class="gp-title">Người lớn</div>
+                                       <div class="gp-sub">Từ 13 tuổi trở lên</div>
+                                    </div>
+                                    <div class="gp-counter">
+                                       <button type="button" class="gp-btn" data-target="cAdults"
+                                          data-action="dec">−</button>
+                                       <span class="gp-value" id="gpAdultsVal">2</span>
+                                       <button type="button" class="gp-btn" data-target="cAdults"
+                                          data-action="inc">+</button>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <div class="gp-divider"></div>
+
+                              <div class="gp-section">
+                                 <div class="gp-row">
+                                    <div class="gp-icon"><i class="bi bi-person-badge"></i></div>
+                                    <div class="gp-info">
+                                       <div class="gp-title">Trẻ em</div>
+                                       <div class="gp-sub">Dưới 13 tuổi</div>
+                                    </div>
+                                    <div class="gp-counter">
+                                       <button type="button" class="gp-btn" data-target="cChildren"
+                                          data-action="dec">−</button>
+                                       <span class="gp-value" id="gpChildrenVal">0</span>
+                                       <button type="button" class="gp-btn" data-target="cChildren"
+                                          data-action="inc">+</button>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <button type="button" class="gp-apply-btn" id="gpApplyBtn">Xong</button>
+                           </div>
+                        </div>
+
+
 
                         <!-- Mã ưu đãi -->
                         <div class="mb-3">
@@ -1106,6 +1750,30 @@
                this.value = this.value.replace(/[^0-9]/g, '');
             });
 
+            /* ===== EMAIL VALIDATION ===== */
+            const emailInput = document.getElementById('cEmail');
+            const emailError = document.getElementById('emailError');
+
+            emailInput.addEventListener('blur', function () {
+               const value = this.value.trim();
+               if (value && !value.includes('@')) {
+                  emailError.style.display = 'block';
+                  this.style.borderColor = '#dc3545';
+                  // Focus lại vào email field
+                  setTimeout(() => this.focus(), 10);
+               } else {
+                  emailError.style.display = 'none';
+                  this.style.borderColor = '';
+               }
+            });
+
+            emailInput.addEventListener('input', function () {
+               if (this.value.includes('@')) {
+                  emailError.style.display = 'none';
+                  this.style.borderColor = '';
+               }
+            });
+
             /* ===== MÃ GIẢM GIÁ: tự động in hoa khi gõ ===== */
             document.getElementById('promoCode').addEventListener('input', function () {
                var pos = this.selectionStart;
@@ -1194,6 +1862,95 @@
       </script>
 
       <script>
+         /* ===== TIME PICKER 2 COLUMNS ===== */
+         document.addEventListener('DOMContentLoaded', function () {
+            // Check-in time picker
+            const checkInTrigger = document.querySelector('[id="cCheckInTimeDisplay"]').parentElement;
+            const checkInPanel = document.getElementById('checkInTimePanel');
+            const checkInDisplay = document.getElementById('cCheckInTimeDisplay');
+            const checkInHidden = document.getElementById('cCheckInTime');
+
+            function updateCheckInDisplay() {
+               const time = checkInHidden.value;
+               checkInDisplay.value = time;
+            }
+
+            function toggleCheckInPanel(open) {
+               if (open === undefined) open = !checkInPanel.classList.contains('open');
+               checkInPanel.classList.toggle('open', open);
+               checkInTrigger.classList.toggle('active', open);
+            }
+
+            checkInTrigger.addEventListener('click', function (e) {
+               e.stopPropagation();
+               toggleCheckInPanel();
+            });
+
+            document.querySelectorAll('#checkInTimePanel .tp-time-item').forEach(item => {
+               item.addEventListener('click', function (e) {
+                  e.stopPropagation();
+                  const time = this.dataset.time;
+                  checkInHidden.value = time;
+                  document.querySelectorAll('#checkInTimePanel .tp-time-item').forEach(el => el.classList.remove('active'));
+                  this.classList.add('active');
+                  updateCheckInDisplay();
+                  toggleCheckInPanel(false);
+               });
+            });
+
+            document.addEventListener('click', function (e) {
+               if (!checkInPanel.contains(e.target) && !checkInTrigger.contains(e.target)) {
+                  toggleCheckInPanel(false);
+               }
+            });
+
+            updateCheckInDisplay();
+
+            // Check-out time picker
+            const checkOutTrigger = document.querySelector('[id="cCheckOutTimeDisplay"]').parentElement;
+            const checkOutPanel = document.getElementById('checkOutTimePanel');
+            const checkOutDisplay = document.getElementById('cCheckOutTimeDisplay');
+            const checkOutHidden = document.getElementById('cCheckOutTime');
+
+            function updateCheckOutDisplay() {
+               const time = checkOutHidden.value;
+               checkOutDisplay.value = time;
+            }
+
+            function toggleCheckOutPanel(open) {
+               if (open === undefined) open = !checkOutPanel.classList.contains('open');
+               checkOutPanel.classList.toggle('open', open);
+               checkOutTrigger.classList.toggle('active', open);
+            }
+
+            checkOutTrigger.addEventListener('click', function (e) {
+               e.stopPropagation();
+               toggleCheckOutPanel();
+            });
+
+            document.querySelectorAll('#checkOutTimePanel .tp-time-item').forEach(item => {
+               item.addEventListener('click', function (e) {
+                  e.stopPropagation();
+                  const time = this.dataset.time;
+                  checkOutHidden.value = time;
+                  document.querySelectorAll('#checkOutTimePanel .tp-time-item').forEach(el => el.classList.remove('active'));
+                  this.classList.add('active');
+                  updateCheckOutDisplay();
+                  toggleCheckOutPanel(false);
+               });
+            });
+
+            document.addEventListener('click', function (e) {
+               if (!checkOutPanel.contains(e.target) && !checkOutTrigger.contains(e.target)) {
+                  toggleCheckOutPanel(false);
+               }
+            });
+
+            updateCheckOutDisplay();
+         });
+      </script>
+
+      <script>
          /* ===== RATING PICKER ===== */
          (function () {
             const ratingLabels = {
@@ -1239,6 +1996,62 @@
                });
             }
          })();
+         /* ===== GUEST PICKER ===== */
+         document.addEventListener('DOMContentLoaded', function () {
+            const guestTrigger = document.getElementById('guestTrigger');
+            const guestPanel = document.getElementById('guestPanel');
+            const guestSummary = document.getElementById('guestSummary');
+
+            function updateGuestSummary() {
+               const adults = parseInt(document.getElementById('cAdults').value) || 1;
+               const children = parseInt(document.getElementById('cChildren').value) || 0;
+               let txt = `${adults} người lớn`;
+               if (children > 0) txt += `, ${children} trẻ em`;
+               guestSummary.value = txt;
+            }
+
+            function toggleGuestPanel(open) {
+               if (open === undefined) open = !guestPanel.classList.contains('open');
+               guestPanel.classList.toggle('open', open);
+               guestTrigger.classList.toggle('active', open);
+            }
+
+            guestTrigger.addEventListener('click', function (e) {
+               e.stopPropagation();
+               toggleGuestPanel();
+            });
+
+            document.addEventListener('click', function (e) {
+               if (!guestPanel.contains(e.target) && !guestTrigger.contains(e.target)) {
+                  toggleGuestPanel(false);
+               }
+            });
+
+            document.querySelectorAll('.gp-btn').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  const targetId = this.dataset.target;
+                  const action = this.dataset.action;
+                  const input = document.getElementById(targetId);
+                  let val = parseInt(input.value) || 0;
+                  const min = targetId === 'cAdults' ? 1 : 0;
+                  const max = 20;
+
+                  if (action === 'inc' && val < max) val++;
+                  if (action === 'dec' && val > min) val--;
+
+                  input.value = val;
+                  const valSpan = targetId === 'cAdults' ? 'gpAdultsVal' : 'gpChildrenVal';
+                  document.getElementById(valSpan).textContent = val;
+                  updateGuestSummary();
+               });
+            });
+
+            document.getElementById('gpApplyBtn').addEventListener('click', function () {
+               toggleGuestPanel(false);
+            });
+            updateGuestSummary();
+         });
+
       </script>
    </body>
 </html>

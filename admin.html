@@ -11,6 +11,193 @@
             .dropdown-toggle::after {
                 display: none !important;
             }
+
+            /* ===== TIME SELECT DROPDOWN STYLING ===== */
+            #bCheckInTime,
+            #bCheckOutTime {
+                font-weight: 500;
+                color: #1e293b;
+                font-size: 0.92rem;
+                cursor: pointer;
+                padding: 0.5rem 0.75rem;
+                transition: border-color 0.2s, box-shadow 0.2s;
+            }
+
+            #bCheckInTime:focus,
+            #bCheckOutTime:focus {
+                border-color: #1d4ed8;
+                box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+            }
+
+            #bCheckInTime optgroup,
+            #bCheckOutTime optgroup {
+                font-weight: 700;
+                font-style: normal;
+                color: #1d4ed8;
+                background: #eff6ff;
+                padding: 6px 0;
+                font-size: 0.82rem;
+                letter-spacing: 0.3px;
+            }
+
+            #bCheckInTime option,
+            #bCheckOutTime option {
+                font-weight: 500;
+                color: #334155;
+                background: #fff;
+                padding: 8px 12px;
+                font-size: 0.88rem;
+            }
+
+            #bCheckInTime option:checked,
+            #bCheckOutTime option:checked {
+                background: linear-gradient(0deg, #1d4ed8, #1d4ed8) !important;
+                color: #fff !important;
+                font-weight: 700;
+            }
+
+            #bCheckInTime option:hover,
+            #bCheckOutTime option:hover {
+                background: #dbeafe;
+                color: #1d4ed8;
+            }
+
+            /* ===== TIME PICKER 2 COLUMNS ===== */
+            .admin-time-picker-wrapper {
+                position: relative;
+            }
+
+            .admin-time-picker-trigger {
+                display: flex;
+                align-items: stretch;
+                cursor: pointer;
+                transition: box-shadow 0.2s, border-color 0.2s;
+            }
+
+            .admin-time-picker-trigger.active .atp-chevron {
+                transform: rotate(180deg);
+            }
+
+            .atp-chevron {
+                transition: transform 0.25s ease;
+            }
+
+            .admin-time-picker-panel {
+                position: absolute;
+                top: calc(100% + 4px);
+                left: 0;
+                right: 0;
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 12px 40px rgba(15, 23, 42, 0.15), 0 4px 12px rgba(15, 23, 42, 0.06);
+                border: 1px solid #e2e8f0;
+                padding: 12px;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(-8px);
+                pointer-events: none;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+
+            .admin-time-picker-panel.open {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+
+            .atp-title {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12px;
+                font-weight: 700;
+                color: #0f172a;
+                margin-bottom: 10px;
+                padding: 0 2px;
+            }
+
+            .atp-title i {
+                font-size: 0.9rem;
+                color: #1d4ed8;
+            }
+
+            .atp-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                max-height: 260px;
+                overflow-y: auto;
+            }
+
+            .atp-col {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .atp-col-header {
+                font-size: 10px;
+                font-weight: 700;
+                color: #1d4ed8;
+                padding: 5px 6px;
+                background: #eff6ff;
+                border-radius: 5px;
+                text-align: center;
+                letter-spacing: 0.2px;
+                white-space: nowrap;
+                margin-bottom: 2px;
+            }
+
+            .atp-time-list {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .atp-time-item {
+                padding: 7px 6px;
+                border-radius: 6px;
+                background: #f8fafc;
+                border: 1.5px solid #e2e8f0;
+                color: #334155;
+                font-size: 11px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                text-align: center;
+                user-select: none;
+            }
+
+            .atp-time-item:hover {
+                background: #dbeafe;
+                border-color: #2563eb;
+                color: #1d4ed8;
+                transform: translateY(-1px);
+            }
+
+            .atp-time-item.active {
+                background: #1d4ed8;
+                border-color: #1d4ed8;
+                color: #fff;
+                box-shadow: 0 4px 10px rgba(29, 78, 216, 0.3);
+            }
+
+            .atp-grid::-webkit-scrollbar {
+                width: 3px;
+            }
+
+            .atp-grid::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            .atp-grid::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 2px;
+            }
+
+            .atp-grid::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
+            }
         </style>
     </head>
     <body class="bg-light overflow-hidden">
@@ -109,12 +296,6 @@
                     </ul>
                 </div>
 
-                <div class="p-3 border-top">
-                    <a href="index.html"
-                        class="btn btn-light w-100 text-start fw-bold text-danger d-flex align-items-center py-2 px-3 rounded-3">
-                        <i class="bi bi-box-arrow-left me-3 fs-5"></i> Về trang khách
-                    </a>
-                </div>
             </aside>
 
             <main class="flex-grow-1 d-flex flex-column overflow-hidden bg-light">
@@ -163,7 +344,7 @@
                                     <li><a class="dropdown-item py-2 small" href="#"
                                             onclick="switchAdminTab('#tab-settings')"><i
                                                 class="bi bi-gear me-2 text-muted"></i>Cài đặt hệ thống</a></li>
-                                    <li><a class="dropdown-item py-2 small" href="index.html"><i
+                                    <li><a class="dropdown-item py-2 small" href="#" onclick="viewAsGuest()"><i
                                                 class="bi bi-globe me-2 text-muted"></i>Xem trang khách</a></li>
                                     <li>
                                         <hr class="dropdown-divider my-1">
@@ -188,7 +369,8 @@
                                     <p class="text-muted fw-bold small mb-1 text-uppercase tracking-wider">Doanh thu dự
                                         kiến</p>
                                     <h3 class="fw-bolder mb-2 text-primary" id="dashRevenue">0 đ</h3>
-                                    <p class="mb-0 small text-success"><i class="bi bi-arrow-up-right me-1"></i>Xem chi
+                                    <p class="mb-0 small text-success" id="dashRevenueTrend"><i
+                                            class="bi bi-arrow-up-right me-1"></i>Xem chi
                                         tiết doanh thu</p>
                                 </div>
                             </div>
@@ -224,8 +406,34 @@
                                             class="bi bi-tags" style="font-size: 5rem;"></i></div>
                                     <p class="text-white opacity-75 fw-bold small mb-1 text-uppercase tracking-wider">
                                         Khuyến mãi</p>
-                                    <h3 class="fw-bolder mb-2 text-white">Quản lý mã</h3>
+                                    <h3 class="fw-bolder mb-2 text-white" id="dashPromoCount">0 mã đang chạy</h3>
                                     <p class="mb-0 small text-white opacity-75">Tạo mã giảm giá mới</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-xl-8">
+                                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                                    <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                                        <h5 class="fw-bold mb-0">Xu hướng doanh thu 7 ngày gần nhất</h5>
+                                    </div>
+                                    <div class="p-4 chart-card-body">
+                                        <canvas id="revenueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-4">
+                                    <div class="p-4 border-bottom">
+                                        <h6 class="fw-bold mb-0">Top phòng bán chạy</h6>
+                                    </div>
+                                    <div id="topRoomsList"></div>
+                                </div>
+                                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                                    <div class="p-4 border-bottom">
+                                        <h6 class="fw-bold mb-0">Hoạt động gần đây</h6>
+                                    </div>
+                                    <div class="activity-feed-card" id="activityFeed"></div>
                                 </div>
                             </div>
                         </div>
@@ -244,6 +452,9 @@
                                     <input type="text" id="searchRoomInput"
                                         class="form-control form-control-sm bg-light border-0 px-3"
                                         placeholder="Tìm tên, địa điểm..." style="width: 200px;">
+                                    <button
+                                        class="btn btn-outline-danger btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
+                                        id="btnDeleteAllRooms"><i class="bi bi-trash3 me-1"></i> Xoá tất cả</button>
                                     <button
                                         class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
                                         onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
@@ -277,11 +488,39 @@
 
                     <div class="tab-pane fade" id="tab-bookings">
                         <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-                            <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
-                                <h5 class="fw-bold mb-0">Yêu cầu đặt phòng</h5>
-                                <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
-                                    onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
-                                    mới</button>
+                            <div class="p-4 border-bottom">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold mb-0">Yêu cầu đặt phòng</h5>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-primary btn-sm fw-bold px-3 rounded-3"
+                                            onclick="openBookingForm()"><i class="bi bi-plus-circle me-1"></i> Thêm
+                                            đơn</button>
+                                        <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
+                                            onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
+                                            mới</button>
+                                    </div>
+                                </div>
+                                <div class="filter-chip-group">
+                                    <div class="filter-chip active" onclick="filterBookingStatus('all')">
+                                        Tất cả <span class="chip-count" id="countAll">0</span>
+                                    </div>
+                                    <div class="filter-chip" onclick="filterBookingStatus('Pending')">
+                                        Chờ duyệt <span class="chip-count" id="countPending">0</span>
+                                    </div>
+                                    <div class="filter-chip" onclick="filterBookingStatus('Confirmed')">
+                                        Đã duyệt <span class="chip-count" id="countConfirmed">0</span>
+                                    </div>
+                                    <div class="filter-chip" onclick="filterBookingStatus('Cancelled')">
+                                        Đã hủy <span class="chip-count" id="countCancelled">0</span>
+                                    </div>
+                                    <div style="flex: 1;"></div>
+                                    <input type="text" id="searchBookingInput"
+                                        class="form-control form-control-sm bg-light border-0 px-3"
+                                        placeholder="Tìm khách, phòng..." style="width: 200px;">
+                                    <button class="btn btn-outline-primary btn-sm fw-bold px-3 rounded-3 ms-2"
+                                        onclick="exportBookingsCSV()"><i class="bi bi-download me-1"></i> Export
+                                        CSV</button>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table
@@ -293,7 +532,7 @@
                                             <th class="py-3 fw-bold">Check in - out</th>
                                             <th class="py-3 fw-bold">Tổng thu</th>
                                             <th class="py-3 fw-bold">Trạng thái</th>
-                                            <th class="text-end pe-4 py-3 fw-bold">Duyệt/Xóa</th>
+                                            <th class="text-end pe-4 py-3 fw-bold">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody id="adminBookingTable"></tbody>
@@ -351,17 +590,33 @@
                                     <tbody id="revenueTableBody"></tbody>
                                 </table>
                             </div>
+                            <div class="p-3 border-top d-flex justify-content-between align-items-center bg-white">
+                                <span class="small text-muted fw-bold" id="revenuePaginationInfo">Đang tải...</span>
+                                <ul class="pagination pagination-sm mb-0 shadow-sm rounded-3" id="revenuePagination">
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="tab-promotions">
                         <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-                            <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
-                                <h5 class="fw-bold mb-0">Quản lý mã giảm giá</h5>
-                                <button
-                                    class="btn btn-danger btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
-                                    data-bs-toggle="modal" data-bs-target="#promoModal"><i
-                                        class="bi bi-plus-lg me-1"></i> Tạo mã mới</button>
+                            <div class="p-4 border-bottom">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold mb-0">Quản lý mã giảm giá</h5>
+                                    <button
+                                        class="btn btn-danger btn-sm fw-bold px-3 rounded-3 shadow-sm d-flex align-items-center"
+                                        data-bs-toggle="modal" data-bs-target="#promoModal"><i
+                                            class="bi bi-plus-lg me-1"></i> Tạo mã
+                                        mới</button>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="searchPromoInput"
+                                        class="form-control form-control-sm bg-light border-0 px-3"
+                                        placeholder="Tìm mã khuyến mãi..." style="width: 250px;">
+                                    <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
+                                        onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
+                                        mới</button>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-hover align-middle mb-0 table-borderless">
@@ -369,6 +624,7 @@
                                         <tr>
                                             <th class="ps-4 py-3 fw-bold">Mã Khuyến Mãi</th>
                                             <th class="py-3 fw-bold">Tỉ lệ giảm</th>
+                                            <th class="py-3 fw-bold">Áp dụng cho</th>
                                             <th class="py-3 fw-bold">Trạng thái</th>
                                             <th class="text-end pe-4 py-3 fw-bold">Xóa</th>
                                         </tr>
@@ -383,9 +639,14 @@
                         <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
                             <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
                                 <h5 class="fw-bold mb-0">Quản lý khách hàng</h5>
-                                <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
-                                    onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
-                                    mới</button>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-danger btn-sm fw-bold px-3 rounded-3"
+                                        onclick="deleteAllCustomers()"><i class="bi bi-trash me-1"></i> Xoá tất
+                                        cả</button>
+                                    <button class="btn btn-outline-secondary btn-sm fw-bold px-3 rounded-3"
+                                        onclick="loadAdminData()"><i class="bi bi-arrow-clockwise me-1"></i> Làm
+                                        mới</button>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table
@@ -431,6 +692,11 @@
                                     </thead>
                                     <tbody id="reviewTableBody"></tbody>
                                 </table>
+                            </div>
+                            <div class="p-3 border-top d-flex justify-content-between align-items-center bg-white">
+                                <span class="small text-muted fw-bold" id="reviewPaginationInfo">Đang tải...</span>
+                                <ul class="pagination pagination-sm mb-0 shadow-sm rounded-3" id="reviewPagination">
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -535,7 +801,7 @@
                         </div>
                         <div class="modal-body px-4 py-3">
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">Tên Mã (VD: TET2026)</label>
+                                <label class="form-label fw-bold text-muted small">Tên Mã</label>
                                 <input type="text" class="form-control text-uppercase fw-bold text-danger"
                                     id="promoCodeInput" required>
                             </div>
@@ -543,6 +809,12 @@
                                 <label class="form-label fw-bold text-muted small">Mức giảm (%)</label>
                                 <input type="number" class="form-control" id="promoDiscountInput" min="1" max="99"
                                     placeholder="VD: 15" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted small">Áp dụng cho phòng</label>
+                                <input type="text" class="form-control" id="promoRoomInput"
+                                    placeholder="VD: Dalat Flower Homestay">
+                                <div class="form-text">Nhập chính xác tên phòng.</div>
                             </div>
                         </div>
                         <div class="modal-footer border-0 px-4 pb-4">
@@ -554,8 +826,284 @@
             </div>
         </div>
 
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-body p-5 text-center">
+                        <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle d-inline-flex mb-3"
+                            style="width: 60px; height: 60px; align-items: center; justify-content: center;">
+                            <i class="bi bi-shield-lock fs-3"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Đăng nhập Admin</h5>
+                        <p class="text-muted small mb-4">Nhập thông tin để truy cập hệ thống quản trị</p>
+                        <div class="mb-3">
+                            <input type="email" class="form-control bg-light border-0" id="loginEmail"
+                                placeholder="Email" value="admin@gmail.com">
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" class="form-control bg-light border-0" id="loginPassword"
+                                placeholder="Mật khẩu" value="admin123">
+                        </div>
+                        <button class="btn btn-primary w-100 fw-bold rounded-3 shadow-sm" id="btnLogin">Đăng
+                            nhập</button>
+                        <p class="text-muted small mt-3 mb-0">Demo: admin@gmail.com / admin123</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div class="toast-container-custom" id="toastContainer"></div>
+
+        <!-- Modal Xác nhận chuyên nghiệp -->
+        <div class="modal fade" id="confirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-body p-4 text-center">
+                        <div class="confirm-modal-icon icon-warning" id="confirmIcon">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2" id="confirmTitle">Xác nhận thao tác</h5>
+                        <p class="text-muted small mb-4" id="confirmMessage">Bạn có chắc muốn thực hiện?</p>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-light fw-bold flex-grow-1 rounded-3"
+                                data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-danger fw-bold flex-grow-1 rounded-3 shadow-sm"
+                                id="confirmOkBtn">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal chi tiết Booking -->
+        <div class="modal fade" id="bookingDetailModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-header bg-light border-0 px-4 pt-4 rounded-top-4">
+                        <h5 class="modal-title fw-bold text-dark"><i class="bi bi-receipt me-2"></i>Chi tiết đơn đặt
+                            phòng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body px-4 py-3" id="bookingDetailBody"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal thêm/sửa Booking -->
+        <div class="modal fade" id="bookingFormModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow-lg rounded-4">
+                    <div class="modal-header bg-light border-0 px-4 pt-4 rounded-top-4">
+                        <h5 class="modal-title fw-bold text-dark"><i class="bi bi-plus-circle me-2"></i><span
+                                id="bookingFormTitle">Thêm đơn đặt phòng</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body px-4 py-3">
+                        <form id="bookingForm">
+                            <input type="hidden" id="bookingId">
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Tên khách hàng <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="bCustomerName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Email <span
+                                            class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="bCustomerEmail" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Số điện thoại <span
+                                            class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control" id="bCustomerPhone" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Trạng thái <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="bStatus" required>
+                                        <option value="Pending">Chờ xác nhận</option>
+                                        <option value="Confirmed">Đã xác nhận</option>
+                                        <option value="Checked-in">Đã nhận phòng</option>
+                                        <option value="Checked-out">Đã trả phòng</option>
+                                        <option value="Cancelled">Đã hủy</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold small">Phòng <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="bRoomName" required>
+                                        <option value="">-- Chọn phòng --</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Ngày nhận phòng <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="bCheckIn" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Giờ nhận phòng <span
+                                            class="text-danger">*</span></label>
+                                    <div class="admin-time-picker-wrapper">
+                                        <div class="input-group admin-time-picker-trigger" id="bCheckInTimeTrigger">
+                                            <span class="input-group-text bg-white text-primary"><i
+                                                    class="bi bi-door-open"></i></span>
+                                            <input type="text" class="form-control" id="bCheckInTimeDisplay" readonly
+                                                placeholder="Chọn giờ" style="cursor:pointer;background:#fff;"
+                                                value="14:00">
+                                            <input type="hidden" id="bCheckInTime" value="14:00">
+                                        </div>
+                                        <div class="admin-time-picker-panel" id="bCheckInTimePanel">
+                                            <div class="atp-title"><i class="bi bi-door-open"></i>Chọn giờ nhận phòng
+                                            </div>
+                                            <div class="atp-grid">
+                                                <div class="atp-col">
+                                                    <div class="atp-col-header">🌙 Tối (0h - 12h)</div>
+                                                    <div class="atp-time-list">
+                                                        <div class="atp-time-item" data-time="00:00">00:00</div>
+                                                        <div class="atp-time-item" data-time="01:00">01:00</div>
+                                                        <div class="atp-time-item" data-time="02:00">02:00</div>
+                                                        <div class="atp-time-item" data-time="03:00">03:00</div>
+                                                        <div class="atp-time-item" data-time="04:00">04:00</div>
+                                                        <div class="atp-time-item" data-time="05:00">05:00</div>
+                                                        <div class="atp-time-item" data-time="06:00">06:00</div>
+                                                        <div class="atp-time-item" data-time="07:00">07:00</div>
+                                                        <div class="atp-time-item" data-time="08:00">08:00</div>
+                                                        <div class="atp-time-item" data-time="09:00">09:00</div>
+                                                        <div class="atp-time-item" data-time="10:00">10:00</div>
+                                                        <div class="atp-time-item" data-time="11:00">11:00</div>
+                                                    </div>
+                                                </div>
+                                                <div class="atp-col">
+                                                    <div class="atp-col-header">☀️ Sáng (12h - 0h)</div>
+                                                    <div class="atp-time-list">
+                                                        <div class="atp-time-item" data-time="12:00">12:00</div>
+                                                        <div class="atp-time-item" data-time="13:00">13:00</div>
+                                                        <div class="atp-time-item active" data-time="14:00">14:00</div>
+                                                        <div class="atp-time-item" data-time="15:00">15:00</div>
+                                                        <div class="atp-time-item" data-time="16:00">16:00</div>
+                                                        <div class="atp-time-item" data-time="17:00">17:00</div>
+                                                        <div class="atp-time-item" data-time="18:00">18:00</div>
+                                                        <div class="atp-time-item" data-time="19:00">19:00</div>
+                                                        <div class="atp-time-item" data-time="20:00">20:00</div>
+                                                        <div class="atp-time-item" data-time="21:00">21:00</div>
+                                                        <div class="atp-time-item" data-time="22:00">22:00</div>
+                                                        <div class="atp-time-item" data-time="23:00">23:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Ngày trả phòng <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="bCheckOut" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Giờ trả phòng <span
+                                            class="text-danger">*</span></label>
+                                    <div class="admin-time-picker-wrapper">
+                                        <div class="input-group admin-time-picker-trigger" id="bCheckOutTimeTrigger">
+                                            <span class="input-group-text bg-white text-primary"><i
+                                                    class="bi bi-door-closed"></i></span>
+                                            <input type="text" class="form-control" id="bCheckOutTimeDisplay" readonly
+                                                placeholder="Chọn giờ" style="cursor:pointer;background:#fff;"
+                                                value="12:00">
+                                            <input type="hidden" id="bCheckOutTime" value="12:00">
+                                        </div>
+                                        <div class="admin-time-picker-panel" id="bCheckOutTimePanel">
+                                            <div class="atp-title"><i class="bi bi-door-closed"></i>Chọn giờ trả phòng
+                                            </div>
+                                            <div class="atp-grid">
+                                                <div class="atp-col">
+                                                    <div class="atp-col-header">🌙 Tối (0h - 12h)</div>
+                                                    <div class="atp-time-list">
+                                                        <div class="atp-time-item" data-time="00:00">00:00</div>
+                                                        <div class="atp-time-item" data-time="01:00">01:00</div>
+                                                        <div class="atp-time-item" data-time="02:00">02:00</div>
+                                                        <div class="atp-time-item" data-time="03:00">03:00</div>
+                                                        <div class="atp-time-item" data-time="04:00">04:00</div>
+                                                        <div class="atp-time-item" data-time="05:00">05:00</div>
+                                                        <div class="atp-time-item" data-time="06:00">06:00</div>
+                                                        <div class="atp-time-item" data-time="07:00">07:00</div>
+                                                        <div class="atp-time-item" data-time="08:00">08:00</div>
+                                                        <div class="atp-time-item" data-time="09:00">09:00</div>
+                                                        <div class="atp-time-item" data-time="10:00">10:00</div>
+                                                        <div class="atp-time-item" data-time="11:00">11:00</div>
+                                                    </div>
+                                                </div>
+                                                <div class="atp-col">
+                                                    <div class="atp-col-header">☀️ Sáng (12h - 0h)</div>
+                                                    <div class="atp-time-list">
+                                                        <div class="atp-time-item active" data-time="12:00">12:00</div>
+                                                        <div class="atp-time-item" data-time="13:00">13:00</div>
+                                                        <div class="atp-time-item" data-time="14:00">14:00</div>
+                                                        <div class="atp-time-item" data-time="15:00">15:00</div>
+                                                        <div class="atp-time-item" data-time="16:00">16:00</div>
+                                                        <div class="atp-time-item" data-time="17:00">17:00</div>
+                                                        <div class="atp-time-item" data-time="18:00">18:00</div>
+                                                        <div class="atp-time-item" data-time="19:00">19:00</div>
+                                                        <div class="atp-time-item" data-time="20:00">20:00</div>
+                                                        <div class="atp-time-item" data-time="21:00">21:00</div>
+                                                        <div class="atp-time-item" data-time="22:00">22:00</div>
+                                                        <div class="atp-time-item" data-time="23:00">23:00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Số người lớn <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="bAdults" min="1" value="1" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">Số trẻ em</label>
+                                    <input type="number" class="form-control" id="bChildren" min="0" value="0">
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold small">Tổng giá <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="bTotalPrice" min="0" required>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary fw-bold flex-grow-1">Lưu</button>
+                                <button type="button" class="btn btn-secondary fw-bold"
+                                    data-bs-dismiss="modal">Hủy</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <script src="../js/api.js"></script>
         <script src="../js/admin.js"></script>
     </body>

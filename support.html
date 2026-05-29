@@ -6,19 +6,15 @@
       <title>Hỗ trợ - StayEasy</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap"
+      <link
+         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
          rel="stylesheet">
       <link rel="stylesheet" href="style.css">
       <style>
-         body {
-            font-family: 'DM Sans', sans-serif;
-            background: #f8fafc;
-         }
-
          /* Support Hero */
          .support-hero {
             background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
-            padding: 140px 0 80px;
+            padding: 150px 0 90px;
             position: relative;
             overflow: hidden;
          }
@@ -547,6 +543,7 @@
 
          /* Toast notification */
          .toast-custom {
+            display: none !important;
             position: fixed;
             bottom: 30px;
             left: 50%;
@@ -1178,7 +1175,7 @@
                   <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
                   <li class="nav-item"><a class="nav-link" href="promotions.html"><i
                            class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">Hợp tác</a></li>
+                  <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
                   <li class="nav-item"><a class="nav-link fw-bold text-warning" href="support.html"><i
@@ -1930,486 +1927,493 @@
             </div>
          </div>
 
-         <div class="mailbox-layout">
-            <div class="mailbox-sidebar">
-               <div class="mailbox-sidebar-header">
-                  <button class="compose-btn" onclick="openCompose()">
-                     <i class="bi bi-pencil-fill"></i> Soạn thư
-                  </button>
-               </div>
-               <div class="pt-2 pb-2">
-                  <div class="mailbox-folder active" onclick="setFolder('inbox', this)">
-                     <i class="bi bi-inbox-fill fs-5"></i> Hộp thư đến
-                     <span class="folder-count">3</span>
-                  </div>
-                  <div class="mailbox-folder" onclick="setFolder('sent', this)">
-                     <i class="bi bi-send-fill fs-5"></i> Đã gửi
-                  </div>
-                  <div class="mailbox-folder" onclick="setFolder('important', this)">
-                     <i class="bi bi-star-fill fs-5" style="color:#f59e0b;"></i> Quan trọng
-                  </div>
-                  <div class="mailbox-folder" onclick="setFolder('spam', this)">
-                     <i class="bi bi-slash-circle-fill fs-5"></i> Spam
-                  </div>
-                  <div class="mailbox-folder" onclick="setFolder('trash', this)">
-                     <i class="bi bi-trash-fill fs-5"></i> Thùng rác
-                  </div>
-               </div>
-            </div>
-
-            <div class="mailbox-content">
-               <div class="d-flex h-100">
-                  <div class="mail-list" id="mailList">
-                     <div class="mail-item unread selected" onclick="readMail(this, 0)" data-folder="inbox">
-                        <div class="d-flex align-items-start gap-2 mb-1">
-                           <span class="unread-dot mt-1"></span>
-                           <div class="flex-1">
-                              <div class="mail-subject">🎉 Xác nhận đặt phòng thành công</div>
-                              <div class="text-muted small">StayEasy Team · 10:23</div>
-                           </div>
-                        </div>
-                        <p class="text-muted small mb-0 ps-3">Đặt phòng của bạn tại Đà Lạt đã được xác nhận...</p>
-                     </div>
-                     <div class="mail-item unread" onclick="readMail(this, 1)" data-folder="inbox">
-                        <div class="d-flex align-items-start gap-2 mb-1">
-                           <span class="unread-dot mt-1"></span>
-                           <div class="flex-1">
-                              <div class="mail-subject">🏷️ Ưu đãi đặc biệt dành riêng cho bạn</div>
-                              <div class="text-muted small">Khuyến mãi · Hôm qua</div>
-                           </div>
-                        </div>
-                        <p class="text-muted small mb-0 ps-3">Giảm thêm 20% cho chuyến đi tiếp theo...</p>
-                     </div>
-                     <div class="mail-item unread" onclick="readMail(this, 2)" data-folder="inbox">
-                        <div class="d-flex align-items-start gap-2 mb-1">
-                           <span class="unread-dot mt-1"></span>
-                           <div class="flex-1">
-                              <div class="mail-subject">⭐ Đánh giá trải nghiệm của bạn</div>
-                              <div class="text-muted small">Phản hồi · 2 ngày trước</div>
-                           </div>
-                        </div>
-                        <p class="text-muted small mb-0 ps-3">Hãy chia sẻ cảm nhận về chuyến ở vừa rồi...</p>
-                     </div>
-                     <div class="mail-item" onclick="readMail(this, 3)" data-folder="inbox">
-                        <div class="d-flex align-items-start gap-2 mb-1">
-                           <div style="width:8px;flex-shrink:0;"></div>
-                           <div class="flex-1">
-                              <div class="mail-subject" style="font-weight:500;">Nhắc nhở check-in: Phú Quốc Resort
-                              </div>
-                              <div class="text-muted small">Nhắc nhở · 5 ngày trước</div>
-                           </div>
-                        </div>
-                        <p class="text-muted small mb-0 ps-3">Check-in của bạn sẽ bắt đầu vào ngày 30/05/2026...</p>
-                     </div>
-                  </div>
-                  <div class="mail-preview-panel" id="mailPreview">
-                     <div class="mail-preview-empty" id="previewEmpty">
-                        <i class="bi bi-envelope-open fs-1 d-block mb-3"></i>
-                        <p class="fw-semibold">Chọn tin nhắn để đọc</p>
-                     </div>
-                     <div class="mail-preview-content" id="previewContent"></div>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="compose-overlay" id="composeOverlay">
-            <div class="compose-header">
-               <span class="fw-bold">Soạn thư mới</span>
-               <button onclick="closeCompose()"
-                  style="background:none;border:none;color:white;cursor:pointer;font-size:18px;"><i
-                     class="bi bi-x"></i></button>
-            </div>
-            <div class="compose-body">
-               <input class="compose-field" type="email" placeholder="Đến:" id="composeTo">
-               <input class="compose-field" type="text" placeholder="Tiêu đề:" id="composeSubjectField">
-               <textarea class="compose-message" placeholder="Nội dung tin nhắn..." id="composeBody"></textarea>
-            </div>
-            <div class="compose-footer">
-               <button class="btn-send-mail" onclick="sendMail()"><i class="bi bi-send me-2"></i>Gửi</button>
-               <button onclick="closeCompose()" style="background:none;border:none;color:#94a3b8;cursor:pointer;"><i
-                     class="bi bi-trash fs-5"></i></button>
-            </div>
-         </div>
-
-         <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-               <div class="modal-content border-0 shadow-none bg-transparent">
-                  <div class="login-card">
-                     <div class="brand-header">
-                        <div class="brand-logo">
-                           <i class="bi bi-airplane-engines-fill"></i>
-                        </div>
-                        <h2 class="brand-title">StayEasy <span>Admin</span></h2>
-                     </div>
-
-                     <div class="auth-nav">
-                        <button type="button" class="auth-nav-btn active" data-admin-target="#admin-pane-login">Đăng
-                           nhập</button>
-                        <button type="button" class="auth-nav-btn" data-admin-target="#admin-pane-register">Cấp tài
-                           khoản
-                           mới</button>
-                     </div>
-
-                     <div class="form-pane active" id="admin-pane-login">
-                        <form id="adminLoginForm">
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Email quản trị</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-envelope"></i>
-                                 <input type="email" id="adminLoginEmail" class="input-custom"
-                                    placeholder="admin@gmail.com" required>
-                              </div>
-                           </div>
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Mật khẩu</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-lock"></i>
-                                 <input type="password" id="adminLoginPassword"
-                                    class="input-custom input-password-padding" placeholder="••••••••" required>
-                                 <button type="button" class="password-toggle-icon admin-pw-toggle"><i
-                                       class="bi bi-eye"></i></button>
-                              </div>
-                           </div>
-                           <button type="submit" class="btn-submit-custom">Đăng nhập ngay</button>
-                        </form>
-                     </div>
-
-                     <div class="form-pane" id="admin-pane-register">
-                        <form id="adminRegisterForm">
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Tên thành viên</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-person"></i>
-                                 <input type="text" id="adminRegName" class="input-custom" placeholder="Nguyễn Văn A"
-                                    required>
-                              </div>
-                           </div>
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Địa chỉ Email cấp</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-envelope-plus"></i>
-                                 <input type="email" id="adminRegEmail" class="input-custom"
-                                    placeholder="nhanvien@stayeasy.vn" required>
-                              </div>
-                           </div>
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Mật khẩu cấp quyền</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-key"></i>
-                                 <input type="password" id="adminRegPassword" class="input-custom"
-                                    placeholder="Tối thiểu 6 ký tự" required>
-                              </div>
-                           </div>
-                           <div class="form-group-custom">
-                              <label class="form-label-custom">Phân cấp vai trò</label>
-                              <div class="input-wrapper">
-                                 <i class="bi bi-shield-check"></i>
-                                 <select id="adminRegRole" class="select-custom" required>
-                                    <option value="admin" selected>Quản trị viên (Admin)</option>
-                                    <option value="moderator">Điều phối viên</option>
-                                 </select>
-                              </div>
-                           </div>
-                           <button type="submit" class="btn-submit-custom"
-                              style="background-color: #0f172a; box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);">Khởi
-                              tạo
-                              tài khoản</button>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-
-         <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-auth-width">
-               <div class="modal-content border-0 bg-transparent shadow-none">
-                  <div class="shell-popup shadow-lg">
-                     <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="bi bi-x-lg"></i>
+         <div id="panel-mailbox" class="section-panel">
+            <div class="mailbox-layout">
+               <div class="mailbox-sidebar">
+                  <div class="mailbox-sidebar-header">
+                     <button class="compose-btn" onclick="openCompose()">
+                        <i class="bi bi-pencil-fill"></i> Soạn thư
                      </button>
-                     <div class="photo-panel">
-                        <div class="slide-popup active" id="slide-0">
-                           <img src="https://www.thekarnatakatourism.com/assets/img/theme-holidays/nature-walk.webp"
-                              alt="Nature walk">
-                           <div class="slide-overlay"></div>
+                  </div>
+                  <div class="pt-2 pb-2">
+                     <div class="mailbox-folder active" onclick="setFolder('inbox', this)">
+                        <i class="bi bi-inbox-fill fs-5"></i> Hộp thư đến
+                        <span class="folder-count">3</span>
+                     </div>
+                     <div class="mailbox-folder" onclick="setFolder('sent', this)">
+                        <i class="bi bi-send-fill fs-5"></i> Đã gửi
+                     </div>
+                     <div class="mailbox-folder" onclick="setFolder('important', this)">
+                        <i class="bi bi-star-fill fs-5" style="color:#f59e0b;"></i> Quan trọng
+                     </div>
+                     <div class="mailbox-folder" onclick="setFolder('spam', this)">
+                        <i class="bi bi-slash-circle-fill fs-5"></i> Spam
+                     </div>
+                     <div class="mailbox-folder" onclick="setFolder('trash', this)">
+                        <i class="bi bi-trash-fill fs-5"></i> Thùng rác
+                     </div>
+                  </div>
+               </div>
+
+               <div class="mailbox-content">
+                  <div class="d-flex h-100">
+                     <div class="mail-list" id="mailList">
+                        <div class="mail-item unread selected" onclick="readMail(this, 0)" data-folder="inbox">
+                           <div class="d-flex align-items-start gap-2 mb-1">
+                              <span class="unread-dot mt-1"></span>
+                              <div class="flex-1">
+                                 <div class="mail-subject">🎉 Xác nhận đặt phòng thành công</div>
+                                 <div class="text-muted small">StayEasy Team · 10:23</div>
+                              </div>
+                           </div>
+                           <p class="text-muted small mb-0 ps-3">Đặt phòng của bạn tại Đà Lạt đã được xác nhận...</p>
                         </div>
-                        <div class="slide-popup" id="slide-1">
-                           <img
-                              src="https://cdn3.ivivu.com/2019/11/cau-ban-tay-Phat-ngoc-trang-Thai-Hong-Tien-Thu-traveltimes-1.jpg"
-                              alt="Cầu Bàn Tay Vàng">
-                           <div class="slide-overlay"></div>
+                        <div class="mail-item unread" onclick="readMail(this, 1)" data-folder="inbox">
+                           <div class="d-flex align-items-start gap-2 mb-1">
+                              <span class="unread-dot mt-1"></span>
+                              <div class="flex-1">
+                                 <div class="mail-subject">🏷️ Ưu đãi đặc biệt dành riêng cho bạn</div>
+                                 <div class="text-muted small">Khuyến mãi · Hôm qua</div>
+                              </div>
+                           </div>
+                           <p class="text-muted small mb-0 ps-3">Giảm thêm 20% cho chuyến đi tiếp theo...</p>
                         </div>
-                        <div class="diagonal-slash"></div>
-                        <div class="dots-popup">
-                           <div class="dot-popup active" onclick="goPopupSlide(0)"></div>
-                           <div class="dot-popup" onclick="goPopupSlide(1)"></div>
+                        <div class="mail-item unread" onclick="readMail(this, 2)" data-folder="inbox">
+                           <div class="d-flex align-items-start gap-2 mb-1">
+                              <span class="unread-dot mt-1"></span>
+                              <div class="flex-1">
+                                 <div class="mail-subject">⭐ Đánh giá trải nghiệm của bạn</div>
+                                 <div class="text-muted small">Phản hồi · 2 ngày trước</div>
+                              </div>
+                           </div>
+                           <p class="text-muted small mb-0 ps-3">Hãy chia sẻ cảm nhận về chuyến ở vừa rồi...</p>
+                        </div>
+                        <div class="mail-item" onclick="readMail(this, 3)" data-folder="inbox">
+                           <div class="d-flex align-items-start gap-2 mb-1">
+                              <div style="width:8px;flex-shrink:0;"></div>
+                              <div class="flex-1">
+                                 <div class="mail-subject" style="font-weight:500;">Nhắc nhở check-in: Phú Quốc Resort
+                                 </div>
+                                 <div class="text-muted small">Nhắc nhở · 5 ngày trước</div>
+                              </div>
+                           </div>
+                           <p class="text-muted small mb-0 ps-3">Check-in của bạn sẽ bắt đầu vào ngày 30/05/2026...</p>
                         </div>
                      </div>
-                     <div class="form-panel">
-                        <p class="welcome-label" id="popupAuthTitleLabel">Welcome to</p>
-                        <div class="brand-popup">Stay<sample>Easy</sample>
+                     <div class="mail-preview-panel" id="mailPreview">
+                        <div class="mail-preview-empty" id="previewEmpty">
+                           <i class="bi bi-envelope-open fs-1 d-block mb-3"></i>
+                           <p class="fw-semibold">Chọn tin nhắn để đọc</p>
                         </div>
-
-                        <div class="social-row">
-                           <button class="social-btn" title="Google"><svg viewBox="0 0 24 24" fill="none">
-                                 <path
-                                    d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5c-.2 1.2-1 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"
-                                    fill="#4285F4" />
-                                 <path
-                                    d="M12 22c2.7 0 5-.9 6.7-2.5l-3.2-2.5c-.9.6-2 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.9v2.6C4.6 19.6 8.1 22 12 22z"
-                                    fill="#34A853" />
-                                 <path
-                                    d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.7s.1-1.1.3-1.7V7.7H2.9C2.3 8.9 2 10.4 2 12s.3 3.1.9 4.3l3.3-2.6z"
-                                    fill="#FBBC05" />
-                                 <path
-                                    d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.6 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
-                                    fill="#EA4335" />
-                              </svg></button>
-                           <button class="social-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2">
-                                 <path
-                                    d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97H15.8c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
-                              </svg></button>
-                           <button class="social-btn" title="X"><svg viewBox="0 0 24 24" fill="#000">
-                                 <path
-                                    d="M18.24 2h3.1l-6.78 7.76L22.5 22h-6.25l-4.89-6.39L5.76 22H2.64l7.25-8.29L2 2h6.41l4.42 5.78L18.24 2zm-1.08 18h1.72L7 3.6H5.16L17.16 20z" />
-                              </svg></button>
-                           <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#000">
-                                 <path
-                                    d="M16.46 1.2a4.56 4.56 0 0 1-1.07 3.35 3.63 3.63 0 0 1-2.93 1.38 4.05 4.05 0 0 1 1.04-3.2A4.4 4.4 0 0 1 16.46 1.2zm2.52 13.37c-.09-.06-2.5-1.46-2.52-4.3a4.56 4.56 0 0 1 2.22-3.91 4.65 4.65 0 0 0-3.67-1.99c-1.6-.17-3.14.97-3.95.97-.83 0-2.1-.95-3.44-.92C5.7 4.44 4 5.67 3.09 7.5 1.3 11.2 2.64 16.7 4.4 19.7c.88 1.48 1.93 3.14 3.3 3.09 1.32-.06 1.82-.87 3.42-.87 1.6 0 2.04.87 3.44.84 1.43-.03 2.33-1.5 3.2-2.98a10.1 10.1 0 0 0 1.44-3.2c-.06-.02-.02 0-.22-.09z" />
-                              </svg></button>
-                        </div>
-                        <div class="or-line">or use your email</div>
-
-                        <div class="field-group">
-                           <div class="field" id="popupFieldRowName"><input type="text" id="popupAuthInputName"
-                                 placeholder="Name"></div>
-                           <div class="field"><input type="email" id="popupAuthInputEmail" placeholder="Email"></div>
-                           <div class="field">
-                              <input type="password" id="popupAuthInputPw1" placeholder="Password">
-                              <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1',this)" type="button">
-                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                 </svg>
-                              </button>
-                           </div>
-                           <div class="field" id="popupFieldRowConfirmPw">
-                              <input type="password" id="popupAuthInputPw2" placeholder="Confirm Password">
-                              <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2',this)" type="button">
-                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                 </svg>
-                              </button>
-                           </div>
-                        </div>
-
-                        <div class="terms-row" id="popupTermsRow">
-                           <input type="checkbox" checked id="terms">
-                           <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy
-                                 Policy</a>.</label>
-                        </div>
-
-                        <div class="btn-row">
-                           <button class="btn-primary-auth" id="popupBtnSubmitAuth" onclick="executePopupAuth()">SIGN
-                              UP</button>
-                           <button class="btn-secondary-auth" id="popupBtnSwitchMode"
-                              onclick="togglePopupAuthMode()">Sign
-                              In</button>
-                        </div>
-
-                        <div class="footer-brand">
-                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DAFD1" stroke-width="2"
-                              stroke-linecap="round" stroke-linejoin="round">
-                              <rect x="2" y="7" width="20" height="15" rx="2" />
-                              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
-                              <path d="M12 12v4" />
-                              <path d="M8 12v4" />
-                              <path d="M16 12v4" />
-                           </svg>
-                           <span class="footer-brand-name">StayEasy</span>
-                        </div>
+                        <div class="mail-preview-content" id="previewContent"></div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
+      </div>
 
-         <div class="toast-custom" id="toastMsg"></div>
+      <div class="compose-overlay" id="composeOverlay">
+         <div class="compose-header">
+            <span class="fw-bold">Soạn thư mới</span>
+            <button onclick="closeCompose()"
+               style="background:none;border:none;color:white;cursor:pointer;font-size:18px;"><i
+                  class="bi bi-x"></i></button>
+         </div>
+         <div class="compose-body">
+            <input class="compose-field" type="email" placeholder="Đến:" id="composeTo">
+            <input class="compose-field" type="text" placeholder="Tiêu đề:" id="composeSubjectField">
+            <textarea class="compose-message" placeholder="Nội dung tin nhắn..." id="composeBody"></textarea>
+         </div>
+         <div class="compose-footer">
+            <button class="btn-send-mail" onclick="sendMail()"><i class="bi bi-send me-2"></i>Gửi</button>
+            <button onclick="closeCompose()" style="background:none;border:none;color:#94a3b8;cursor:pointer;"><i
+                  class="bi bi-trash fs-5"></i></button>
+         </div>
+      </div>
 
-         <footer class="footer-custom mt-5">
-            <div class="container">
-               <div class="row g-4">
-                  <div class="col-lg-4 pe-lg-5">
-                     <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="index.html">
-                        <i class="bi bi-buildings-fill text-primary"></i> StayEasy
-                     </a>
-                     <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam.</p>
-                     <div class="d-flex gap-3">
-                        <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
-                        <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+      <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-none bg-transparent">
+               <div class="login-card">
+                  <div class="brand-header">
+                     <div class="brand-logo">
+                        <i class="bi bi-airplane-engines-fill"></i>
                      </div>
+                     <h2 class="brand-title">StayEasy <span>Admin</span></h2>
                   </div>
-                  <div class="col-lg-2 col-md-4">
-                     <h5>Về StayEasy</h5>
-                     <a href="#">Giới thiệu</a>
-                     <a href="#">Tuyển dụng</a>
-                     <a href="partner.html">Hợp tác với chúng tôi</a>
-                     <a href="#">Điều khoản</a>
+
+                  <div class="auth-nav">
+                     <button type="button" class="auth-nav-btn active" data-admin-target="#admin-pane-login">Đăng
+                        nhập</button>
+                     <button type="button" class="auth-nav-btn" data-admin-target="#admin-pane-register">Cấp tài
+                        khoản
+                        mới</button>
                   </div>
-                  <div class="col-lg-3 col-md-4">
-                     <h5>Hỗ trợ</h5>
-                     <a href="support.html">Trung tâm trợ giúp</a>
-                     <a href="#">Chính sách bảo mật</a>
-                     <a href="#">Hoàn tiền</a>
-                     <a href="#">Hướng dẫn đặt phòng</a>
+
+                  <div class="form-pane active" id="admin-pane-login">
+                     <form id="adminLoginForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Email quản trị</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope"></i>
+                              <input type="email" id="adminLoginEmail" class="input-custom"
+                                 placeholder="admin@gmail.com" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-lock"></i>
+                              <input type="password" id="adminLoginPassword" class="input-custom input-password-padding"
+                                 placeholder="••••••••" required>
+                              <button type="button" class="password-toggle-icon admin-pw-toggle"><i
+                                    class="bi bi-eye"></i></button>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom">Đăng nhập ngay</button>
+                     </form>
                   </div>
-                  <div class="col-lg-3 col-md-4">
-                     <h5>Liên hệ</h5>
-                     <p class="mb-2"><i class="bi bi-geo-alt me-2 text-primary"></i> Trường ĐH Đại Nam, Hà Nội</p>
-                     <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
-                     <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+
+                  <div class="form-pane" id="admin-pane-register">
+                     <form id="adminRegisterForm">
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Tên thành viên</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-person"></i>
+                              <input type="text" id="adminRegName" class="input-custom" placeholder="Nguyễn Văn A"
+                                 required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Địa chỉ Email cấp</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-envelope-plus"></i>
+                              <input type="email" id="adminRegEmail" class="input-custom"
+                                 placeholder="nhanvien@stayeasy.vn" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Mật khẩu cấp quyền</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-key"></i>
+                              <input type="password" id="adminRegPassword" class="input-custom"
+                                 placeholder="Tối thiểu 6 ký tự" required>
+                           </div>
+                        </div>
+                        <div class="form-group-custom">
+                           <label class="form-label-custom">Phân cấp vai trò</label>
+                           <div class="input-wrapper">
+                              <i class="bi bi-shield-check"></i>
+                              <select id="adminRegRole" class="select-custom" required>
+                                 <option value="admin" selected>Quản trị viên (Admin)</option>
+                                 <option value="moderator">Điều phối viên</option>
+                              </select>
+                           </div>
+                        </div>
+                        <button type="submit" class="btn-submit-custom"
+                           style="background-color: #0f172a; box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);">Khởi
+                           tạo
+                           tài khoản</button>
+                     </form>
                   </div>
-               </div>
-               <div class="footer-bottom">
-                  <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
                </div>
             </div>
-         </footer>
+         </div>
+      </div>
 
-         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-         <script>
-            // Navbar scroll
-            $(window).scroll(function () {
-               if ($(this).scrollTop() > 50) {
-                  $('.navbar-custom').addClass('navbar-scrolled');
-                  $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
+      <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-auth-width">
+            <div class="modal-content border-0 bg-transparent shadow-none">
+               <div class="shell-popup shadow-lg">
+                  <button type="button" class="btn-close-popup" data-bs-dismiss="modal" aria-label="Close">
+                     <i class="bi bi-x-lg"></i>
+                  </button>
+                  <div class="photo-panel">
+                     <div class="slide-popup active" id="slide-0">
+                        <img src="https://www.thekarnatakatourism.com/assets/img/theme-holidays/nature-walk.webp"
+                           alt="Nature walk">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="slide-popup" id="slide-1">
+                        <img
+                           src="https://cdn3.ivivu.com/2019/11/cau-ban-tay-Phat-ngoc-trang-Thai-Hong-Tien-Thu-traveltimes-1.jpg"
+                           alt="Cầu Bàn Tay Vàng">
+                        <div class="slide-overlay"></div>
+                     </div>
+                     <div class="diagonal-slash"></div>
+                     <div class="dots-popup">
+                        <div class="dot-popup active" onclick="goPopupSlide(0)"></div>
+                        <div class="dot-popup" onclick="goPopupSlide(1)"></div>
+                     </div>
+                  </div>
+                  <div class="form-panel">
+                     <p class="welcome-label" id="popupAuthTitleLabel">Welcome to</p>
+                     <div class="brand-popup">Stay<sample>Easy</sample>
+                     </div>
+
+                     <div class="social-row">
+                        <button class="social-btn" title="Google"><svg viewBox="0 0 24 24" fill="none">
+                              <path
+                                 d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5c-.2 1.2-1 2.3-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3z"
+                                 fill="#4285F4" />
+                              <path
+                                 d="M12 22c2.7 0 5-.9 6.7-2.5l-3.2-2.5c-.9.6-2 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.9v2.6C4.6 19.6 8.1 22 12 22z"
+                                 fill="#34A853" />
+                              <path
+                                 d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.7s.1-1.1.3-1.7V7.7H2.9C2.3 8.9 2 10.4 2 12s.3 3.1.9 4.3l3.3-2.6z"
+                                 fill="#FBBC05" />
+                              <path
+                                 d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.6 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
+                                 fill="#EA4335" />
+                           </svg></button>
+                        <button class="social-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2">
+                              <path
+                                 d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97H15.8c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
+                           </svg></button>
+                        <button class="social-btn" title="X"><svg viewBox="0 0 24 24" fill="#000">
+                              <path
+                                 d="M18.24 2h3.1l-6.78 7.76L22.5 22h-6.25l-4.89-6.39L5.76 22H2.64l7.25-8.29L2 2h6.41l4.42 5.78L18.24 2zm-1.08 18h1.72L7 3.6H5.16L17.16 20z" />
+                           </svg></button>
+                        <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#000">
+                              <path
+                                 d="M16.46 1.2a4.56 4.56 0 0 1-1.07 3.35 3.63 3.63 0 0 1-2.93 1.38 4.05 4.05 0 0 1 1.04-3.2A4.4 4.4 0 0 1 16.46 1.2zm2.52 13.37c-.09-.06-2.5-1.46-2.52-4.3a4.56 4.56 0 0 1 2.22-3.91 4.65 4.65 0 0 0-3.67-1.99c-1.6-.17-3.14.97-3.95.97-.83 0-2.1-.95-3.44-.92C5.7 4.44 4 5.67 3.09 7.5 1.3 11.2 2.64 16.7 4.4 19.7c.88 1.48 1.93 3.14 3.3 3.09 1.32-.06 1.82-.87 3.42-.87 1.6 0 2.04.87 3.44.84 1.43-.03 2.33-1.5 3.2-2.98a10.1 10.1 0 0 0 1.44-3.2c-.06-.02-.02 0-.22-.09z" />
+                           </svg></button>
+                     </div>
+                     <div class="or-line">or use your email</div>
+
+                     <div class="field-group">
+                        <div class="field" id="popupFieldRowName"><input type="text" id="popupAuthInputName"
+                              placeholder="Name"></div>
+                        <div class="field"><input type="email" id="popupAuthInputEmail" placeholder="Email"></div>
+                        <div class="field">
+                           <input type="password" id="popupAuthInputPw1" placeholder="Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
+                           </button>
+                        </div>
+                        <div class="field" id="popupFieldRowConfirmPw">
+                           <input type="password" id="popupAuthInputPw2" placeholder="Confirm Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
+                           </button>
+                        </div>
+                     </div>
+
+                     <div class="terms-row" id="popupTermsRow">
+                        <input type="checkbox" checked id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy
+                              Policy</a>.</label>
+                     </div>
+
+                     <div class="btn-row">
+                        <button class="btn-primary-auth" id="popupBtnSubmitAuth" onclick="executePopupAuth()">SIGN
+                           UP</button>
+                        <button class="btn-secondary-auth" id="popupBtnSwitchMode" onclick="togglePopupAuthMode()">Sign
+                           In</button>
+                     </div>
+
+                     <div class="footer-brand">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DAFD1" stroke-width="2"
+                           stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="2" y="7" width="20" height="15" rx="2" />
+                           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                           <path d="M12 12v4" />
+                           <path d="M8 12v4" />
+                           <path d="M16 12v4" />
+                        </svg>
+                        <span class="footer-brand-name">StayEasy</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="toast-custom" id="toastMsg"></div>
+
+      <footer class="footer-custom mt-5">
+         <div class="container">
+            <div class="row g-4">
+               <div class="col-lg-4 pe-lg-5">
+                  <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="index.html">
+                     <i class="bi bi-buildings-fill text-primary"></i> StayEasy
+                  </a>
+                  <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam.</p>
+                  <div class="d-flex gap-3">
+                     <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
+                     <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+                  </div>
+               </div>
+               <div class="col-lg-2 col-md-4">
+                  <h5>Về StayEasy</h5>
+                  <a href="#">Giới thiệu</a>
+                  <a href="#">Tuyển dụng</a>
+                  <a href="partner.html">Hợp tác với chúng tôi</a>
+                  <a href="#">Điều khoản</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Hỗ trợ</h5>
+                  <a href="support.html">Trung tâm trợ giúp</a>
+                  <a href="#">Chính sách bảo mật</a>
+                  <a href="#">Hoàn tiền</a>
+                  <a href="#">Hướng dẫn đặt phòng</a>
+               </div>
+               <div class="col-lg-3 col-md-4">
+                  <h5>Liên hệ</h5>
+                  <p class="mb-2"><i class="bi bi-geo-alt me-2 text-primary"></i> Trường ĐH Đại Nam, Hà Nội</p>
+                  <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
+                  <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+               </div>
+            </div>
+            <div class="footer-bottom">
+               <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
+            </div>
+         </div>
+      </footer>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+         // Navbar scroll
+         $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+               $('.navbar-custom').addClass('navbar-scrolled');
+               $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
+            } else {
+               $('.navbar-custom').removeClass('navbar-scrolled');
+               $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
+            }
+         });
+
+         function switchTab(tabId, btnEl) {
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.support-nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + tabId).classList.add('active');
+            btnEl.classList.add('active');
+            window.scrollTo({ top: 250, behavior: 'smooth' });
+
+            // Nếu mở tab hộp thư, tự load mail đầu tiên
+            if (tabId === 'mailbox') {
+               const firstMail = document.querySelector('.mail-item');
+               if (firstMail) firstMail.click();
+            }
+         }
+
+         // FAQ toggle
+         function toggleFAQ(el) {
+            const item = el.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+         }
+
+         // Filter FAQ
+         function filterFAQ(cat) {
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+               if (cat === 'all' || item.dataset.cat === cat) {
+                  item.style.display = 'block';
                } else {
-                  $('.navbar-custom').removeClass('navbar-scrolled');
-                  $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
+                  item.style.display = 'none';
                }
             });
+            const labels = { booking: 'Đặt phòng', payment: 'Thanh toán', cancel: 'Hủy phòng', account: 'Tài khoản', promo: 'Khuyến mãi', other: 'Khác', all: 'Tất cả chủ đề' };
+            document.getElementById('faqSubtitle').textContent = labels[cat] || 'Tất cả chủ đề';
+         }
 
-            // Tab switching
-            function switchTab(tabId, btnEl) {
-               document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-               document.querySelectorAll('.support-nav-btn').forEach(b => b.classList.remove('active'));
-               document.getElementById('panel-' + tabId).classList.add('active');
-               btnEl.classList.add('active');
-               window.scrollTo({ top: 250, behavior: 'smooth' });
-            }
-
-            // FAQ toggle
-            function toggleFAQ(el) {
-               const item = el.closest('.faq-item');
-               const isOpen = item.classList.contains('open');
-               document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-               if (!isOpen) item.classList.add('open');
-            }
-
-            // Filter FAQ
-            function filterFAQ(cat) {
+         // Search FAQ
+         function searchFAQ() {
+            const query = document.getElementById('heroSearchInput').value.toLowerCase().trim();
+            if (!query) return;
+            switchTab('help', document.querySelectorAll('.support-nav-btn')[0]);
+            setTimeout(() => {
                const items = document.querySelectorAll('.faq-item');
+               let found = 0;
                items.forEach(item => {
-                  if (cat === 'all' || item.dataset.cat === cat) {
-                     item.style.display = 'block';
-                  } else {
-                     item.style.display = 'none';
-                  }
+                  const text = item.textContent.toLowerCase();
+                  if (text.includes(query)) { item.style.display = 'block'; found++; }
+                  else item.style.display = 'none';
                });
-               const labels = { booking: 'Đặt phòng', payment: 'Thanh toán', cancel: 'Hủy phòng', account: 'Tài khoản', promo: 'Khuyến mãi', other: 'Khác', all: 'Tất cả chủ đề' };
-               document.getElementById('faqSubtitle').textContent = labels[cat] || 'Tất cả chủ đề';
+               document.getElementById('faqSubtitle').textContent = `Kết quả cho "${query}" (${found} câu hỏi)`;
+            }, 200);
+         }
+         document.getElementById('heroSearchInput').addEventListener('keydown', e => { if (e.key === 'Enter') searchFAQ(); });
+
+         // Contact form
+         function submitContactForm() {
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const subject = document.getElementById('contactSubject').value;
+            const msg = document.getElementById('contactMessage').value.trim();
+
+            // Regex kiểm tra định dạng email chuẩn
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!name || !email || !subject || !msg) {
+               showToast('⚠️ Vui lòng điền đầy đủ thông tin bắt buộc!');
+               return;
             }
 
-            // Search FAQ
-            function searchFAQ() {
-               const query = document.getElementById('heroSearchInput').value.toLowerCase().trim();
-               if (!query) return;
-               switchTab('help', document.querySelectorAll('.support-nav-btn')[0]);
-               setTimeout(() => {
-                  const items = document.querySelectorAll('.faq-item');
-                  let found = 0;
-                  items.forEach(item => {
-                     const text = item.textContent.toLowerCase();
-                     if (text.includes(query)) { item.style.display = 'block'; found++; }
-                     else item.style.display = 'none';
-                  });
-                  document.getElementById('faqSubtitle').textContent = `Kết quả cho "${query}" (${found} câu hỏi)`;
-               }, 200);
-            }
-            document.getElementById('heroSearchInput').addEventListener('keydown', e => { if (e.key === 'Enter') searchFAQ(); });
-
-            // Contact form
-            function submitContactForm() {
-               const name = document.getElementById('contactName').value.trim();
-               const email = document.getElementById('contactEmail').value.trim();
-               const subject = document.getElementById('contactSubject').value;
-               const msg = document.getElementById('contactMessage').value.trim();
-
-               // Regex kiểm tra định dạng email chuẩn
-               const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-               if (!name || !email || !subject || !msg) {
-                  showToast('⚠️ Vui lòng điền đầy đủ thông tin bắt buộc!');
-                  return;
-               }
-
-               // Kiểm tra email có hợp lệ không
-               if (!emailPattern.test(email)) {
-                  showToast('⚠️ Định dạng email không hợp lệ!');
-                  return;
-               }
-
-               showToast('✅ Yêu cầu đã được gửi! Chúng tôi sẽ phản hồi trong 24 giờ.');
-               document.getElementById('contactName').value = '';
-               document.getElementById('contactEmail').value = '';
-               document.getElementById('contactPhone').value = '';
-               document.getElementById('contactSubject').value = '';
-               document.getElementById('contactBookingId').value = '';
-               document.getElementById('contactMessage').value = '';
+            // Kiểm tra email có hợp lệ không
+            if (!emailPattern.test(email)) {
+               showToast('⚠️ Định dạng email không hợp lệ!');
+               return;
             }
 
-            // Toast
-            function showToast(msg) {
-               const t = document.getElementById('toastMsg');
-               t.textContent = msg;
-               t.classList.add('show');
-               setTimeout(() => t.classList.remove('show'), 3500);
+            showToast('✅ Yêu cầu đã được gửi! Chúng tôi sẽ phản hồi trong 24 giờ.');
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactPhone').value = '';
+            document.getElementById('contactSubject').value = '';
+            document.getElementById('contactBookingId').value = '';
+            document.getElementById('contactMessage').value = '';
+         }
+
+         // Toast
+         function showToast(msg) {
+            const t = document.getElementById('toastMsg');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+         }
+
+         // Mailbox
+         const mailData = [
+            { from: 'StayEasy Team', subject: '🎉 Xác nhận đặt phòng thành công', time: '10:23 hôm nay', body: '<p>Kính gửi Quý khách,</p><p>Đặt phòng của bạn tại <strong>Dalat Flower Homestay</strong> đã được xác nhận thành công.</p><ul><li><strong>Mã đặt phòng:</strong> SE-2026-00123456</li><li><strong>Check-in:</strong> 28/05/2026</li><li><strong>Check-out:</strong> 30/05/2026</li><li><strong>Số đêm:</strong> 2 đêm</li></ul><p>Vui lòng mang theo CMND/CCCD khi check-in.</p><p>Trân trọng,<br><strong>StayEasy Team</strong></p>' },
+            { from: 'Khuyến mãi StayEasy', subject: '🏷️ Ưu đãi đặc biệt dành riêng cho bạn', time: 'Hôm qua', body: '<p>Xin chào,</p><p>Chúng tôi có một ưu đãi đặc biệt dành riêng cho bạn!</p><p>🎁 <strong>Giảm ngay 20%</strong> cho chuyến đi tiếp theo với mã: <code style="background:#eff6ff;padding:4px 10px;border-radius:6px;color:#2563eb;font-weight:700;">LOYAL20</code></p><p>Ưu đãi có hiệu lực đến <strong>31/05/2026</strong>. Đặt phòng ngay hôm nay!</p>' },
+            { from: 'Phản hồi StayEasy', subject: '⭐ Đánh giá trải nghiệm của bạn', time: '2 ngày trước', body: '<p>Xin chào,</p><p>Cảm ơn bạn đã lựa chọn StayEasy cho chuyến đi vừa rồi!</p><p>Hãy dành 2 phút chia sẻ trải nghiệm của bạn tại <strong>Nha Trang Beach Resort</strong>. Đánh giá của bạn giúp hàng triệu du khách khác có lựa chọn tốt hơn.</p><p><a href="#" style="background:#2563eb;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block;margin-top:8px;">⭐ Viết đánh giá ngay</a></p>' },
+            { from: 'Nhắc nhở StayEasy', subject: 'Nhắc nhở check-in: Phú Quốc Resort', time: '5 ngày trước', body: '<p>Kính gửi Quý khách,</p><p>Đây là nhắc nhở lịch check-in của bạn tại <strong>Phú Quốc Pearl Resort & Spa</strong>:</p><ul><li><strong>Check-in:</strong> 30/05/2026 (từ 14:00)</li><li><strong>Check-out:</strong> 03/06/2026</li></ul><p>Lưu ý: Vui lòng thông báo nếu bạn đến trước hoặc sau giờ quy định.</p>' }
+         ];
+         const originalMailList = document.getElementById('mailList').innerHTML;
+
+         function readMail(el, idx) {
+            document.querySelectorAll('.mail-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+
+            if (el.classList.contains('unread')) {
+               el.classList.remove('unread');
+               el.querySelector('.unread-dot') && (el.querySelector('.unread-dot').style.display = 'none');
+
+               updateInboxCount();
             }
 
-            // Mailbox
-            const mailData = [
-               { from: 'StayEasy Team', subject: '🎉 Xác nhận đặt phòng thành công', time: '10:23 hôm nay', body: '<p>Kính gửi Quý khách,</p><p>Đặt phòng của bạn tại <strong>Dalat Flower Homestay</strong> đã được xác nhận thành công.</p><ul><li><strong>Mã đặt phòng:</strong> SE-2026-00123456</li><li><strong>Check-in:</strong> 28/05/2026</li><li><strong>Check-out:</strong> 30/05/2026</li><li><strong>Số đêm:</strong> 2 đêm</li></ul><p>Vui lòng mang theo CMND/CCCD khi check-in.</p><p>Trân trọng,<br><strong>StayEasy Team</strong></p>' },
-               { from: 'Khuyến mãi StayEasy', subject: '🏷️ Ưu đãi đặc biệt dành riêng cho bạn', time: 'Hôm qua', body: '<p>Xin chào,</p><p>Chúng tôi có một ưu đãi đặc biệt dành riêng cho bạn!</p><p>🎁 <strong>Giảm ngay 20%</strong> cho chuyến đi tiếp theo với mã: <code style="background:#eff6ff;padding:4px 10px;border-radius:6px;color:#2563eb;font-weight:700;">LOYAL20</code></p><p>Ưu đãi có hiệu lực đến <strong>31/05/2026</strong>. Đặt phòng ngay hôm nay!</p>' },
-               { from: 'Phản hồi StayEasy', subject: '⭐ Đánh giá trải nghiệm của bạn', time: '2 ngày trước', body: '<p>Xin chào,</p><p>Cảm ơn bạn đã lựa chọn StayEasy cho chuyến đi vừa rồi!</p><p>Hãy dành 2 phút chia sẻ trải nghiệm của bạn tại <strong>Nha Trang Beach Resort</strong>. Đánh giá của bạn giúp hàng triệu du khách khác có lựa chọn tốt hơn.</p><p><a href="#" style="background:#2563eb;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block;margin-top:8px;">⭐ Viết đánh giá ngay</a></p>' },
-               { from: 'Nhắc nhở StayEasy', subject: 'Nhắc nhở check-in: Phú Quốc Resort', time: '5 ngày trước', body: '<p>Kính gửi Quý khách,</p><p>Đây là nhắc nhở lịch check-in của bạn tại <strong>Phú Quốc Pearl Resort & Spa</strong>:</p><ul><li><strong>Check-in:</strong> 30/05/2026 (từ 14:00)</li><li><strong>Check-out:</strong> 03/06/2026</li></ul><p>Lưu ý: Vui lòng thông báo nếu bạn đến trước hoặc sau giờ quy định.</p>' }
-            ];
-            const originalMailList = document.getElementById('mailList').innerHTML;
-
-            function readMail(el, idx) {
-               document.querySelectorAll('.mail-item').forEach(i => i.classList.remove('selected'));
-               el.classList.add('selected');
-
-               if (el.classList.contains('unread')) {
-                  el.classList.remove('unread');
-                  el.querySelector('.unread-dot') && (el.querySelector('.unread-dot').style.display = 'none');
-
-                  updateInboxCount();
-               }
-
-               localStorage.setItem('readMail_' + idx, 'true');
-               const mail = mailData[idx];
-               document.getElementById('previewEmpty').style.display = 'none';
-               const content = document.getElementById('previewContent');
-               content.style.display = 'block';
-               content.innerHTML = `
+            localStorage.setItem('readMail_' + idx, 'true');
+            const mail = mailData[idx];
+            document.getElementById('previewEmpty').style.display = 'none';
+            const content = document.getElementById('previewContent');
+            content.style.display = 'block';
+            content.innerHTML = `
         <div style="border-bottom:1px solid #e2e8f0;padding-bottom:20px;margin-bottom:20px;">
            <h5 class="fw-bold text-dark mb-2">${mail.subject}</h5>
            <div class="d-flex align-items-center gap-3">
@@ -2426,286 +2430,287 @@
         </div>
         <div style="font-size:15px;line-height:1.8;color:#334155;">${mail.body}</div>
     `;
-            }
+         }
 
-            function setFolder(folder, el) {
-               document.querySelectorAll('.mailbox-folder').forEach(f => f.classList.remove('active'));
-               el.classList.add('active');
+         function setFolder(folder, el) {
+            document.querySelectorAll('.mailbox-folder').forEach(f => f.classList.remove('active'));
+            el.classList.add('active');
 
-               // Khôi phục danh sách gốc
-               document.getElementById('mailList').innerHTML = originalMailList;
+            // Khôi phục danh sách gốc
+            document.getElementById('mailList').innerHTML = originalMailList;
 
-               if (folder === 'inbox') {
-                  document.querySelectorAll('.mail-item').forEach((item, idx) => {
-                     item.style.display = 'block';
-                     // KIỂM TRA TRẠNG THÁI ĐÃ ĐỌC
-                     if (localStorage.getItem('readMail_' + idx) === 'true') {
-                        item.classList.remove('unread');
-                        const dot = item.querySelector('.unread-dot');
-                        if (dot) dot.style.display = 'none';
-                     }
-                  });
-               } else {
-                  document.getElementById('mailList').innerHTML = `<div class="p-5 text-center text-muted"><i class="bi bi-inbox fs-1 d-block mb-3 opacity-25"></i><p class="small">Không có thư trong mục này</p></div>`;
-               }
-
-               document.getElementById('previewEmpty').style.display = 'block';
-               document.getElementById('previewContent').style.display = 'none';
-               document.querySelectorAll('.mail-item').forEach(i => i.classList.remove('selected'));
-               updateInboxCount();
-            }
-
-            // Init: show first mail
-            setTimeout(() => readMail(document.querySelector('.mail-item'), 0), 300);
-            // Init: default to booking FAQ
-            filterFAQ('booking');
-
-            $(document).ready(function () {
-               // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
-               const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+            if (folder === 'inbox') {
                document.querySelectorAll('.mail-item').forEach((item, idx) => {
+                  item.style.display = 'block';
+                  // KIỂM TRA TRẠNG THÁI ĐÃ ĐỌC
                   if (localStorage.getItem('readMail_' + idx) === 'true') {
                      item.classList.remove('unread');
                      const dot = item.querySelector('.unread-dot');
                      if (dot) dot.style.display = 'none';
                   }
                });
-               updateInboxCount();
-               if (isUserLoggedIn) {
-                  const userName = localStorage.getItem('userName') || 'Khách';
+            } else {
+               document.getElementById('mailList').innerHTML = `<div class="p-5 text-center text-muted"><i class="bi bi-inbox fs-1 d-block mb-3 opacity-25"></i><p class="small">Không có thư trong mục này</p></div>`;
+            }
 
-                  const userMenu = `
-                  <li class="nav-item dropdown user-dropdown">
-                     <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
-                        <span>${userName}</span>
-                     </a>
-                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
-                        <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
-                           <div class="fw-bold text-dark small text-truncate">${userName}</div>
-                           <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
-                        </li>
-                        <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
-                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
-                        <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
-                     </ul>
-                  </li>
-               `;
-                  $('.btn-nav-login').parent().hide();
-                  $('.btn-nav-register').parent().hide();
-                  $('.navbar-nav.align-items-center').append(userMenu);
+            document.getElementById('previewEmpty').style.display = 'block';
+            document.getElementById('previewContent').style.display = 'none';
+            document.querySelectorAll('.mail-item').forEach(i => i.classList.remove('selected'));
+            updateInboxCount();
+         }
+
+         // Init: show first mail
+         setTimeout(() => readMail(document.querySelector('.mail-item'), 0), 300);
+         // Init: default to booking FAQ
+         filterFAQ('booking');
+
+         $(document).ready(function () {
+            // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
+            const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+            const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+               && localStorage.getItem('userRole') === 'superadmin';
+            document.querySelectorAll('.mail-item').forEach((item, idx) => {
+               if (localStorage.getItem('readMail_' + idx) === 'true') {
+                  item.classList.remove('unread');
+                  const dot = item.querySelector('.unread-dot');
+                  if (dot) dot.style.display = 'none';
+               }
+            });
+            updateInboxCount();
+            if (isUserLoggedIn || isAdminLoggedIn) {
+               const userName = localStorage.getItem('userName') || 'Khách';
+               const userMenu = `
+            <li class="nav-item dropdown user-dropdown">
+                <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+                    <span>${userName}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                    <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
+                        <div class="fw-bold text-dark small text-truncate">${userName}</div>
+                        <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
+                    </li>
+                    <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
+                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                </ul>
+            </li>
+        `;
+               $('.btn-nav-login').parent().hide();
+               $('.btn-nav-register').parent().hide();
+               $('.navbar-nav.align-items-center').append(userMenu);
+            }
+         });
+
+         // Logic Hàm Đăng xuất
+         window.logoutUser = function () {
+            localStorage.removeItem('isUserLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            window.location.reload();
+         }
+
+         // ==========================================
+         // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
+         // ==========================================
+         let popupCurrentSlide = 0;
+         const popupTotalSlides = 2;
+         let popupSliderTimer;
+
+         function goPopupSlide(idx) {
+            document.getElementById('slide-' + popupCurrentSlide).classList.remove('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.remove('active');
+            popupCurrentSlide = idx;
+            document.getElementById('slide-' + popupCurrentSlide).classList.add('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.add('active');
+            clearInterval(popupSliderTimer);
+            startPopupSlider();
+         }
+
+         function startPopupSlider() {
+            popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
+         }
+         startPopupSlider();
+
+         function togglePopupPw(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
+         }
+
+         // ==========================================
+         // LOGIC PHÂN TÁCH TRẠNG THÁI FORM NỔI (ĐĂNG NHẬP / ĐĂNG KÝ)
+         // ==========================================
+         let currentPopupAuthMode = 'signup';
+
+         function initAuthForm(mode) {
+            currentPopupAuthMode = mode === 'signin' ? 'signup' : 'signin';
+            togglePopupAuthMode();
+         }
+
+         function togglePopupAuthMode() {
+            if (currentPopupAuthMode === 'signup') {
+               currentPopupAuthMode = 'signin';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome back to';
+               document.getElementById('popupFieldRowName').style.display = 'none';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'none';
+               document.getElementById('popupTermsRow').style.display = 'none';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN IN';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Create Account';
+            } else {
+               currentPopupAuthMode = 'signup';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome to';
+               document.getElementById('popupFieldRowName').style.display = 'block';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'block';
+               document.getElementById('popupTermsRow').style.display = 'flex';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN UP';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Sign In';
+            }
+         }
+
+         // ==========================================
+         // XỬ LÝ LOCALSTORAGE ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH HÀNG
+         // ==========================================
+         function executePopupAuth() {
+            const name = document.getElementById('popupAuthInputName').value.trim();
+            const email = document.getElementById('popupAuthInputEmail').value.trim();
+            const pw1 = document.getElementById('popupAuthInputPw1').value;
+            const pw2 = document.getElementById('popupAuthInputPw2').value;
+            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+
+            if (currentPopupAuthMode === 'signup') {
+               if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
+               if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
+               if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
+
+               users.push({ name, email, password: pw1 });
+               localStorage.setItem('stayeasy_users', JSON.stringify(users));
+               alert('🎉 Đăng ký tài khoản khách thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               togglePopupAuthMode();
+            } else {
+               if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
+               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+               if (matchedUser) {
+                  localStorage.setItem('isUserLoggedIn', 'true');
+                  localStorage.setItem('userName', matchedUser.name);
+                  localStorage.setItem('userEmail', matchedUser.email);
+                  alert('🎉 Đăng nhập thành công!');
+                  window.location.reload();
+               } else {
+                  alert('❌ Tài khoản hoặc mật khẩu không chính xác!');
+               }
+            }
+         }
+
+         // ==========================================
+         // LOGIC ADMIN LOGIN MODAL (từ admin-login.html)
+         // ==========================================
+         (function () {
+            function getFreshAdminAccounts() {
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               const hasAdmin = accounts.some(u => u.email === "admin@gmail.com");
+               if (!hasAdmin) {
+                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin", role: "admin" });
+                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               }
+               return accounts;
+            }
+            getFreshAdminAccounts();
+
+            // Tab điều hướng trong admin modal
+            document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
+                  this.classList.add('active');
+                  const target = this.getAttribute('data-admin-target');
+                  document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
+                  document.querySelector(target).classList.add('active');
+               });
+            });
+
+            // Toggle hiện mật khẩu
+            document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  const input = this.previousElementSibling;
+                  const icon = this.querySelector('i');
+                  if (input.type === 'password') {
+                     input.type = 'text';
+                     icon.classList.replace('bi-eye', 'bi-eye-slash');
+                  } else {
+                     input.type = 'password';
+                     icon.classList.replace('bi-eye-slash', 'bi-eye');
+                  }
+               });
+            });
+
+            // Xử lý đăng nhập admin
+            document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const email = document.getElementById('adminLoginEmail').value.trim();
+               const password = document.getElementById('adminLoginPassword').value;
+               const accounts = getFreshAdminAccounts();
+               const matchedUser = accounts.find(u => u.email === email && u.password === password);
+               if (matchedUser) {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('userName', matchedUser.name);
+                  alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
+                  window.location.href = 'admin.html';
+               } else {
+                  alert("❌ Tài khoản quản trị hoặc mật khẩu không chính xác.");
                }
             });
 
-            // Logic Hàm Đăng xuất
-            window.logoutUser = function () {
-               localStorage.removeItem('isUserLoggedIn');
-               localStorage.removeItem('userName');
-               localStorage.removeItem('userEmail');
-               window.location.reload();
-            }
-
-            // ==========================================
-            // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
-            // ==========================================
-            let popupCurrentSlide = 0;
-            const popupTotalSlides = 2;
-            let popupSliderTimer;
-
-            function goPopupSlide(idx) {
-               document.getElementById('slide-' + popupCurrentSlide).classList.remove('active');
-               document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.remove('active');
-               popupCurrentSlide = idx;
-               document.getElementById('slide-' + popupCurrentSlide).classList.add('active');
-               document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.add('active');
-               clearInterval(popupSliderTimer);
-               startPopupSlider();
-            }
-
-            function startPopupSlider() {
-               popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
-            }
-            startPopupSlider();
-
-            function togglePopupPw(id, btn) {
-               const inp = document.getElementById(id);
-               inp.type = inp.type === 'password' ? 'text' : 'password';
-               btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
-            }
-
-            // ==========================================
-            // LOGIC PHÂN TÁCH TRẠNG THÁI FORM NỔI (ĐĂNG NHẬP / ĐĂNG KÝ)
-            // ==========================================
-            let currentPopupAuthMode = 'signup';
-
-            function initAuthForm(mode) {
-               currentPopupAuthMode = mode === 'signin' ? 'signup' : 'signin';
-               togglePopupAuthMode();
-            }
-
-            function togglePopupAuthMode() {
-               if (currentPopupAuthMode === 'signup') {
-                  currentPopupAuthMode = 'signin';
-                  document.getElementById('popupAuthTitleLabel').innerText = 'Welcome back to';
-                  document.getElementById('popupFieldRowName').style.display = 'none';
-                  document.getElementById('popupFieldRowConfirmPw').style.display = 'none';
-                  document.getElementById('popupTermsRow').style.display = 'none';
-                  document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN IN';
-                  document.getElementById('popupBtnSwitchMode').innerText = 'Create Account';
-               } else {
-                  currentPopupAuthMode = 'signup';
-                  document.getElementById('popupAuthTitleLabel').innerText = 'Welcome to';
-                  document.getElementById('popupFieldRowName').style.display = 'block';
-                  document.getElementById('popupFieldRowConfirmPw').style.display = 'block';
-                  document.getElementById('popupTermsRow').style.display = 'flex';
-                  document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN UP';
-                  document.getElementById('popupBtnSwitchMode').innerText = 'Sign In';
+            // Xử lý cấp tài khoản admin mới
+            document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const name = document.getElementById('adminRegName').value.trim();
+               const email = document.getElementById('adminRegEmail').value.trim();
+               const password = document.getElementById('adminRegPassword').value;
+               const role = document.getElementById('adminRegRole').value;
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === "admin@gmail.com") {
+                  alert("⚠️ Email này đã được đăng ký cấp quyền hệ thống!");
+                  return;
                }
-            }
+               accounts.push({ name, email, password, role });
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
+               document.getElementById('adminRegisterForm').reset();
+            });
+            // Cảnh báo ngay khi người dùng rời chuột khỏi ô Email mà nhập sai hoặc để trống
+            document.getElementById('contactEmail').addEventListener('blur', function () {
+               const email = this.value.trim();
+               const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            // ==========================================
-            // XỬ LÝ LOCALSTORAGE ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH HÀNG
-            // ==========================================
-            function executePopupAuth() {
-               const name = document.getElementById('popupAuthInputName').value.trim();
-               const email = document.getElementById('popupAuthInputEmail').value.trim();
-               const pw1 = document.getElementById('popupAuthInputPw1').value;
-               const pw2 = document.getElementById('popupAuthInputPw2').value;
-               let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
-
-               if (currentPopupAuthMode === 'signup') {
-                  if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
-                  if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
-                  if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
-
-                  users.push({ name, email, password: pw1 });
-                  localStorage.setItem('stayeasy_users', JSON.stringify(users));
-                  alert('🎉 Đăng ký tài khoản khách thành công! Hệ thống tự động chuyển sang Đăng nhập.');
-                  togglePopupAuthMode();
-               } else {
-                  if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-                  const matchedUser = users.find(u => u.email === email && u.password === pw1);
-                  if (matchedUser) {
-                     localStorage.setItem('isUserLoggedIn', 'true');
-                     localStorage.setItem('userName', matchedUser.name);
-                     localStorage.setItem('userEmail', matchedUser.email);
-                     alert('🎉 Đăng nhập thành công!');
-                     window.location.reload();
-                  } else {
-                     alert('❌ Tài khoản hoặc mật khẩu không chính xác!');
-                  }
+               if (email && !emailPattern.test(email)) {
+                  showToast('⚠️ Email sai định dạng, vui lòng nhập lại!');
+                  this.focus();
+               } else if (!email) {
+                  showToast('⚠️ Bạn chưa nhập email!');
                }
+            });
+         })();
+         function checkLoginAndOpen(tabName, element) {
+            const isLogged = localStorage.getItem('isUserLoggedIn');
+
+            if (isLogged === 'true') {
+               switchTab(tabName, element);
+            } else {
+               initAuthForm('signin');
+               var myModal = new bootstrap.Modal(document.getElementById('popupAuthModal'));
+               myModal.show();
             }
-
-            // ==========================================
-            // LOGIC ADMIN LOGIN MODAL (từ admin-login.html)
-            // ==========================================
-            (function () {
-               function getFreshAdminAccounts() {
-                  let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-                  const hasAdmin = accounts.some(u => u.email === "admin@gmail.com");
-                  if (!hasAdmin) {
-                     accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin", role: "admin" });
-                     localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
-                  }
-                  return accounts;
-               }
-               getFreshAdminAccounts();
-
-               // Tab điều hướng trong admin modal
-               document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
-                  btn.addEventListener('click', function () {
-                     document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
-                     this.classList.add('active');
-                     const target = this.getAttribute('data-admin-target');
-                     document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
-                     document.querySelector(target).classList.add('active');
-                  });
-               });
-
-               // Toggle hiện mật khẩu
-               document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
-                  btn.addEventListener('click', function () {
-                     const input = this.previousElementSibling;
-                     const icon = this.querySelector('i');
-                     if (input.type === 'password') {
-                        input.type = 'text';
-                        icon.classList.replace('bi-eye', 'bi-eye-slash');
-                     } else {
-                        input.type = 'password';
-                        icon.classList.replace('bi-eye-slash', 'bi-eye');
-                     }
-                  });
-               });
-
-               // Xử lý đăng nhập admin
-               document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
-                  e.preventDefault();
-                  const email = document.getElementById('adminLoginEmail').value.trim();
-                  const password = document.getElementById('adminLoginPassword').value;
-                  const accounts = getFreshAdminAccounts();
-                  const matchedUser = accounts.find(u => u.email === email && u.password === password);
-                  if (matchedUser) {
-                     localStorage.setItem('isLoggedIn', 'true');
-                     localStorage.setItem('userRole', 'admin');
-                     localStorage.setItem('userName', matchedUser.name);
-                     alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
-                     window.location.href = 'admin.html';
-                  } else {
-                     alert("❌ Tài khoản quản trị hoặc mật khẩu không chính xác.");
-                  }
-               });
-
-               // Xử lý cấp tài khoản admin mới
-               document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
-                  e.preventDefault();
-                  const name = document.getElementById('adminRegName').value.trim();
-                  const email = document.getElementById('adminRegEmail').value.trim();
-                  const password = document.getElementById('adminRegPassword').value;
-                  const role = document.getElementById('adminRegRole').value;
-                  let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-                  if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === "admin@gmail.com") {
-                     alert("⚠️ Email này đã được đăng ký cấp quyền hệ thống!");
-                     return;
-                  }
-                  accounts.push({ name, email, password, role });
-                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
-                  alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
-                  document.getElementById('adminRegisterForm').reset();
-               });
-               // Cảnh báo ngay khi người dùng rời chuột khỏi ô Email mà nhập sai hoặc để trống
-               document.getElementById('contactEmail').addEventListener('blur', function () {
-                  const email = this.value.trim();
-                  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                  if (email && !emailPattern.test(email)) {
-                     showToast('⚠️ Email sai định dạng, vui lòng nhập lại!');
-                     this.focus();
-                  } else if (!email) {
-                     showToast('⚠️ Bạn chưa nhập email!');
-                  }
-               });
-            })();
-            function checkLoginAndOpen(tabName, element) {
-               const isLogged = localStorage.getItem('isUserLoggedIn');
-
-               if (isLogged === 'true') {
-                  switchTab(tabName, element);
-               } else {
-                  initAuthForm('signin');
-                  var myModal = new bootstrap.Modal(document.getElementById('popupAuthModal'));
-                  myModal.show();
-               }
+         }
+         function updateInboxCount() {
+            const unreadCount = document.querySelectorAll('.mail-item.unread').length;
+            const badge = document.querySelector('.folder-count');
+            if (badge) {
+               badge.textContent = unreadCount;
+               badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
             }
-            function updateInboxCount() {
-               const unreadCount = document.querySelectorAll('.mail-item.unread').length;
-               const badge = document.querySelector('.folder-count');
-               if (badge) {
-                  badge.textContent = unreadCount;
-                  badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
-               }
-            }
-         </script>
+         }
+      </script>
    </body>
 </html>

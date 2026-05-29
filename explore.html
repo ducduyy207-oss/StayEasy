@@ -1483,34 +1483,26 @@
             border-radius: 24px;
             width: 100%;
             max-width: 1150px;
-            /* ← tăng từ 760px lên 960px */
             overflow: hidden;
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
             position: relative;
             animation: artSlideUp 0.3s cubic-bezier(.25, .46, .45, .94);
             display: flex;
-            /* ← thêm */
             flex-direction: row;
-            /* ← thêm */
          }
 
          .article-modal-box .article-modal-hero {
             width: 380px;
             height: auto;
-            /* ← đổi từ 100% thành auto */
             min-height: 100%;
-            /* ← đổi min-height thành 100% */
             object-fit: cover;
             object-position: center top;
-            /* ← thêm dòng này để ảnh không bị cắt phần quan trọng */
             flex-shrink: 0;
             display: block;
             align-self: stretch;
-            /* ← thêm dòng này: kéo ảnh giãn đủ chiều cao khung */
             border-radius: 0;
          }
 
-         /* Nội dung bên phải, cuộn độc lập */
          .article-modal-box .article-modal-body {
             flex: 1;
             overflow-y: auto;
@@ -2179,7 +2171,9 @@
          // ===== AUTH STATE =====
          document.addEventListener('DOMContentLoaded', function () {
             const isLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
-            if (isLoggedIn) {
+            const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+               && localStorage.getItem('userRole') === 'superadmin';
+            if (isLoggedIn || isAdminLoggedIn) {
                const userName = localStorage.getItem('userName') || 'Khách';
                document.querySelectorAll('.user-auth-nav-item').forEach(el => el.style.display = 'none');
                const userMenu = `
@@ -2345,10 +2339,10 @@
                const matchedUser = accounts.find(u => u.email === email && u.password === password);
                if (matchedUser) {
                   localStorage.setItem('isLoggedIn', 'true');
-                  localStorage.setItem('userRole', 'admin');
+                  localStorage.setItem('userRole', 'superadmin');
                   localStorage.setItem('userName', matchedUser.name);
                   alert('🎉 Đăng nhập thành công! Đang chuyển hướng...');
-                  window.location.href = 'admin.html';
+                  window.location.reload();
                } else {
                   alert('❌ Tài khoản quản trị hoặc mật khẩu không chính xác.');
                }
@@ -2390,10 +2384,8 @@
             const mirror = document.getElementById('blogScrollMirror');
             const mirrorInner = document.getElementById('blogScrollMirrorInner');
 
-            // Ẩn scrollbar thật
             el.style.cssText += '; scrollbar-width:none; -ms-overflow-style:none;';
 
-            // Sync chiều rộng mirror = chiều rộng nội dung thật
             function syncMirror() {
                mirrorInner.style.width = el.scrollWidth + 'px';
                mirror.style.cssText = `overflow-x:auto; overflow-y:hidden; margin-bottom:12px; 
@@ -2401,18 +2393,12 @@
             }
             syncMirror();
             window.addEventListener('resize', syncMirror);
-
-            // Scroll mirror → kéo blogScroll
             mirror.addEventListener('scroll', () => {
                el.scrollLeft = mirror.scrollLeft;
             });
-
-            // Scroll blogScroll → cập nhật mirror
             el.addEventListener('scroll', () => {
                mirror.scrollLeft = el.scrollLeft;
             });
-
-            // Kéo chuột trong card
             let isDown = false, startX, scrollLeft;
             el.addEventListener('mousedown', e => {
                isDown = true;
@@ -2432,8 +2418,6 @@
                el.scrollLeft = scrollLeft - walk;
                mirror.scrollLeft = el.scrollLeft;
             });
-
-            // Thêm webkit scrollbar style qua JS
             const style = document.createElement('style');
             style.textContent = `
         #blogScrollMirror::-webkit-scrollbar { height: 5px; }

@@ -6,19 +6,15 @@
       <title>Khuyến mãi - StayEasy</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap"
+      <link
+         href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
          rel="stylesheet">
       <link rel="stylesheet" href="style.css">
       <style>
-         body {
-            font-family: 'DM Sans', sans-serif;
-            background: #f8fafc;
-         }
-
          /* Hero */
          .promo-hero {
             background: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #f97316 100%);
-            padding: 140px 0 100px;
+            padding: 160px 0 100px;
             position: relative;
             overflow: hidden;
          }
@@ -26,8 +22,8 @@
          .promo-hero::before {
             content: '';
             position: absolute;
-            width: 500px;
-            height: 500px;
+            width: 700px;
+            height: 700px;
             background: rgba(255, 255, 255, 0.06);
             border-radius: 50%;
             top: -100px;
@@ -37,8 +33,8 @@
          .promo-hero::after {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 400px;
+            height: 400px;
             background: rgba(255, 255, 255, 0.04);
             border-radius: 50%;
             bottom: -80px;
@@ -371,11 +367,12 @@
 
          /* Toast */
          .toast-custom {
+            display: none !important;
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #0f172a;
+            background: 0 10px 25px rgba(124, 58, 237, 0.25);
             color: white;
             padding: 14px 28px;
             border-radius: 12px;
@@ -421,8 +418,202 @@
             text-align: center;
          }
 
+         .promo-filter-bar .d-flex::-webkit-scrollbar {
+            display: none;
+         }
+
          /* ==========================================
-            CSS RIỆNG BIỆT CHO KHUNG POPUP AUTH NỔI
+            CSS ADMIN LOGIN MODAL (SCOPED)
+         ========================================== */
+         #adminLoginModal .modal-dialog {
+            max-width: 480px;
+         }
+
+         #adminLoginModal .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            padding: 40px;
+            border: 1px solid #e2e8f0;
+         }
+
+         #adminLoginModal .brand-header {
+            text-align: center;
+            margin-bottom: 32px;
+         }
+
+         #adminLoginModal .brand-logo {
+            width: 48px;
+            height: 48px;
+            background-color: #2563eb;
+            color: #ffffff;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+         }
+
+         #adminLoginModal .brand-title {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 1.35rem;
+            margin: 0;
+            letter-spacing: -0.5px;
+         }
+
+         #adminLoginModal .brand-title span {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+            justify-content: center;
+            gap: 20px;
+         }
+
+         #adminLoginModal .auth-nav-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 4px;
+            position: relative;
+            transition: all 0.2s ease;
+         }
+
+         #adminLoginModal .auth-nav-btn:hover {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active {
+            color: #2563eb;
+         }
+
+         #adminLoginModal .auth-nav-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #2563eb;
+            border-radius: 2px;
+         }
+
+         #adminLoginModal .form-group-custom {
+            margin-bottom: 20px;
+         }
+
+         #adminLoginModal .form-label-custom {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+            display: block;
+         }
+
+         #adminLoginModal .input-wrapper {
+            position: relative;
+            width: 100%;
+         }
+
+         #adminLoginModal .input-wrapper>i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            pointer-events: none;
+            z-index: 5;
+         }
+
+         #adminLoginModal .input-custom,
+         #adminLoginModal .select-custom {
+            width: 100%;
+            padding: 10px 16px 10px 42px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #0f172a;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            outline: none;
+            display: block;
+         }
+
+         #adminLoginModal .input-password-padding {
+            padding-right: 46px !important;
+         }
+
+         #adminLoginModal .input-custom:focus,
+         #adminLoginModal .select-custom:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+         }
+
+         #adminLoginModal .input-custom::placeholder {
+            color: #94a3b8;
+         }
+
+         #adminLoginModal .password-toggle-icon {
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            height: max-content;
+            color: #94a3b8;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         #adminLoginModal .password-toggle-icon:hover {
+            color: #475569;
+         }
+
+         #adminLoginModal .btn-submit-custom {
+            background-color: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+            margin-top: 8px;
+            cursor: pointer;
+         }
+
+         #adminLoginModal .btn-submit-custom:hover {
+            background-color: #1d4ed8;
+         }
+
+         #adminLoginModal .form-pane {
+            display: none;
+         }
+
+         #adminLoginModal .form-pane.active {
+            display: block;
+         }
+
+         /* ==========================================
+            CSS POPUP AUTH NỔI
          ========================================== */
          .modal-auth-width {
             max-width: 960px;
@@ -771,200 +962,11 @@
             background: #e2e8f0;
             color: #0f172a;
          }
-
-         /* ==========================================
-            CSS ADMIN LOGIN MODAL (SCOPED)
-         ========================================== */
-         #adminLoginModal .modal-dialog {
-            max-width: 480px;
-         }
-
-         #adminLoginModal .login-card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            padding: 40px;
-            border: 1px solid #e2e8f0;
-         }
-
-         #adminLoginModal .brand-header {
-            text-align: center;
-            margin-bottom: 32px;
-         }
-
-         #adminLoginModal .brand-logo {
-            width: 48px;
-            height: 48px;
-            background-color: #2563eb;
-            color: #ffffff;
-            border-radius: 12px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-         }
-
-         #adminLoginModal .brand-title {
-            font-weight: 700;
-            color: #0f172a;
-            font-size: 1.35rem;
-            margin: 0;
-            letter-spacing: -0.5px;
-         }
-
-         #adminLoginModal .brand-title span {
-            color: #2563eb;
-         }
-
-         #adminLoginModal .auth-nav {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 24px;
-            justify-content: center;
-            gap: 20px;
-         }
-
-         #adminLoginModal .auth-nav-btn {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 8px 4px;
-            position: relative;
-            transition: all 0.2s ease;
-         }
-
-         #adminLoginModal .auth-nav-btn:hover {
-            color: #2563eb;
-         }
-
-         #adminLoginModal .auth-nav-btn.active {
-            color: #2563eb;
-         }
-
-         #adminLoginModal .auth-nav-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #2563eb;
-            border-radius: 2px;
-         }
-
-         #adminLoginModal .form-group-custom {
-            margin-bottom: 20px;
-         }
-
-         #adminLoginModal .form-label-custom {
-            font-size: 13px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-            display: block;
-         }
-
-         #adminLoginModal .input-wrapper {
-            position: relative;
-            width: 100%;
-         }
-
-         #adminLoginModal .input-wrapper>i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 1.1rem;
-            pointer-events: none;
-            z-index: 5;
-         }
-
-         #adminLoginModal .input-custom,
-         #adminLoginModal .select-custom {
-            width: 100%;
-            padding: 10px 16px 10px 42px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: #0f172a;
-            background-color: #ffffff;
-            transition: all 0.2s ease;
-            outline: none;
-            display: block;
-         }
-
-         #adminLoginModal .input-password-padding {
-            padding-right: 46px !important;
-         }
-
-         #adminLoginModal .input-custom:focus,
-         #adminLoginModal .select-custom:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-         }
-
-         #adminLoginModal .input-custom::placeholder {
-            color: #94a3b8;
-         }
-
-         #adminLoginModal .password-toggle-icon {
-            position: absolute;
-            right: 14px;
-            top: 0;
-            bottom: 0;
-            margin: auto 0;
-            height: max-content;
-            color: #94a3b8;
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-         }
-
-         #adminLoginModal .password-toggle-icon:hover {
-            color: #475569;
-         }
-
-         #adminLoginModal .btn-submit-custom {
-            background-color: #2563eb;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 11px;
-            border: none;
-            border-radius: 8px;
-            width: 100%;
-            transition: background-color 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-            margin-top: 8px;
-            cursor: pointer;
-         }
-
-         #adminLoginModal .btn-submit-custom:hover {
-            background-color: #1d4ed8;
-         }
-
-         #adminLoginModal .form-pane {
-            display: none;
-         }
-
-         #adminLoginModal .form-pane.active {
-            display: block;
-         }
       </style>
    </head>
    <body>
 
+      <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-custom">
          <div class="container">
             <a class="navbar-brand" href="index.html"><i class="bi bi-buildings-fill"></i> StayEasy</a>
@@ -996,6 +998,7 @@
          </div>
       </nav>
 
+      <!-- Hero -->
       <section class="promo-hero">
          <div class="container text-center position-relative" style="z-index:2;">
             <div
@@ -1025,9 +1028,10 @@
          </div>
       </section>
 
+      <!-- Filter Bar -->
       <div class="promo-filter-bar">
          <div class="container">
-            <div class="d-flex overflow-auto">
+            <div class="d-flex" style="overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;">
                <button class="filter-tab active" onclick="filterPromo('all', this)"><i class="bi bi-grid-fill"></i> Tất
                   cả</button>
                <button class="filter-tab" onclick="filterPromo('flash', this)"><i
@@ -1048,6 +1052,7 @@
 
       <div class="container py-5">
 
+         <!-- === Flash Sale Section === -->
          <div class="mb-5" data-section="flash all">
             <div class="d-flex justify-content-between align-items-center mb-4">
                <div>
@@ -1118,6 +1123,7 @@
             </div>
          </div>
 
+         <!-- === Featured Banners === -->
          <div class="row g-4 mb-5" data-section="all">
             <div class="col-md-7">
                <div class="promo-featured">
@@ -1165,12 +1171,14 @@
             </div>
          </div>
 
+         <!-- === Promo Cards Grid === -->
          <div class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                <h3 class="fw-bold text-dark mb-0">Tất cả ưu đãi</h3>
                <span class="text-muted small" id="promoCount">Hiển thị 9 ưu đãi</span>
             </div>
             <div class="row g-4" id="promoGrid">
+               <!-- Card 1 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1199,6 +1207,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 2 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1227,6 +1236,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 3 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1255,6 +1265,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 4 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="new all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1281,6 +1292,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 5 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1308,6 +1320,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 6 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1336,6 +1349,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 7 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="member all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1363,6 +1377,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 8 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1390,6 +1405,7 @@
                      </div>
                   </div>
                </div>
+               <!-- Card 9 -->
                <div class="col-md-6 col-lg-4 promo-item" data-cat="flash all">
                   <div class="promo-card">
                      <div class="promo-card-img">
@@ -1421,6 +1437,7 @@
             </div>
          </div>
 
+         <!-- === Voucher List === -->
          <div class="mb-5">
             <h3 class="fw-bold text-dark mb-2">🎫 Kho voucher của bạn</h3>
             <p class="text-muted mb-4">Nhận và áp dụng trực tiếp khi đặt phòng</p>
@@ -1497,6 +1514,7 @@
             </div>
          </div>
 
+         <!-- === Membership Section === -->
          <div class="mb-5">
             <div class="text-center mb-4">
                <h3 class="fw-bold text-dark mb-1">💎 Chương trình thành viên StayEasy</h3>
@@ -1558,6 +1576,12 @@
 
       </div>
 
+      <!-- Toast -->
+      <div class="toast-custom" id="toastMsg"></div>
+
+      <!-- ==========================================
+           ADMIN LOGIN MODAL
+      ========================================== -->
       <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-none bg-transparent">
@@ -1646,6 +1670,9 @@
          </div>
       </div>
 
+      <!-- ==========================================
+           USER AUTH POPUP MODAL (SIGN IN / SIGN UP)
+      ========================================== -->
       <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered modal-auth-width">
             <div class="modal-content border-0 bg-transparent shadow-none">
@@ -1762,8 +1789,7 @@
          </div>
       </div>
 
-      <div class="toast-custom" id="toastMsg"></div>
-
+      <!-- Footer -->
       <footer class="footer-custom">
          <div class="container">
             <div class="row g-4">
@@ -1876,45 +1902,6 @@
             setTimeout(() => t.classList.remove('show'), 3000);
          }
 
-         $(document).ready(function () {
-            // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
-            const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
-
-            if (isUserLoggedIn) {
-               const userName = localStorage.getItem('userName') || 'Khách';
-
-               const userMenu = `
-                  <li class="nav-item dropdown user-dropdown">
-                     <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
-                        <span>${userName}</span>
-                     </a>
-                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
-                        <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
-                           <div class="fw-bold text-dark small text-truncate">${userName}</div>
-                           <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
-                        </li>
-                        <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
-                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
-                        <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
-                     </ul>
-                  </li>
-               `;
-               $('.btn-nav-login').parent().hide();
-               $('.btn-nav-register').parent().hide();
-               $('.navbar-nav.align-items-center').append(userMenu);
-            }
-         });
-
-         // Logic Hàm Đăng xuất
-         window.logoutUser = function () {
-            localStorage.removeItem('isUserLoggedIn');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            window.location.reload();
-         }
-
          // ==========================================
          // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
          // ==========================================
@@ -1981,20 +1968,42 @@
             const email = document.getElementById('popupAuthInputEmail').value.trim();
             const pw1 = document.getElementById('popupAuthInputPw1').value;
             const pw2 = document.getElementById('popupAuthInputPw2').value;
-            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
 
             if (currentPopupAuthMode === 'signup') {
+               const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
                if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
                if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
 
-               users.push({ name, email, password: pw1 });
+               users.push({ name, email, password: pw1, role: 'user' });
                localStorage.setItem('stayeasy_users', JSON.stringify(users));
-               alert('🎉 Đăng ký tài khoản khách thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+
+               if (email === 'admin@gmail.com' && pw1 === 'admin123') {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', 'admin@gmail.com');
+                  localStorage.setItem('userName', 'Quản Trị Viên');
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               const staffList = JSON.parse(localStorage.getItem('stayeasy_staff')) || [];
+               const matchedStaff = staffList.find(s => s.email === email && s.password === pw1 && s.active === true);
+               if (matchedStaff) {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'staff');
+                  localStorage.setItem('adminEmail', email);
+                  localStorage.setItem('userName', matchedStaff.name);
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+               const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
@@ -2007,22 +2016,31 @@
             }
          }
 
+         $('#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2').on('keypress', function (e) {
+            if (e.which === 13) {
+               e.preventDefault();
+               executePopupAuth();
+            }
+         });
+
          // ==========================================
-         // LOGIC ADMIN LOGIN MODAL (từ admin-login.html)
+         // LOGIC ADMIN LOGIN MODAL
          // ==========================================
          (function () {
             function getFreshAdminAccounts() {
                let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-               const hasAdmin = accounts.some(u => u.email === "admin@gmail.com");
-               if (!hasAdmin) {
-                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin", role: "admin" });
-                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               const adminIndex = accounts.findIndex(u => u.email === "admin@gmail.com");
+               if (adminIndex === -1) {
+                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin123", role: "superadmin" });
+               } else {
+                  accounts[adminIndex].password = "admin123";
+                  accounts[adminIndex].role = "superadmin";
                }
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
                return accounts;
             }
             getFreshAdminAccounts();
 
-            // Tab điều hướng trong admin modal
             document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
                btn.addEventListener('click', function () {
                   document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
@@ -2033,7 +2051,6 @@
                });
             });
 
-            // Toggle hiện mật khẩu
             document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
                btn.addEventListener('click', function () {
                   const input = this.previousElementSibling;
@@ -2048,7 +2065,6 @@
                });
             });
 
-            // Xử lý đăng nhập admin
             document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
                e.preventDefault();
                const email = document.getElementById('adminLoginEmail').value.trim();
@@ -2057,7 +2073,8 @@
                const matchedUser = accounts.find(u => u.email === email && u.password === password);
                if (matchedUser) {
                   localStorage.setItem('isLoggedIn', 'true');
-                  localStorage.setItem('userRole', 'admin');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', email);
                   localStorage.setItem('userName', matchedUser.name);
                   alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
                   window.location.href = 'admin.html';
@@ -2066,7 +2083,6 @@
                }
             });
 
-            // Xử lý cấp tài khoản admin mới
             document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
                e.preventDefault();
                const name = document.getElementById('adminRegName').value.trim();
@@ -2082,6 +2098,52 @@
                localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
                alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
                document.getElementById('adminRegisterForm').reset();
+            });
+            $(document).ready(function () {
+               const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+               const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+                  && localStorage.getItem('userRole') === 'superadmin';
+
+               if (isUserLoggedIn || isAdminLoggedIn) {
+                  const userName = (localStorage.getItem('userName') || 'Khách').replace(/Tổng /i, '').trim();
+                  const roleBadge = isAdminLoggedIn
+                     ? `<small class="text-muted" style="font-size: 11px;">⭐ Quản Trị Viên</small>`
+                     : `<small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>`;
+
+                  const userMenu = `
+            <li class="nav-item dropdown user-dropdown">
+                <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+                    <span>${userName}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                    <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
+                        <div class="fw-bold text-dark small text-truncate">${userName}</div>
+                        ${roleBadge}
+                    </li>
+                    <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
+                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
+                    ${isAdminLoggedIn ? `<li><a class="dropdown-item py-2 text-primary" href="admin.html"><i class="bi bi-speedometer2 me-2"></i>Vào trang Admin</a></li>` : ''}
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                </ul>
+            </li>
+         `;
+
+                  $('.btn-nav-login').parent().hide();
+                  $('.btn-nav-register').parent().hide();
+                  $('.navbar-nav.align-items-center').append(userMenu);
+               }
+
+               window.logoutUser = function () {
+                  localStorage.removeItem('isUserLoggedIn');
+                  localStorage.removeItem('userName');
+                  localStorage.removeItem('userEmail');
+                  localStorage.removeItem('isLoggedIn');
+                  localStorage.removeItem('userRole');
+                  localStorage.removeItem('adminEmail');
+                  window.location.reload();
+               }
             });
          })();
       </script>

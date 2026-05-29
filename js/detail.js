@@ -252,14 +252,17 @@ function applyPromoCode() {
       { code: 'SUMMER2026', discount: 20 }
    ];
 
-   const validPromo = activePromos.find(p => p.code === codeInput);
+   const validPromo = activePromos.find(p =>
+      p.code === codeInput &&
+      (!p.roomName || p.roomName === currentRoom.name)
+   );
 
    if (validPromo) {
       discountPercent = validPromo.discount / 100;
       alert(`🎉 Áp dụng mã ${validPromo.code} thành công (Giảm ${validPromo.discount}%)!`);
    } else {
       discountPercent = 0;
-      alert('❌ Mã không hợp lệ hoặc đã bị vô hiệu hóa!');
+      alert('❌ Mã không hợp lệ, sai phòng hoặc đã bị vô hiệu hóa!');
    }
 
    calculatePrice();
@@ -268,9 +271,29 @@ function applyPromoCode() {
 $('#bookingForm').on('submit', async function (e) {
    e.preventDefault();
 
+   // Validate email
+   const email = $('#cEmail').val().trim();
+   if (!email.includes('@')) {
+      $('#emailError').show();
+      $('#cEmail').focus();
+      return;
+   }
+   $('#emailError').hide();
+
    const finalPrice = calculatePrice();
    if (finalPrice <= 0) {
       alert('Vui lòng chọn ngày lưu trú hợp lệ!');
+      return;
+   }
+
+   // Validate số khách không vượt quá sức chứa của phòng
+   const adults = parseInt($('#cAdults').val()) || 1;
+   const children = parseInt($('#cChildren').val()) || 0;
+   const totalGuests = adults + children;
+   const maxGuests = parseInt(currentRoom.guests) || 2;
+
+   if (totalGuests > maxGuests) {
+      alert(`⚠️ Phòng này chỉ chứa tối đa ${maxGuests} khách!\nBạn đang chọn ${totalGuests} khách (${adults} người lớn, ${children} trẻ em).\nVui lòng giảm số khách hoặc chọn phòng lớn hơn.`);
       return;
    }
 
@@ -281,9 +304,14 @@ $('#bookingForm').on('submit', async function (e) {
       roomId: currentRoom.id,
       roomName: currentRoom.name,
       customerName: $('#cName').val(),
+      customerEmail: email,
       customerPhone: $('#cPhone').val(),
       checkIn: $('#cIn').val(),
       checkOut: $('#cOut').val(),
+      checkInTime: $('#cCheckInTime').val(),
+      checkOutTime: $('#cCheckOutTime').val(),
+      adults: adults,
+      children: children,
       totalPrice: finalPrice,
       status: "Pending"
    };
@@ -291,7 +319,11 @@ $('#bookingForm').on('submit', async function (e) {
    try {
       await API.createBooking(payload);
       alert('✅ Đặt phòng thành công! Chúng tôi sẽ sớm liên hệ.');
-      window.location.href = 'index.html';
+      // Không redirect, chỉ reset form
+      document.getElementById('bookingForm').reset();
+      $('#priceSummary').slideUp();
+      // Scroll lên đầu trang để khách thấy thông báo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
    } catch (error) {
       alert('Lỗi khi gửi yêu cầu đặt phòng.');
    } finally {

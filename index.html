@@ -829,7 +829,8 @@
                   <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
-                  <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-headset"></i> Hỗ trợ</a></li>
+                  <li class="nav-item"><a class="nav-link" href="support.html"><i class="bi bi-headset"></i> Hỗ trợ</a>
+                  </li>
                   <li class="nav-item"><a class="nav-link fw-bold text-warning" href="#" data-bs-toggle="modal"
                         data-bs-target="#adminLoginModal"><i class="bi bi-shield-lock"></i> Quản trị viên</a></li>
                   <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-login" href="#"
@@ -1324,29 +1325,37 @@
          $(document).ready(function () {
             // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
             const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+            const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
+               && localStorage.getItem('userRole') === 'superadmin';
 
-            if (isUserLoggedIn) {
-               const userName = localStorage.getItem('userName') || 'Khách';
+            if (isUserLoggedIn || isAdminLoggedIn) {
+               const userName = (localStorage.getItem('userName') || 'Khách');
+
+               // Nếu là admin thì hiện badge khác một chút
+               const roleBadge = isAdminLoggedIn
+                  ? `<small class="text-muted" style="font-size: 11px;">⭐ Quản Trị Viên</small>`
+                  : `<small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>`;
 
                const userMenu = `
-                  <li class="nav-item dropdown user-dropdown">
-                     <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
-                        <span>${userName}</span>
-                     </a>
-                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
-                        <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
-                           <div class="fw-bold text-dark small text-truncate">${userName}</div>
-                           <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
-                        </li>
-                        <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
-                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
-                        <li><hr class="dropdown-divider my-1"></li>
-                        <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
-                     </ul>
-                  </li>
-               `;
-               // Ẩn nút cũ và chèn menu avatar dropdown vào đúng vị trí format
+        <li class="nav-item dropdown user-dropdown">
+            <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+                <span>${userName}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
+                <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
+                    <div class="fw-bold text-dark small text-truncate">${userName}</div>
+                    ${roleBadge}
+                </li>
+                <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
+                <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
+                ${isAdminLoggedIn ? `<li><a class="dropdown-item py-2 text-primary" href="admin.html"><i class="bi bi-speedometer2 me-2"></i>Vào trang Admin</a></li>` : ''}
+                <li><hr class="dropdown-divider my-1"></li>
+                <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+            </ul>
+        </li>
+    `;
+
                $('.btn-nav-login').parent().hide();
                $('.btn-nav-register').parent().hide();
                $('.navbar-nav.align-items-center').append(userMenu);
@@ -1400,19 +1409,26 @@
                setTimeout(() => { $('#searchDateRange').focus(); }, 100);
             });
 
-            $('#searchName, #searchDateRange, #filterType').on('keypress', function (e) {
+            $('#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2').on('keypress', function (e) {
                if (e.which === 13) {
                   e.preventDefault();
-                  $('#btnFilter').click();
+                  executePopupAuth();
                }
             });
          });
 
          // Logic Hàm Đăng xuất
          window.logoutUser = function () {
+            // Xóa session khách
             localStorage.removeItem('isUserLoggedIn');
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
+            // Xóa luôn session admin (nếu đang xem với tư cách admin)
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('adminEmail');
+            sessionStorage.removeItem('adminPreview');
+            sessionStorage.removeItem('adminPreviewName');
             window.location.reload();
          }
 
@@ -1493,20 +1509,47 @@
             const email = document.getElementById('popupAuthInputEmail').value.trim();
             const pw1 = document.getElementById('popupAuthInputPw1').value;
             const pw2 = document.getElementById('popupAuthInputPw2').value;
-            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
 
+            // Chỉ lấy dữ liệu khi cần, không lạm dụng biến toàn cục cho cả 2 mode nếu không cần thiết
             if (currentPopupAuthMode === 'signup') {
+               const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
                if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
                if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
 
-               users.push({ name, email, password: pw1 });
+               users.push({ name, email, password: pw1, role: 'user' });
                localStorage.setItem('stayeasy_users', JSON.stringify(users));
-               alert('🎉 Đăng ký tài khoản khách thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
+               // Mode: Login
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+
+               // 1. Kiểm tra tài khoản admin tối cao
+               if (email === 'admin@gmail.com' && pw1 === 'admin123') {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', 'admin@gmail.com');
+                  localStorage.setItem('userName', 'Quản Trị Viên');
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 2. Kiểm tra tài khoản nhân viên
+               const staffList = JSON.parse(localStorage.getItem('stayeasy_staff')) || [];
+               const matchedStaff = staffList.find(s => s.email === email && s.password === pw1 && s.active === true);
+               if (matchedStaff) {
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'staff');
+                  localStorage.setItem('adminEmail', email);
+                  localStorage.setItem('userName', matchedStaff.name);
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 3. Kiểm tra tài khoản người dùng thường
+               const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+               const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
@@ -1578,11 +1621,14 @@
          (function () {
             function getFreshAdminAccounts() {
                let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-               const hasAdmin = accounts.some(u => u.email === "admin@gmail.com");
-               if (!hasAdmin) {
-                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin", role: "admin" });
-                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               const adminIndex = accounts.findIndex(u => u.email === "admin@gmail.com");
+               if (adminIndex === -1) {
+                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin123", role: "superadmin" });
+               } else {
+                  accounts[adminIndex].password = "admin123";
+                  accounts[adminIndex].role = "superadmin";
                }
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
                return accounts;
             }
             getFreshAdminAccounts();
@@ -1622,7 +1668,8 @@
                const matchedUser = accounts.find(u => u.email === email && u.password === password);
                if (matchedUser) {
                   localStorage.setItem('isLoggedIn', 'true');
-                  localStorage.setItem('userRole', 'admin');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', email);
                   localStorage.setItem('userName', matchedUser.name);
                   alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
                   window.location.href = 'admin.html';
