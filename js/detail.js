@@ -268,65 +268,127 @@ function applyPromoCode() {
    calculatePrice();
 }
 
+// ===== PAYMENT MODAL SYSTEM =====
+let pendingBookingPayload = null;
+
 $('#bookingForm').on('submit', async function (e) {
    e.preventDefault();
 
-   // Validate email
    const email = $('#cEmail').val().trim();
-   if (!email.includes('@')) {
-      $('#emailError').show();
-      $('#cEmail').focus();
-      return;
-   }
+   if (!email.includes('@')) { $('#emailError').show(); $('#cEmail').focus(); return; }
    $('#emailError').hide();
 
    const finalPrice = calculatePrice();
-   if (finalPrice <= 0) {
-      alert('Vui lòng chọn ngày lưu trú hợp lệ!');
-      return;
-   }
+   if (finalPrice <= 0) { alert('Vui lòng chọn ngày lưu trú hợp lệ!'); return; }
 
-   // Validate số khách không vượt quá sức chứa của phòng
    const adults = parseInt($('#cAdults').val()) || 1;
    const children = parseInt($('#cChildren').val()) || 0;
-   const totalGuests = adults + children;
    const maxGuests = parseInt(currentRoom.guests) || 2;
-
-   if (totalGuests > maxGuests) {
-      alert(`⚠️ Phòng này chỉ chứa tối đa ${maxGuests} khách!\nBạn đang chọn ${totalGuests} khách (${adults} người lớn, ${children} trẻ em).\nVui lòng giảm số khách hoặc chọn phòng lớn hơn.`);
+   if ((adults + children) > maxGuests) {
+      alert(`⚠️ Phòng chỉ chứa tối đa ${maxGuests} khách!`);
       return;
    }
 
-   const btn = $('#btnSubmit');
-   btn.prop('disabled', true).text('Đang gửi...');
+   const now = new Date();
+   const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+   const orderId = 'SE' + now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + String(now.getTime()).slice(-5);
 
-   const payload = {
+   // Lấy userId từ guestSession (email đăng nhập) hoặc fallback về email nhập tay
+   const guestSession = JSON.parse(localStorage.getItem('guestSession')) || {};
+   const userId = guestSession.email || email;
+
+   pendingBookingPayload = {
+      id: orderId,
+      userId: userId,
       roomId: currentRoom.id,
       roomName: currentRoom.name,
-      customerName: $('#cName').val(),
+      customerName: $('#cName').val().trim(),
       customerEmail: email,
-      customerPhone: $('#cPhone').val(),
+      customerPhone: $('#cPhone').val().trim(),
       checkIn: $('#cIn').val(),
       checkOut: $('#cOut').val(),
-      checkInTime: $('#cCheckInTime').val(),
-      checkOutTime: $('#cCheckOutTime').val(),
-      adults: adults,
-      children: children,
+      checkInTime: $('#cCheckInTime').val() || '14:00',
+      checkOutTime: $('#cCheckOutTime').val() || '12:00',
+      adults, children,
       totalPrice: finalPrice,
-      status: "Pending"
+      paymentMethod: '',
+      status: 'pending',
+      isPaid: false,
+      createdAt: dateStr,
+      paidAt: '',
+      note: '',
+      editHistory: []
    };
 
+   openPaymentModal(pendingBookingPayload);
+});
+
+function openPaymentModal(payload) {
+   const nights = Math.ceil(Math.abs(new Date(payload.checkOut) - new Date(payload.checkIn)) / (1000 * 60 * 60 * 24)) || 1;
+   $('#pmRoomName').text(payload.roomName);
+   $('#pmDates').text(`${formatDateVN(payload.checkIn)} → ${formatDateVN(payload.checkOut)}  |  ${nights} đêm`);
+   $('#pmCheckInTime').text(`Nhận phòng: ${payload.checkInTime}`);
+   $('#pmTotal').text(formatVND(payload.totalPrice));
+   showPaymentStep(1);
+   $('input[name="pmPayMethod"]').prop('checked', false);
+   $('input[name="pmPayMethod"][value="bank"]').prop('checked', true);
+   const modal = new bootstrap.Modal(document.getElementById('paymentModal'), { backdrop: 'static' });
+   modal.show();
+}
+
+function formatDateVN(dateStr) {
+   if (!dateStr) return '';
+   const d = new Date(dateStr);
+   return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function showPaymentStep(step) {
+   $('.pm-step').hide();
+   $(`#pmStep${step}`).show();
+}
+
+$(document).on('click', '#btnConfirmPayment', async function () {
+   const method = $('input[name="pmPayMethod"]:checked').val();
+   if (!method) { alert('Vui lòng chọn phương thức thanh toán!'); return; }
+   if (!pendingBookingPayload) return;
+
+   pendingBookingPayload.paymentMethod = method;
+   showPaymentStep(2);
+
    try {
-      await API.createBooking(payload);
-      alert('✅ Đặt phòng thành công! Chúng tôi sẽ sớm liên hệ.');
-      // Không redirect, chỉ reset form
+      await new Promise(r => setTimeout(r, 2200));
+      pendingBookingPayload.status = 'pending';
+      pendingBookingPayload.isPaid = (method === 'bank');
+      const now = new Date();
+      pendingBookingPayload.paidAt = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      const created = await API.createBooking(pendingBookingPayload);
+      if (created && created.id) {
+         pendingBookingPayload.id = created.id;
+      }
+      saveMyOrder(pendingBookingPayload);
+
+      $('#pmOrderId').text(pendingBookingPayload.id);
+      showPaymentStep(3);
       document.getElementById('bookingForm').reset();
       $('#priceSummary').slideUp();
-      // Scroll lên đầu trang để khách thấy thông báo
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-   } catch (error) {
-      alert('Lỗi khi gửi yêu cầu đặt phòng.');
-   } finally {
-      btn.prop('disabled', false).text('Chọn phòng ngay');
+   } catch (err) {
+      showPaymentStep(1);
+      alert('❌ Lỗi khi xử lý thanh toán. Vui lòng thử lại!');
    }
+});
+
+function saveMyOrder(booking) {
+   const email = booking.customerEmail || 'guest';
+   const key = 'stayeasy_myorders_' + email;
+   let orders = JSON.parse(localStorage.getItem(key)) || [];
+   orders = orders.filter(o => o.id !== booking.id);
+   orders.unshift(booking);
+   localStorage.setItem(key, JSON.stringify(orders));
+}
+
+$(document).on('click', '#btnGoHome', function () {
+   const modal = bootstrap.Modal.getInstance(document.getElementById('paymentModal'));
+   if (modal) modal.hide();
+   window.scrollTo({ top: 0, behavior: 'smooth' });
 });

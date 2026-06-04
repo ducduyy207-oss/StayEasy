@@ -2192,7 +2192,7 @@
                && localStorage.getItem('userRole') === 'superadmin';
 
             if (isUserLoggedIn || isAdminLoggedIn) {
-               const userName = (localStorage.getItem('userName') || 'Khách');
+               const userName = (localStorage.getItem('userName') || 'Khách').replace(/Tổng /i, '').trim();
                const roleBadge = isAdminLoggedIn
                   ? `<small class="text-muted" style="font-size: 11px;">⭐ Quản Trị Viên</small>`
                   : `<small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>`;

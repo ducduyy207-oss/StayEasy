@@ -2478,7 +2478,7 @@
             });
             updateInboxCount();
             if (isUserLoggedIn || isAdminLoggedIn) {
-               const userName = localStorage.getItem('userName') || 'Khách';
+               const userName = (localStorage.getItem('userName') || 'Khách').replace(/Tổng /i, '').trim();
                const userMenu = `
             <li class="nav-item dropdown user-dropdown">
                 <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -17,6 +17,11 @@ const API = {
 
    // API ĐƠN ĐẶT PHÒNG
    getBookings: () => fetch(`${API_URL}/bookings`).then(res => res.json()),
+   // Lấy đơn hàng theo email khách (filter phía client vì MockAPI free không hỗ trợ query param ổn định)
+   getBookingsByEmail: async (email) => {
+      const all = await fetch(`${API_URL}/bookings`).then(res => res.json());
+      return all.filter(b => b.customerEmail === email || b.userId === email);
+   },
    createBooking: (data) => {
       return new Promise((resolve, reject) => {
          $.ajax({

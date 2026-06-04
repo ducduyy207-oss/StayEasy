@@ -1,18 +1,16 @@
-// Auth Guard tối cao — show login modal thay vì redirect
-const _adminEmail = localStorage.getItem('adminEmail');
-const _adminRole = localStorage.getItem('userRole');
-const _isAuthenticated = (_adminRole === 'superadmin' && _adminEmail === 'admin@gmail.com');
+// Auth Guard — đọc từ adminSession (tách biệt hoàn toàn với guestSession)
+const _adminSession = JSON.parse(localStorage.getItem('adminSession')) || {};
+const _adminEmail = _adminSession.email || '';
+const _adminRole = _adminSession.role || '';
+const _isAuthenticated = (_adminRole === 'superadmin' && _adminEmail !== '');
 
 if (!_isAuthenticated) {
     // Hiển thị login modal khi DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         const loginModalEl = document.getElementById('loginModal');
         if (!loginModalEl) {
-            // Fallback: nếu không có modal, set localStorage tự động (dev mode)
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userRole', 'superadmin');
-            localStorage.setItem('userName', 'Admin');
-            localStorage.setItem('adminEmail', 'admin@gmail.com');
+            // Fallback: nếu không có modal, set adminSession tự động (dev mode)
+            localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Admin', role: 'superadmin' }));
             location.reload();
             return;
         }
@@ -24,10 +22,7 @@ if (!_isAuthenticated) {
             const password = document.getElementById('loginPassword').value.trim();
 
             if (email === 'admin@gmail.com' && password === 'admin123') {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userRole', 'superadmin');
-                localStorage.setItem('userName', 'Admin');
-                localStorage.setItem('adminEmail', 'admin@gmail.com');
+                localStorage.setItem('adminSession', JSON.stringify({ email, name: 'Quản Trị Viên', role: 'superadmin' }));
                 location.reload();
             } else {
                 showToast('Sai email hoặc mật khẩu!', 'error');
@@ -98,10 +93,7 @@ window.showConfirm = function (title, message, onConfirm, iconType = 'warning') 
 
 // Hàm toàn cục xử lý đăng xuất hệ thống an toàn
 window.logoutAdmin = function () {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('adminEmail');
+    localStorage.removeItem('adminSession');
     window.location.href = 'index.html';
 }
 
@@ -153,8 +145,9 @@ $(document).ready(function () {
     // =================================================================
     // ĐỒNG BỘ THÔNG TIN TÀI KHOẢN ĐĂNG NHẬP THẬT LÊN DROPDOWN TRÊN HEADER
     // =================================================================
-    const currentAdminName = (localStorage.getItem('userName') || "Quản Trị Viên").replace(/Tổng /i, '').trim();
-    const currentAdminRole = localStorage.getItem('userRole') || "admin";
+    const _sess = JSON.parse(localStorage.getItem('adminSession')) || {};
+    const currentAdminName = (_sess.name || 'Quản Trị Viên').replace(/Tổng /i, '').trim();
+    const currentAdminRole = _sess.role || 'admin';
 
     // Đổ text ra thanh Header ngoài
     $('#adminHeaderName').text(currentAdminName.toUpperCase());
@@ -386,28 +379,36 @@ function updateDashboardStats() {
     $('#roomCountBadge').text(`${allRooms.length} phòng`);
     $('#dashTotalBookings').text(allBookings.length);
 
-    const pendingBookings = allBookings.filter(b => b.status === "Pending");
-    $('#dashPendingBookings').html(`<i class="bi bi-clock-history me-1"></i>${pendingBookings.length} đơn chờ duyệt`);
+    const pendingCount = allBookings.filter(b => b.status === 'pending').length;
+    const approvedCount = allBookings.filter(b => b.status === 'approved').length;
 
-    $('#notificationCount').text(pendingBookings.length);
+    // Cập nhật 4 thẻ dashboard mới
+    const revenue = allBookings.reduce((sum, b) => b.status === 'approved' ? sum + (Number(b.totalPrice) || 0) : sum, 0);
+    $('#dashRevenue').text(formatVND(revenue));
+    $('#dashPendingBookings').html(`<i class="bi bi-clock-history me-1"></i>${pendingCount} đơn chờ admin duyệt`);
+    $('#dashPaidCount').text(pendingCount + ' đơn');
+    $('#dashPendingCount').text(approvedCount + ' đơn');
+
+    // Badge thông báo: đơn pending chờ duyệt
+    const urgentCount = pendingCount;
+    $('#notificationCount').text(urgentCount || '');
     const notiList = $('#notificationList');
     notiList.empty();
 
-    if (pendingBookings.length === 0) {
+    const paidBookings = allBookings.filter(b => b.status === 'pending');
+    if (paidBookings.length === 0) {
         notiList.append('<li><span class="dropdown-item text-muted text-center py-3">Không có thông báo mới</span></li>');
     } else {
-        pendingBookings.forEach(b => {
+        paidBookings.forEach(b => {
             notiList.append(`
                 <li><a class="dropdown-item border-bottom py-2" href="#" onclick="switchAdminTab('#tab-bookings')">
-                    <span class="fw-bold text-primary">${b.customerName || 'Khách hàng'}</span> vừa đặt phòng!
-                    <div class="small text-muted">${b.roomName || ''}</div>
+                    <i class="bi bi-bell-fill text-warning me-2"></i>
+                    <span class="fw-bold text-primary">${b.customerName || 'Khách hàng'}</span> đã thanh toán!
+                    <div class="small text-muted">${b.roomName || ''} · Mã: ${b.id || ''}</div>
                 </a></li>
             `);
         });
     }
-
-    const revenue = allBookings.reduce((sum, b) => b.status === "Confirmed" ? sum + (Number(b.totalPrice) || 0) : sum, 0);
-    $('#dashRevenue').text(formatVND(revenue));
 }
 
 function renderRoomTable() {
@@ -475,23 +476,29 @@ function renderBookingTable() {
     tbody.empty();
 
     // Cập nhật badge đếm số lượng từng trạng thái
-    const counts = { all: allBookings.length, Pending: 0, Confirmed: 0, Cancelled: 0 };
+    const counts = { all: allBookings.length, pending: 0, approved: 0, cancelled: 0 };
     allBookings.forEach(b => { if (counts[b.status] !== undefined) counts[b.status]++; });
+    const unpaidCount = allBookings.filter(b => b.status !== 'cancelled' && !b.isPaid).length;
     $('#countAll').text(counts.all);
-    $('#countPending').text(counts.Pending);
-    $('#countConfirmed').text(counts.Confirmed);
-    $('#countCancelled').text(counts.Cancelled);
+    $('#countPending').text(counts.pending);
+    $('#countPaid').text(counts.approved);
+    $('#countUnpaid').text(unpaidCount);
+
+    // Badge sidebar đỏ (đơn approved chờ duyệt) + vàng (đơn pending chờ TT)
+    const paidBadge = document.getElementById('sidebarBadgePaid');
+    const pendingBadge = document.getElementById('sidebarBadgePending');
+    if (paidBadge) paidBadge.textContent = counts.approved || '';
+    if (pendingBadge) pendingBadge.textContent = counts.pending || '';
 
     if (allBookings.length === 0) {
-        tbody.html(`<tr><td colspan="6" class="text-center text-muted py-4">Hiện chưa có đơn đặt phòng nào.</td></tr>`);
-        $('#bookingPagination').empty();
-        $('#bookingPaginationInfo').text('');
-        return;
+        tbody.html(`<tr><td colspan="7" class="text-center text-muted py-4">Hiện chưa có đơn đặt phòng nào.</td></tr>`);
+        $('#bookingPagination').empty(); $('#bookingPaginationInfo').text(''); return;
     }
 
-    // Lọc theo trạng thái + từ khoá
     let filtered = [...allBookings];
-    if (bookingStatusFilter !== 'all') {
+    if (bookingStatusFilter === 'unpaid') {
+        filtered = filtered.filter(b => b.status !== 'cancelled' && !b.isPaid);
+    } else if (bookingStatusFilter !== 'all') {
         filtered = filtered.filter(b => b.status === bookingStatusFilter);
     }
     if (bookingKeyword) {
@@ -499,59 +506,79 @@ function renderBookingTable() {
         filtered = filtered.filter(b =>
             removeAccents(b.customerName || '').includes(kw) ||
             removeAccents(b.roomName || '').includes(kw) ||
+            removeAccents(b.id || '').includes(kw) ||
             removeAccents(b.customerPhone || '').includes(kw)
         );
     }
 
     if (filtered.length === 0) {
-        tbody.html(`<tr><td colspan="6" class="text-center text-muted py-4">Không có đơn phù hợp.</td></tr>`);
-        $('#bookingPagination').empty();
-        $('#bookingPaginationInfo').text('');
-        return;
+        tbody.html(`<tr><td colspan="7" class="text-center text-muted py-4">Không có đơn phù hợp.</td></tr>`);
+        $('#bookingPagination').empty(); $('#bookingPaginationInfo').text(''); return;
     }
 
-    let sortedBookings = filtered.reverse();
+    const statusPriority = { 'pending': 0, 'approved': 1, 'cancelled': 2 };
+    let sortedBookings = [...filtered].sort((a, b) => {
+        const pa = statusPriority[a.status] ?? 99;
+        const pb = statusPriority[b.status] ?? 99;
+        if (pa !== pb) return pa - pb;
+        // Cùng status: mới nhất lên trước (theo id hoặc createdAt)
+        const aTime = a.confirmedAt ? new Date(a.confirmedAt.split(' ')[0].split('/').reverse().join('-') + ' ' + (a.confirmedAt.split(' ')[1] || '')) : null;
+        const bTime = b.confirmedAt ? new Date(b.confirmedAt.split(' ')[0].split('/').reverse().join('-') + ' ' + (b.confirmedAt.split(' ')[1] || '')) : null;
+        if (bTime && aTime) return bTime - aTime;
+        if (bTime) return 1;
+        if (aTime) return -1;
+        return Number(b.id) - Number(a.id);
+    });
     const start = (currentBookingPage - 1) * itemsPerPage;
     const pagedBookings = sortedBookings.slice(start, start + itemsPerPage);
 
+    const methodMap = { bank: '🏦 Ngân hàng', momo: '📱 MoMo', card: '💳 Thẻ' };
+
     pagedBookings.forEach(b => {
         let statusBadge = '';
-        let actionBtns = '';
+        let actionBtns = `<button class="btn btn-sm btn-light text-info shadow-sm me-1" onclick="viewBookingDetail('${b.id}')" title="Xem chi tiết"><i class="bi bi-eye"></i></button>`;
 
-        if (b.status === "Pending") {
-            statusBadge = '<span class="badge badge-soft-warning"><i class="bi bi-hourglass-split me-1"></i>Chờ duyệt</span>';
-            actionBtns = `
-                <button class="btn btn-sm btn-success shadow-sm me-1" onclick="updateBookingStatus('${b.id}', 'Confirmed')" title="Duyệt"><i class="bi bi-check-lg"></i></button>
-                <button class="btn btn-sm btn-danger shadow-sm me-1" onclick="updateBookingStatus('${b.id}', 'Cancelled')" title="Từ chối"><i class="bi bi-x-lg"></i></button>
-            `;
-        } else if (b.status === "Confirmed") {
-            statusBadge = '<span class="badge badge-soft-success"><i class="bi bi-check-circle me-1"></i>Đã duyệt</span>';
+        if (b.status === 'pending') {
+            const payLabel = b.isPaid ? '✅ Đã TT' : '⏳ Chưa TT';
+            statusBadge = `<span class="badge badge-soft-warning"><i class="bi bi-hourglass-split me-1"></i>Chờ duyệt</span>
+                   <span class="badge ${b.isPaid ? 'badge-soft-success' : 'bg-warning text-dark'} ms-1" style="font-size:10px;">${payLabel}</span>`;
+            actionBtns += `
+        <button class="btn btn-sm btn-light text-primary shadow-sm me-1" onclick="openEditBooking('${b.id}')" title="Sửa"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-sm btn-success shadow-sm me-1" onclick="updateBookingStatus('${b.id}', 'approved')" title="Duyệt đơn"><i class="bi bi-check-lg"></i></button>
+        <button class="btn btn-sm btn-light text-danger shadow-sm" onclick="cancelBooking('${b.id}')" title="Huỷ"><i class="bi bi-x-lg"></i></button>
+    `;
+        } else if (b.status === 'approved') {
+            const payLabel = b.isPaid ? '✅ Đã TT' : '⚠️ Chưa TT';
+            statusBadge = `<span class="badge badge-soft-success"><i class="bi bi-check-circle me-1"></i>Đã duyệt</span>
+                   <span class="badge ${b.isPaid ? 'badge-soft-success' : 'bg-danger text-white'} ms-1" style="font-size:10px;">${payLabel}</span>`;
+            actionBtns += `
+        <button class="btn btn-sm btn-light text-primary shadow-sm me-1" onclick="openEditBooking('${b.id}')" title="Sửa ghi chú"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-sm btn-light text-danger shadow-sm" onclick="cancelBooking('${b.id}')" title="Huỷ"><i class="bi bi-x-lg"></i></button>
+    `;
         } else {
-            statusBadge = '<span class="badge badge-soft-danger"><i class="bi bi-x-circle me-1"></i>Đã hủy</span>';
+            statusBadge = '<span class="badge badge-soft-danger"><i class="bi bi-x-circle me-1"></i>Đã huỷ</span>';
+            actionBtns += `<button class="btn btn-sm btn-light text-danger shadow-sm" onclick="deleteBooking('${b.id}')" title="Xoá vĩnh viễn"><i class="bi bi-trash"></i></button>`;
         }
-
-        actionBtns += `
-            <button class="btn btn-sm btn-light text-primary shadow-sm me-1" onclick="editBooking('${b.id}')" title="Sửa"><i class="bi bi-pencil"></i></button>
-            <button class="btn btn-sm btn-light text-primary shadow-sm me-1" onclick="viewBookingDetail('${b.id}')" title="Xem chi tiết"><i class="bi bi-eye"></i></button>
-            <button class="btn btn-sm btn-light text-danger shadow-sm" onclick="deleteBooking('${b.id}')" title="Xoá"><i class="bi bi-trash"></i></button>
-        `;
 
         tbody.append(`
             <tr>
-                <td class="ps-4 fw-bold text-dark">
-                    ${b.customerName || 'Khách hàng'}
-                    <div class="small fw-normal text-muted mt-1">SĐT: ${b.customerPhone || 'N/A'}</div>
+                <td class="ps-4">
+                    <div class="fw-bold text-dark small">${b.id || ''}</div>
+                    <div class="text-muted small mt-1">${b.createdAt || ''}</div>
+                </td>
+                <td>
+                    <div class="fw-bold text-dark">${b.customerName || 'Khách hàng'}</div>
+                    <div class="small text-muted">SĐT: ${b.customerPhone || 'N/A'}</div>
                 </td>
                 <td><span class="text-primary fw-bold">${b.roomName || 'Phòng'}</span></td>
                 <td>
-                    <div class="small"><span class="text-muted">In:</span> ${b.checkIn || ''} ${b.checkInTime ? `<span class="badge bg-light text-primary ms-1">${b.checkInTime}</span>` : ''}</div>
-                    <div class="small"><span class="text-muted">Out:</span> ${b.checkOut || ''} ${b.checkOutTime ? `<span class="badge bg-light text-danger ms-1">${b.checkOutTime}</span>` : ''}</div>
-                    <div class="small mt-1">
-                        <span class="badge bg-light text-dark border"><i class="bi bi-person me-1"></i>${b.adults || 1} NL</span>
-                        <span class="badge bg-light text-dark border"><i class="bi bi-person-badge me-1"></i>${b.children || 0} TE</span>
-                    </div>
+                    <div class="small"><i class="bi bi-arrow-right-circle text-muted me-1"></i>${b.checkIn || ''} ${b.checkInTime ? `<span class="badge bg-light text-primary border">${b.checkInTime}</span>` : ''}</div>
+                    <div class="small"><i class="bi bi-arrow-left-circle text-muted me-1"></i>${b.checkOut || ''} ${b.checkOutTime ? `<span class="badge bg-light text-danger border">${b.checkOutTime}</span>` : ''}</div>
                 </td>
-                <td class="fw-bold text-success">${formatVND(b.totalPrice)}</td>
+                <td>
+                    <div class="fw-bold text-success">${formatVND(b.totalPrice)}</div>
+                    <div class="small text-muted">${methodMap[b.paymentMethod] || '—'}</div>
+                </td>
                 <td>${statusBadge}</td>
                 <td class="text-end pe-4">${actionBtns}</td>
             </tr>
@@ -817,12 +844,22 @@ window.deleteRoom = async function (id) {
 }
 
 window.updateBookingStatus = async function (id, newStatus) {
-    const action = newStatus === 'Confirmed' ? 'DUYỆT' : 'TỪ CHỐI';
+    const action = newStatus === 'approved' ? 'DUYỆT' : 'TỪ CHỐI';
     showConfirm(`Xác nhận ${action}`, `Xác nhận ${action} đơn này?`, async function () {
         try {
-            if (API.updateBooking) {
-                await API.updateBooking(id, { status: newStatus });
+            const bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
+            const idx = bookings.findIndex(b => b.id == id);
+            if (idx !== -1) {
+                bookings[idx].status = newStatus;
+                if (newStatus === 'approved') {
+                    const now = new Date();
+                    bookings[idx].confirmedAt = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                    bookings[idx].confirmedBy = 'Quản Trị Viên';
+                    syncMyOrder(bookings[idx]);
+                }
+                localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
             }
+            if (API.updateBooking) await API.updateBooking(id, { status: newStatus });
             showToast(`Đã ${action.toLowerCase()} đơn!`, 'success');
             loadAdminData();
         } catch (e) {
@@ -831,12 +868,194 @@ window.updateBookingStatus = async function (id, newStatus) {
     });
 }
 
+window.cancelBooking = async function (id) {
+    showConfirm('Huỷ đơn đặt phòng', 'Xác nhận HUỶ đơn này? Khách sẽ được thông báo.', async function () {
+        try {
+            const bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
+            const idx = bookings.findIndex(b => b.id == id);
+            if (idx !== -1) {
+                bookings[idx].status = 'cancelled';
+                syncMyOrder(bookings[idx]);
+                localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
+            }
+            if (API.updateBooking) await API.updateBooking(id, { status: 'cancelled' });
+            showToast('Đã huỷ đơn!', 'success');
+            loadAdminData();
+        } catch (e) {
+            showToast('Lỗi khi huỷ đơn!', 'error');
+        }
+    }, 'danger');
+}
+
+window.remindBooking = function (id) {
+    const bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
+    const idx = bookings.findIndex(b => b.id == id);
+    if (idx !== -1) {
+        bookings[idx].note = (bookings[idx].note ? bookings[idx].note + ' | ' : '') + 'Đã nhắc TT lúc ' + new Date().toLocaleTimeString('vi-VN');
+        localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
+    }
+    showToast(`Đã ghi nhận nhắc thanh toán đơn ${id}`, 'info');
+}
+
+function syncMyOrder(booking) {
+    // Đồng bộ trạng thái vào localStorage "đơn của tôi" của khách
+    const email = booking.customerEmail || '';
+    if (!email) return;
+    const key = 'stayeasy_myorders_' + email;
+    let orders = JSON.parse(localStorage.getItem(key)) || [];
+    const oi = orders.findIndex(o => o.id === booking.id);
+    if (oi !== -1) { orders[oi] = { ...orders[oi], ...booking }; }
+    else { orders.unshift(booking); }
+    localStorage.setItem(key, JSON.stringify(orders));
+}
+
+// ===== OPEN EDIT BOOKING MODAL =====
+window.openEditBooking = function (id) {
+    const booking = allBookings.find(b => b.id == id);
+    if (!booking) return;
+
+    const isConfirmed = booking.status === 'approved';
+    const isCancelled = booking.status === 'cancelled';
+    const isPaid = booking.isPaid === true;
+
+    document.getElementById('ebModalTitle').textContent = `Chỉnh sửa đơn — ${booking.id}`;
+    document.getElementById('ebId').value = booking.id;
+    document.getElementById('ebName').value = booking.customerName || '';
+    document.getElementById('ebPhone').value = booking.customerPhone || '';
+    document.getElementById('ebCheckIn').value = booking.checkIn || '';
+    document.getElementById('ebCheckOut').value = booking.checkOut || '';
+    document.getElementById('ebCheckInTime').value = booking.checkInTime || '14:00';
+    document.getElementById('ebCheckOutTime').value = booking.checkOutTime || '12:00';
+    // Sync display và active item cho custom picker
+    window._pendingEbTimes = {
+        checkIn: booking.checkInTime || '14:00',
+        checkOut: booking.checkOutTime || '12:00'
+    };
+    document.getElementById('ebAdults').value = booking.adults || 1;
+    document.getElementById('ebChildren').value = booking.children || 0;
+    document.getElementById('ebPayMethod').value = booking.paymentMethod || 'bank';
+    document.getElementById('ebStatus').value = booking.status || 'pending';
+    document.getElementById('ebNote').value = booking.note || '';
+    document.getElementById('ebPrice').value = booking.totalPrice || 0;
+
+    // Kiểm soát readonly theo trạng thái
+    const readonly = isCancelled;
+    ['ebName', 'ebPhone', 'ebCheckIn', 'ebCheckOut', 'ebCheckInTime', 'ebAdults', 'ebChildren', 'ebPayMethod', 'ebStatus', 'ebNote', 'ebPrice'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (readonly) { el.setAttribute('disabled', true); return; }
+        el.removeAttribute('disabled');
+    });
+
+    // Reset trigger time picker về mặc định
+    ['ebCheckInTimeTrigger', 'ebCheckOutTimeTrigger'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.pointerEvents = ''; el.style.opacity = ''; }
+    });
+
+    if (isConfirmed) {
+        ['ebName', 'ebPhone', 'ebCheckIn', 'ebCheckOut', 'ebCheckInTime', 'ebAdults', 'ebChildren', 'ebPayMethod', 'ebPrice'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.setAttribute('disabled', true);
+        });
+        // Lock trigger div của custom time picker
+        ['ebCheckInTimeTrigger', 'ebCheckOutTimeTrigger'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.style.pointerEvents = 'none'; }
+        });
+    }
+    if (isPaid) {
+        ['ebPrice', 'ebPayMethod'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.setAttribute('disabled', true);
+        });
+    }
+
+    document.getElementById('ebSaveBtn').style.display = readonly ? 'none' : '';
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('editBookingModal')).show();
+}
+
+$(document).on('click', '#ebSaveBtn', async function () {
+    const id = document.getElementById('ebId').value;
+    const bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
+    let idx = bookings.findIndex(b => b.id == id);
+
+    // Nếu không có trong localStorage thì lấy từ allBookings (API)
+    if (idx === -1) {
+        const fromApi = allBookings.find(b => b.id == id);
+        if (!fromApi) { showToast('Không tìm thấy đơn!', 'error'); return; }
+        bookings.unshift({ ...fromApi });
+        idx = 0;
+    }
+
+    const old = { ...bookings[idx] };
+    const now = new Date();
+    const ts = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    const changes = [];
+    const newName = document.getElementById('ebName').value;
+    const newPhone = document.getElementById('ebPhone').value;
+    const newCheckIn = document.getElementById('ebCheckIn').value;
+    const newCheckOut = document.getElementById('ebCheckOut').value;
+    const newNote = document.getElementById('ebNote').value;
+    const newStatus = document.getElementById('ebStatus').value;
+
+    if (newName !== old.customerName) changes.push(`Tên: ${old.customerName} → ${newName}`);
+    if (newPhone !== old.customerPhone) changes.push(`SĐT: ${old.customerPhone} → ${newPhone}`);
+    if (newCheckIn !== old.checkIn) changes.push(`Check-in: ${old.checkIn} → ${newCheckIn}`);
+    if (newCheckOut !== old.checkOut) changes.push(`Check-out: ${old.checkOut} → ${newCheckOut}`);
+    if (newStatus !== old.status) changes.push(`Trạng thái: ${old.status} → ${newStatus}`);
+
+    bookings[idx] = {
+        ...bookings[idx],
+        customerName: newName,
+        customerPhone: newPhone,
+        checkIn: newCheckIn,
+        checkOut: newCheckOut,
+        checkInTime: document.getElementById('ebCheckInTime').value,
+        checkOutTime: document.getElementById('ebCheckOutTime').value,
+        adults: parseInt(document.getElementById('ebAdults').value) || 1,
+        children: parseInt(document.getElementById('ebChildren').value) || 0,
+        paymentMethod: document.getElementById('ebPayMethod').disabled ? bookings[idx].paymentMethod : document.getElementById('ebPayMethod').value,
+        status: newStatus,
+        note: newNote,
+        totalPrice: document.getElementById('ebPrice').disabled ? bookings[idx].totalPrice : (parseFloat(document.getElementById('ebPrice').value) || bookings[idx].totalPrice),
+        editHistory: [...(bookings[idx].editHistory || []), {
+            editedAt: ts,
+            editedBy: 'Quản Trị Viên',
+            changes: changes.join(' | ') || 'Cập nhật ghi chú'
+        }]
+    };
+
+    localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
+    syncMyOrder(bookings[idx]);
+    if (API.updateBooking) {
+        API.updateBooking(bookings[idx].id, {
+            status: bookings[idx].status,
+            customerName: bookings[idx].customerName,
+            customerPhone: bookings[idx].customerPhone,
+            checkIn: bookings[idx].checkIn,
+            checkOut: bookings[idx].checkOut,
+            checkInTime: bookings[idx].checkInTime,
+            checkOutTime: bookings[idx].checkOutTime,
+            note: bookings[idx].note,
+            editHistory: bookings[idx].editHistory
+        }).catch(() => { });
+    }
+    bootstrap.Modal.getInstance(document.getElementById('editBookingModal')).hide();
+    showToast('Đã lưu thay đổi!', 'success');
+    loadAdminData();
+});
 window.deleteBooking = async function (id) {
     showConfirm('Xoá đơn đặt phòng', 'Xoá vĩnh viễn đơn này? Hành động không thể hoàn tác!', async function () {
         try {
             if (API.deleteBooking) {
                 await API.deleteBooking(id);
             }
+            // Xóa khỏi localStorage
+            let localBookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
+            localBookings = localBookings.filter(b => b.id != id);
+            localStorage.setItem('stayeasy_bookings', JSON.stringify(localBookings));
             showToast('Đã xoá đơn!', 'success');
             loadAdminData();
         } catch (e) {
@@ -887,7 +1106,7 @@ function renderRevenueChart() {
         dayEnd.setHours(23, 59, 59, 999);
 
         const dayRevenue = allBookings
-            .filter(b => b.status === 'Confirmed' && new Date(b.checkIn) >= dayStart && new Date(b.checkIn) <= dayEnd)
+            .filter(b => b.status === 'approved' && new Date(b.checkIn) >= dayStart && new Date(b.checkIn) <= dayEnd)
             .reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
         revenueData.push(dayRevenue);
     }
@@ -938,14 +1157,14 @@ function renderTopRooms() {
 
     const roomBookingCount = {};
     allBookings.forEach(b => {
-        if (b.status === 'Confirmed') {
+        if (b.status === 'approved') {
             roomBookingCount[b.roomName] = (roomBookingCount[b.roomName] || 0) + 1;
         }
     });
 
     const topRooms = Object.entries(roomBookingCount)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 5);
+        .slice(0, 3);
 
     if (topRooms.length === 0) {
         container.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i><h6>Chưa có dữ liệu</h6></div>';
@@ -976,12 +1195,12 @@ function renderActivityFeed() {
 
     allBookings.slice(-10).reverse().forEach(b => {
         let icon = 'bi-calendar-check', color = 'bg-primary';
-        if (b.status === 'Pending') { icon = 'bi-hourglass-split'; color = 'bg-warning'; }
-        else if (b.status === 'Cancelled') { icon = 'bi-x-circle'; color = 'bg-danger'; }
+        if (b.status === 'pending') { icon = 'bi-hourglass-split'; color = 'bg-warning'; }
+        else if (b.status === 'cancelled') { icon = 'bi-x-circle'; color = 'bg-danger'; }
 
         activities.push({
             icon, color,
-            title: `${b.customerName || 'Khách'} ${b.status === 'Pending' ? 'đặt phòng' : b.status === 'Confirmed' ? 'xác nhận' : 'hủy'} ${b.roomName || 'phòng'}`,
+            title: `${b.customerName || 'Khách'} ${b.status === 'pending' ? 'đặt phòng' : b.status === 'approved' ? 'xác nhận' : 'hủy'} ${b.roomName || 'phòng'}`,
             meta: `${formatVND(b.totalPrice)} • ${b.checkIn}`
         });
     });
@@ -1014,13 +1233,12 @@ function updateDashboardPromoCount() {
 
 // ============= BOOKING TOOLS =============
 window.filterBookingStatus = function (status) {
-    bookingStatusFilter = status;
+    bookingStatusFilter = status === 'unpaid' ? 'unpaid' : status;
     currentBookingPage = 1;
 
     // Cập nhật UI chip active
     $('.filter-chip').removeClass('active');
-    $(`.filter-chip:contains("${status === 'all' ? 'Tất cả' : status === 'Pending' ? 'Chờ duyệt' : status === 'Confirmed' ? 'Đã duyệt' : 'Đã hủy'}")`).addClass('active');
-
+    $(`.filter-chip[onclick*="'${status}'"]`).addClass('active');
     renderBookingTable();
 };
 
@@ -1078,9 +1296,12 @@ window.viewBookingDetail = function (id) {
         <div class="booking-detail-row">
             <span class="label">Trạng thái:</span>
             <span class="value">
-                ${booking.status === 'Pending' ? '<span class="badge badge-soft-warning">Chờ duyệt</span>' :
-            booking.status === 'Confirmed' ? '<span class="badge badge-soft-success">Đã duyệt</span>' :
-                '<span class="badge badge-soft-danger">Đã hủy</span>'}
+                ${booking.status === 'pending' ? '<span class="badge badge-soft-warning">⏳ Chờ duyệt</span>' :
+            booking.status === 'approved' ? '<span class="badge badge-soft-success">✅ Đã duyệt</span>' :
+                '<span class="badge badge-soft-danger">❌ Đã huỷ</span>'}
+                ${booking.status !== 'cancelled' ? (booking.isPaid
+            ? '<span class="badge badge-soft-success ms-1">Đã TT</span>'
+            : '<span class="badge badge-soft-warning ms-1">Chưa TT</span>') : ''}
             </span>
         </div>
     `;
@@ -1152,7 +1373,7 @@ window.openBookingForm = function (bookingId = null) {
             document.getElementById('bAdults').value = booking.adults || 1;
             document.getElementById('bChildren').value = booking.children || 0;
             document.getElementById('bTotalPrice').value = booking.totalPrice || 0;
-            document.getElementById('bStatus').value = booking.status || 'Pending';
+            document.getElementById('bStatus').value = booking.status || 'pending';
 
             // Update time picker displays
             document.getElementById('bCheckInTimeDisplay').value = booking.checkInTime || '14:00';
@@ -1167,7 +1388,7 @@ window.openBookingForm = function (bookingId = null) {
         document.getElementById('bCheckOutTime').value = '12:00';
         document.getElementById('bAdults').value = 1;
         document.getElementById('bChildren').value = 0;
-        document.getElementById('bStatus').value = 'Pending';
+        document.getElementById('bStatus').value = 'pending';
         document.getElementById('bCheckInTimeDisplay').value = '14:00';
         document.getElementById('bCheckOutTimeDisplay').value = '12:00';
     }
@@ -1250,7 +1471,7 @@ async function saveBooking() {
         adults,
         children,
         totalPrice,
-        status: status || 'Pending'
+        status: status || 'pending'
     };
 
     try {
@@ -1344,93 +1565,96 @@ window.deleteAllCustomers = async function () {
     }
 };
 
-// ===== ADMIN TIME PICKER 2 COLUMNS =====
-document.addEventListener('DOMContentLoaded', function () {
-    // Check-in time picker
-    const checkInTrigger = document.getElementById('bCheckInTimeTrigger');
-    const checkInPanel = document.getElementById('bCheckInTimePanel');
-    const checkInDisplay = document.getElementById('bCheckInTimeDisplay');
-    const checkInHidden = document.getElementById('bCheckInTime');
-
-    if (checkInTrigger && checkInPanel) {
-        function updateCheckInDisplay() {
-            const time = checkInHidden.value;
-            checkInDisplay.value = time;
-        }
-
-        function toggleCheckInPanel(open) {
-            if (open === undefined) open = !checkInPanel.classList.contains('open');
-            checkInPanel.classList.toggle('open', open);
-            checkInTrigger.classList.toggle('active', open);
-        }
-
-        checkInTrigger.addEventListener('click', function (e) {
-            e.stopPropagation();
-            toggleCheckInPanel();
+// Helper: set giá trị cho custom time picker (display + hidden + active item)
+function setTimePicker(prefix, field, time) {
+    const display = document.getElementById(prefix + field + 'TimeDisplay');
+    const hidden = document.getElementById(prefix + field + 'Time');
+    const panel = document.getElementById(prefix + field + 'TimePanel');
+    if (display) display.value = time;
+    if (hidden) hidden.value = time;
+    if (panel) {
+        panel.querySelectorAll('.atp-time-item').forEach(function (el) {
+            el.classList.toggle('active', el.dataset.time === time);
         });
-
-        document.querySelectorAll('#bCheckInTimePanel .atp-time-item').forEach(item => {
-            item.addEventListener('click', function (e) {
-                e.stopPropagation();
-                const time = this.dataset.time;
-                checkInHidden.value = time;
-                document.querySelectorAll('#bCheckInTimePanel .atp-time-item').forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-                updateCheckInDisplay();
-                toggleCheckInPanel(false);
-            });
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!checkInPanel.contains(e.target) && !checkInTrigger.contains(e.target)) {
-                toggleCheckInPanel(false);
-            }
-        });
-
-        updateCheckInDisplay();
     }
+}
 
-    // Check-out time picker
-    const checkOutTrigger = document.getElementById('bCheckOutTimeTrigger');
-    const checkOutPanel = document.getElementById('bCheckOutTimePanel');
-    const checkOutDisplay = document.getElementById('bCheckOutTimeDisplay');
-    const checkOutHidden = document.getElementById('bCheckOutTime');
+// ===== ADMIN TIME PICKER 2 COLUMNS =====
+function initBookingTimePickers(modalId) {
+    const allConfigs = {
+        bookingFormModal: [
+            { triggerId: 'bCheckInTimeTrigger', panelId: 'bCheckInTimePanel', displayId: 'bCheckInTimeDisplay', hiddenId: 'bCheckInTime' },
+            { triggerId: 'bCheckOutTimeTrigger', panelId: 'bCheckOutTimePanel', displayId: 'bCheckOutTimeDisplay', hiddenId: 'bCheckOutTime' }
+        ],
+        editBookingModal: [
+            { triggerId: 'ebCheckInTimeTrigger', panelId: 'ebCheckInTimePanel', displayId: 'ebCheckInTimeDisplay', hiddenId: 'ebCheckInTime' },
+            { triggerId: 'ebCheckOutTimeTrigger', panelId: 'ebCheckOutTimePanel', displayId: 'ebCheckOutTimeDisplay', hiddenId: 'ebCheckOutTime' }
+        ]
+    };
 
-    if (checkOutTrigger && checkOutPanel) {
-        function updateCheckOutDisplay() {
-            const time = checkOutHidden.value;
-            checkOutDisplay.value = time;
+    const configs = allConfigs[modalId] || [];
+
+    configs.forEach(function (cfg) {
+        const trigger = document.getElementById(cfg.triggerId);
+        const panel = document.getElementById(cfg.panelId);
+        const display = document.getElementById(cfg.displayId);
+        const hidden = document.getElementById(cfg.hiddenId);
+        if (!trigger || !panel) return;
+
+        // Clone để xóa event listener cũ tránh bị bind nhiều lần
+        const newTrigger = trigger.cloneNode(true);
+        trigger.parentNode.replaceChild(newTrigger, trigger);
+
+        function closeAll() {
+            document.querySelectorAll('.admin-time-picker-panel').forEach(p => p.classList.remove('open'));
+            document.querySelectorAll('.admin-time-picker-trigger').forEach(t => t.classList.remove('active'));
         }
 
-        function toggleCheckOutPanel(open) {
-            if (open === undefined) open = !checkOutPanel.classList.contains('open');
-            checkOutPanel.classList.toggle('open', open);
-            checkOutTrigger.classList.toggle('active', open);
-        }
-
-        checkOutTrigger.addEventListener('click', function (e) {
+        newTrigger.addEventListener('click', function (e) {
             e.stopPropagation();
-            toggleCheckOutPanel();
-        });
-
-        document.querySelectorAll('#bCheckOutTimePanel .atp-time-item').forEach(item => {
-            item.addEventListener('click', function (e) {
-                e.stopPropagation();
-                const time = this.dataset.time;
-                checkOutHidden.value = time;
-                document.querySelectorAll('#bCheckOutTimePanel .atp-time-item').forEach(el => el.classList.remove('active'));
-                this.classList.add('active');
-                updateCheckOutDisplay();
-                toggleCheckOutPanel(false);
-            });
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!checkOutPanel.contains(e.target) && !checkOutTrigger.contains(e.target)) {
-                toggleCheckOutPanel(false);
+            const isOpen = panel.classList.contains('open');
+            closeAll();
+            if (!isOpen) {
+                panel.classList.add('open');
+                newTrigger.classList.add('active');
             }
         });
 
-        updateCheckOutDisplay();
+        panel.querySelectorAll('.atp-time-item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const time = this.dataset.time;
+                if (hidden) hidden.value = time;
+                // Lấy lại display theo id thay vì dùng biến cũ bị stale sau clone
+                const freshDisplay = document.getElementById(cfg.displayId);
+                if (freshDisplay) freshDisplay.value = time;
+                panel.querySelectorAll('.atp-time-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                closeAll();
+            });
+        });
+    });
+
+    // Đóng panel khi click ra ngoài (chỉ bind 1 lần)
+    if (!document._atpOutsideClick) {
+        document._atpOutsideClick = true;
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.admin-time-picker-wrapper')) {
+                document.querySelectorAll('.admin-time-picker-panel').forEach(p => p.classList.remove('open'));
+                document.querySelectorAll('.admin-time-picker-trigger').forEach(t => t.classList.remove('active'));
+            }
+        });
+    }
+}
+
+document.addEventListener('shown.bs.modal', function (e) {
+    if (e.target && (e.target.id === 'bookingFormModal' || e.target.id === 'editBookingModal')) {
+        initBookingTimePickers(e.target.id);
+        // Set giờ SAU KHI picker đã init
+        if (e.target.id === 'editBookingModal' && window._pendingEbTimes) {
+            setTimePicker('eb', 'CheckIn', window._pendingEbTimes.checkIn);
+            setTimePicker('eb', 'CheckOut', window._pendingEbTimes.checkOut);
+            window._pendingEbTimes = null;
+        }
     }
 });

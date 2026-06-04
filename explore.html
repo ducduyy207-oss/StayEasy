@@ -2174,7 +2174,7 @@
             const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
                && localStorage.getItem('userRole') === 'superadmin';
             if (isLoggedIn || isAdminLoggedIn) {
-               const userName = localStorage.getItem('userName') || 'Khách';
+               const userName = (localStorage.getItem('userName') || 'Khách').replace(/Tổng /i, '').trim();
                document.querySelectorAll('.user-auth-nav-item').forEach(el => el.style.display = 'none');
                const userMenu = `
                   <li class="nav-item dropdown user-dropdown">

@@ -307,7 +307,7 @@ select option {
                 url('https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
-    height: 550px;
+    height: 500px;
     margin-bottom: 50px;
 }
 
