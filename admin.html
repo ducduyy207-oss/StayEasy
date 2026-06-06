@@ -405,7 +405,7 @@
             }
         </style>
     </head>
-    <body class="bg-light overflow-hidden">
+    <body class="bg-light">
 
         <!-- Backdrop cho sidebar mobile -->
         <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
@@ -510,7 +510,7 @@
 
             </aside>
 
-            <main class="flex-grow-1 d-flex flex-column overflow-hidden bg-light">
+            <main class="flex-grow-1 d-flex flex-column overflow-visible bg-light" style="min-height: 100vh;">
                 <header
                     class="bg-white p-3 border-bottom d-flex justify-content-between align-items-center px-4 shadow-sm"
                     style="z-index: 1030;">
@@ -1229,34 +1229,151 @@
         </div>
 
         <div class="modal fade" id="promoModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-dialog modal-dialog-centered modal-md">
                 <div class="modal-content border-0 shadow-lg rounded-4">
                     <form id="promoForm">
                         <div class="modal-header bg-light border-0 px-4 pt-4 rounded-top-4">
-                            <h6 class="modal-title fw-bold text-dark">Tạo Mã Mới</h6>
+                            <h6 class="modal-title fw-bold text-dark" id="promoModalTitle">Tạo Mã Mới</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body px-4 py-3">
                             <div class="mb-3">
                                 <label class="form-label fw-bold text-muted small">Tên Mã</label>
                                 <input type="text" class="form-control text-uppercase fw-bold text-danger"
-                                    id="promoCodeInput" required>
+                                    id="promoCodeInput" placeholder="VD: SUMMER2026" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold text-muted small">Mức giảm (%)</label>
                                 <input type="number" class="form-control" id="promoDiscountInput" min="1" max="99"
                                     placeholder="VD: 15" required>
                             </div>
+                            <!-- Phạm vi áp dụng -->
                             <div class="mb-3">
-                                <label class="form-label fw-bold text-muted small">Áp dụng cho phòng</label>
-                                <input type="text" class="form-control" id="promoRoomInput"
-                                    placeholder="VD: Dalat Flower Homestay">
-                                <div class="form-text">Nhập chính xác tên phòng.</div>
+                                <label class="form-label fw-bold text-muted small">Áp dụng cho</label>
+                                <!-- Scope toggle buttons -->
+                                <div class="d-flex gap-2 mb-3">
+                                    <input type="radio" class="btn-check" name="promoScope" id="scopeAll" value="all"
+                                        checked>
+                                    <label class="btn btn-sm flex-fill fw-semibold" for="scopeAll" style="
+                                        border: 2px solid #e2e8f0; border-radius: 10px; padding: 8px 0;
+                                        transition: all .2s; color:#64748b; background:#f8fafc;">
+                                        <i class="bi bi-globe2 me-1"></i>Tất cả phòng
+                                    </label>
+                                    <input type="radio" class="btn-check" name="promoScope" id="scopeSpecific"
+                                        value="specific">
+                                    <label class="btn btn-sm flex-fill fw-semibold" for="scopeSpecific" style="
+                                        border: 2px solid #e2e8f0; border-radius: 10px; padding: 8px 0;
+                                        transition: all .2s; color:#64748b; background:#f8fafc;">
+                                        <i class="bi bi-building-check me-1"></i>Phòng cụ thể
+                                    </label>
+                                </div>
+                                <style>
+                                    .btn-check:checked+label[for="scopeAll"],
+                                    .btn-check:checked+label[for="scopeSpecific"] {
+                                        border-color: #dc2626 !important;
+                                        background: #fff5f5 !important;
+                                        color: #dc2626 !important;
+                                        box-shadow: 0 0 0 3px rgba(220, 38, 38, .08);
+                                    }
+
+                                    #promoRoomCheckboxList .promo-room-item {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 10px;
+                                        padding: 7px 10px;
+                                        border-radius: 8px;
+                                        cursor: pointer;
+                                        transition: background .15s;
+                                    }
+
+                                    #promoRoomCheckboxList .promo-room-item:hover {
+                                        background: #fef2f2;
+                                    }
+
+                                    #promoRoomCheckboxList .promo-room-item input[type=checkbox] {
+                                        width: 16px;
+                                        height: 16px;
+                                        accent-color: #dc2626;
+                                        cursor: pointer;
+                                        flex-shrink: 0;
+                                    }
+
+                                    #promoRoomCheckboxList .promo-room-item label {
+                                        font-size: 13px;
+                                        color: #334155;
+                                        cursor: pointer;
+                                        margin: 0;
+                                        line-height: 1.3;
+                                    }
+
+                                    #promoRoomCheckboxList .promo-room-item input:checked~label {
+                                        color: #dc2626;
+                                        font-weight: 600;
+                                    }
+
+                                    .promo-room-tag {
+                                        display: inline-flex;
+                                        align-items: center;
+                                        gap: 5px;
+                                        background: #fef2f2;
+                                        border: 1px solid #fecaca;
+                                        color: #dc2626;
+                                        border-radius: 20px;
+                                        padding: 3px 10px 3px 8px;
+                                        font-size: 12px;
+                                        font-weight: 600;
+                                    }
+
+                                    .promo-room-tag .tag-remove {
+                                        background: none;
+                                        border: none;
+                                        padding: 0;
+                                        line-height: 1;
+                                        color: #ef4444;
+                                        cursor: pointer;
+                                        font-size: 14px;
+                                        display: flex;
+                                    }
+                                </style>
+
+                                <!-- Panel chọn phòng cụ thể -->
+                                <div id="promoRoomPanel" style="display:none;">
+                                    <!-- Tags đã chọn -->
+                                    <div id="promoSelectedRoomTags" class="d-flex flex-wrap gap-1 mb-2"></div>
+
+                                    <!-- Checkbox list -->
+                                    <div id="promoRoomCheckboxList" style="
+                                        max-height: 180px; overflow-y: auto; border-radius: 12px;
+                                        border: 1.5px solid #e2e8f0; background: #fff; padding: 6px;">
+                                        <div class="text-muted small text-center py-3" id="promoRoomLoadingMsg">
+                                            <i class="bi bi-arrow-repeat me-1"></i>Đang tải danh sách phòng...
+                                        </div>
+                                    </div>
+
+                                    <!-- Divider -->
+                                    <div class="d-flex align-items-center gap-2 my-2">
+                                        <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+                                        <span style="font-size:11px; color:#94a3b8; white-space:nowrap;">hoặc nhập
+                                            phòng</span>
+                                        <div style="flex:1; height:1px; background:#e2e8f0;"></div>
+                                    </div>
+
+                                    <!-- Manual input -->
+                                    <div class="d-flex gap-2">
+                                        <input type="text" class="form-control form-control-sm"
+                                            id="promoRoomManualInput" placeholder="VD: Dalat Flower Homestay"
+                                            style="border-radius: 8px; border: 1.5px solid #e2e8f0; font-size:13px;">
+                                        <button class="btn btn-sm fw-bold px-3" type="button" id="btnAddManualRoom"
+                                            style="border-radius: 8px; background:#dc2626; color:#fff; border:none; white-space:nowrap; font-size:13px;">
+                                            <i class="bi bi-plus-lg me-1"></i>Thêm
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-0 px-4 pb-4">
-                            <button type="submit" class="btn btn-danger w-100 fw-bold rounded-3 shadow-sm">Thêm Mã Ưu
-                                Đãi</button>
+                            <button type="submit" id="btnPromoSubmit"
+                                class="btn btn-danger w-100 fw-bold rounded-3 shadow-sm">Thêm Mã Ưu Đãi</button>
                         </div>
                     </form>
                 </div>
@@ -1565,5 +1682,51 @@
                 window.open('index.html', '_blank');
             };
         </script>
+
+        <!-- Footer -->
+        <footer class="footer-custom">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-4 pe-lg-5">
+                        <a class="navbar-brand text-white fs-3 fw-bold mb-3 d-block" href="index.html">
+                            <i class="bi bi-buildings-fill text-primary"></i> StayEasy
+                        </a>
+                        <p class="mb-4">Nền tảng đặt phòng trực tuyến uy tín hàng đầu Việt Nam. Mang đến cho bạn những
+                            kỳ nghỉ
+                            tuyệt vời với mức giá tốt nhất.</p>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="fs-4"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="fs-4"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="fs-4"><i class="bi bi-youtube"></i></a>
+                            <a href="#" class="fs-4"><i class="bi bi-tiktok"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4">
+                        <h5>Về StayEasy</h5>
+                        <a href="#">Giới thiệu</a>
+                        <a href="#">Tuyển dụng</a>
+                        <a href="#">Quy chế hoạt động</a>
+                        <a href="#">Điều khoản & Điều kiện</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4">
+                        <h5>Hỗ trợ Khách hàng</h5>
+                        <a href="#">Trung tâm trợ giúp</a>
+                        <a href="#">Chính sách bảo mật</a>
+                        <a href="#">Chính sách hoàn tiền</a>
+                        <a href="#">Hướng dẫn đặt phòng</a>
+                    </div>
+                    <div class="col-lg-3 col-md-4">
+                        <h5>Liên hệ</h5>
+                        <p class="mb-2"><i class="bi bi-geo-alt me-2 text-primary"></i> Trường Đại Học Đại Nam, Hà Nội
+                        </p>
+                        <p class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i> 1900 1234 56</p>
+                        <p class="mb-0"><i class="bi bi-envelope me-2 text-primary"></i> support@stayeasy.vn</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="mb-0">© 2026 StayEasy. Bản quyền thuộc về StayEasy</p>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

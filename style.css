@@ -43,7 +43,8 @@ select option {
    ========================================= */
 .navbar-custom {
     background-color: transparent !important;
-    position: fixed; top: 0; width: 100%; z-index: 1060;
+    position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important;
+    z-index: 9999 !important;
     box-shadow: none !important; padding-top: 15px;
     transition: all 0.3s ease-in-out;
 }
@@ -118,10 +119,16 @@ select option {
    HERO SECTION
    ========================================= */
 .hero-section {
-    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.2) 100%), 
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.2) 100%),
                 url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
     background-size: cover;
-    padding: 140px 0 80px 0; margin-bottom: 50px; min-height: 550px; position: relative;
+    background-attachment: fixed;
+    padding: 140px 0 80px 0; margin-bottom: 0px; min-height: 550px; position: relative;
+}
+@media (max-width: 767.98px) {
+   .hero-section {
+      background-attachment: scroll;
+   }
 }
 
 /* TABS TÌM KIẾM */
@@ -309,6 +316,11 @@ select option {
     background-attachment: fixed;
     height: 500px;
     margin-bottom: 50px;
+}
+@media (max-width: 767.98px) {
+   .explore-hero {
+      background-attachment: scroll;
+   }
 }
 
 /* Thẻ Điểm đến */
@@ -1517,4 +1529,276 @@ span.flatpickr-weekday {
     .toast-custom { min-width: unset; max-width: 100%; }
     .admin-sidebar { width: 240px !important; }
     .filter-chip-group { padding-bottom: 4px; overflow-x: auto; flex-wrap: nowrap; }
+}
+
+/* ===== CITY FILTER BAR ===== */
+.city-filter-bar { background: white; border-bottom: 1px solid #e2e8f0; }
+.city-filter-bar .nav-link {
+   background: none; border: none; padding: 16px 20px; font-size: 14px;
+   font-weight: 600; color: #64748b; cursor: pointer; position: relative;
+   transition: color 0.2s; white-space: nowrap; border-radius: 0;
+}
+.city-filter-bar .nav-link:hover { color: #2563eb; background: none; }
+.city-filter-bar .nav-link.active { color: #2563eb; background: none; }
+.city-filter-bar .nav-link.active::after {
+   content: ''; position: absolute; bottom: -1px; left: 0;
+   width: 100%; height: 2px;
+   background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 2px;
+}
+
+/* ===== BANNER VÙNG MIỀN ===== */
+.region-card {
+   position: relative; height: 220px; border-radius: 20px; overflow: hidden;
+   background-size: cover; background-position: center;
+   cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.region-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.region-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,52,120,0.88) 0%, rgba(0,0,0,0.08) 60%); }
+.region-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 22px; color: white; }
+.region-icon { font-size: 28px; margin-bottom: 4px; line-height: 1; }
+.region-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+.region-sub { font-size: 12px; opacity: 0.8; margin-bottom: 10px; }
+.region-btn {
+   display: inline-flex; align-items: center; gap: 6px;
+   background: rgba(255,255,255,0.2); backdrop-filter: blur(6px);
+   border: 1px solid rgba(255,255,255,0.35); border-radius: 50px;
+   padding: 5px 14px; font-size: 12px; font-weight: 700; color: white;
+}
+.region-card:hover .region-btn { background: rgba(255,255,255,0.35); }
+
+/* ===== KHÁM PHÁ ĐIỀU GÌ ===== */
+.explore-tab-nav { display: flex; border-bottom: 2px solid #e2e8f0; }
+.explore-tab-btn {
+   background: none; border: none; padding: 12px 24px; font-size: 15px;
+   font-weight: 600; color: #64748b; cursor: pointer; position: relative;
+   transition: color 0.2s; white-space: nowrap;
+}
+.explore-tab-btn:hover { color: #2563eb; }
+.explore-tab-btn.active { color: #2563eb; }
+.explore-tab-btn.active::after {
+   content: ''; position: absolute; bottom: -2px; left: 0;
+   width: 100%; height: 2px; background: #2563eb; border-radius: 2px;
+}
+.explore-tab-content { display: none; animation: fadeInTab 0.25s ease; }
+.explore-tab-content.active { display: block; }
+@keyframes fadeInTab { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.explore-link-col {
+   display: flex; flex-direction: column; gap: 14px;
+   padding: 20px 16px; border-right: 1px solid #e2e8f0;
+}
+.explore-link-col:last-child { border-right: none; }
+.explore-link-col a { color: #334155; font-size: 14px; text-decoration: none; transition: color 0.2s; }
+.explore-link-col a:hover { color: #2563eb; text-decoration: underline; }
+
+/* ===== EXPLORE PAGE ENHANCEMENTS ===== */
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Scroll-triggered reveal animations */
+.reveal-on-scroll {
+   opacity: 0;
+   transform: translateY(40px);
+   transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal-on-scroll.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+/* Reveal left/right variants */
+.reveal-left {
+   transform: translateX(-50px);
+}
+.reveal-right {
+   transform: translateX(50px);
+}
+.reveal-left.is-visible,
+.reveal-right.is-visible {
+   transform: translateX(0);
+}
+
+/* Scale reveal for cards */
+.reveal-scale {
+   transform: scale(0.92);
+   opacity: 0;
+}
+.reveal-scale.is-visible {
+   transform: scale(1);
+   opacity: 1;
+}
+
+/* Floating particles in hero */
+.floating-particles {
+   position: absolute;
+   inset: 0;
+   overflow: hidden;
+   pointer-events: none;
+}
+.floating-particle {
+   position: absolute;
+   width: 6px;
+   height: 6px;
+   background: rgba(255,255,255,0.3);
+   border-radius: 50%;
+   animation: floatParticle linear infinite;
+}
+@keyframes floatParticle {
+   0% { transform: translateY(100%) translateX(0) rotate(0deg); opacity: 0; }
+   10% { opacity: 0.6; }
+   90% { opacity: 0.6; }
+   100% { transform: translateY(-120%) translateX(30px) rotate(360deg); opacity: 0; }
+}
+
+/* Counter animation */
+.stat-counter {
+   display: inline-block;
+}
+
+/* Enhanced card hover - lift + glow */
+.hover-lift-glow {
+   transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.hover-lift-glow:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 25px 50px rgba(37, 99, 235, 0.18), 0 0 0 1px rgba(37, 99, 235, 0.15);
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Glassmorphism header on scroll */
+.navbar-glass {
+   background: rgba(255, 255, 255, 0.72) !important;
+   backdrop-filter: blur(12px);
+   -webkit-backdrop-filter: blur(12px);
+   border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+/* Smooth image zoom container */
+.img-zoom-container {
+   overflow: hidden;
+   border-radius: inherit;
+}
+.img-zoom-container img {
+   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.img-zoom-container:hover img {
+   transform: scale(1.08);
+}
+
+/* Text gradient animation */
+.text-gradient-animate {
+   background: linear-gradient(90deg, #2563eb, #8b5cf6, #2563eb);
+   background-size: 200% auto;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+   animation: gradientFlow 3s linear infinite;
+}
+@keyframes gradientFlow {
+   0% { background-position: 0% center; }
+   100% { background-position: 200% center; }
+}
+
+/* Pulse dot indicator */
+.pulse-ring {
+   position: absolute;
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   animation: pulseRing 2s ease-out infinite;
+}
+@keyframes pulseRing {
+   0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5); }
+   70% { box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); }
+   100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Smooth tag hover */
+.tag-smooth {
+   position: relative;
+   overflow: hidden;
+}
+.tag-smooth::before {
+   content: '';
+   position: absolute;
+   inset: 0;
+   background: linear-gradient(135deg, #2563eb, #8b5cf6);
+   opacity: 0;
+   transition: opacity 0.3s;
+   z-index: -1;
+   border-radius: inherit;
+}
+.tag-smooth:hover::before {
+   opacity: 1;
+}
+.tag-smooth:hover {
+   color: white !important;
+   border-color: transparent !important;
+}
+
+/* ===== PROVINCE CARDS ===== */
+.province-card {
+   position: relative; height: 160px; border-radius: 16px; overflow: hidden;
+   background-size: cover; background-position: center;
+   cursor: pointer; transition: all 0.3s ease;
+}
+.province-card:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+}
+.province-overlay {
+   position: absolute; inset: 0;
+   background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(0,0,0,0.15) 60%);
+}
+.province-content {
+   position: absolute; bottom: 0; left: 0; right: 0;
+   padding: 16px 18px; color: white;
+}
+.province-title {
+   font-size: 1.05rem; font-weight: 700; margin-bottom: 6px;
+}
+.province-btn {
+   display: inline-flex; align-items: center; gap: 4px;
+   font-size: 11.5px; font-weight: 600; opacity: 0.85;
+}
+.province-card:hover .province-btn {
+   opacity: 1;
+}
+
+/* =========================================
+   FOOTER CHUNG
+   ========================================= */
+.footer-custom {
+   margin-top: auto !important;
+   background-color: #1e293b;
+   color: #cbd5e1;
+   padding: 60px 0 30px;
+}
+.footer-custom h5 {
+   color: white;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+.footer-custom a {
+   color: #cbd5e1;
+   text-decoration: none;
+   transition: color 0.3s;
+   display: block;
+   margin-bottom: 10px;
+}
+.footer-custom a:hover {
+   color: #60a5fa;
+}
+.footer-bottom {
+   border-top: 1px solid #334155;
+   padding-top: 20px;
+   margin-top: 40px;
+   text-align: center;
 }

@@ -110,8 +110,8 @@ let bookingStatusFilter = 'all';
 let bookingKeyword = '';
 
 let promotions = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
-    { code: 'STAYEASY15', discount: 15, roomName: '' },
-    { code: 'SUMMER2026', discount: 20, roomName: '' }
+    { code: 'STAYEASY15', discount: 15, rooms: [] },
+    { code: 'SUMMER2026', discount: 20, rooms: [] }
 ];
 let editingPromoIndex = -1;
 // Khởi tạo danh sách Đánh giá giả lập (Vì MockAPI chưa có bảng này)
@@ -293,33 +293,42 @@ $(document).ready(function () {
         e.preventDefault();
         const code = $('#promoCodeInput').val().trim().toUpperCase();
         const discount = parseInt($('#promoDiscountInput').val());
-        const roomName = $('#promoRoomInput').val().trim();
+        const scope = $('input[name="promoScope"]:checked').val();
+        const rooms = scope === 'all' ? [] : (window._promoSelectedRooms || []);
+
+        if (scope === 'specific' && rooms.length === 0) {
+            showToast('Vui lòng chọn ít nhất một phòng!', 'warning'); return;
+        }
 
         if (editingPromoIndex >= 0) {
             if (promotions.some((p, i) => p.code === code && i !== editingPromoIndex)) {
                 showToast('Mã này đã tồn tại!', 'warning'); return;
             }
-            promotions[editingPromoIndex] = { code, discount, roomName };
+            promotions[editingPromoIndex] = { code, discount, rooms };
         } else {
             if (promotions.some(p => p.code === code)) {
                 showToast('Mã này đã tồn tại!', 'warning'); return;
             }
-            promotions.push({ code, discount, roomName });
+            promotions.push({ code, discount, rooms });
         }
 
         localStorage.setItem('stayeasy_promos', JSON.stringify(promotions));
-
+        const wasEditing = editingPromoIndex >= 0;
         $('#promoModal').modal('hide');
         $(this)[0].reset();
         editingPromoIndex = -1;
         renderPromotions();
-        showToast(editingPromoIndex >= 0 ? "Cập nhật thành công!" : "Thêm mã khuyến mãi thành công!", 'success');
+        showToast(wasEditing ? 'Cập nhật thành công!' : 'Thêm mã khuyến mãi thành công!', 'success');
     });
     $('#promoModal').on('hidden.bs.modal', function () {
         editingPromoIndex = -1;
         $('#promoModalTitle').text('Tạo Mã Mới');
         $('#btnPromoSubmit').text('Thêm Mã Ưu Đãi');
         $('#promoForm')[0].reset();
+        window._promoSelectedRooms = [];
+        $('#promoSelectedRoomTags').empty();
+        $('#promoRoomPanel').hide();
+        $('#scopeAll').prop('checked', true);
     });
 
     $('#btnDeleteAllPromos').on('click', function () {
@@ -636,13 +645,20 @@ function renderPromotions() {
     const tbody = $('#promoTableBody');
     tbody.empty();
 
-    // Lấy giá trị search
     const searchTerm = $('#searchPromoInput').val().trim().toUpperCase();
 
-    // Lọc promotions theo search term
+    // Migrate old data: roomName string → rooms array
+    promotions = promotions.map(p => {
+        if (!p.rooms) {
+            p.rooms = p.roomName ? [{ id: null, name: p.roomName }] : [];
+            delete p.roomName;
+        }
+        return p;
+    });
+
     const filteredPromos = promotions.filter(p =>
         p.code.toUpperCase().includes(searchTerm) ||
-        (p.roomName && p.roomName.toUpperCase().includes(searchTerm))
+        (p.rooms && p.rooms.some(r => r.name.toUpperCase().includes(searchTerm)))
     );
 
     if (filteredPromos.length === 0) {
@@ -651,15 +667,16 @@ function renderPromotions() {
     }
 
     filteredPromos.forEach((p, index) => {
+        const roomBadges = (!p.rooms || p.rooms.length === 0)
+            ? `<span class="badge bg-secondary"><i class="bi bi-globe me-1"></i>Tất cả phòng</span>`
+            : p.rooms.map(r => `<span class="badge bg-warning text-dark me-1 mb-1"><i class="bi bi-building me-1"></i>${r.name}</span>`).join('');
+
         tbody.append(`
     <tr>
         <td class="ps-4"><span class="badge bg-danger fs-6">${p.code}</span></td>
         <td class="fw-bold text-success fs-5">Giảm ${p.discount}%</td>
-        <td class="text-muted small">
-            ${p.roomName
-                ? `<span class="badge bg-warning text-dark"><i class="bi bi-building me-1"></i>${p.roomName}</span>`
-                : `<span class="badge bg-secondary"><i class="bi bi-globe me-1"></i>Tất cả phòng</span>`
-            }
+        <td class="text-muted small" style="max-width:220px;">
+            <div class="d-flex flex-wrap gap-1">${roomBadges}</div>
         </td>
         <td><span class="badge badge-soft-success"><i class="bi bi-check-circle me-1"></i>Đang chạy</span></td>
         <td class="text-end pe-4">
@@ -1080,7 +1097,19 @@ window.editPromo = function (index) {
     $('#btnPromoSubmit').text('Lưu Thay Đổi');
     $('#promoCodeInput').val(p.code);
     $('#promoDiscountInput').val(p.discount);
-    $('#promoRoomInput').val(p.roomName || '');
+
+    const rooms = p.rooms || [];
+    window._promoSelectedRooms = [...rooms];
+
+    if (rooms.length === 0) {
+        $('#scopeAll').prop('checked', true);
+        $('#promoRoomPanel').hide();
+    } else {
+        $('#scopeSpecific').prop('checked', true);
+        $('#promoRoomPanel').show();
+        renderPromoRoomList(rooms);
+    }
+
     $('#promoModal').modal('show');
 }
 window.viewAsGuest = function () {
@@ -1656,5 +1685,104 @@ document.addEventListener('shown.bs.modal', function (e) {
             setTimePicker('eb', 'CheckOut', window._pendingEbTimes.checkOut);
             window._pendingEbTimes = null;
         }
+    }
+});
+
+// ============= PROMO ROOM SELECTION UI =============
+window._promoSelectedRooms = [];
+
+function renderPromoRoomList(preSelected) {
+    const container = $('#promoRoomCheckboxList');
+    container.empty();
+
+    const rooms = allRooms || [];
+    if (rooms.length === 0) {
+        container.html('<div class="text-muted small text-center py-3"><i class="bi bi-inbox me-1"></i>Chưa có phòng nào trong hệ thống. Dùng nhập tay bên dưới.</div>');
+    } else {
+        rooms.forEach(function (room) {
+            const isChecked = (preSelected || []).some(r => String(r.id) === String(room.id));
+            container.append(`
+                <div class="promo-room-item">
+                    <input class="promo-room-cb" type="checkbox" 
+                        id="pcb_${room.id}" value="${room.id}" data-name="${room.name}" ${isChecked ? 'checked' : ''}>
+                    <label for="pcb_${room.id}">${room.name}</label>
+                </div>
+            `);
+        });
+    }
+    syncPromoRoomTags();
+}
+
+function syncPromoRoomTags() {
+    const fromCheckboxes = [];
+    $('.promo-room-cb:checked').each(function () {
+        fromCheckboxes.push({ id: $(this).val(), name: $(this).data('name') });
+    });
+    const manualRooms = (window._promoSelectedRooms || []).filter(r => r.id === null);
+    window._promoSelectedRooms = [...fromCheckboxes, ...manualRooms];
+    renderPromoSelectedTags();
+}
+
+function renderPromoSelectedTags() {
+    const tags = $('#promoSelectedRoomTags');
+    tags.empty();
+    (window._promoSelectedRooms || []).forEach(function (r, i) {
+        tags.append(`
+            <span class="promo-room-tag">
+                <i class="bi bi-building" style="font-size:11px;"></i>
+                ${r.name}
+                <button type="button" class="tag-remove" onclick="removePromoRoom(${i})">
+                    <i class="bi bi-x"></i>
+                </button>
+            </span>
+        `);
+    });
+}
+
+window.removePromoRoom = function (i) {
+    const removed = window._promoSelectedRooms[i];
+    window._promoSelectedRooms.splice(i, 1);
+    // Nếu là phòng từ checkbox thì bỏ check
+    if (removed && removed.id !== null) {
+        $(`#pcb_${removed.id}`).prop('checked', false);
+    }
+    renderPromoSelectedTags();
+};
+
+// Event: radio scope toggle
+$(document).on('change', 'input[name="promoScope"]', function () {
+    if ($(this).val() === 'specific') {
+        $('#promoRoomPanel').show();
+        renderPromoRoomList(window._promoSelectedRooms);
+    } else {
+        $('#promoRoomPanel').hide();
+        window._promoSelectedRooms = [];
+        renderPromoSelectedTags();
+    }
+});
+
+// Event: checkbox change
+$(document).on('change', '.promo-room-cb', function () {
+    syncPromoRoomTags();
+});
+
+// Event: nút thêm phòng thủ công
+$(document).on('click', '#btnAddManualRoom', function () {
+    const name = $('#promoRoomManualInput').val().trim();
+    if (!name) return;
+    const already = (window._promoSelectedRooms || []).some(r => r.name.toLowerCase() === name.toLowerCase());
+    if (already) { showToast('Phòng này đã được chọn!', 'warning'); return; }
+    window._promoSelectedRooms = window._promoSelectedRooms || [];
+    window._promoSelectedRooms.push({ id: null, name });
+    $('#promoRoomManualInput').val('');
+    renderPromoSelectedTags();
+});
+
+// Populate khi mở modal tạo mới
+$(document).on('show.bs.modal', '#promoModal', function () {
+    if (editingPromoIndex < 0) {
+        window._promoSelectedRooms = [];
+        renderPromoSelectedTags();
+        renderPromoRoomList([]);
     }
 });

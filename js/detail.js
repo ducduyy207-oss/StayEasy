@@ -252,17 +252,25 @@ function applyPromoCode() {
       { code: 'SUMMER2026', discount: 20 }
    ];
 
-   const validPromo = activePromos.find(p =>
-      p.code === codeInput &&
-      (!p.roomName || p.roomName === currentRoom.name)
-   );
+   const validPromo = activePromos.find(p => {
+      if (p.code !== codeInput) return false;
+      const rooms = p.rooms || (p.roomName ? [{ name: p.roomName }] : []);
+      // Rỗng = áp dụng tất cả phòng
+      if (rooms.length === 0) return true;
+      return rooms.some(r => r.name && r.name.toLowerCase() === (currentRoom.name || '').toLowerCase());
+   });
 
    if (validPromo) {
       discountPercent = validPromo.discount / 100;
       alert(`🎉 Áp dụng mã ${validPromo.code} thành công (Giảm ${validPromo.discount}%)!`);
    } else {
       discountPercent = 0;
-      alert('❌ Mã không hợp lệ, sai phòng hoặc đã bị vô hiệu hóa!');
+      const allPromos = activePromos.find(p => p.code === codeInput);
+      if (allPromos) {
+         alert('❌ Mã không áp dụng cho phòng này!');
+      } else {
+         alert('❌ Mã không hợp lệ hoặc đã bị vô hiệu hóa!');
+      }
    }
 
    calculatePrice();

@@ -14,7 +14,7 @@ $(document).ready(function () {
       if (searchKeyword) {
          $('#searchName').val(searchKeyword);
          applyFilters();
-         $('html, body').animate({ scrollTop: $(".city-tabs-container").offset().top - 100 }, 500);
+         $('html, body').animate({ scrollTop: $(".city-filter-bar").offset().top - 100 }, 500);
       }
    });
 
@@ -37,8 +37,8 @@ $(document).ready(function () {
       $(`.search-tabs .tab-item[data-type="${val}"]`).addClass('active');
    });
 
-   $('.city-tabs .nav-link').on('click', function () {
-      $('.city-tabs .nav-link').removeClass('active');
+   $('.city-filter-bar .nav-link').on('click', function () {
+      $('.city-filter-bar .nav-link').removeClass('active');
       $(this).addClass('active');
 
       currentHotelPage = 1;
@@ -79,7 +79,7 @@ async function loadRooms() {
 function applyFilters() {
    const nameStr = ($('#searchName').val() || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
    const typeStr = $('#filterType').val();
-   const cityStr = ($('.city-tabs .nav-link.active').attr('data-city') || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+   const cityStr = ($('.city-filter-bar .nav-link.active').attr('data-city') || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
    let baseFiltered = allRooms.filter(r => {
       const roomName = (r.name || "").normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

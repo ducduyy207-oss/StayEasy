@@ -15,9 +15,31 @@
          rel="stylesheet">
 
       <style>
+         /* ===== FIX KHOẢNG TRẮNG CHÂN TRANG, DROPDOWN & NAVBAR ===== */
+         body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+         }
+
+         .footer-custom {
+            margin-top: auto !important;
+         }
+
+         .hero-section {
+            position: relative !important;
+            z-index: 1010 !important;
+            overflow: visible !important;
+         }
+
+         .search-bar-container {
+            overflow: visible !important;
+         }
+
          #locationDropdown {
             max-height: 240px;
             overflow-y: auto;
+            z-index: 1000;
          }
 
          #locationDropdown::-webkit-scrollbar {
@@ -529,6 +551,7 @@
             left: -16px;
             min-width: 220px;
             background: #ffffff;
+            z-index: 1052;
             border-radius: 16px;
             box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14), 0 4px 16px rgba(15, 23, 42, 0.06);
             border: 1px solid #f1f5f9;
@@ -897,7 +920,7 @@
                </div>
 
                <div class="search-bar-container position-relative">
-                  <div class="search-input-group position-relative" style="flex: 2; z-index: 1050;">
+                  <div class="search-input-group position-relative" style="flex: 2; z-index: 1051;">
                      <i class="bi bi-geo-alt"></i>
                      <div class="w-100">
                         <p class="search-label">Điểm đến của bạn?</p>
@@ -905,7 +928,7 @@
                            style="width: 100%; border: none; outline: none; background: transparent;">
 
                         <ul class="dropdown-menu shadow-lg border-0 rounded-4 mt-2" id="locationDropdown"
-                           style="width: 100%; position: absolute; left: 0; top: 100%;">
+                           style="width: 100%; position: absolute; left: 0; top: 100%; z-index: 1052;">
                            <li>
                               <h6 class="dropdown-header text-dark fw-bold fs-6"><i
                                     class="bi bi-geo text-primary me-2"></i>Điểm đến phổ biến</h6>
@@ -963,7 +986,6 @@
                         style="color: var(--primary-color); font-size: 1.3rem; margin-right: 12px; flex-shrink:0;"></i>
                      <div class="w-100">
                         <p class="search-label">Loại chỗ nghỉ:</p>
-                        <!-- Custom dropdown -->
                         <div class="custom-select-wrapper">
                            <button type="button" class="custom-select-trigger" id="roomTypeBtn">
                               <i class="bi bi-grid trigger-icon" style="display:none;"></i>
@@ -992,7 +1014,6 @@
                               </ul>
                            </div>
                         </div>
-                        <!-- Hidden select giữ nguyên logic filter -->
                         <select id="filterType" style="display:none;">
                            <option value="">Tất cả hạng phòng</option>
                            <option value="Standard">Khách sạn</option>
@@ -1012,20 +1033,33 @@
          </div>
       </section>
 
-      <div class="container mb-5 mt-4">
-         <div class="city-tabs-container mb-4">
-            <ul class="nav nav-pills city-tabs flex-nowrap overflow-auto pb-2" id="cityTabs">
-               <li class="nav-item"><button class="nav-link active" data-city="">Tất cả thành phố</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Đà Nẵng">Đà Nẵng</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Nha Trang">Nha Trang</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Hồ Chí Minh">Tp. Hồ Chí Minh</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Hà Nội">Hà Nội</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Đà Lạt">Đà Lạt</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Sapa">Sa Pa</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Phú Quốc">Phú Quốc</button></li>
-               <li class="nav-item"><button class="nav-link" data-city="Hội An">Hội An</button></li>
-            </ul>
+      <div
+         style="position: sticky; top: 70px; z-index: 999; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.07);">
+         <div class="container">
+            <div class="city-filter-bar" style="box-shadow:none;">
+               <div class="d-flex" id="cityTabs"
+                  style="overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;">
+                  <button class="nav-link active" data-city="">Tất cả thành phố</button>
+                  <button class="nav-link" data-city="Hà Nội">Hà Nội</button>
+                  <button class="nav-link" data-city="Sapa">Sa Pa</button>
+                  <button class="nav-link" data-city="Hà Giang">Hà Giang</button>
+                  <button class="nav-link" data-city="Quảng Ninh">Quảng Ninh</button>
+                  <button class="nav-link" data-city="Ninh Bình">Ninh Bình</button>
+                  <button class="nav-link" data-city="Huế">Huế</button>
+                  <button class="nav-link" data-city="Đà Nẵng">Đà Nẵng</button>
+                  <button class="nav-link" data-city="Quảng Nam">Quảng Nam</button>
+                  <button class="nav-link" data-city="Bình Định">Bình Định</button>
+                  <button class="nav-link" data-city="Khánh Hòa">Khánh Hòa</button>
+                  <button class="nav-link" data-city="Đà Lạt">Đà Lạt</button>
+                  <button class="nav-link" data-city="Bình Thuận">Bình Thuận</button>
+                  <button class="nav-link" data-city="Hồ Chí Minh">Hồ Chí Minh</button>
+                  <button class="nav-link" data-city="Kiên Giang">Kiên Giang</button>
+               </div>
+            </div>
          </div>
+      </div>
+
+      <div class="container mb-5 mt-4">
 
          <div id="hotelSectionBlock" class="mb-5 pb-3">
             <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
@@ -1055,6 +1089,53 @@
             <div class="d-flex justify-content-center mt-4" id="homestayPagination"></div>
          </div>
 
+         <div class="mb-5" id="regionBannerBlock">
+            <h3 class="fw-bold text-dark mb-1"><i class="bi bi-map-fill text-primary me-2"></i>Khám phá theo vùng miền
+            </h3>
+            <p class="text-muted mb-4">Chọn vùng để khám phá những điểm đến phù hợp nhất</p>
+            <div class="row g-3">
+               <div class="col-md-4">
+                  <div class="region-card" onclick="filterByRegion('mien-bac')"
+                     style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800&auto=format&fit=crop');">
+                     <div class="region-overlay"></div>
+                     <div class="region-content">
+                        <div class="region-icon">🌿</div>
+                        <h4 class="region-title">Miền Bắc</h4>
+                        <p class="region-sub">Hà Nội · Sa Pa · Hà Giang · Quảng Ninh · Ninh Bình</p>
+                        <span class="region-btn">Khám phá <i class="bi bi-arrow-right"></i></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="region-card" onclick="filterByRegion('mien-trung')"
+                     style="background-image: url('https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop');">
+                     <div class="region-overlay"
+                        style="background: linear-gradient(to top, rgba(219,92,17,0.85) 0%, rgba(0,0,0,0.1) 60%);">
+                     </div>
+                     <div class="region-content">
+                        <div class="region-icon">☀️</div>
+                        <h4 class="region-title">Miền Trung</h4>
+                        <p class="region-sub">Huế · Đà Nẵng · Hội An · Quảng Nam · Bình Định</p>
+                        <span class="region-btn">Khám phá <i class="bi bi-arrow-right"></i></span>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="region-card" onclick="filterByRegion('mien-nam')"
+                     style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop');">
+                     <div class="region-overlay"
+                        style="background: linear-gradient(to top, rgba(8,110,61,0.85) 0%, rgba(0,0,0,0.1) 60%);"></div>
+                     <div class="region-content">
+                        <div class="region-icon">🌴</div>
+                        <h4 class="region-title">Miền Nam</h4>
+                        <p class="region-sub">Hồ Chí Minh · Đà Lạt · Phú Quốc · Bình Thuận · Kiên Giang</p>
+                        <span class="region-btn">Khám phá <i class="bi bi-arrow-right"></i></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
          <div id="resortSectionBlock" class="mb-5 pb-3">
             <h3 class="fw-bold mb-4 d-flex align-items-center text-dark">
                <i class="bi bi-stars me-2 text-warning"></i> Resort Đẳng Cấp
@@ -1067,9 +1148,9 @@
 
       <section class="why-choose-section">
          <div class="container">
-            <div class="text-center mb-5">
-               <h2 class="fw-bold text-dark mb-3">Lý do nên đặt phòng với StayEasy?</h2>
-               <p class="text-muted fs-5">Hàng triệu khách hàng đã tin tưởng lựa chọn StayEasy cho kỳ nghỉ của họ.</p>
+            <div class="mb-5">
+               <h2 class="fw-bold text-dark mb-2">Lý do nên đặt phòng với StayEasy?</h2>
+               <p class="text-muted mb-4">Hàng triệu khách hàng đã tin tưởng lựa chọn StayEasy cho kỳ nghỉ của họ.</p>
             </div>
             <div class="row g-4 justify-content-center">
                <div class="col-md-4">
@@ -1100,6 +1181,124 @@
          </div>
       </section>
 
+      <section style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 60px 0;">
+         <div class="container">
+            <h2 class="fw-bold text-dark mb-2">Bạn muốn khám phá điều gì?</h2>
+            <p class="text-muted mb-4">Tìm kiếm chỗ nghỉ theo điểm đến yêu thích của bạn</p>
+            <div class="explore-tab-nav mb-4">
+               <button class="explore-tab-btn active" onclick="switchExploreTab(this, 'khach-san')"><i
+                     class="bi bi-building me-1"></i> Khách sạn nổi bật</button>
+               <button class="explore-tab-btn" onclick="switchExploreTab(this, 'homestay')"><i
+                     class="bi bi-house-heart me-1"></i> Homestay yêu thích</button>
+               <button class="explore-tab-btn" onclick="switchExploreTab(this, 'resort')"><i
+                     class="bi bi-stars me-1"></i> Resort đẳng cấp</button>
+            </div>
+            <div id="explore-khach-san" class="explore-tab-content active">
+               <div class="row g-0">
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hà Nội');return false;">Khách sạn Hà Nội</a>
+                        <a href="#" onclick="exploreCity('Sapa');return false;">Khách sạn Sa Pa</a>
+                        <a href="#" onclick="exploreCity('Hà Giang');return false;">Khách sạn Hà Giang</a>
+                        <a href="#" onclick="exploreCity('Quảng Ninh');return false;">Khách sạn Quảng Ninh</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Ninh Bình');return false;">Khách sạn Ninh Bình</a>
+                        <a href="#" onclick="exploreCity('Huế');return false;">Khách sạn Huế</a>
+                        <a href="#" onclick="exploreCity('Đà Nẵng');return false;">Khách sạn Đà Nẵng</a>
+                        <a href="#" onclick="exploreCity('Quảng Nam');return false;">Khách sạn Quảng Nam</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Bình Định');return false;">Khách sạn Bình Định</a>
+                        <a href="#" onclick="exploreCity('Khánh Hòa');return false;">Khách sạn Khánh Hòa</a>
+                        <a href="#" onclick="exploreCity('Đà Lạt');return false;">Khách sạn Đà Lạt</a>
+                        <a href="#" onclick="exploreCity('Bình Thuận');return false;">Khách sạn Bình Thuận</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hồ Chí Minh');return false;">Khách sạn Hồ Chí Minh</a>
+                        <a href="#" onclick="exploreCity('Kiên Giang');return false;">Khách sạn Phú Quốc</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div id="explore-homestay" class="explore-tab-content">
+               <div class="row g-0">
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hà Nội','Homestay');return false;">Homestay Hà Nội</a>
+                        <a href="#" onclick="exploreCity('Sapa','Homestay');return false;">Homestay Sa Pa</a>
+                        <a href="#" onclick="exploreCity('Hà Giang','Homestay');return false;">Homestay Hà Giang</a>
+                        <a href="#" onclick="exploreCity('Quảng Ninh','Homestay');return false;">Homestay Quảng Ninh</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Ninh Bình','Homestay');return false;">Homestay Ninh Bình</a>
+                        <a href="#" onclick="exploreCity('Huế','Homestay');return false;">Homestay Huế</a>
+                        <a href="#" onclick="exploreCity('Đà Nẵng','Homestay');return false;">Homestay Đà Nẵng</a>
+                        <a href="#" onclick="exploreCity('Quảng Nam','Homestay');return false;">Homestay Quảng Nam</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Bình Định','Homestay');return false;">Homestay Bình Định</a>
+                        <a href="#" onclick="exploreCity('Khánh Hòa','Homestay');return false;">Homestay Khánh Hòa</a>
+                        <a href="#" onclick="exploreCity('Đà Lạt','Homestay');return false;">Homestay Đà Lạt</a>
+                        <a href="#" onclick="exploreCity('Bình Thuận','Homestay');return false;">Homestay Bình Thuận</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hồ Chí Minh','Homestay');return false;">Homestay Hồ Chí
+                           Minh</a>
+                        <a href="#" onclick="exploreCity('Kiên Giang','Homestay');return false;">Homestay Phú Quốc</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div id="explore-resort" class="explore-tab-content">
+               <div class="row g-0">
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hà Nội','Resort');return false;">Resort Hà Nội</a>
+                        <a href="#" onclick="exploreCity('Sapa','Resort');return false;">Resort Sa Pa</a>
+                        <a href="#" onclick="exploreCity('Hà Giang','Resort');return false;">Resort Hà Giang</a>
+                        <a href="#" onclick="exploreCity('Quảng Ninh','Resort');return false;">Resort Quảng Ninh</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Ninh Bình','Resort');return false;">Resort Ninh Bình</a>
+                        <a href="#" onclick="exploreCity('Huế','Resort');return false;">Resort Huế</a>
+                        <a href="#" onclick="exploreCity('Đà Nẵng','Resort');return false;">Resort Đà Nẵng</a>
+                        <a href="#" onclick="exploreCity('Quảng Nam','Resort');return false;">Resort Quảng Nam</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Bình Định','Resort');return false;">Resort Bình Định</a>
+                        <a href="#" onclick="exploreCity('Khánh Hòa','Resort');return false;">Resort Khánh Hòa</a>
+                        <a href="#" onclick="exploreCity('Đà Lạt','Resort');return false;">Resort Đà Lạt</a>
+                        <a href="#" onclick="exploreCity('Bình Thuận','Resort');return false;">Resort Bình Thuận</a>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="explore-link-col">
+                        <a href="#" onclick="exploreCity('Hồ Chí Minh','Resort');return false;">Resort Hồ Chí Minh</a>
+                        <a href="#" onclick="exploreCity('Kiên Giang','Resort');return false;">Resort Phú Quốc</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
       <footer class="footer-custom">
          <div class="container">
             <div class="row g-4">
@@ -1117,7 +1316,7 @@
                   </div>
                </div>
                <div class="col-lg-2 col-md-4">
-                  swap<h5>Về StayEasy</h5>
+                  <h5>Về StayEasy</h5>
                   <a href="#">Giới thiệu</a>
                   <a href="#">Tuyển dụng</a>
                   <a href="#">Quy chế hoạt động</a>
@@ -1143,9 +1342,6 @@
          </div>
       </footer>
 
-      <!-- ==========================================
-           ADMIN LOGIN MODAL (từ admin-login.html)
-      ========================================== -->
       <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-none bg-transparent">
@@ -1276,7 +1472,7 @@
                                  d="M6.2 13.7c-.2-.6-.3-1.2-.3-1.7s.1-1.1.3-1.7V7.7H2.9C2.3 8.9 2 10.4 2 12s.3 3.1.9 4.3l3.3-2.6z"
                                  fill="#FBBC05" />
                               <path
-                                 d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.6 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
+                                 d="M12 5.8c1.5 0 2.9.5 4 1.5l3-3C17 2.9 14.7 2 12 2 8.1 2 4.4 4.4 2.9 7.7l3.3 2.6C7 8.1 9.3 5.8 12 5.8z"
                                  fill="#EA4335" />
                            </svg></button>
                         <button class="social-btn" title="Facebook"><svg viewBox="0 0 24 24" fill="#1877F2">
@@ -1358,6 +1554,47 @@
       <script src="js/main.js"></script>
 
       <script>
+         // === KHÁM PHÁ THEO VÙNG ===
+         const regionMap = {
+            'mien-bac': ['Hà Nội', 'Sapa', 'Hà Giang', 'Quảng Ninh', 'Ninh Bình'],
+            'mien-trung': ['Huế', 'Đà Nẵng', 'Quảng Nam', 'Bình Định', 'Khánh Hòa'],
+            'mien-nam': ['Hồ Chí Minh', 'Đà Lạt', 'Bình Thuận', 'Kiên Giang']
+         };
+         function filterByRegion(region) {
+            const cities = regionMap[region];
+            if (!cities) return;
+            const cityNorms = cities.map(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase());
+            const typeStr = $('#filterType').val();
+            const filtered = allRooms.filter(r => {
+               const loc = (r.location || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+               const name = (r.name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+               const matchCity = cityNorms.some(c => loc.includes(c) || name.includes(c));
+               const matchType = (typeStr === '' || r.type === typeStr);
+               return matchCity && matchType;
+            });
+            currentHotelPage = 1; currentHomestayPage = 1; currentResortPage = 1;
+            $('#hotelSectionBlock, #homestaySectionBlock, #resortSectionBlock, #promoBannerBlock').show();
+            renderPaginatedSection(filtered.filter(r => r.type === 'Standard' || r.type === 'Deluxe'), 'hotelContainer', 'hotelPagination', 1, 'hotel');
+            renderPaginatedSection(filtered.filter(r => r.type === 'Homestay'), 'homestayContainer', 'homestayPagination', 1, 'homestay');
+            renderPaginatedSection(filtered.filter(r => r.type === 'Resort'), 'resortContainer', 'resortPagination', 1, 'resort');
+            $('html, body').animate({ scrollTop: $('#hotelSectionBlock').offset().top - 120 }, 500);
+         }
+
+         // === KHÁM PHÁ TAB ===
+         function switchExploreTab(btn, tabId) {
+            document.querySelectorAll('.explore-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.explore-tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('explore-' + tabId).classList.add('active');
+         }
+         function exploreCity(city, type) {
+            $('#searchName').val(city);
+            $('#filterType').val(type === 'Homestay' ? 'Homestay' : type === 'Resort' ? 'Resort' : '');
+            $('#filterType').trigger('change');
+            $('#btnFilter').click();
+            $('html, body').animate({ scrollTop: $('#hotelSectionBlock').offset().top - 120 }, 500);
+         }
+
          $(document).ready(function () {
             // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
             const guestSession = JSON.parse(localStorage.getItem('guestSession')) || {};
@@ -1399,7 +1636,6 @@
                 </div>
             </div>
         </li>
-        <!-- Menu items -->
         <li class="px-2 pt-2">
             <a class="dropdown-item d-flex align-items-center gap-2 rounded-3 py-2" href="#" style="font-size:13.5px;">
                 <span style="width:28px;height:28px;background:#eff6ff;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -1420,11 +1656,10 @@
             </a>
         </li>
         <li class="px-2 pb-2">
-            <a class="d-flex align-items-center gap-2 py-2 px-3 rounded-3 fw-semibold text-danger" href="#" onclick="logoutUser()" style="font-size:13.5px;background:#fff5f5;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#fee2e2'" onmouseleave="this.style.background='#fff5f5'">
+            <a class="d-flex align-items-center gap-2 py-2 px-2 rounded-3 fw-semibold text-danger" href="#" onclick="logoutUser()" style="font-size:13.5px;background:#fff5f5;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#fee2e2'" onmouseleave="this.style.background='#fff5f5'">
                 <i class="bi bi-box-arrow-right"></i> Đăng xuất
             </a>
         </li>
-        <!-- Panel đơn của tôi -->
         <li class="px-2 pb-2" id="myOrdersPanel" style="display:none;">
             <div style="border-top:1px solid #e2e8f0;padding-top:10px;margin-top:4px;">
                 <div class="d-flex align-items-center gap-1 mb-2 px-1">
@@ -1442,7 +1677,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
                                 <div class="d-flex align-items-center gap-1">
-                                    <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                       <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
                                     ${payBadge}
                                 </div>
                             </div>
@@ -1631,7 +1866,21 @@
                const selectedCity = $(this).find('span.fw-bold').text();
                locInput.val(selectedCity);
                locDropdown.removeClass('show');
-               setTimeout(() => { $('#searchDateRange').focus(); }, 100);
+
+               // Trigger filter and scroll to rooms
+               applyFilters();
+
+               const selectedType = $('#filterType').val();
+               let targetSection = '#hotelSectionBlock';
+               if (selectedType === 'Homestay') {
+                  targetSection = '#homestaySectionBlock';
+               } else if (selectedType === 'Resort') {
+                  targetSection = '#resortSectionBlock';
+               }
+
+               $('html, body').animate({
+                  scrollTop: $(targetSection).offset().top - 100
+               }, 500);
             });
 
             $('#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2').on('keypress', function (e) {
@@ -1826,6 +2075,13 @@
                   // Cập nhật selected state
                   dropdown.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
                   this.classList.add('selected');
+
+                  // Khi chọn "Tất cả hạng phòng" → reset city về Tất cả
+                  if (value === '') {
+                     $('#searchName').val('');
+                     $('.city-filter-bar .nav-link').removeClass('active');
+                     $('.city-filter-bar .nav-link[data-city=""]').addClass('active');
+                  }
 
                   // Sync hidden select + trigger filter
                   hiddenSelect.value = value;

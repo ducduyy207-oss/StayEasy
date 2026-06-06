@@ -1158,6 +1158,42 @@
          #adminLoginModal .form-pane.active {
             display: block;
          }
+
+         /* ===== USER MENU DROPDOWN (COPY TỪ INDEX) ===== */
+         .user-dropdown {
+            position: relative;
+         }
+
+         .user-dropdown .user-menu-panel {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 10px);
+            z-index: 1050;
+            display: none;
+            background: #fff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+            border-radius: 16px;
+            min-width: 420px;
+            padding: 0;
+            overflow: hidden;
+            list-style: none !important;
+            margin: 0;
+         }
+
+         .user-dropdown .user-menu-panel,
+         .user-dropdown .user-menu-panel li {
+            list-style: none !important;
+         }
+
+         .user-dropdown .user-menu-panel .dropdown-item {
+            border-radius: 10px;
+            transition: background 0.20s;
+            font-size: 14px;
+         }
+
+         .user-dropdown .user-menu-panel .dropdown-item:hover {
+            background: #f1f5f9;
+         }
       </style>
    </head>
    <body>
@@ -2284,6 +2320,7 @@
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="js/api.js"></script>
       <script>
          // Navbar scroll
          $(window).scroll(function () {
@@ -2466,41 +2503,190 @@
 
          $(document).ready(function () {
             // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
-            const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
-            const isAdminLoggedIn = localStorage.getItem('isLoggedIn') === 'true'
-               && localStorage.getItem('userRole') === 'superadmin';
-            document.querySelectorAll('.mail-item').forEach((item, idx) => {
-               if (localStorage.getItem('readMail_' + idx) === 'true') {
-                  item.classList.remove('unread');
-                  const dot = item.querySelector('.unread-dot');
-                  if (dot) dot.style.display = 'none';
+            const guestSession = JSON.parse(localStorage.getItem('guestSession')) || {};
+            const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true' || !!guestSession.email;
+
+            if (isUserLoggedIn) {
+               const userName = guestSession.name || localStorage.getItem('userName') || 'Khách';
+               const userEmail = guestSession.email || localStorage.getItem('userEmail') || '';
+
+               function buildUserMenu(orders) {
+                  const unpaidNotif = orders.filter(o => o.status === 'approved' && !o.isPaid).length;
+                  const statusMap = {
+                     pending: ['⏳', 'text-warning', 'Chờ duyệt'],
+                     approved: ['✅', 'text-success', 'Đã duyệt'],
+                     cancelled: ['❌', 'text-danger', 'Đã huỷ']
+                  };
+
+                  return `
+<li class="nav-item user-dropdown" id="userDropdownItem">
+    <a class="nav-link fw-bold d-flex align-items-center gap-2" href="#" role="button" id="userMenuToggle">
+        ${unpaidNotif > 0 ? `
+        <div class="position-relative" title="Bạn có ${unpaidNotif} đơn chưa thanh toán">
+            <i class="bi bi-bell-fill text-warning" style="font-size:18px;"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="font-size:9px;">${unpaidNotif}</span>
+        </div>` : ''}
+        <div class="position-relative">
+            <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
+        </div>
+        <span>${userName}</span>
+    </a>
+    
+        <ul class="user-menu-panel">
+        <li class="px-3 py-3 border-bottom" style="background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);">
+            <div class="d-flex align-items-center gap-2">
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=ffffff&color=2563eb&bold=true" class="rounded-circle border border-2 border-white shadow" width="40" height="40">
+                <div>
+                    <div class="fw-bold text-white" style="font-size:13.5px;">${userName}</div>
+                    <small class="text-white opacity-75" style="font-size:10px;"><i class="bi bi-patch-check-fill me-1"></i>Khách hàng thành viên</small>
+                </div>
+            </div>
+        </li>
+        <!-- Menu items -->
+        <li class="px-2 pt-2">
+            <a class="dropdown-item d-flex align-items-center gap-2 rounded-3 py-2" href="#" style="font-size:13.5px;">
+                <span style="width:28px;height:28px;background:#eff6ff;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="bi bi-person-fill text-primary" style="font-size:13px;"></i>
+                </span>
+                Tài khoản của tôi
+            </a>
+        </li>
+        <li class="px-2 pb-1">
+            <a class="dropdown-item d-flex align-items-center justify-content-between gap-2 rounded-3 py-2" href="javascript:void(0)" id="btnMyOrders" style="font-size:13.5px;">
+                <span class="d-flex align-items-center gap-2">
+                    <span style="width:28px;height:28px;background:#f0fdf4;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-bag-check-fill text-success" style="font-size:13px;"></i>
+                    </span>
+                    Đơn của tôi
+                </span>
+                ${orders.length > 0 ? `<span class="badge rounded-pill text-white fw-bold" id="orderCountBadge" style="background:#2563eb;font-size:10px;">${orders.length}</span>` : '<span id="orderCountBadge"></span>'}
+            </a>
+        </li>
+        <li class="px-2 pb-2">
+            <a class="d-flex align-items-center gap-2 py-2 px-2 rounded-3 fw-semibold text-danger" href="#" onclick="logoutUser()" style="font-size:13.5px;background:#fff5f5;text-decoration:none;transition:background .2s;" onmouseenter="this.style.background='#fee2e2'" onmouseleave="this.style.background='#fff5f5'">
+                <i class="bi bi-box-arrow-right"></i> Đăng xuất
+            </a>
+        </li>
+        <!-- Panel đơn của tôi -->
+        <li class="px-2 pb-2" id="myOrdersPanel" style="display:none;">
+            <div style="border-top:1px solid #e2e8f0;padding-top:10px;margin-top:4px;">
+                <div class="d-flex align-items-center gap-1 mb-2 px-1">
+                    <i class="bi bi-receipt text-primary" style="font-size:11px;"></i>
+                    <span class="fw-bold text-uppercase text-muted" style="font-size:10px;letter-spacing:0.06em;">Đơn hàng của tôi</span>
+                </div>
+                <div id="myOrdersList" style="padding-right:2px; max-height: 320px; overflow-y: auto;">
+                    ${orders.length === 0 ? '<p class="text-muted text-center small py-3"><i class="bi bi-inbox me-1"></i>Chưa có đơn nào</p>' :
+                        orders.map(o => {
+                           const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', o.status];
+                           const payBadge = o.status !== 'cancelled'
+                              ? `<span class="badge rounded-pill ms-1 ${o.isPaid ? 'bg-success' : 'bg-warning text-dark'}" style="font-size:9px;">${o.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>`
+                              : '';
+                           return `<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(37,99,235,0.10)'" onmouseleave="this.style.boxShadow=''">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                    ${payBadge}
+                                </div>
+                            </div>
+                            <div class="fw-semibold text-dark mb-1" style="font-size:12px;"><i class="bi bi-buildings me-1 text-primary opacity-75"></i>${o.roomName}</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted" style="font-size:10.5px;"><i class="bi bi-calendar3 me-1"></i>${o.checkIn} → ${o.checkOut}</span>
+                                <span class="fw-bold" style="font-size:11.5px;color:#2563eb;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(o.totalPrice)}</span>
+                            </div>
+                            ${o.status === 'approved' && !o.isPaid ? `
+                            <div class="mt-2 px-2 py-1 rounded-2 d-flex align-items-center gap-1" style="background:#fff7ed;border:1px solid #fb923c;">
+                                <i class="bi bi-exclamation-circle-fill" style="font-size:11px;color:#ea580c;"></i>
+                                <span style="font-size:10px;color:#c2410c;font-weight:600;">Vui lòng thanh toán để nhận phòng</span>
+                            </div>` : ''}
+                        </div>`;
+                        }).join('')
+                     }
+                </div>
+            </div>
+        </li>
+    </ul>
+</li>
+`;
+               }
+
+               document.querySelectorAll('.btn-nav-login, .btn-nav-register').forEach(el => el.parentElement.style.display = 'none');
+               const temp = document.createElement('div');
+               temp.innerHTML = `<ul>${buildUserMenu([])}</ul>`;
+               const newLi = temp.querySelector('li');
+               if (newLi) {
+                  document.querySelector('.navbar-nav.align-items-center').appendChild(newLi);
+                  document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
+                     e.preventDefault();
+                     e.stopPropagation();
+                     const $p = $('#myOrdersPanel');
+                     if ($p.is(':visible')) { $p.stop(true, true).slideUp(220); }
+                     else { $p.stop(true, true).slideDown(300); pollMyOrders(); }
+                  });
+                  document.getElementById('btnLogout')?.addEventListener('click', function (e) { e.preventDefault(); logoutUser(); });
+               }
+
+               async function pollMyOrders() {
+                  if (!userEmail || typeof API === 'undefined') return;
+                  const statusMap = {
+                     pending: ['⏳', 'text-warning', 'Chờ duyệt'],
+                     approved: ['✅', 'text-success', 'Đã duyệt'],
+                     cancelled: ['❌', 'text-danger', 'Đã huỷ']
+                  };
+                  try {
+                     const userOrders = await API.getBookingsByEmail(userEmail);
+                     localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(userOrders));
+                     if (userOrders.length > 0) {
+                        const listEl = document.getElementById('myOrdersList');
+                        listEl.innerHTML = userOrders.length === 0
+                           ? '<p class="text-muted text-center small py-3"><i class="bi bi-inbox me-1"></i>Chưa có đơn nào</p>'
+                           : userOrders.map(o => {
+                              const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', o.status];
+                              const payBadge = o.status !== 'cancelled'
+                                 ? `<span class="badge rounded-pill ms-1 ${o.isPaid ? 'bg-success' : 'bg-warning text-dark'}" style="font-size:9px;">${o.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>`
+                                 : '';
+                              return `<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(37,99,235,0.10)'" onmouseleave="this.style.boxShadow=''">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
+                                <div class="d-flex align-items-center gap-1">
+                                    <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                    ${payBadge}
+                                </div>
+                            </div>
+                            <div class="fw-semibold text-dark mb-1" style="font-size:12px;"><i class="bi bi-buildings me-1 text-primary opacity-75"></i>${o.roomName}</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted" style="font-size:10.5px;white-space:nowrap;"><i class="bi bi-calendar3 me-1"></i>${o.checkIn} → ${o.checkOut}</span>
+                                <span class="fw-bold" style="font-size:11.5px;color:#2563eb;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(o.totalPrice)}</span>
+                            </div>
+                            ${o.status === 'approved' && !o.isPaid ? `
+                            <div class="mt-2 px-2 py-1 rounded-2 d-flex align-items-center gap-1" style="background:#fff7ed;border:1px solid #fb923c;">
+                                <i class="bi bi-exclamation-circle-fill" style="font-size:11px;color:#ea580c;"></i>
+                                <span style="font-size:10px;color:#c2410c;font-weight:600;">Vui lòng thanh toán để nhận phòng</span>
+                            </div>` : ''}
+                        </div>`;
+                           }).join('');
+                     }
+                     const ddi = document.getElementById('userDropdownItem');
+                     const orderBadge = document.getElementById('orderCountBadge');
+                     if (orderBadge) orderBadge.textContent = userOrders.length > 0 ? userOrders.length : '';
+                  } catch (e) { }
+               }
+               setTimeout(pollMyOrders, 1000);
+               setInterval(pollMyOrders, 30000);
+            }
+
+            $(document).on('click', '#userMenuToggle', function (e) {
+               e.preventDefault();
+               e.stopPropagation();
+               const $menu = $(this).closest('.user-dropdown').find('.user-menu-panel');
+               if ($menu.is(':visible')) {
+                  $('#myOrdersPanel').stop(true, true).slideUp(150);
+                  $menu.stop(true, true).slideUp(200);
+               } else {
+                  $menu.stop(true, true).slideDown(250);
                }
             });
-            updateInboxCount();
-            if (isUserLoggedIn || isAdminLoggedIn) {
-               const userName = (localStorage.getItem('userName') || 'Khách').replace(/Tổng /i, '').trim();
-               const userMenu = `
-            <li class="nav-item dropdown user-dropdown">
-                <a class="nav-link dropdown-toggle fw-bold d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=2563eb&color=fff&bold=true" class="rounded-circle border border-2 border-white shadow-sm" width="32" height="32">
-                    <span>${userName}</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 rounded-3">
-                    <li class="px-3 py-2 border-bottom bg-light rounded-top-3">
-                        <div class="fw-bold text-dark small text-truncate">${userName}</div>
-                        <small class="text-muted" style="font-size: 11px;">Khách hàng thành viên</small>
-                    </li>
-                    <li><a class="dropdown-item py-2 mt-1" href="#"><i class="bi bi-person me-2 text-primary"></i>Tài khoản của tôi</a></li>
-                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-calendar-check me-2 text-success"></i>Phòng đã đặt</a></li>
-                    <li><hr class="dropdown-divider my-1"></li>
-                    <li><a class="dropdown-item text-danger fw-bold py-2" href="#" onclick="logoutUser()"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
-                </ul>
-            </li>
-        `;
-               $('.btn-nav-login').parent().hide();
-               $('.btn-nav-register').parent().hide();
-               $('.navbar-nav.align-items-center').append(userMenu);
-            }
+            $(document).on('click', function (e) { if (!$(e.target).closest('.user-dropdown').length) { $('.user-dropdown .user-menu-panel').slideUp(200); } });
          });
 
          // Logic Hàm Đăng xuất
