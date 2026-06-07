@@ -1002,6 +1002,7 @@
             background: #f1f5f9;
          }
       </style>
+      <link rel="stylesheet" href="stayeasy-mobile-only.css?v=20260607-mobile-hotfix6">
    </head>
    <body>
 
@@ -1017,8 +1018,8 @@
                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
                   <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
                   <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
-                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="promotions.html"><i
-                           class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="promotions.html">Khuyến mãi</a>
+                  </li>
                   <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
@@ -1870,6 +1871,7 @@
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="js/api.js"></script>
       <script>
          // Navbar scroll
          $(window).scroll(function () {
@@ -2062,6 +2064,9 @@
                const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
+                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
+                  localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
+                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);
@@ -2133,7 +2138,6 @@
                   localStorage.setItem('userRole', 'superadmin');
                   localStorage.setItem('adminEmail', email);
                   localStorage.setItem('userName', matchedUser.name);
-                  alert("🎉 Đăng nhập thành công! Đang chuyển hướng vào hệ thống...");
                   window.location.href = 'admin.html';
                } else {
                   alert("❌ Tài khoản quản trị hoặc mật khẩu không chính xác.");
@@ -2284,16 +2288,79 @@
                   async function pollMyOrders() {
                      if (!userEmail || typeof API === 'undefined') return;
                      try {
-                        const userOrders = await API.getBookingsByEmail(userEmail);
-                        localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(userOrders));
-                        if (userOrders.length > 0) {
+                        const orders = await API.getBookingsByEmail(userEmail);
+                        localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(orders));
+
+                        // Cập nhật badge số đơn
+                        const badge = document.getElementById('orderCountBadge');
+                        if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
+
+                        // Cập nhật danh sách nếu panel đang mở
+                        const panel = document.getElementById('myOrdersPanel');
+                        if (panel && panel.style.display !== 'none') {
                            const listEl = document.getElementById('myOrdersList');
-                           listEl.innerHTML = userOrders.map(o => { const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', 'Không rõ']; return `<div class="mb-2 p-2 border rounded" style="font-size:12px;"><div class="d-flex justify-content-between"><span class="text-muted">#${o.id}</span><span class="badge" style="background:${cls === 'text-success' ? '#dcfce7' : '#fef9c3'};color:${cls === 'text-success' ? '#15803d' : '#854d0e'};">${icon} ${label}</span></div><div class="fw-bold">${o.roomName}</div><div style="font-size:11px;">${o.checkIn}→${o.checkOut}</div><div style="color:#2563eb;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(o.totalPrice)}</div></div>`; }).join('');
+                           if (listEl) {
+                              const statusMap = {
+                                 pending: ['⏳', 'text-warning', 'Chờ duyệt'],
+                                 approved: ['✅', 'text-success', 'Đã duyệt'],
+                                 cancelled: ['❌', 'text-danger', 'Đã huỷ']
+                              };
+                              if (orders.length === 0) {
+                                 listEl.innerHTML = '<p class="text-muted text-center small py-3"><i class="bi bi-inbox me-1"></i>Chưa có đơn nào</p>';
+                              } else {
+                                 listEl.innerHTML = orders.map(o => {
+                                    const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', o.status];
+                                    const payBadge = o.status !== 'cancelled'
+                                       ? `<span class="badge rounded-pill ms-1 ${o.isPaid ? 'bg-success' : 'bg-warning text-dark'}" style="font-size:9px;">${o.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>`
+                                       : '';
+                                    return `<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(37,99,235,0.10)'" onmouseleave="this.style.boxShadow=''">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
+                                <div class="d-flex align-items-center gap-1">
+                                       <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                    ${payBadge}
+                                </div>
+                            </div>
+                            <div class="fw-semibold text-dark mb-1" style="font-size:12px;"><i class="bi bi-buildings me-1 text-primary opacity-75"></i>${o.roomName}</div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted" style="font-size:10.5px;"><i class="bi bi-calendar3 me-1"></i>${o.checkIn} → ${o.checkOut}</span>
+                                <span class="fw-bold" style="font-size:11.5px;color:#2563eb;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(o.totalPrice)}</span>
+                            </div>
+                            ${o.status === 'approved' && !o.isPaid ? `
+                            <div class="mt-2 px-2 py-1 rounded-2 d-flex align-items-center gap-1" style="background:#fff7ed;border:1px solid #fb923c;">
+                                <i class="bi bi-exclamation-circle-fill" style="font-size:11px;color:#ea580c;"></i>
+                                <span style="font-size:10px;color:#c2410c;font-weight:600;">Vui lòng thanh toán để nhận phòng</span>
+                            </div>` : ''}
+                        </div>`;
+                                 }).join('');
+                              }
+                           }
                         }
-                        const ddi = document.getElementById('userDropdownItem');
-                        if (ddi) { const t = document.createElement('div'); t.innerHTML = `<ul>${buildUserMenu(userOrders)}</ul>`; const nl = t.querySelector('li'); if (nl) ddi.replaceWith(nl); }
-                     } catch (e) { }
+
+                        // Rebuild navbar để cập nhật chuông thông báo
+                        const dropdownItem = document.getElementById('userDropdownItem');
+                        if (dropdownItem && !dropdownItem.querySelector('.user-menu-panel')) {
+                           const temp = document.createElement('div');
+                           temp.innerHTML = `<ul>${buildUserMenu(orders)}</ul>`;
+                           const newLi = temp.querySelector('li');
+                           if (newLi) {
+                              dropdownItem.replaceWith(newLi);
+                              setTimeout(() => {
+                                 document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
+                                    e.stopPropagation();
+                                    const p = document.getElementById('myOrdersPanel');
+                                    const isHidden = p.style.display === 'none' || p.style.display === '';
+                                    p.style.display = isHidden ? 'block' : 'none';
+                                    if (isHidden) pollMyOrders();
+                                 });
+                              }, 50);
+                           }
+                        }
+
+                     } catch (e) { /* Polling lỗi thì bỏ qua, không crash */ }
                   }
+
+                  // Chạy polling ngay lần đầu sau 1s (để API load xong), sau đó mỗi 30s
                   setTimeout(pollMyOrders, 1000);
                   setInterval(pollMyOrders, 30000);
                }
@@ -2312,5 +2379,6 @@
             }
          })();
       </script>
+      <script src="stayeasy-mobile-only.js?v=20260607-mobile-hotfix6"></script>
    </body>
 </html>

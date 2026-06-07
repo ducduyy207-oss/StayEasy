@@ -580,7 +580,7 @@
          .slide-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(115, 173, 255, .149);
+            background: rgba(115, 173, 255, 0.149);
          }
 
          .diagonal-slash {
@@ -631,9 +631,9 @@
             width: 22px;
             height: 4px;
             border-radius: 2px;
-            background: rgba(255, 255, 255, .45);
+            background: rgba(255, 255, 255, 0.45);
             cursor: pointer;
-            transition: background .3s, width .3s;
+            transition: background 0.3s, width 0.3s;
          }
 
          .dot-popup.active {
@@ -655,7 +655,7 @@
          .welcome-label {
             font-size: 13px;
             color: #9aa0ab;
-            letter-spacing: .04em;
+            letter-spacing: 0.04em;
             margin-bottom: 4px;
             font-weight: 400;
          }
@@ -690,7 +690,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: border-color .2s, background .2s;
+            transition: border-color 0.2s, background 0.2s;
          }
 
          .social-btn:hover {
@@ -741,7 +741,7 @@
             color: #1a1a2e;
             background: #fff;
             outline: none;
-            transition: border-color .2s, box-shadow .2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
          }
 
          .field input::placeholder {
@@ -750,7 +750,7 @@
 
          .field input:focus {
             border-color: #1d65d1;
-            box-shadow: 0 0 0 3px rgba(29, 101, 209, .13);
+            box-shadow: 0 0 0 3px rgba(29, 101, 209, 0.13);
          }
 
          .eye-btn {
@@ -765,7 +765,7 @@
             display: flex;
             align-items: center;
             padding: 0;
-            transition: color .2s;
+            transition: color 0.2s;
          }
 
          .eye-btn:hover {
@@ -815,9 +815,9 @@
             color: #fff;
             font-size: 14px;
             font-weight: 600;
-            letter-spacing: .06em;
+            letter-spacing: 0.06em;
             cursor: pointer;
-            transition: background .2s, transform .1s;
+            transition: background 0.2s, transform 0.1s;
          }
 
          .btn-primary-auth:hover {
@@ -825,7 +825,7 @@
          }
 
          .btn-primary-auth:active {
-            transform: scale(.98);
+            transform: scale(0.98);
          }
 
          .btn-secondary-auth {
@@ -838,7 +838,7 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: border-color .2s, background .2s, color .2s;
+            transition: border-color 0.2s, background 0.2s, color 0.2s;
          }
 
          .btn-secondary-auth:hover {
@@ -877,12 +877,7 @@
             cursor: pointer;
             color: #64748b;
             z-index: 10;
-            transition: all .2s;
-         }
-
-         .btn-close-popup:hover {
-            background: #e2e8f0;
-            color: #0f172a;
+            transition: all 0.2s;
          }
 
          /* ===== ADMIN MODAL (scoped, copied from index) ===== */
@@ -891,9 +886,9 @@
          }
 
          #adminLoginModal .login-card {
-            background: #fff;
+            background: #ffffff;
             border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             width: 100%;
             padding: 40px;
             border: 1px solid #e2e8f0;
@@ -908,14 +903,14 @@
             width: 48px;
             height: 48px;
             background-color: #2563eb;
-            color: #fff;
+            color: #ffffff;
             border-radius: 12px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
             margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, .2);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
          }
 
          #adminLoginModal .brand-title {
@@ -923,7 +918,7 @@
             color: #0f172a;
             font-size: 1.35rem;
             margin: 0;
-            letter-spacing: -.5px;
+            letter-spacing: -0.5px;
          }
 
          #adminLoginModal .brand-title span {
@@ -943,10 +938,10 @@
             border: none;
             color: #64748b;
             font-weight: 600;
-            font-size: .9rem;
+            font-size: 0.9rem;
             padding: 8px 4px;
             position: relative;
-            transition: all .2s ease;
+            transition: all 0.2s ease;
          }
 
          #adminLoginModal .auth-nav-btn:hover {
@@ -1002,10 +997,10 @@
             padding: 10px 16px 10px 42px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
-            font-size: .95rem;
+            font-size: 0.95rem;
             color: #0f172a;
-            background-color: #fff;
-            transition: all .2s ease;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
             outline: none;
             display: block;
          }
@@ -1017,7 +1012,7 @@
          #adminLoginModal .input-custom:focus,
          #adminLoginModal .select-custom:focus {
             border-color: #2563eb;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
          }
 
          #adminLoginModal .input-custom::placeholder {
@@ -1048,15 +1043,15 @@
 
          #adminLoginModal .btn-submit-custom {
             background-color: #2563eb;
-            color: #fff;
+            color: #ffffff;
             font-weight: 600;
-            font-size: .95rem;
+            font-size: 0.95rem;
             padding: 11px;
             border: none;
             border-radius: 8px;
             width: 100%;
-            transition: background-color .2s ease;
-            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, .2);
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
             margin-top: 8px;
             cursor: pointer;
          }
@@ -1071,45 +1066,6 @@
 
          #adminLoginModal .form-pane.active {
             display: block;
-         }
-
-         #blogScroll {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #cbd5e1 #f1f5f9;
-            cursor: grab;
-         }
-
-         #blogScroll:active {
-            cursor: grabbing;
-         }
-
-         #blogScroll::-webkit-scrollbar {
-            height: 5px;
-         }
-
-         #blogScroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
-         }
-
-         #blogScroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-         }
-
-         #blogScroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-         }
-
-         #blogScroll .inspire-card {
-            min-width: 380px;
-            max-width: 380px;
-            flex-shrink: 0;
          }
 
          /* ===== USER MENU DROPDOWN (COPY TỪ INDEX) ===== */
@@ -1164,16 +1120,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
                   <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="explore.html">Khám phá</a></li>
-                  <li class="nav-item"><a class="nav-link" href="promotions.html"><i
-                           class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
+                  <li class="nav-item"><a class="nav-link" href="promotions.html">Khuyến mãi</a></li>
                   <li class="nav-item"><a class="nav-link" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
                   <li class="nav-item"><a class="nav-link" href="support.html"><i class="bi bi-headset"></i> Hỗ trợ</a>
                   </li>
-                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="#" data-bs-toggle="modal"
-                        data-bs-target="#adminLoginModal"><i class="bi bi-shield-lock"></i> Quản trị viên</a></li>
+                  <li class="nav-item"><a class="nav-link fw-bold text-warning" href="#" id="btnAdminPortal"
+                        data-bs-toggle="modal" data-bs-target="#adminLoginModal"><i class="bi bi-shield-lock"></i> Quản
+                        trị viên</a></li>
                   <li class="nav-item user-auth-nav-item"><a class="nav-link btn-nav-login" href="#"
                         data-bs-toggle="modal" data-bs-target="#popupAuthModal" onclick="initAuthForm('signin')">Đăng
                         nhập</a></li>
@@ -1186,8 +1142,8 @@
       </nav>
 
       <section class="explore-hero d-flex align-items-center justify-content-center text-center"
-         style="min-height: 550px;">
-         <div class=" container mt-5">
+         style="min-height: 550px; padding-top: 76px; padding-bottom: 32px;">
+         <div class="container">
             <p class="text-white opacity-75 fw-semibold mb-2"
                style="letter-spacing:.12em;text-transform:uppercase;font-size:13px;">✈ Hơn 10,000+ điểm đến đang chờ bạn
             </p>
@@ -1215,7 +1171,7 @@
 
          <div class="dest-grid mb-5">
             <div class="dest-card dest-card--sm" onclick="openArticle('hanoi')">
-               <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop"
+               <img src="https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?q=80&w=1200&auto=format&fit=crop"
                   alt="Hà Nội">
                <span class="dest-badge hot">🔥 Hot</span>
                <div class="dest-info">
@@ -1224,7 +1180,8 @@
                </div>
             </div>
             <div class="dest-card dest-card--lg" onclick="openArticle('sapa')">
-               <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop"
+               <img
+                  src="https://vitracotour.com/wp-content/uploads/2024/02/Thanh-Van-Dac-Lo.png?q=80&w=1200&auto=format&fit=crop"
                   alt="Sapa">
                <span class="dest-badge new">🌿 Mới</span>
                <div class="dest-info">
@@ -1233,7 +1190,7 @@
                </div>
             </div>
             <div class="dest-card dest-card--wide" onclick="openArticle('danang')">
-               <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1200&auto=format&fit=crop"
+               <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=1200&auto=format&fit=crop"
                   alt="Đà Nẵng">
                <span class="dest-badge">⭐ Nổi bật</span>
                <div class="dest-info">
@@ -1242,7 +1199,8 @@
                </div>
             </div>
             <div class="dest-card dest-card--tall" onclick="openArticle('hue')">
-               <img src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=800&auto=format&fit=crop"
+               <img
+                  src="https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20Hu%E1%BA%BF/anh-dep-hue-11.jpg?q=80&w=800&auto=format&fit=crop"
                   alt="Huế">
                <span class="dest-badge">🏮 Cố đô</span>
                <div class="dest-info">
@@ -1510,7 +1468,7 @@
             z-index: 9000;
             align-items: flex-start;
             justify-content: center;
-            padding: 24px 16px;
+            padding: 96px 16px 32px;
             overflow-y: auto;
             backdrop-filter: blur(4px);
          }
@@ -1523,7 +1481,8 @@
             background: #fff;
             border-radius: 24px;
             width: 100%;
-            max-width: 1150px;
+            max-width: 980px;
+            max-height: calc(100vh - 130px);
             overflow: hidden;
             box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
             position: relative;
@@ -1533,7 +1492,7 @@
          }
 
          .article-modal-box .article-modal-hero {
-            width: 380px;
+            width: 320px;
             height: auto;
             min-height: 100%;
             object-fit: cover;
@@ -1547,8 +1506,8 @@
          .article-modal-box .article-modal-body {
             flex: 1;
             overflow-y: auto;
-            max-height: 90vh;
-            padding: 36px 40px 44px;
+            max-height: calc(100vh - 130px);
+            padding: 30px 34px 36px;
          }
 
          @keyframes artSlideUp {
@@ -1743,8 +1702,36 @@
       <script>
          /* ===== DỮ LIỆU BÀI VIẾT ===== */
          const ARTICLES = {
+            hue: {
+               img: 'https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20Hu%E1%BA%BF/anh-dep-hue-11.jpg?q=80&w=1200&auto=format&fit=crop',
+               category: '📍 Huế · Duyên hải Miền Trung',
+               title: 'Huế — Cố đô nghìn năm: Di sản thế giới, ẩm thực cung đình và dòng sông Hương thơ mộng',
+               author: 'Minh Châu', authorBg: 'b45309', date: 'Tháng 4, 2026', readTime: '8 phút đọc',
+               search: 'Huế',
+               content: `
+                  <p>Huế — cố đô của các triều đại phong kiến Việt Nam — là nơi lịch sử, văn hóa và thiên nhiên hòa quyện tuyệt vời. Được UNESCO công nhận là Di sản Văn hóa Thế giới, Huế mang vẻ đẹp trầm mặc khó nơi nào sánh được.</p>
+                  <h3>🏯 Kinh Thành Huế & Đại Nội</h3>
+                  <p>Quần thể di tích Cố đô Huế là điểm đến không thể bỏ qua. Đại Nội — hoàng cung của 13 đời vua Nguyễn — với kiến trúc cổ kính, cổng Ngọ Môn uy nghi và vườn Cơ Hạ xanh mướt.</p>
+                  <ul>
+                     <li>🌅 Thăm Đại Nội buổi sáng sớm để tránh đông người</li>
+                     <li>⛩ Lăng Tự Đức — kiến trúc đẹp nhất trong 7 lăng tẩm</li>
+                     <li>🛕 Chùa Thiên Mụ — biểu tượng tâm linh bên bờ sông Hương</li>
+                  </ul>
+                  <h3>🍽 Ẩm thực cung đình Huế</h3>
+                  <p>Huế nổi tiếng với ẩm thực tinh tế, mang đậm phong cách cung đình. Mỗi món ăn đều được chế biến công phu với hương vị cân bằng giữa cay, ngọt, chua và mặn.</p>
+                  <ul>
+                     <li>🍜 Bún bò Huế — cay nồng, đậm đà, không đâu ngon bằng</li>
+                     <li>🥟 Bánh bèo, bánh nậm, bánh lọc — bộ ba đặc sản phải thử</li>
+                     <li>🍲 Cơm hến — món bình dân mà tinh tế của người Huế</li>
+                     <li>🍮 Chè Huế — trên 50 loại chè với hương vị đặc trưng</li>
+                  </ul>
+                  <div class="tip-box">💡 Mẹo: Thuê xe đạp (60.000đ/ngày) dạo dọc bờ sông Hương vào buổi chiều — khung cảnh thơ mộng nhất Huế, đặc biệt lúc hoàng hôn.</div>
+                  <h3>🚣 Sông Hương & Thuyền Rồng</h3>
+                  <p>Ngồi thuyền rồng nghe ca Huế trên sông Hương vào buổi tối là trải nghiệm văn hóa độc đáo không thể bỏ qua. Tour thuyền khoảng 150.000–200.000đ/người, bao gồm biểu diễn âm nhạc cung đình.</p>
+               `
+            },
             dalat: {
-               img: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop',
+               img: 'https://cdn-media.sforum.vn/storage/app/media/ctvseo_MH/%E1%BA%A3nh%20%C4%91%E1%BA%B9p%20Đ%C3%A0%20L%E1%BA%A5t/anh-dep-dalat-1.jpg?q=80&w=1200&auto=format&fit=crop',
                category: '📍 Đà Lạt · Lâm Đồng',
                title: 'Đà Lạt — Thành phố ngàn hoa: Trải nghiệm trọn vẹn trong 3 ngày',
                author: 'Minh Tú', authorBg: '2563eb', date: 'Tháng 5, 2026', readTime: '9 phút đọc',
@@ -1809,7 +1796,7 @@
                `
             },
             sapa: {
-               img: 'https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=1200&auto=format&fit=crop',
+               img: 'https://vitracotour.com/wp-content/uploads/2024/02/Thanh-Van-Dac-Lo.png?q=80&w=1200&auto=format&fit=crop',
                category: '📍 Sapa · Lào Cai',
                title: 'Sapa mùa lúa chín — hành trình vào vùng đất của mây và ruộng bậc thang vàng óng',
                author: 'Văn Khoa', authorBg: '16a34a', date: 'Tháng 9, 2026', readTime: '8 phút đọc',
@@ -1830,7 +1817,7 @@
                `
             },
             hoian: {
-               img: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1200&auto=format&fit=crop',
+               img: 'https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?q=80&w=800&auto=format&fit=crop',
                category: '📍 Hội An · Quảng Nam',
                title: '24 giờ tại phố cổ Hội An — ăn gì, đi đâu, chụp ở góc nào?',
                author: 'Lan Anh', authorBg: 'f59e0b', date: 'Tháng 3, 2026', readTime: '6 phút đọc',
@@ -2007,7 +1994,14 @@
          }
 
          document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') closeArticle();
+            const isPopupAuthInput = e.target.matches(
+               '#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2'
+            );
+
+            if (isPopupAuthInput && e.key === 'Enter') {
+               e.preventDefault();
+               executePopupAuth();
+            }
          });
       </script>
 
@@ -2021,12 +2015,14 @@
                      </div>
                      <h2 class="brand-title">StayEasy <span>Admin</span></h2>
                   </div>
+
                   <div class="auth-nav">
                      <button type="button" class="auth-nav-btn active" data-admin-target="#admin-pane-login">Đăng
                         nhập</button>
                      <button type="button" class="auth-nav-btn" data-admin-target="#admin-pane-register">Cấp tài khoản
                         mới</button>
                   </div>
+
                   <div class="form-pane active" id="admin-pane-login">
                      <form id="adminLoginForm">
                         <div class="form-group-custom">
@@ -2043,13 +2039,18 @@
                               <i class="bi bi-lock"></i>
                               <input type="password" id="adminLoginPassword" class="input-custom input-password-padding"
                                  placeholder="••••••••" required>
-                              <button type="button" class="password-toggle-icon admin-pw-toggle"><i
-                                    class="bi bi-eye"></i></button>
+
+                              <button type="button" class="password-toggle-icon admin-pw-toggle"
+                                 onclick="toggleAdminPassword(event)">
+                                 <i class="bi bi-eye"></i>
+                              </button>
                            </div>
                         </div>
-                        <button type="submit" class="btn-submit-custom">Đăng nhập ngay</button>
+                        <button type="submit" class="btn-submit-custom" id="adminLoginSubmitBtn"
+                           onclick="return handleExploreAdminLogin(event)">Đăng nhập ngay</button>
                      </form>
                   </div>
+
                   <div class="form-pane" id="admin-pane-register">
                      <form id="adminRegisterForm">
                         <div class="form-group-custom">
@@ -2087,14 +2088,139 @@
                            </div>
                         </div>
                         <button type="submit" class="btn-submit-custom"
-                           style="background-color:#0f172a;box-shadow:0 4px 6px -1px rgba(15,23,42,.2);">Khởi tạo tài
-                           khoản</button>
+                           style="background-color: #0f172a; box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.2);">Khởi tạo
+                           tài khoản</button>
                      </form>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
+      <script id="explore-admin-login-direct-fix">
+         // FIX RIÊNG PHẦN ĐĂNG NHẬP QUẢN TRỊ VIÊN — KHÔNG ĐỘNG ĐẾN CÁC CHỨC NĂNG KHÁC
+         (function () {
+            function safeParseJSON(value, fallback) {
+               try {
+                  return value ? JSON.parse(value) : fallback;
+               } catch (e) {
+                  return fallback;
+               }
+            }
+
+            function getAdminAccounts() {
+               const accounts = safeParseJSON(localStorage.getItem('stayeasy_admin_accounts'), []);
+               const adminEmail = 'admin@gmail.com';
+               const adminIndex = accounts.findIndex(function (account) {
+                  return String(account.email || '').trim().toLowerCase() === adminEmail;
+               });
+
+               if (adminIndex === -1) {
+                  accounts.push({
+                     name: 'Quản Trị Viên',
+                     email: adminEmail,
+                     password: 'admin123',
+                     role: 'superadmin'
+                  });
+               } else {
+                  accounts[adminIndex].name = accounts[adminIndex].name || 'Quản Trị Viên';
+                  accounts[adminIndex].email = adminEmail;
+                  accounts[adminIndex].password = 'admin123';
+                  accounts[adminIndex].role = 'superadmin';
+               }
+
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               return accounts;
+            }
+
+            function openAdminLoginPane() {
+               document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+                  btn.classList.toggle('active', btn.getAttribute('data-admin-target') === '#admin-pane-login');
+               });
+               document.querySelectorAll('#adminLoginModal .form-pane').forEach(function (pane) {
+                  pane.classList.toggle('active', pane.id === 'admin-pane-login');
+               });
+
+               const emailInput = document.getElementById('adminLoginEmail');
+               const passwordInput = document.getElementById('adminLoginPassword');
+               if (emailInput) emailInput.value = '';
+               if (passwordInput) {
+                  passwordInput.value = '';
+                  passwordInput.type = 'password';
+               }
+            }
+
+            window.handleExploreAdminLogin = function (event) {
+               if (event) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  if (typeof event.stopImmediatePropagation === 'function') {
+                     event.stopImmediatePropagation();
+                  }
+               }
+
+               const emailInput = document.getElementById('adminLoginEmail');
+               const passwordInput = document.getElementById('adminLoginPassword');
+
+               if (!emailInput || !passwordInput) {
+                  alert('Không tìm thấy form đăng nhập quản trị viên.');
+                  return false;
+               }
+
+               const email = emailInput.value.trim().toLowerCase();
+               const password = passwordInput.value.trim();
+               const matchedAdmin = getAdminAccounts().find(function (account) {
+                  return String(account.email || '').trim().toLowerCase() === email
+                     && String(account.password || '') === password;
+               });
+
+               if (!matchedAdmin) {
+                  alert('❌ Tài khoản quản trị hoặc mật khẩu không chính xác.');
+                  return false;
+               }
+
+               localStorage.setItem('adminSession', JSON.stringify({
+                  email: matchedAdmin.email,
+                  name: matchedAdmin.name || 'Quản Trị Viên',
+                  role: matchedAdmin.role || 'superadmin'
+               }));
+
+               localStorage.setItem('isLoggedIn', 'true');
+               localStorage.setItem('userRole', matchedAdmin.role || 'superadmin');
+               localStorage.setItem('adminEmail', matchedAdmin.email);
+               localStorage.setItem('userName', matchedAdmin.name || 'Quản Trị Viên');
+
+               window.location.assign('admin.html');
+               return false;
+            };
+
+            getAdminAccounts();
+
+            const adminPortalBtn = document.getElementById('btnAdminPortal');
+            if (adminPortalBtn) {
+               adminPortalBtn.addEventListener('click', function () {
+                  openAdminLoginPane();
+               }, true);
+            }
+
+            const adminModalEl = document.getElementById('adminLoginModal');
+            if (adminModalEl) {
+               adminModalEl.addEventListener('show.bs.modal', openAdminLoginPane);
+            }
+
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            if (adminLoginForm && !adminLoginForm.dataset.directAdminLoginFixed) {
+               adminLoginForm.dataset.directAdminLoginFixed = 'true';
+               adminLoginForm.addEventListener('submit', window.handleExploreAdminLogin, true);
+            }
+
+            const adminLoginBtn = document.getElementById('adminLoginSubmitBtn');
+            if (adminLoginBtn && !adminLoginBtn.dataset.directAdminLoginFixed) {
+               adminLoginBtn.dataset.directAdminLoginFixed = 'true';
+               adminLoginBtn.addEventListener('click', window.handleExploreAdminLogin, true);
+            }
+         })();
+      </script>
 
       <div class="modal fade" id="popupAuthModal" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered modal-auth-width">
@@ -2145,38 +2271,47 @@
                               <path
                                  d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97H15.8c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z" />
                            </svg></button>
-                        <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#1a1a2e">
+                        <button class="social-btn" title="X"><svg viewBox="0 0 24 24" fill="#000">
                               <path
-                                 d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.18 1.28-2.16 3.81.03 3.02 2.65 4.03 2.68 4.04l-.07.27zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                                 d="M18.24 2h3.1l-6.78 7.76L22.5 22h-6.25l-4.89-6.39L5.76 22H2.64l7.25-8.29L2 2h6.41l4.42 5.78L18.24 2zm-1.08 18h1.72L7 3.6H5.16L17.16 20z" />
+                           </svg></button>
+                        <button class="social-btn" title="Apple"><svg viewBox="0 0 24 24" fill="#000">
+                              <path
+                                 d="M16.46 1.2a4.56 4.56 0 0 1-1.07 3.35 3.63 3.63 0 0 1-2.93 1.38 4.05 4.05 0 0 1 1.04-3.2A4.4 4.4 0 0 1 16.46 1.2zm2.52 13.37c-.09-.06-2.5-1.46-2.52-4.3a4.56 4.56 0 0 1 2.22-3.91 4.65 4.65 0 0 0-3.67-1.99c-1.6-.17-3.14.97-3.95.97-.83 0-2.1-.95-3.44-.92C5.7 4.44 4 5.67 3.09 7.5 1.3 11.2 2.64 16.7 4.4 19.7c.88 1.48 1.93 3.14 3.3 3.09 1.32-.06 1.82-.87 3.42-.87 1.6 0 2.04.87 3.44.84 1.43-.03 2.33-1.5 3.2-2.98a10.1 10.1 0 0 0 1.44-3.2c-.06-.02-.02 0-.22-.09z" />
                            </svg></button>
                      </div>
-                     <div class="or-line">hoặc tiếp tục với email</div>
+                     <div class="or-line">or use your email</div>
 
                      <div class="field-group">
-                        <div class="field" id="popupFieldRowName">
-                           <input type="text" id="popupAuthInputName" placeholder="Họ và tên của bạn">
-                        </div>
+                        <div class="field" id="popupFieldRowName"><input type="text" id="popupAuthInputName"
+                              placeholder="Name"></div>
+                        <div class="field"><input type="email" id="popupAuthInputEmail" placeholder="Email"></div>
                         <div class="field">
-                           <input type="email" id="popupAuthInputEmail" placeholder="Địa chỉ email">
-                        </div>
-                        <div class="field">
-                           <input type="password" id="popupAuthInputPw1" placeholder="Mật khẩu">
-                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1', this)" type="button">
-                              <i class="bi bi-eye" style="font-size:16px;"></i>
+                           <input type="password" id="popupAuthInputPw1" placeholder="Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw1',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
                            </button>
                         </div>
                         <div class="field" id="popupFieldRowConfirmPw">
-                           <input type="password" id="popupAuthInputPw2" placeholder="Xác nhận mật khẩu">
-                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2', this)" type="button">
-                              <i class="bi bi-eye" style="font-size:16px;"></i>
+                           <input type="password" id="popupAuthInputPw2" placeholder="Confirm Password">
+                           <button class="eye-btn" onclick="togglePopupPw('popupAuthInputPw2',this)" type="button">
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                 <circle cx="12" cy="12" r="3" />
+                              </svg>
                            </button>
                         </div>
                      </div>
 
-                     <div class="terms-row" id="popupTermsRow" style="display:flex;">
-                        <input type="checkbox" id="popupTermsCheck">
-                        <label for="popupTermsCheck">Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a
-                              href="#">Chính sách bảo mật</a> của StayEasy</label>
+                     <div class="terms-row" id="popupTermsRow">
+                        <input type="checkbox" checked id="terms">
+                        <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy
+                              Policy</a>.</label>
                      </div>
 
                      <div class="btn-row">
@@ -2187,8 +2322,14 @@
                      </div>
 
                      <div class="footer-brand">
-                        <i class="bi bi-buildings-fill" style="color:#1d65d1;font-size:16px;"></i>
-                        <span>Powered by</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1DAFD1" stroke-width="2"
+                           stroke-linecap="round" stroke-linejoin="round">
+                           <rect x="2" y="7" width="20" height="15" rx="2" />
+                           <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                           <path d="M12 12v4" />
+                           <path d="M8 12v4" />
+                           <path d="M16 12v4" />
+                        </svg>
                         <span class="footer-brand-name">StayEasy</span>
                      </div>
                   </div>
@@ -2198,18 +2339,47 @@
       </div>
 
       <script>
-         // ===== NAVBAR SCROLL =====
-         $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-               $('.navbar-custom').addClass('navbar-scrolled');
-               $('.navbar-toggler').removeClass('border-white text-white').addClass('text-dark border-dark');
-            } else {
-               $('.navbar-custom').removeClass('navbar-scrolled');
-               $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
-            }
-         });
+         // === KHÁM PHÁ THEO VÙNG ===
+         const regionMap = {
+            'mien-bac': ['Hà Nội', 'Sapa', 'Hà Giang', 'Quảng Ninh', 'Ninh Bình'],
+            'mien-trung': ['Huế', 'Đà Nẵng', 'Quảng Nam', 'Bình Định', 'Khánh Hòa'],
+            'mien-nam': ['Hồ Chí Minh', 'Đà Lạt', 'Bình Thuận', 'Kiên Giang']
+         };
+         function filterByRegion(region) {
+            const cities = regionMap[region];
+            if (!cities) return;
+            const cityNorms = cities.map(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase());
+            const typeStr = $('#filterType').val();
+            const filtered = allRooms.filter(r => {
+               const loc = (r.location || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+               const name = (r.name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+               const matchCity = cityNorms.some(c => loc.includes(c) || name.includes(c));
+               const matchType = (typeStr === '' || r.type === typeStr);
+               return matchCity && matchType;
+            });
+            currentHotelPage = 1; currentHomestayPage = 1; currentResortPage = 1;
+            $('#hotelSectionBlock, #homestaySectionBlock, #resortSectionBlock, #promoBannerBlock').show();
+            renderPaginatedSection(filtered.filter(r => r.type === 'Standard' || r.type === 'Deluxe'), 'hotelContainer', 'hotelPagination', 1, 'hotel');
+            renderPaginatedSection(filtered.filter(r => r.type === 'Homestay'), 'homestayContainer', 'homestayPagination', 1, 'homestay');
+            renderPaginatedSection(filtered.filter(r => r.type === 'Resort'), 'resortContainer', 'resortPagination', 1, 'resort');
+            $('html, body').animate({ scrollTop: $('#hotelSectionBlock').offset().top - 120 }, 500);
+         }
 
-         // ===== AUTH STATE (COPY TỪ INDEX.HTML) =====
+         // === KHÁM PHÁ TAB ===
+         function switchExploreTab(btn, tabId) {
+            document.querySelectorAll('.explore-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.explore-tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('explore-' + tabId).classList.add('active');
+         }
+         function exploreCity(city, type) {
+            $('#searchName').val(city);
+            $('#filterType').val(type === 'Homestay' ? 'Homestay' : type === 'Resort' ? 'Resort' : '');
+            $('#filterType').trigger('change');
+            $('#btnFilter').click();
+            $('html, body').animate({ scrollTop: $('#hotelSectionBlock').offset().top - 120 }, 500);
+         }
+
          $(document).ready(function () {
             // === LOGIC KIỂM TRA ĐĂNG NHẬP CHO NGƯỜI DÙNG HIỂN THỊ MENU DROPDOWN ===
             const guestSession = JSON.parse(localStorage.getItem('guestSession')) || {};
@@ -2292,7 +2462,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
                                 <div class="d-flex align-items-center gap-1">
-                                    <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                       <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
                                     ${payBadge}
                                 </div>
                             </div>
@@ -2317,62 +2487,67 @@
 `;
                }
 
-               document.querySelectorAll('.user-auth-nav-item').forEach(el => el.style.display = 'none');
+               // Render user menu lần đầu — dùng [] tạm, fetch API ngay sau
+               $('.btn-nav-login').parent().hide();
+               $('.btn-nav-register').parent().hide();
+               $('.navbar-nav.align-items-center').append(buildUserMenu([]));
 
-               const temp = document.createElement('div');
-               temp.innerHTML = `<ul>${buildUserMenu([])}</ul>`;
-               const newLi = temp.querySelector('li');
-               if (newLi) {
-                  document.querySelector('.navbar-nav.align-items-center').appendChild(newLi);
-
+               // Gắn toggle cho panel đơn của tôi sau khi render
+               setTimeout(() => {
                   document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
-                     e.preventDefault();
                      e.stopPropagation();
-                     const $p = $('#myOrdersPanel');
-                     if ($p.is(':visible')) {
-                        $p.stop(true, true).slideUp(220);
+                     e.preventDefault();
+                     const panel = document.getElementById('myOrdersPanel');
+                     const $panel = $(panel);
+                     if ($panel.is(':visible')) {
+                        $panel.stop(true, true).slideUp(220);
                      } else {
-                        $p.stop(true, true).slideDown(300);
+                        $panel.stop(true, true).slideDown(300);
                         pollMyOrders();
                      }
                   });
+               }, 200);
 
-                  document.getElementById('btnLogout')?.addEventListener('click', function (e) {
-                     e.preventDefault();
-                     logoutUser();
-                  });
-               }
-
+               // Polling 30s — fetch đơn từ MockAPI và cập nhật badge + danh sách
                async function pollMyOrders() {
                   if (!userEmail || typeof API === 'undefined') return;
-                  const statusMap = {
-                     pending: ['⏳', 'text-warning', 'Chờ duyệt'],
-                     approved: ['✅', 'text-success', 'Đã duyệt'],
-                     cancelled: ['❌', 'text-danger', 'Đã huỷ']
-                  };
                   try {
-                     const userOrders = await API.getBookingsByEmail(userEmail);
-                     localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(userOrders));
-                     if (userOrders.length > 0) {
+                     const orders = await API.getBookingsByEmail(userEmail);
+                     localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(orders));
+
+                     // Cập nhật badge số đơn
+                     const badge = document.getElementById('orderCountBadge');
+                     if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
+
+                     // Cập nhật danh sách nếu panel đang mở
+                     const panel = document.getElementById('myOrdersPanel');
+                     if (panel && panel.style.display !== 'none') {
                         const listEl = document.getElementById('myOrdersList');
-                        listEl.innerHTML = userOrders.length === 0
-                           ? '<p class="text-muted text-center small py-3"><i class="bi bi-inbox me-1"></i>Chưa có đơn nào</p>'
-                           : userOrders.map(o => {
-                              const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', o.status];
-                              const payBadge = o.status !== 'cancelled'
-                                 ? `<span class="badge rounded-pill ms-1 ${o.isPaid ? 'bg-success' : 'bg-warning text-dark'}" style="font-size:9px;">${o.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>`
-                                 : '';
-                              return `<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(37,99,235,0.10)'" onmouseleave="this.style.boxShadow=''">
+                        if (listEl) {
+                           const statusMap = {
+                              pending: ['⏳', 'text-warning', 'Chờ duyệt'],
+                              approved: ['✅', 'text-success', 'Đã duyệt'],
+                              cancelled: ['❌', 'text-danger', 'Đã huỷ']
+                           };
+                           if (orders.length === 0) {
+                              listEl.innerHTML = '<p class="text-muted text-center small py-3"><i class="bi bi-inbox me-1"></i>Chưa có đơn nào</p>';
+                           } else {
+                              listEl.innerHTML = orders.map(o => {
+                                 const [icon, cls, label] = statusMap[o.status] || ['❓', 'text-muted', o.status];
+                                 const payBadge = o.status !== 'cancelled'
+                                    ? `<span class="badge rounded-pill ms-1 ${o.isPaid ? 'bg-success' : 'bg-warning text-dark'}" style="font-size:9px;">${o.isPaid ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>`
+                                    : '';
+                                 return `<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px 12px;transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 4px 16px rgba(37,99,235,0.10)'" onmouseleave="this.style.boxShadow=''">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <span class="fw-bold text-muted" style="font-size:10px;font-family:monospace;letter-spacing:.04em;">#${o.id}</span>
                                 <div class="d-flex align-items-center gap-1">
-                                    <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
+                                       <span class="badge rounded-pill fw-semibold" style="font-size:10px;padding:3px 8px;background:${cls === 'text-success' ? '#dcfce7' : cls === 'text-warning' ? '#fef9c3' : '#fee2e2'};color:${cls === 'text-success' ? '#15803d' : cls === 'text-warning' ? '#854d0e' : '#b91c1c'};border:1px solid ${cls === 'text-success' ? '#86efac' : cls === 'text-warning' ? '#fde047' : '#fca5a5'};">${icon} ${label}</span>
                                     ${payBadge}
                                 </div>
                             </div>
                             <div class="fw-semibold text-dark mb-1" style="font-size:12px;"><i class="bi bi-buildings me-1 text-primary opacity-75"></i>${o.roomName}</div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-muted" style="font-size:10.5px;white-space:nowrap;"><i class="bi bi-calendar3 me-1"></i>${o.checkIn} → ${o.checkOut}</span>
+                                <span class="text-muted" style="font-size:10.5px;"><i class="bi bi-calendar3 me-1"></i>${o.checkIn} → ${o.checkOut}</span>
                                 <span class="fw-bold" style="font-size:11.5px;color:#2563eb;">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(o.totalPrice)}</span>
                             </div>
                             ${o.status === 'approved' && !o.isPaid ? `
@@ -2381,13 +2556,35 @@
                                 <span style="font-size:10px;color:#c2410c;font-weight:600;">Vui lòng thanh toán để nhận phòng</span>
                             </div>` : ''}
                         </div>`;
-                           }).join('');
+                              }).join('');
+                           }
+                        }
                      }
-                     const ddi = document.getElementById('userDropdownItem');
-                     const orderBadge = document.getElementById('orderCountBadge');
-                     if (orderBadge) orderBadge.textContent = userOrders.length > 0 ? userOrders.length : '';
-                  } catch (e) { }
+
+                     // Rebuild navbar để cập nhật chuông thông báo
+                     const dropdownItem = document.getElementById('userDropdownItem');
+                     if (dropdownItem && !dropdownItem.querySelector('.user-menu-panel')) {
+                        const temp = document.createElement('div');
+                        temp.innerHTML = `<ul>${buildUserMenu(orders)}</ul>`;
+                        const newLi = temp.querySelector('li');
+                        if (newLi) {
+                           dropdownItem.replaceWith(newLi);
+                           setTimeout(() => {
+                              document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
+                                 e.stopPropagation();
+                                 const p = document.getElementById('myOrdersPanel');
+                                 const isHidden = p.style.display === 'none' || p.style.display === '';
+                                 p.style.display = isHidden ? 'block' : 'none';
+                                 if (isHidden) pollMyOrders();
+                              });
+                           }, 50);
+                        }
+                     }
+
+                  } catch (e) { /* Polling lỗi thì bỏ qua, không crash */ }
                }
+
+               // Chạy polling ngay lần đầu sau 1s (để API load xong), sau đó mỗi 30s
                setTimeout(pollMyOrders, 1000);
                setInterval(pollMyOrders, 30000);
             }
@@ -2409,29 +2606,103 @@
                   $('.user-dropdown .user-menu-panel').stop(true, true).slideUp(200);
                }
             });
+            // KHỞI TẠO BỘ LỊCH CHỌN NGÀY CHUYÊN NGHIỆP ĐỒNG BỘ PC & MOBILE
+            flatpickr("#searchDateRange", {
+               mode: "range",
+               minDate: "today",
+               dateFormat: "d/m/Y",
+               showMonths: window.innerWidth > 991 ? 2 : 1, // PC hiện song song 2 tháng, Mobile hiện 1 tháng ngắn gọn
+               monthSelectorType: "dropdown", // Kích hoạt danh sách dropdown chọn Tháng nhanh
+               yearSelectorType: "static",  // Giữ năm dạng chữ tĩnh, không dùng select trình duyệt tô xanh
+               locale: {
+                  rangeSeparator: " đến ",
+                  weekdays: {
+                     shorthand: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+                     longhand: ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"]
+                  },
+                  months: {
+                     shorthand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                     longhand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
+                  },
+                  ordinal: () => "",
+                  firstDayOfWeek: 1
+               },
+               onChange: function (selectedDates, dateStr, instance) {
+                  if (selectedDates.length === 2) {
+                     $('#searchCheckIn').val(instance.formatDate(selectedDates[0], "Y-m-d"));
+                     $('#searchCheckOut').val(instance.formatDate(selectedDates[1], "Y-m-d"));
+                  }
+               }
+            });
+
+            const locInput = $('#searchName');
+            const locDropdown = $('#locationDropdown');
+
+            locInput.on('focus', function () { locDropdown.addClass('show'); });
+
+            $(document).on('click', function (e) {
+               if (!$(e.target).closest('#searchName').length && !$(e.target).closest('#locationDropdown').length) {
+                  locDropdown.removeClass('show');
+               }
+            });
+
+            $('.loc-item').on('click', function (e) {
+               e.preventDefault();
+               const selectedCity = $(this).find('span.fw-bold').text();
+               locInput.val(selectedCity);
+               locDropdown.removeClass('show');
+
+               // Trigger filter and scroll to rooms
+               applyFilters();
+
+               const selectedType = $('#filterType').val();
+               let targetSection = '#hotelSectionBlock';
+               if (selectedType === 'Homestay') {
+                  targetSection = '#homestaySectionBlock';
+               } else if (selectedType === 'Resort') {
+                  targetSection = '#resortSectionBlock';
+               }
+
+               $('html, body').animate({
+                  scrollTop: $(targetSection).offset().top - 100
+               }, 500);
+            });
+
+            $(document).on('keydown', '#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2', function (e) {
+               if (e.key === 'Enter') {
+                  e.preventDefault();
+                  executePopupAuth();
+               }
+            });
          });
 
+         // Logic Hàm Đăng xuất
          window.logoutUser = function () {
+            // Xóa guestSession (key mới tách biệt)
+            localStorage.removeItem('guestSession');
+            // Xóa các key cũ tương thích ngược
             localStorage.removeItem('isUserLoggedIn');
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');
+            sessionStorage.removeItem('adminPreview');
+            sessionStorage.removeItem('adminPreviewName');
             window.location.reload();
-         };
+         }
 
-         // ===== EXPLORE SEARCH =====
-         function doExploreSearch() {
-            const q = document.getElementById('exploreSearch').value.trim();
-            if (q) window.location.href = 'index.html?search=' + encodeURIComponent(q);
-            else window.location.href = 'index.html';
-         }
-         function quickSearch(city) {
-            window.location.href = 'index.html?search=' + encodeURIComponent(city);
-         }
-         document.getElementById('exploreSearch').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') doExploreSearch();
+         // ĐỒNG BỘ HIỆU ỨNG CUỘN ĐỂ CHỈ GHIM FIXED ĐỘC QUYỀN THANH NAVBAR
+         $(window).scroll(function () {
+            const scrollPos = $(this).scrollTop();
+
+            if (scrollPos > 50) {
+               $('.navbar-custom').addClass('navbar-scrolled');
+            } else {
+               $('.navbar-custom').removeClass('navbar-scrolled');
+            }
          });
 
-         // ===== POPUP AUTH SLIDESHOW (copy từ index) =====
+         // ==========================================
+         // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
+         // ==========================================
          let popupCurrentSlide = 0;
          const popupTotalSlides = 2;
          let popupSliderTimer;
@@ -2445,6 +2716,7 @@
             clearInterval(popupSliderTimer);
             startPopupSlider();
          }
+
          function startPopupSlider() {
             popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
          }
@@ -2456,7 +2728,9 @@
             btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
          }
 
-         // ===== POPUP AUTH MODE (copy từ index) =====
+         // ==========================================
+         // LOGIC PHÂN TÁCH TRẠNG THÁI FORM NỔI (ĐĂNG NHẬP / ĐĂNG KÝ)
+         // ==========================================
          let currentPopupAuthMode = 'signup';
 
          function initAuthForm(mode) {
@@ -2484,25 +2758,62 @@
             }
          }
 
+         // ==========================================
+         // XỬ LÝ LOCALSTORAGE ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH HÀNG
+         // ==========================================
          function executePopupAuth() {
             const name = document.getElementById('popupAuthInputName').value.trim();
             const email = document.getElementById('popupAuthInputEmail').value.trim();
             const pw1 = document.getElementById('popupAuthInputPw1').value;
             const pw2 = document.getElementById('popupAuthInputPw2').value;
-            let users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
 
+            // Chỉ lấy dữ liệu khi cần, không lạm dụng biến toàn cục cho cả 2 mode nếu không cần thiết
             if (currentPopupAuthMode === 'signup') {
+               const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
                if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
                if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
-               users.push({ name, email, password: pw1 });
+
+               users.push({ name, email, password: pw1, role: 'user' });
                localStorage.setItem('stayeasy_users', JSON.stringify(users));
-               alert('🎉 Đăng ký tài khoản thành công! Hệ thống tự động chuyển sang Đăng nhập.');
+               alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
+               // Mode: Login
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-               const matchedUser = users.find(u => u.email === email && u.password === pw1);
+
+               // 1. Kiểm tra tài khoản admin tối cao
+               if (email === 'admin@gmail.com' && pw1 === 'admin123') {
+                  localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Quản Trị Viên', role: 'superadmin' }));
+                  // Giữ lại isLoggedIn để tương thích ngược
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', 'admin@gmail.com');
+                  localStorage.setItem('userName', 'Quản Trị Viên');
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 2. Kiểm tra tài khoản nhân viên
+               const staffList = JSON.parse(localStorage.getItem('stayeasy_staff')) || [];
+               const matchedStaff = staffList.find(s => s.email === email && s.password === pw1 && s.active === true);
+               if (matchedStaff) {
+                  localStorage.setItem('adminSession', JSON.stringify({ email: matchedStaff.email, name: matchedStaff.name, role: 'staff' }));
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'staff');
+                  localStorage.setItem('adminEmail', email);
+                  localStorage.setItem('userName', matchedStaff.name);
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 3. Kiểm tra tài khoản người dùng thường
+               const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+               const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
+                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
+                  localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
+                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);
@@ -2513,71 +2824,159 @@
                }
             }
          }
+         // ==========================================
+         // CUSTOM ROOM TYPE DROPDOWN LOGIC
+         // ==========================================
+         (function () {
+            const btn = document.getElementById('roomTypeBtn');
+            const dropdown = document.getElementById('roomTypeDropdown');
+            const hiddenSelect = document.getElementById('filterType');
 
-         // ===== ADMIN MODAL LOGIC (copy từ index) =====
+            function openDropdown() {
+               btn.classList.add('open');
+               dropdown.classList.add('open');
+            }
+
+            function closeDropdown() {
+               btn.classList.remove('open');
+               dropdown.classList.remove('open');
+            }
+
+            btn.addEventListener('click', function (e) {
+               e.stopPropagation();
+               dropdown.classList.contains('open') ? closeDropdown() : openDropdown();
+            });
+
+            dropdown.querySelectorAll('li').forEach(function (li) {
+               li.addEventListener('click', function () {
+                  const value = this.dataset.value;
+                  const icon = this.dataset.icon;
+                  const label = this.dataset.label;
+
+                  // Cập nhật trigger button
+                  btn.querySelector('.trigger-icon').className = 'bi ' + icon + ' trigger-icon';
+                  btn.querySelector('.trigger-text').textContent = label;
+
+                  // Cập nhật selected state
+                  dropdown.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
+                  this.classList.add('selected');
+
+                  // Khi chọn "Tất cả hạng phòng" → reset city về Tất cả
+                  if (value === '') {
+                     $('#searchName').val('');
+                     $('.city-filter-bar .nav-link').removeClass('active');
+                     $('.city-filter-bar .nav-link[data-city=""]').addClass('active');
+                  }
+
+                  // Sync hidden select + trigger filter
+                  hiddenSelect.value = value;
+                  $(hiddenSelect).trigger('change');
+                  $('#btnFilter').click();
+
+                  closeDropdown();
+               });
+            });
+         })();
+
+         // ==========================================
+         // LOGIC ADMIN LOGIN MODAL (từ admin-login.html)
+         // ==========================================
          (function () {
             function getFreshAdminAccounts() {
                let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-               if (!accounts.some(u => u.email === 'admin@gmail.com')) {
-                  accounts.push({ name: 'Quản Trị Viên', email: 'admin@gmail.com', password: 'admin', role: 'admin' });
-                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               const adminIndex = accounts.findIndex(u => u.email === "admin@gmail.com");
+               if (adminIndex === -1) {
+                  accounts.push({ name: "Quản Trị Viên", email: "admin@gmail.com", password: "admin123", role: "superadmin" });
+               } else {
+                  accounts[adminIndex].password = "admin123";
+                  accounts[adminIndex].role = "superadmin";
                }
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
                return accounts;
             }
             getFreshAdminAccounts();
 
+            function setAdminPane(target) {
+               document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+                  btn.classList.toggle('active', btn.getAttribute('data-admin-target') === target);
+               });
+               document.querySelectorAll('#adminLoginModal .form-pane').forEach(function (pane) {
+                  pane.classList.toggle('active', '#' + pane.id === target);
+               });
+            }
+
+            const adminPortalBtn = document.getElementById('btnAdminPortal');
+            if (adminPortalBtn) {
+               adminPortalBtn.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  setAdminPane('#admin-pane-login');
+               });
+            }
+
+            const adminModalEl = document.getElementById('adminLoginModal');
+            if (adminModalEl) {
+               adminModalEl.addEventListener('show.bs.modal', function () {
+                  setAdminPane('#admin-pane-login');
+               });
+            }
+
+            // Tab điều hướng trong admin modal
             document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
                btn.addEventListener('click', function () {
-                  document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
-                  this.classList.add('active');
                   const target = this.getAttribute('data-admin-target');
-                  document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
-                  document.querySelector(target).classList.add('active');
+                  setAdminPane(target);
                });
             });
 
-            document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
-               btn.addEventListener('click', function () {
-                  const input = this.previousElementSibling;
-                  const icon = this.querySelector('i');
-                  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('bi-eye', 'bi-eye-slash'); }
-                  else { input.type = 'password'; icon.classList.replace('bi-eye-slash', 'bi-eye'); }
+
+            // Xử lý đăng nhập admin
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            if (adminLoginForm) {
+               adminLoginForm.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const email = document.getElementById('adminLoginEmail').value.trim();
+                  const password = document.getElementById('adminLoginPassword').value;
+                  const accounts = getFreshAdminAccounts();
+                  const matchedUser = accounts.find(u => u.email === email && u.password === password);
+                  if (matchedUser) {
+                     // Lưu adminSession (tách biệt guestSession)
+                     localStorage.setItem('adminSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name || 'Quản Trị Viên', role: matchedUser.role || 'superadmin' }));
+                     // Giữ lại key cũ tương thích ngược
+                     localStorage.setItem('isLoggedIn', 'true');
+                     localStorage.setItem('userRole', matchedUser.role || 'superadmin');
+                     localStorage.setItem('adminEmail', email);
+                     localStorage.setItem('userName', matchedUser.name || 'Quản Trị Viên');
+                     // Đóng modal rồi chuyển hướng sang admin.html
+                     const modal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
+                     if (modal) modal.hide();
+                     setTimeout(() => { window.location.href = 'admin.html'; }, 300);
+                  } else {
+                     alert("❌ Tài khoản quản trị hoặc mật khẩu không chính xác.");
+                  }
                });
-            });
+            }
 
-            document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
-               e.preventDefault();
-               const email = document.getElementById('adminLoginEmail').value.trim();
-               const password = document.getElementById('adminLoginPassword').value;
-               const accounts = getFreshAdminAccounts();
-               const matchedUser = accounts.find(u => u.email === email && u.password === password);
-               if (matchedUser) {
-                  localStorage.setItem('isLoggedIn', 'true');
-                  localStorage.setItem('userRole', 'superadmin');
-                  localStorage.setItem('userName', matchedUser.name);
-                  alert('🎉 Đăng nhập thành công! Đang chuyển hướng...');
-                  window.location.reload();
-               } else {
-                  alert('❌ Tài khoản quản trị hoặc mật khẩu không chính xác.');
-               }
-            });
-
-            document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
-               e.preventDefault();
-               const name = document.getElementById('adminRegName').value.trim();
-               const email = document.getElementById('adminRegEmail').value.trim();
-               const password = document.getElementById('adminRegPassword').value;
-               const role = document.getElementById('adminRegRole').value;
-               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
-               if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === 'admin@gmail.com') {
-                  alert('⚠️ Email này đã được đăng ký cấp quyền hệ thống!');
-                  return;
-               }
-               accounts.push({ name, email, password, role });
-               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
-               alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
-               document.getElementById('adminRegisterForm').reset();
-            });
+            // Xử lý cấp tài khoản admin mới
+            const adminRegisterForm = document.getElementById('adminRegisterForm');
+            if (adminRegisterForm) {
+               adminRegisterForm.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  const name = document.getElementById('adminRegName').value.trim();
+                  const email = document.getElementById('adminRegEmail').value.trim();
+                  const password = document.getElementById('adminRegPassword').value;
+                  const role = document.getElementById('adminRegRole').value;
+                  let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+                  if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === "admin@gmail.com") {
+                     alert("⚠️ Email này đã được đăng ký cấp quyền hệ thống!");
+                     return;
+                  }
+                  accounts.push({ name, email, password, role });
+                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+                  alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
+                  adminRegisterForm.reset();
+               });
+            }
          })();
          function copyPromoCode() {
             navigator.clipboard.writeText('SUMMER2026').then(() => {
@@ -2643,6 +3042,28 @@
     `;
             document.head.appendChild(style);
          })();
+         function toggleAdminPassword(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const btn = event.currentTarget;
+            const wrapper = btn.closest('.input-wrapper');
+            const input = wrapper ? wrapper.querySelector('input') : document.getElementById('adminLoginPassword');
+            const icon = btn.querySelector('i');
+
+            if (!input || !icon) return;
+
+            if (input.type === 'password') {
+               input.type = 'text';
+               icon.classList.remove('bi-eye');
+               icon.classList.add('bi-eye-slash');
+            } else {
+               input.type = 'password';
+               icon.classList.remove('bi-eye-slash');
+               icon.classList.add('bi-eye');
+            }
+         }
       </script>
+
    </body>
 </html>

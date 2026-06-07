@@ -1,0 +1,2584 @@
+/* =========================================================
+   StayEasy Mobile Only Patch
+   - Chỉ áp dụng cho tablet/mobile bằng media queries.
+   - Không thay đổi layout desktop/laptop.
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+  html, body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  img, video, canvas, svg, iframe {
+    max-width: 100%;
+  }
+
+  .container,
+  .container-fluid {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* ===== NAVBAR PUBLIC: giữ desktop, chỉ sửa mobile menu ===== */
+  .navbar-custom {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1065 !important;
+    padding: 10px 0 !important;
+    background: rgba(15, 23, 42, 0.96) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16) !important;
+  }
+
+  .navbar-custom.navbar-scrolled {
+    background: #ffffff !important;
+  }
+
+  .navbar-custom .container {
+    position: relative;
+    min-height: 42px;
+  }
+
+  .navbar-custom .navbar-brand {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    max-width: calc(100vw - 92px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .navbar-custom .navbar-toggler {
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+    position: relative;
+    z-index: 1070;
+  }
+
+  .navbar-custom.navbar-scrolled .navbar-toggler {
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+    background: #f8fafc !important;
+  }
+
+  .navbar-custom .navbar-toggler i {
+    font-size: 1.35rem !important;
+    line-height: 1;
+  }
+
+  .navbar-custom .navbar-collapse {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    left: 16px !important;
+    right: 16px !important;
+    width: auto !important;
+    z-index: 1069 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    border-radius: 20px !important;
+    padding: 10px !important;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22) !important;
+    max-height: calc(100vh - 82px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navbar-custom .navbar-collapse.collapsing {
+    transition: height .2s ease, opacity .2s ease, transform .2s ease !important;
+    opacity: .35;
+    transform: translateY(-8px) scale(.98);
+  }
+
+  .navbar-custom .navbar-collapse.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .navbar-custom .navbar-nav {
+    margin-left: 0 !important;
+    gap: 4px !important;
+    align-items: stretch !important;
+  }
+
+  .navbar-custom .navbar-collapse .nav-link {
+    color: #0f172a !important;
+    text-shadow: none !important;
+    padding: 11px 12px !important;
+    border-radius: 13px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .navbar-custom .navbar-collapse .nav-link:hover,
+  .navbar-custom .navbar-collapse .nav-link:active {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    transform: none !important;
+  }
+
+  .navbar-custom .navbar-collapse .navbar-nav.align-items-center,
+  .navbar-custom .navbar-collapse .navbar-nav.align-items-center.gap-3 {
+    gap: 4px !important;
+    margin-top: 6px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid #f1f5f9 !important;
+  }
+
+  .navbar-custom .btn-nav-login,
+  .navbar-custom .btn-nav-register {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    color: #0f172a !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+  }
+
+  .navbar-custom .btn-nav-register {
+    color: #ffffff !important;
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+  }
+
+  .stayeasy-mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+    background: rgba(15, 23, 42, .44);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .stayeasy-mobile-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body {
+    font-size: 14px !important;
+  }
+
+  h1, .display-4, .display-5 {
+    font-size: clamp(23px, 7vw, 30px) !important;
+    line-height: 1.16 !important;
+    letter-spacing: -0.03em;
+  }
+
+  h2 { font-size: 22px !important; line-height: 1.22 !important; }
+  h3 { font-size: 18px !important; line-height: 1.3 !important; }
+  h4 { font-size: 17px !important; line-height: 1.35 !important; }
+  h5 { font-size: 16px !important; line-height: 1.35 !important; }
+  p, small, .small { overflow-wrap: anywhere; }
+
+  /* ===== HOME HERO / SEARCH ===== */
+  .hero-section,
+  .explore-hero,
+  .partner-hero,
+  .support-hero,
+  .promo-hero {
+    background-attachment: scroll !important;
+    padding: 88px 0 36px !important;
+    min-height: auto !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .hero-section .container,
+  .explore-hero .container,
+  .partner-hero .container,
+  .support-hero .container,
+  .promo-hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-section p.fs-5,
+  .explore-hero p,
+  .partner-hero p,
+  .support-hero p,
+  .promo-hero p {
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .search-tabs,
+  .support-nav .d-flex,
+  .promo-filter-bar .d-flex,
+  #cityTabs,
+  .tag-cloud {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .search-tabs::-webkit-scrollbar,
+  .support-nav .d-flex::-webkit-scrollbar,
+  .promo-filter-bar .d-flex::-webkit-scrollbar,
+  #cityTabs::-webkit-scrollbar,
+  .tag-cloud::-webkit-scrollbar { display: none; }
+
+  .search-tabs .tab-item,
+  .filter-tab,
+  .support-nav-btn,
+  #cityTabs .nav-link,
+  .explore-tag {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+  }
+
+  .search-bar-container,
+  .support-search-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 12px !important;
+    border-radius: 18px !important;
+    gap: 0 !important;
+    overflow: visible !important;
+  }
+
+  .search-input-group {
+    width: 100% !important;
+    min-width: 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid #eef2f7 !important;
+    padding: 11px 2px !important;
+  }
+
+  .search-input-group i {
+    width: 22px !important;
+    min-width: 22px !important;
+    margin-right: 10px !important;
+    font-size: 1.05rem !important;
+  }
+
+  .search-input-group input,
+  .search-input-group select,
+  .custom-select-trigger {
+    font-size: 14px !important;
+    min-width: 0 !important;
+  }
+
+  .search-label {
+    font-size: 11px !important;
+    margin-bottom: 1px !important;
+  }
+
+  .search-bar-container .px-2 {
+    width: 100% !important;
+    padding: 0 !important;
+    margin-top: 12px !important;
+  }
+
+  .btn-search-hero,
+  .support-search-box .btn-search-support {
+    width: 100% !important;
+    height: 48px !important;
+    border-radius: 14px !important;
+    min-height: 44px;
+  }
+
+  #locationDropdown,
+  .custom-select-dropdown {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    min-width: 100% !important;
+    max-width: calc(100vw - 48px) !important;
+    z-index: 1095 !important;
+  }
+
+  .city-filter-bar,
+  .promo-filter-bar,
+  .support-nav {
+    top: 62px !important;
+    overflow: hidden !important;
+  }
+
+  /* ===== PUBLIC CARDS / GRIDS ===== */
+  #hotelContainer,
+  #homestayContainer,
+  #resortContainer {
+    --bs-gutter-x: 12px !important;
+    --bs-gutter-y: 14px !important;
+  }
+
+  #hotelContainer > [class*="col-"],
+  #homestayContainer > [class*="col-"],
+  #resortContainer > [class*="col-"] {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+
+  .room-card,
+  .promo-card,
+  .help-category-card,
+  .exp-card,
+  .why-card,
+  .partner-type-card,
+  .reason-card,
+  .category-card,
+  .destination-card,
+  .dest-card,
+  .voucher-card {
+    border-radius: 16px !important;
+    overflow: hidden;
+  }
+
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    height: 130px !important;
+  }
+
+  .room-card .card-body {
+    padding: 10px !important;
+  }
+
+  .room-card h5,
+  .room-card .card-title {
+    font-size: 13px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .room-card .text-muted,
+  .room-card small,
+  .badge-type {
+    font-size: 10.5px !important;
+  }
+
+  .price-display,
+  .room-card .fw-bold.text-primary,
+  .room-card .text-primary.fw-bold {
+    font-size: 15px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  .promo-banner-small,
+  .promo-strip,
+  .promo-featured {
+    padding: 22px 18px !important;
+    min-height: auto !important;
+    height: auto !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    border-radius: 18px !important;
+    gap: 14px !important;
+  }
+
+  .promo-banner-small .btn,
+  .promo-strip .btn-promo,
+  .promo-featured .btn {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+
+  .region-card,
+  .destination-card,
+  .dest-card--sm,
+  .dest-card--lg,
+  .dest-card--wide,
+  .dest-card--tall {
+    height: 190px !important;
+  }
+
+  .dest-grid,
+  .exp-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  .dest-card--wide,
+  .dest-card--lg {
+    grid-column: span 2 !important;
+  }
+
+  .stats-bar .d-flex,
+  .stat-bar .d-flex {
+    flex-wrap: wrap !important;
+  }
+
+  .stat-block,
+  .stat-item {
+    flex: 0 0 50% !important;
+    border-right: 0 !important;
+    padding: 18px 12px !important;
+  }
+
+  .countdown-box {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100% !important;
+  }
+
+  .countdown-unit {
+    min-width: 0 !important;
+    padding: 10px 6px !important;
+  }
+
+  .countdown-number { font-size: 20px !important; }
+  .countdown-label { font-size: 9px !important; }
+
+  .voucher-card {
+    align-items: stretch !important;
+  }
+
+  .voucher-left {
+    width: 68px !important;
+    font-size: 16px !important;
+    padding: 16px 8px !important;
+  }
+
+  .contact-info-panel,
+  .contact-form-panel,
+  .register-left,
+  .register-right {
+    padding: 24px 18px !important;
+  }
+
+  .mailbox-layout {
+    display: block !important;
+    min-height: auto !important;
+  }
+
+  .mailbox-sidebar,
+  .mail-list,
+  .mailbox-content,
+  .mail-detail {
+    width: 100% !important;
+    min-width: 0 !important;
+    border-right: 0 !important;
+  }
+
+  .mail-list {
+    max-height: 360px !important;
+  }
+
+  /* ===== DETAIL PAGE MOBILE ===== */
+  .detail-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1060 !important;
+    padding: 9px 0 !important;
+    background: rgba(255,255,255,.98) !important;
+    box-shadow: 0 8px 26px rgba(15, 23, 42, .08) !important;
+  }
+
+  .detail-navbar .container {
+    min-height: 42px !important;
+    gap: 8px !important;
+  }
+
+  .detail-navbar .nb-name {
+    font-size: 15px !important;
+  }
+
+  .detail-navbar .nb-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+  }
+
+  .detail-navbar .nb-right {
+    gap: 6px !important;
+  }
+
+  .detail-navbar .nb-divider,
+  .detail-navbar .nb-user-wrap,
+  .detail-navbar .nb-icon-btn,
+  .detail-navbar .nb-hide-mobile {
+    display: none !important;
+  }
+
+  .detail-navbar .btn-back-home {
+    height: 36px !important;
+    padding: 0 11px !important;
+    border-radius: 11px !important;
+    font-size: 13px !important;
+  }
+
+  #detailContent .gallery-container {
+    margin-top: 12px !important;
+    border-radius: 18px !important;
+    overflow: visible !important;
+  }
+
+  #detailContent .gallery-container > .row {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  #detailContent .gallery-container .col-md-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  #dtlMainImg,
+  .img-main {
+    height: 230px !important;
+    border-radius: 18px !important;
+  }
+
+  #detailContent .gallery-container .col-md-6:last-child .row {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px !important;
+    margin: 0 !important;
+  }
+
+  #detailContent .gallery-container .col-md-6:last-child .col-6 {
+    flex: 0 0 142px !important;
+    width: 142px !important;
+    max-width: 142px !important;
+    padding: 0 !important;
+  }
+
+  #detailContent .gallery-container .img-sub,
+  .img-sub {
+    width: 142px !important;
+    height: 96px !important;
+    border-radius: 12px !important;
+  }
+
+  #detailContent > .row.g-4 {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 16px !important;
+  }
+
+  #detailContent > .row.g-4 > [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+
+  #dtlName {
+    font-size: 23px !important;
+    line-height: 1.18 !important;
+    margin-bottom: 10px !important;
+  }
+
+  #detailContent .alert {
+    font-size: 13px !important;
+    align-items: flex-start !important;
+    padding: 12px !important;
+  }
+
+  #detailContent .d-flex.gap-4.flex-wrap.text-muted {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  #detailContent .d-flex.gap-4.flex-wrap.text-muted > div {
+    background: #fff !important;
+    border: 1px solid #edf2f7 !important;
+    border-radius: 14px !important;
+    padding: 12px !important;
+    font-size: 13px !important;
+  }
+
+  .review-card,
+  #detailContent .card {
+    border-radius: 16px !important;
+  }
+
+  .review-card {
+    padding: 16px !important;
+  }
+
+  .booking-card {
+    position: relative !important;
+    top: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border-radius: 18px !important;
+    padding: 18px !important;
+    margin-top: 0 !important;
+  }
+
+  .booking-card .input-group,
+  .booking-card .form-control,
+  .booking-card .form-select,
+  .booking-card .btn,
+  #bookingForm .form-control,
+  #bookingForm .form-select,
+  #bookingForm textarea {
+    min-height: 46px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+  }
+
+  #dtlPrice {
+    font-size: 25px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+  }
+
+  #dtlOldPrice {
+    white-space: nowrap !important;
+  }
+
+  .mobile-booking-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1075;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, .98);
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -14px 34px rgba(15, 23, 42, .10);
+  }
+
+  .mobile-booking-price {
+    min-width: 0;
+  }
+
+  .mobile-booking-price small {
+    display: block;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .mobile-booking-price strong {
+    display: block;
+    color: #2563eb;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 52vw;
+  }
+
+  .mobile-booking-bar button {
+    min-width: 126px;
+    height: 44px;
+    border: none;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+  }
+
+  body.stayeasy-detail-page {
+    padding-bottom: 74px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #hotelContainer > [class*="col-"],
+  #homestayContainer > [class*="col-"],
+  #resortContainer > [class*="col-"] {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
+
+  .dest-grid,
+  .exp-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dest-card--wide,
+  .dest-card--lg {
+    grid-column: span 1 !important;
+  }
+
+  .exp-card {
+    padding: 20px 14px !important;
+  }
+
+  .exp-icon {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 22px !important;
+    border-radius: 14px !important;
+  }
+
+  .promo-featured .overlay {
+    background: rgba(0,0,0,.62) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #hotelContainer > [class*="col-"],
+  #homestayContainer > [class*="col-"],
+  #resortContainer > [class*="col-"] {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    height: 170px !important;
+  }
+}
+
+/* =========================================================
+   ADMIN MOBILE COMPACT PATCH
+   ========================================================= */
+@media (max-width: 768px) {
+  body:has(.admin-sidebar),
+  body.stayeasy-admin-page {
+    overflow-x: hidden !important;
+    background: #f8fafc !important;
+  }
+
+  .d-flex.vh-100 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .admin-sidebar {
+    width: 252px !important;
+    max-width: 82vw !important;
+    z-index: 1065 !important;
+    font-size: 13px !important;
+  }
+
+  .admin-sidebar .p-4 {
+    padding: 16px !important;
+  }
+
+  .admin-sidebar .p-3 {
+    padding: 10px !important;
+  }
+
+  .admin-sidebar h4 {
+    font-size: 18px !important;
+  }
+
+  .admin-sidebar .nav-link,
+  #adminSidebarMenu .nav-link {
+    font-size: 12.5px !important;
+    line-height: 1.25 !important;
+    padding: 9px 10px !important;
+    border-radius: 12px !important;
+    gap: 8px !important;
+  }
+
+  .admin-sidebar .nav-link i,
+  #adminSidebarMenu .nav-link i {
+    font-size: 15px !important;
+    margin-right: 8px !important;
+    width: 18px !important;
+    text-align: center !important;
+  }
+
+  main.flex-grow-1 {
+    min-width: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  main header.bg-white {
+    min-height: 58px !important;
+    padding: 10px 12px !important;
+    gap: 8px !important;
+  }
+
+  #mobileMenuToggle {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+  }
+
+  #headerTitle {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    max-width: 48vw !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  main header .gap-4 {
+    gap: 10px !important;
+  }
+
+  main header .vr {
+    display: none !important;
+  }
+
+  #notificationList {
+    width: calc(100vw - 24px) !important;
+    max-width: 320px !important;
+  }
+
+  #adminHeaderAvatar {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .flex-grow-1.overflow-auto.p-4.tab-content,
+  main .tab-content {
+    padding: 12px !important;
+  }
+
+  .row.g-4 {
+    --bs-gutter-x: 12px !important;
+    --bs-gutter-y: 12px !important;
+  }
+
+  .admin-stat-card,
+  main .card.rounded-4 {
+    border-radius: 16px !important;
+  }
+
+  .admin-stat-card,
+  .admin-stat-card.card,
+  main .card.p-4 {
+    padding: 14px !important;
+  }
+
+  .admin-stat-card p,
+  main .card p.small,
+  .tracking-wider {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+    letter-spacing: .035em !important;
+    margin-bottom: 5px !important;
+  }
+
+  .admin-stat-card h2,
+  .admin-stat-card h3,
+  main .card h2,
+  main .card h3 {
+    font-size: 19px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 4px !important;
+    word-break: break-word !important;
+  }
+
+  .admin-stat-card .position-absolute i {
+    font-size: 2rem !important;
+  }
+
+  .card .p-4.border-bottom,
+  .card > .p-4,
+  .card .p-3.border-top {
+    padding: 12px !important;
+  }
+
+  .card .d-flex.justify-content-between.align-items-center,
+  .card .d-flex.align-items-center.justify-content-between {
+    gap: 10px !important;
+  }
+
+  .card h5.fw-bold {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+  }
+
+  .btn,
+  button.btn {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    border-radius: 11px !important;
+  }
+
+  .filter-chip-group,
+  .admin-tabs,
+  .nav-pills,
+  .pagination {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .filter-chip-group::-webkit-scrollbar,
+  .admin-tabs::-webkit-scrollbar,
+  .nav-pills::-webkit-scrollbar,
+  .pagination::-webkit-scrollbar { display: none; }
+
+  .filter-chip-group .btn,
+  .admin-tabs .nav-link,
+  .nav-pills .nav-link {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: 11.5px !important;
+    padding: 7px 10px !important;
+  }
+
+  #searchBookingInput,
+  #searchPromoInput,
+  #searchRoomInput {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-top: 8px !important;
+    font-size: 13px !important;
+  }
+
+  .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 0 0 16px 16px !important;
+  }
+
+  .table-responsive table,
+  table.table {
+    min-width: 660px !important;
+  }
+
+  .table th,
+  .table td,
+  .table-custom thead th,
+  .table-custom tbody td {
+    font-size: 11.5px !important;
+    line-height: 1.25 !important;
+    padding: 10px 8px !important;
+    vertical-align: middle !important;
+  }
+
+  .table th.ps-4,
+  .table td.ps-4 {
+    padding-left: 12px !important;
+  }
+
+  .table th.pe-4,
+  .table td.pe-4 {
+    padding-right: 12px !important;
+  }
+
+  .badge,
+  [class*="badge-soft"] {
+    font-size: 10px !important;
+    padding: 4px 7px !important;
+    border-radius: 999px !important;
+    white-space: nowrap !important;
+  }
+
+  .btn-action {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 9px !important;
+    margin-right: 3px !important;
+  }
+
+  .pagination .page-link,
+  .page-item .page-link {
+    min-width: 28px !important;
+    height: 28px !important;
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .modal-dialog,
+  .modal-dialog.modal-lg,
+  .modal-dialog.modal-xl {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 8px !important;
+  }
+
+  .modal-content {
+    border-radius: 18px !important;
+    max-height: calc(100vh - 16px) !important;
+    overflow-y: auto !important;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 14px !important;
+  }
+
+  .form-control,
+  .form-select,
+  textarea,
+  input,
+  select {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .row.g-4 .col-xl-3,
+  .row.g-4 .col-sm-6,
+  .row.g-4 .col-md-6 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  .admin-stat-card h2,
+  .admin-stat-card h3,
+  main .card h2,
+  main .card h3 {
+    font-size: 18px !important;
+  }
+
+  .card .d-flex.justify-content-between.align-items-center,
+  .card .d-flex.align-items-center.justify-content-between {
+    align-items: flex-start !important;
+  }
+}
+
+/* =========================================================
+   HOTFIX 20260607-2 — chỉ sửa lỗi mobile người dùng báo
+   ========================================================= */
+@media (max-width: 767.98px) {
+  /* 1 sản phẩm / 1 hàng trên điện thoại, không nhồi 2 card */
+  #hotelContainer > [class*="col-"],
+  #homestayContainer > [class*="col-"],
+  #resortContainer > [class*="col-"] {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .room-card,
+  .room-card-hover {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    height: 210px !important;
+    object-fit: cover !important;
+  }
+
+  .room-card .card-body {
+    padding: 14px !important;
+  }
+
+  .room-card h5,
+  .room-card .card-title {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+
+  .room-card .text-muted,
+  .room-card small,
+  .badge-type {
+    font-size: 12px !important;
+  }
+
+  .price-display,
+  .room-card .fw-bold.text-primary,
+  .room-card .text-primary.fw-bold {
+    font-size: 20px !important;
+  }
+
+  /* Tab “Bạn muốn khám phá điều gì” phải lướt ngang được để thấy Resort */
+  .explore-tab-nav {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    gap: 0 !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #dbeafe !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .explore-tab-nav::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .explore-tab-btn {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    white-space: nowrap !important;
+    font-size: 13px !important;
+    padding: 12px 16px !important;
+  }
+
+  .explore-tab-content.active .row {
+    display: block !important;
+  }
+
+  .explore-tab-content.active .col-md-3 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .explore-link-col {
+    padding: 0 !important;
+  }
+
+  .explore-link-col a {
+    display: block !important;
+    padding: 11px 14px !important;
+    border-bottom: 1px solid #eef2f7 !important;
+    font-size: 14px !important;
+  }
+
+  /* Hero trang Khám phá: không bị cắt hình/chữ trên mobile */
+  .explore-hero {
+    min-height: 310px !important;
+    height: auto !important;
+    padding: 104px 0 54px !important;
+    margin-bottom: 28px !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+  }
+
+  .explore-hero .container {
+    margin-top: 0 !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .explore-hero h1 {
+    font-size: 30px !important;
+    line-height: 1.14 !important;
+    margin-bottom: 12px !important;
+  }
+
+  .explore-hero p {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* Dropdown tài khoản sau đăng nhập nằm gọn trong menu mobile, không bị mất đơn/đăng xuất */
+  .navbar-custom .navbar-collapse .user-dropdown {
+    width: 100% !important;
+  }
+
+  .navbar-custom .navbar-collapse .user-dropdown .user-menu-panel {
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-top: 8px !important;
+    border-radius: 16px !important;
+    box-shadow: inset 0 0 0 1px #e2e8f0, 0 10px 28px rgba(15,23,42,.08) !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  .navbar-custom .navbar-collapse .user-dropdown .user-menu-panel[style*="display: block"],
+  .navbar-custom .navbar-collapse .user-dropdown .user-menu-panel.stayeasy-user-menu-open {
+    display: block !important;
+  }
+
+  .navbar-custom .navbar-collapse #myOrdersList {
+    max-height: 260px !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Admin sidebar hotfix: hamburger phải mở menu chắc chắn */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: 100dvh !important;
+    transform: translate3d(-110%, 0, 0) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: transform .26s cubic-bezier(.2,.8,.2,1), visibility .26s !important;
+    will-change: transform !important;
+  }
+
+  .admin-sidebar.sidebar-open,
+  body.admin-sidebar-is-open .admin-sidebar {
+    transform: translate3d(0, 0, 0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    box-shadow: 18px 0 46px rgba(15, 23, 42, .20) !important;
+  }
+
+  .sidebar-backdrop {
+    display: block !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: 1064 !important;
+    transition: opacity .22s ease !important;
+  }
+
+  .sidebar-backdrop.show,
+  body.admin-sidebar-is-open .sidebar-backdrop {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  #mobileMenuToggle {
+    display: inline-flex !important;
+    position: relative !important;
+    z-index: 1066 !important;
+    touch-action: manipulation !important;
+  }
+
+  .admin-sidebar .nav-link,
+  #adminSidebarMenu .nav-link {
+    font-size: 12px !important;
+    padding: 8px 9px !important;
+    min-height: 38px !important;
+  }
+
+  .admin-sidebar h4 {
+    font-size: 16px !important;
+  }
+
+  .admin-sidebar .small,
+  .admin-sidebar small {
+    font-size: 10px !important;
+  }
+}
+
+/* =========================================================
+   HOTFIX 3 — ADMIN HAMBURGER + USER ORDERS MOBILE
+   Chỉ tác động mobile, giữ nguyên desktop/laptop.
+   ========================================================= */
+@media (max-width: 768px) {
+  body.stayeasy-admin-page,
+  body.admin-sidebar-is-open {
+    overflow-x: hidden !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: min(278px, 84vw) !important;
+    max-width: 84vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow-y: auto !important;
+    background: #fff !important;
+    z-index: 2147483000 !important;
+    transform: translateX(-112%) !important;
+    visibility: hidden !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+    transition: transform .28s cubic-bezier(.22,.8,.22,1), visibility .28s ease !important;
+    will-change: transform !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar.sidebar-open,
+  body.stayeasy-admin-page.admin-sidebar-is-open .admin-sidebar {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    box-shadow: 18px 0 50px rgba(15,23,42,.24) !important;
+  }
+
+  body.stayeasy-admin-page .sidebar-backdrop {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15,23,42,.46) !important;
+    backdrop-filter: blur(2px) !important;
+    z-index: 2147482999 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity .22s ease, visibility .22s ease !important;
+  }
+
+  body.stayeasy-admin-page .sidebar-backdrop.show,
+  body.stayeasy-admin-page.admin-sidebar-is-open .sidebar-backdrop {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.stayeasy-admin-page #mobileMenuToggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border: 0 !important;
+    border-radius: 13px !important;
+    background: #eef2f7 !important;
+    color: #334155 !important;
+    font-size: 20px !important;
+    position: relative !important;
+    z-index: 2147483001 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+
+  body.stayeasy-admin-page #mobileMenuToggle:active {
+    transform: scale(.96) !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar .nav-link,
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link {
+    font-size: 12.25px !important;
+    line-height: 1.25 !important;
+    min-height: 38px !important;
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar .nav-link i,
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link i {
+    font-size: 14px !important;
+    width: 17px !important;
+    margin-right: 7px !important;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .navbar-custom .user-dropdown .user-menu-panel {
+    max-height: min(78dvh, 640px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .navbar-custom .user-dropdown #myOrdersPanel {
+    display: none;
+  }
+
+  .navbar-custom .user-dropdown #myOrdersPanel.stayeasy-orders-open {
+    display: block !important;
+  }
+
+  .navbar-custom .user-dropdown #btnMyOrders {
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+  }
+
+  .navbar-custom .user-dropdown #myOrdersList {
+    max-height: 360px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+/* =========================================================
+   HOTFIX 4 — ADMIN MOBILE PREMIUM REBUILD
+   Chỉ áp dụng cho admin ở mobile. Không chạm desktop/laptop.
+   Mục tiêu: sidebar dùng chắc chắn, bảng chuyển thành card, header/form/button gọn đẹp.
+   ========================================================= */
+@media (max-width: 768px) {
+  body.stayeasy-admin-page {
+    background: #f5f7fb !important;
+    color: #0f172a !important;
+    min-height: 100dvh !important;
+    overflow-x: hidden !important;
+  }
+
+  body.stayeasy-admin-page .footer-custom {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page .d-flex.vh-100 {
+    display: block !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+  }
+
+  body.stayeasy-admin-page main.flex-grow-1 {
+    display: block !important;
+    min-height: 100dvh !important;
+    width: 100% !important;
+    overflow: visible !important;
+    background: #f5f7fb !important;
+  }
+
+  /* Header admin mobile */
+  body.stayeasy-admin-page main > header.bg-white {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999 !important;
+    min-height: 58px !important;
+    padding: 10px 14px !important;
+    background: rgba(255,255,255,.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(226,232,240,.9) !important;
+    box-shadow: 0 8px 24px rgba(15,23,42,.06) !important;
+  }
+
+  body.stayeasy-admin-page #mobileMenuToggle {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 13px !important;
+    background: #eef2f7 !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+  }
+
+  body.stayeasy-admin-page #mobileMenuToggle i {
+    font-size: 19px !important;
+    line-height: 1 !important;
+  }
+
+  body.stayeasy-admin-page #headerTitle {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    letter-spacing: -.02em !important;
+    max-width: calc(100vw - 160px) !important;
+  }
+
+  body.stayeasy-admin-page main > header .gap-4,
+  body.stayeasy-admin-page main > header .gap-3 {
+    gap: 10px !important;
+  }
+
+  body.stayeasy-admin-page #notificationCount:empty {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page #adminHeaderAvatar {
+    width: 34px !important;
+    height: 34px !important;
+    box-shadow: 0 7px 18px rgba(37,99,235,.18) !important;
+  }
+
+  body.stayeasy-admin-page #notificationList,
+  body.stayeasy-admin-page .dropdown-menu[aria-labelledby="adminUserDropdown"] {
+    width: calc(100vw - 24px) !important;
+    min-width: 0 !important;
+    max-width: 340px !important;
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 24px 50px rgba(15,23,42,.18) !important;
+  }
+
+  /* Sidebar admin mobile */
+  body.stayeasy-admin-page .admin-sidebar {
+    width: min(292px, 86vw) !important;
+    max-width: 86vw !important;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom)) !important;
+    background: #ffffff !important;
+    border-right: none !important;
+    box-shadow: none !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar.sidebar-open,
+  body.stayeasy-admin-page.admin-sidebar-is-open .admin-sidebar {
+    box-shadow: 22px 0 60px rgba(15,23,42,.26) !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar > .p-4.border-bottom {
+    padding: 17px 16px !important;
+    min-height: 68px !important;
+    background: linear-gradient(180deg,#fff 0%,#f8fafc 100%) !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar > .p-4.border-bottom .bg-primary {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+    padding: 0 !important;
+    box-shadow: 0 10px 22px rgba(37,99,235,.25) !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar h4 {
+    font-size: 17px !important;
+    font-weight: 900 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  body.stayeasy-admin-page .admin-mobile-sidebar-close {
+    margin-left: auto !important;
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    background: #f8fafc !important;
+    color: #64748b !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar .p-3.flex-grow-1 {
+    padding: 12px 10px !important;
+  }
+
+  body.stayeasy-admin-page .admin-sidebar p.text-uppercase {
+    font-size: 10px !important;
+    letter-spacing: .06em !important;
+    padding: 0 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu {
+    gap: 4px !important;
+    overflow: visible !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-item {
+    margin-top: 0 !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link {
+    width: 100% !important;
+    min-height: 43px !important;
+    padding: 10px 12px !important;
+    border-radius: 14px !important;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link i {
+    width: 20px !important;
+    min-width: 20px !important;
+    font-size: 16px !important;
+    margin: 0 !important;
+    color: #94a3b8 !important;
+    text-align: center !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link.active {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    box-shadow: inset 0 0 0 1px rgba(37,99,235,.06) !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link.active i {
+    color: #2563eb !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .badge {
+    margin-left: auto !important;
+    min-width: 21px !important;
+    height: 21px !important;
+    padding: 0 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 10px !important;
+  }
+
+  /* Nội dung admin */
+  body.stayeasy-admin-page main .tab-content,
+  body.stayeasy-admin-page .flex-grow-1.overflow-auto.p-4.tab-content {
+    padding: 12px !important;
+    overflow: visible !important;
+  }
+
+  body.stayeasy-admin-page .tab-pane {
+    padding-bottom: 24px !important;
+  }
+
+  body.stayeasy-admin-page .card,
+  body.stayeasy-admin-page .rounded-4 {
+    border-radius: 18px !important;
+  }
+
+  body.stayeasy-admin-page .card {
+    border: 1px solid rgba(226,232,240,.8) !important;
+    box-shadow: 0 10px 26px rgba(15,23,42,.055) !important;
+  }
+
+  body.stayeasy-admin-page .card > .p-4.border-bottom,
+  body.stayeasy-admin-page .card > .p-4,
+  body.stayeasy-admin-page .p-4.border-bottom {
+    padding: 14px !important;
+  }
+
+  body.stayeasy-admin-page .card h5,
+  body.stayeasy-admin-page .card h6 {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+    font-weight: 850 !important;
+    letter-spacing: -.015em !important;
+  }
+
+  body.stayeasy-admin-page .row.g-4,
+  body.stayeasy-admin-page .row.g-3 {
+    --bs-gutter-x: 12px !important;
+    --bs-gutter-y: 12px !important;
+  }
+
+  body.stayeasy-admin-page .admin-stat-card,
+  body.stayeasy-admin-page .card.p-4,
+  body.stayeasy-admin-page main .card.rounded-4.p-4 {
+    padding: 15px !important;
+    min-height: 94px !important;
+  }
+
+  body.stayeasy-admin-page .admin-stat-card p,
+  body.stayeasy-admin-page .card p.text-uppercase,
+  body.stayeasy-admin-page .tracking-wider {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+    letter-spacing: .045em !important;
+    margin-bottom: 6px !important;
+  }
+
+  body.stayeasy-admin-page .admin-stat-card h2,
+  body.stayeasy-admin-page .admin-stat-card h3,
+  body.stayeasy-admin-page main .card h2,
+  body.stayeasy-admin-page main .card h3 {
+    font-size: 20px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 0 !important;
+  }
+
+  body.stayeasy-admin-page .admin-stat-card .position-absolute,
+  body.stayeasy-admin-page .admin-stat-card .opacity-10 {
+    opacity: .08 !important;
+  }
+
+  body.stayeasy-admin-page .card .bg-success.bg-opacity-10,
+  body.stayeasy-admin-page .card .bg-primary.bg-opacity-10 {
+    width: 58px !important;
+    height: 58px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 58px !important;
+  }
+
+  body.stayeasy-admin-page .card .bg-success.bg-opacity-10 i,
+  body.stayeasy-admin-page .card .bg-primary.bg-opacity-10 i {
+    font-size: 26px !important;
+  }
+
+  body.stayeasy-admin-page .chart-card-body {
+    height: 230px !important;
+    padding: 10px !important;
+  }
+
+  body.stayeasy-admin-page .chart-card-body canvas {
+    max-height: 220px !important;
+  }
+
+  /* Header từng chức năng: không còn chen chữ/button */
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-customers > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-reviews > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-revenue > .card > .p-4.border-bottom {
+    display: block !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom > .d-flex,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > .d-flex,
+  body.stayeasy-admin-page #tab-customers > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-reviews > .card > .p-4.border-bottom {
+    width: 100% !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > .d-flex:first-child {
+    margin-bottom: 12px !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex:last-child,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > div[style*="display: flex"],
+  body.stayeasy-admin-page #tab-bookings .filter-chip-group {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    overflow: visible !important;
+  }
+
+  body.stayeasy-admin-page #tab-bookings .filter-chip-group {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 4px !important;
+    scrollbar-width: none !important;
+  }
+
+  body.stayeasy-admin-page #tab-bookings .filter-chip-group::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page #tab-bookings .filter-chip-group > div[style*="flex: 1"] {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page .filter-chip {
+    flex: 0 0 auto !important;
+    min-height: 34px !important;
+    padding: 8px 11px !important;
+    border-radius: 999px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page .chip-count {
+    min-width: 20px !important;
+    height: 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 10px !important;
+  }
+
+  body.stayeasy-admin-page #searchRoomInput,
+  body.stayeasy-admin-page #searchBookingInput,
+  body.stayeasy-admin-page #searchPromoInput {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    border-radius: 13px !important;
+    background: #f8fafc !important;
+    border: 1px solid #edf2f7 !important;
+    font-size: 13px !important;
+  }
+
+  body.stayeasy-admin-page #searchBookingInput {
+    flex: 0 0 235px !important;
+    min-width: 235px !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms .btn,
+  body.stayeasy-admin-page #tab-bookings .btn,
+  body.stayeasy-admin-page #tab-promotions .btn,
+  body.stayeasy-admin-page #tab-customers .btn,
+  body.stayeasy-admin-page #tab-reviews .btn {
+    min-height: 42px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    border-radius: 13px !important;
+  }
+
+  /* Bảng admin -> card mobile */
+  body.stayeasy-admin-page .table-responsive {
+    overflow: visible !important;
+    border-radius: 0 0 18px 18px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table,
+  body.stayeasy-admin-page table.admin-mobile-card-table thead,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody,
+  body.stayeasy-admin-page table.admin-mobile-card-table tr,
+  body.stayeasy-admin-page table.admin-mobile-card-table td,
+  body.stayeasy-admin-page table.admin-mobile-card-table th {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table {
+    background: transparent !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table thead {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody {
+    padding: 10px !important;
+    background: #f8fafc !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody tr {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 18px !important;
+    margin: 0 0 11px !important;
+    padding: 11px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 20px rgba(15,23,42,.055) !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody tr:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td {
+    border: 0 !important;
+    padding: 8px 0 !important;
+    min-height: 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
+    color: #334155 !important;
+    text-align: right !important;
+    border-bottom: 1px dashed #eef2f7 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td:last-child {
+    border-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td::before {
+    content: attr(data-admin-label);
+    min-width: 94px !important;
+    max-width: 42% !important;
+    text-align: left !important;
+    color: #64748b !important;
+    font-size: 10px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .045em !important;
+    line-height: 1.2 !important;
+    flex: 0 0 auto !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-primary {
+    display: block !important;
+    text-align: left !important;
+    padding: 0 0 10px !important;
+    margin-bottom: 2px !important;
+    border-bottom: 1px solid #eef2f7 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-primary::before,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td[colspan]::before {
+    display: none !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding-top: 10px !important;
+    text-align: left !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions::before {
+    align-self: center !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions .btn,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end .btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 0 0 6px !important;
+    box-shadow: 0 6px 16px rgba(15,23,42,.08) !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions > *:not(:first-child),
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end > *:not(:first-child) {
+    flex: 0 0 auto !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table img {
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 15px !important;
+    object-fit: cover !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table h6 {
+    font-size: 13.5px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 3px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table small,
+  body.stayeasy-admin-page table.admin-mobile-card-table .small {
+    font-size: 11.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .fw-bold,
+  body.stayeasy-admin-page table.admin-mobile-card-table .fw-bolder {
+    word-break: break-word !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .badge,
+  body.stayeasy-admin-page table.admin-mobile-card-table [class*="badge-soft"] {
+    font-size: 10.5px !important;
+    padding: 5px 8px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .text-success,
+  body.stayeasy-admin-page table.admin-mobile-card-table .text-primary {
+    font-weight: 850 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tr.admin-empty-row td {
+    display: block !important;
+    text-align: center !important;
+    padding: 18px 10px !important;
+    color: #64748b !important;
+    border-bottom: 0 !important;
+  }
+
+  /* Footer pagination */
+  body.stayeasy-admin-page .card > .p-3.border-top {
+    padding: 10px 12px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    background: #fff !important;
+  }
+
+  body.stayeasy-admin-page .card > .p-3.border-top > span {
+    text-align: center !important;
+    font-size: 11px !important;
+  }
+
+  body.stayeasy-admin-page .pagination {
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    box-shadow: none !important;
+    padding-bottom: 2px !important;
+  }
+
+  body.stayeasy-admin-page .pagination .page-link {
+    min-width: 30px !important;
+    height: 30px !important;
+    border-radius: 10px !important;
+    font-size: 11px !important;
+  }
+
+  /* Modal/form mobile */
+  body.stayeasy-admin-page .modal-dialog,
+  body.stayeasy-admin-page .modal-dialog.modal-lg,
+  body.stayeasy-admin-page .modal-dialog.modal-xl {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 8px auto !important;
+  }
+
+  body.stayeasy-admin-page .modal-content {
+    border-radius: 20px !important;
+    max-height: calc(100dvh - 16px) !important;
+    overflow-y: auto !important;
+    border: 0 !important;
+    box-shadow: 0 24px 70px rgba(15,23,42,.28) !important;
+  }
+
+  body.stayeasy-admin-page .modal-header,
+  body.stayeasy-admin-page .modal-body,
+  body.stayeasy-admin-page .modal-footer {
+    padding: 14px !important;
+  }
+
+  body.stayeasy-admin-page .modal-title {
+    font-size: 16px !important;
+    font-weight: 850 !important;
+  }
+
+  body.stayeasy-admin-page .form-label,
+  body.stayeasy-admin-page label,
+  body.stayeasy-admin-page .form-label-custom {
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    color: #475569 !important;
+  }
+
+  body.stayeasy-admin-page .form-control,
+  body.stayeasy-admin-page .form-select,
+  body.stayeasy-admin-page textarea,
+  body.stayeasy-admin-page input,
+  body.stayeasy-admin-page select {
+    min-height: 43px !important;
+    border-radius: 13px !important;
+    font-size: 13px !important;
+  }
+
+  body.stayeasy-admin-page textarea {
+    min-height: 90px !important;
+  }
+
+  body.stayeasy-admin-page .modal-footer .btn {
+    flex: 1 1 auto !important;
+    min-height: 42px !important;
+  }
+
+  body.stayeasy-admin-page .admin-time-picker-panel {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    bottom: 12px !important;
+    border-radius: 20px !important;
+    max-height: 70dvh !important;
+    overflow-y: auto !important;
+    z-index: 2147483002 !important;
+  }
+
+  body.stayeasy-admin-page .atp-grid {
+    max-height: 48dvh !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body.stayeasy-admin-page main .tab-content,
+  body.stayeasy-admin-page .flex-grow-1.overflow-auto.p-4.tab-content {
+    padding: 10px !important;
+  }
+
+  body.stayeasy-admin-page #adminSidebarMenu .nav-link {
+    font-size: 12.5px !important;
+    min-height: 41px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody {
+    padding: 8px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody tr {
+    padding: 10px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td::before {
+    min-width: 82px !important;
+    max-width: 38% !important;
+  }
+}
+
+/* =========================================================
+   HOTFIX 5 — ADMIN MOBILE AIRY UI / KHÔNG BỊ ÉP
+   Chỉ áp dụng <=768px, giữ nguyên desktop/laptop.
+   ========================================================= */
+@media (max-width: 768px) {
+  body.stayeasy-admin-page {
+    --admin-mobile-page: #f3f6fb;
+    --admin-mobile-card: #ffffff;
+    --admin-mobile-line: #e6edf6;
+    --admin-mobile-soft: #f8fafc;
+    --admin-mobile-text: #0f172a;
+    --admin-mobile-muted: #64748b;
+    --admin-mobile-blue: #2563eb;
+    background: var(--admin-mobile-page) !important;
+  }
+
+  body.stayeasy-admin-page main > header.bg-white {
+    min-height: 64px !important;
+    padding: 11px 16px !important;
+  }
+
+  body.stayeasy-admin-page #headerTitle {
+    font-size: 16px !important;
+    max-width: calc(100vw - 155px) !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page main .tab-content,
+  body.stayeasy-admin-page .flex-grow-1.overflow-auto.p-4.tab-content {
+    padding: 14px !important;
+  }
+
+  body.stayeasy-admin-page .card {
+    border-radius: 20px !important;
+    border-color: rgba(215, 226, 240, .92) !important;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .055) !important;
+    overflow: hidden !important;
+  }
+
+  body.stayeasy-admin-page .card > .p-4.border-bottom,
+  body.stayeasy-admin-page .card > .p-4,
+  body.stayeasy-admin-page .p-4.border-bottom {
+    padding: 16px 14px !important;
+  }
+
+  body.stayeasy-admin-page .card h5,
+  body.stayeasy-admin-page .card h6 {
+    font-size: 15.5px !important;
+    line-height: 1.18 !important;
+    margin: 0 !important;
+  }
+
+  /* Header các tab quản trị: tách title, badge, actions rõ ràng */
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-customers > .card > .p-4.border-bottom,
+  body.stayeasy-admin-page #tab-reviews > .card > .p-4.border-bottom {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex:first-child > .d-flex:first-child,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom > .d-flex:first-child > h5,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > .d-flex:first-child > h5,
+  body.stayeasy-admin-page #tab-customers > .card > .p-4.border-bottom > h5,
+  body.stayeasy-admin-page #tab-reviews > .card > .p-4.border-bottom > h5 {
+    min-width: 0 !important;
+  }
+
+  body.stayeasy-admin-page #roomCountBadge,
+  body.stayeasy-admin-page .chip-count,
+  body.stayeasy-admin-page #adminSidebarMenu .badge {
+    font-variant-numeric: tabular-nums !important;
+  }
+
+  body.stayeasy-admin-page #roomCountBadge {
+    padding: 8px 10px !important;
+    min-width: 54px !important;
+    min-height: 54px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 10.5px !important;
+    white-space: nowrap !important;
+    background: #eaf2ff !important;
+    color: #2563eb !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms > .card > .p-4.border-bottom > .d-flex:last-child,
+  body.stayeasy-admin-page #tab-promotions > .card > .p-4.border-bottom > div[style*="display: flex"],
+  body.stayeasy-admin-page #tab-customers > .card > .p-4.border-bottom > .d-flex,
+  body.stayeasy-admin-page #tab-reviews > .card > .p-4.border-bottom > .btn,
+  body.stayeasy-admin-page #tab-bookings > .card > .p-4.border-bottom > .d-flex:first-child > .d-flex {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms #searchRoomInput,
+  body.stayeasy-admin-page #tab-promotions #searchPromoInput,
+  body.stayeasy-admin-page #tab-bookings #searchBookingInput {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    flex-basis: auto !important;
+    height: 44px !important;
+    padding: 0 14px !important;
+    border-radius: 14px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e8eef6 !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms #btnAddRoom,
+  body.stayeasy-admin-page #tab-promotions .btn-danger,
+  body.stayeasy-admin-page #tab-bookings .btn-primary,
+  body.stayeasy-admin-page #tab-customers .btn-danger {
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #fff !important;
+    box-shadow: 0 12px 22px rgba(37,99,235,.22) !important;
+  }
+
+  body.stayeasy-admin-page #tab-promotions .btn-danger,
+  body.stayeasy-admin-page #tab-customers .btn-danger,
+  body.stayeasy-admin-page #btnDeleteAllRooms {
+    background: #fff !important;
+    color: #e11d48 !important;
+    border-color: rgba(225, 29, 72, .45) !important;
+    box-shadow: none !important;
+  }
+
+  body.stayeasy-admin-page #tab-rooms .btn,
+  body.stayeasy-admin-page #tab-bookings .btn,
+  body.stayeasy-admin-page #tab-promotions .btn,
+  body.stayeasy-admin-page #tab-customers .btn,
+  body.stayeasy-admin-page #tab-reviews .btn {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+    font-size: 12.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: -.01em !important;
+    gap: 6px !important;
+  }
+
+  /* Bộ lọc đơn đặt phòng dạng chip ngang thoáng */
+  body.stayeasy-admin-page #tab-bookings .filter-chip-group {
+    margin-top: 12px !important;
+    margin-left: -2px !important;
+    margin-right: -2px !important;
+    padding: 0 2px 6px !important;
+  }
+
+  body.stayeasy-admin-page .filter-chip {
+    min-height: 38px !important;
+    padding: 9px 13px !important;
+    font-size: 12px !important;
+    border-radius: 999px !important;
+    background: #f1f5f9 !important;
+    color: #64748b !important;
+  }
+
+  body.stayeasy-admin-page .filter-chip.active {
+    background: #2563eb !important;
+    color: #fff !important;
+    box-shadow: 0 10px 20px rgba(37,99,235,.22) !important;
+  }
+
+  body.stayeasy-admin-page .filter-chip.active .chip-count {
+    background: rgba(255,255,255,.22) !important;
+    color: #fff !important;
+  }
+
+  /* Card table: bỏ cảm giác bị ép bằng layout grid label/value */
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody {
+    padding: 12px !important;
+    background: #f7f9fd !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody tr {
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+    border-radius: 20px !important;
+    border-color: #e1e9f4 !important;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .055) !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td {
+    display: grid !important;
+    grid-template-columns: 86px minmax(0, 1fr) !important;
+    align-items: center !important;
+    column-gap: 12px !important;
+    justify-content: start !important;
+    text-align: left !important;
+    padding: 9px 0 !important;
+    min-height: 38px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    color: #26354a !important;
+    border-bottom: 1px dashed #edf2f7 !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td::before {
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 86px !important;
+    font-size: 10px !important;
+    letter-spacing: .055em !important;
+    color: #64748b !important;
+    opacity: .98 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-primary {
+    display: block !important;
+    padding: 0 0 12px !important;
+    margin: 0 0 3px !important;
+    border-bottom: 1px solid #edf2f7 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-primary > .d-flex {
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table img {
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 17px !important;
+    flex: 0 0 64px !important;
+    box-shadow: 0 8px 18px rgba(15,23,42,.11) !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table h6 {
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 4px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table small,
+  body.stayeasy-admin-page table.admin-mobile-card-table .small {
+    font-size: 11.5px !important;
+    line-height: 1.35 !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .badge,
+  body.stayeasy-admin-page table.admin-mobile-card-table [class*="badge-soft"] {
+    border-radius: 999px !important;
+    padding: 6px 9px !important;
+    font-size: 10.5px !important;
+    line-height: 1.08 !important;
+    white-space: nowrap !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .text-success,
+  body.stayeasy-admin-page table.admin-mobile-card-table td:nth-child(3).fw-bold,
+  body.stayeasy-admin-page table.admin-mobile-card-table td:nth-child(4).fw-bold {
+    white-space: nowrap !important;
+    text-align: right !important;
+    font-size: 13px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table .text-primary {
+    color: #2563eb !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    padding-top: 12px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions::before,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end::before {
+    flex: 0 0 86px !important;
+    width: 86px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions .btn,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end .btn {
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+    min-height: 39px !important;
+    border-radius: 14px !important;
+    margin: 0 !important;
+    flex: 0 0 39px !important;
+    background: #fff !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions .btn i,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end .btn i {
+    margin: 0 !important;
+    font-size: 14px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions .badge,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end .badge {
+    margin-left: 0 !important;
+  }
+
+  /* Bảng đơn đặt phòng: card thoáng hơn, dữ liệu dài không bó chữ */
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="bookings"] tbody td:nth-child(2),
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="bookings"] tbody td:nth-child(3),
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="reviews"] tbody td:nth-child(2),
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="reviews"] tbody td:nth-child(4) {
+    grid-template-columns: 86px minmax(0, 1fr) !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="bookings"] tbody td:nth-child(3) span,
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="reviews"] tbody td:nth-child(2) {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="bookings"] tbody td:nth-child(6) {
+    align-items: start !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="bookings"] tbody td:nth-child(6) .badge {
+    margin: 2px 4px 2px 0 !important;
+    display: inline-flex !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="customers"] tbody td:nth-child(2) {
+    font-weight: 800 !important;
+    color: #0f172a !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="promotions"] tbody td:first-child .badge {
+    font-size: 12px !important;
+    padding: 7px 10px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table[data-admin-kind="revenue"] tbody td:last-child {
+    color: #059669 !important;
+    font-weight: 900 !important;
+  }
+
+  /* Pagination/footer bớt chật */
+  body.stayeasy-admin-page .card > .p-3.border-top {
+    padding: 12px 14px !important;
+    border-top-color: #edf2f7 !important;
+  }
+
+  body.stayeasy-admin-page .pagination {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+
+  body.stayeasy-admin-page .pagination .page-link {
+    min-width: 34px !important;
+    height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 11px !important;
+    font-size: 12px !important;
+    padding: 0 9px !important;
+  }
+
+  /* Modal và form admin mobile */
+  body.stayeasy-admin-page .modal-dialog {
+    margin: 10px !important;
+  }
+
+  body.stayeasy-admin-page .modal-content {
+    border-radius: 22px !important;
+    overflow: hidden !important;
+  }
+
+  body.stayeasy-admin-page .modal-header,
+  body.stayeasy-admin-page .modal-body,
+  body.stayeasy-admin-page .modal-footer {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  body.stayeasy-admin-page .form-label,
+  body.stayeasy-admin-page label.small {
+    font-size: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  body.stayeasy-admin-page .form-control,
+  body.stayeasy-admin-page .form-select,
+  body.stayeasy-admin-page input,
+  body.stayeasy-admin-page select,
+  body.stayeasy-admin-page textarea {
+    min-height: 46px !important;
+    border-radius: 14px !important;
+    font-size: 13.5px !important;
+  }
+
+  /* Các trang placeholder như Cài đặt/Nội dung: card rộng và cân giữa hơn */
+  body.stayeasy-admin-page .tab-pane .display-4,
+  body.stayeasy-admin-page .tab-pane .fs-1 {
+    font-size: 42px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body.stayeasy-admin-page main .tab-content,
+  body.stayeasy-admin-page .flex-grow-1.overflow-auto.p-4.tab-content {
+    padding: 12px 10px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody tr {
+    padding: 13px !important;
+  }
+
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td::before,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions::before,
+  body.stayeasy-admin-page table.admin-mobile-card-table tbody td.text-end::before {
+    grid-template-columns: 78px minmax(0,1fr) !important;
+    width: 78px !important;
+    flex-basis: 78px !important;
+  }
+}
+
+/* HOTFIX 6 — Detail desktop không được hiện sticky booking bar mobile */
+.mobile-booking-bar {
+  display: none !important;
+}
+body.stayeasy-detail-page {
+  padding-bottom: 0 !important;
+}
+@media (max-width: 991.98px) {
+  body.stayeasy-detail-page {
+    padding-bottom: 74px !important;
+  }
+  .mobile-booking-bar:not([hidden]) {
+    display: flex !important;
+  }
+}
+@media (min-width: 992px) {
+  .mobile-booking-bar,
+  .mobile-booking-bar:not([hidden]) {
+    display: none !important;
+  }
+}

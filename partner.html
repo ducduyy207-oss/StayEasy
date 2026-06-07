@@ -1235,6 +1235,7 @@
             background: #f1f5f9;
          }
       </style>
+      <link rel="stylesheet" href="stayeasy-mobile-only.css?v=20260607-mobile-hotfix6">
    </head>
    <body>
 
@@ -1252,8 +1253,7 @@
                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
                   <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
                   <li class="nav-item"><a class="nav-link" href="explore.html">Khám phá</a></li>
-                  <li class="nav-item"><a class="nav-link" href="promotions.html"><i
-                           class="bi bi-tags-fill me-1"></i>Khuyến mãi</a></li>
+                  <li class="nav-item"><a class="nav-link" href="promotions.html">Khuyến mãi</a></li>
                   <li class="nav-item"><a class="nav-link fw-bold text-warning" href="partner.html">Hợp tác</a></li>
                </ul>
                <ul class="navbar-nav align-items-center gap-3">
@@ -2152,6 +2152,74 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       <script src="js/api.js"></script>
       <script>
+         // ===== ADMIN MODAL LOGIC =====
+         (function () {
+            function getFreshAdminAccounts() {
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (!accounts.some(u => u.email === 'admin@gmail.com')) {
+                  accounts.push({ name: 'Quản Trị Viên', email: 'admin@gmail.com', password: 'admin', role: 'superadmin' });
+                  localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               }
+               return accounts;
+            }
+            getFreshAdminAccounts();
+
+            document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  document.querySelectorAll('#adminLoginModal .auth-nav-btn').forEach(b => b.classList.remove('active'));
+                  this.classList.add('active');
+                  const target = this.getAttribute('data-admin-target');
+                  document.querySelectorAll('#adminLoginModal .form-pane').forEach(p => p.classList.remove('active'));
+                  document.querySelector(target).classList.add('active');
+               });
+            });
+
+            document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
+               btn.addEventListener('click', function () {
+                  const input = this.previousElementSibling;
+                  const icon = this.querySelector('i');
+                  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('bi-eye', 'bi-eye-slash'); }
+                  else { input.type = 'password'; icon.classList.replace('bi-eye-slash', 'bi-eye'); }
+               });
+            });
+
+            document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const email = document.getElementById('adminLoginEmail').value.trim();
+               const password = document.getElementById('adminLoginPassword').value;
+               const accounts = getFreshAdminAccounts();
+               const matchedUser = accounts.find(u => u.email === email && u.password === password);
+               if (matchedUser) {
+                  localStorage.setItem('adminSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name || 'Quản Trị Viên', role: matchedUser.role || 'superadmin' }));
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', matchedUser.role || 'superadmin');
+                  localStorage.setItem('adminEmail', matchedUser.email);
+                  localStorage.setItem('userName', matchedUser.name || 'Quản Trị Viên');
+                  const modal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
+                  if (modal) modal.hide();
+                  setTimeout(() => window.open('admin.html', '_blank'), 300);
+               } else {
+                  alert('❌ Tài khoản quản trị hoặc mật khẩu không chính xác.');
+               }
+            });
+
+            document.getElementById('adminRegisterForm').addEventListener('submit', function (e) {
+               e.preventDefault();
+               const name = document.getElementById('adminRegName').value.trim();
+               const email = document.getElementById('adminRegEmail').value.trim();
+               const password = document.getElementById('adminRegPassword').value;
+               const role = document.getElementById('adminRegRole').value;
+               let accounts = JSON.parse(localStorage.getItem('stayeasy_admin_accounts')) || [];
+               if (accounts.some(u => u.email.toLowerCase() === email.toLowerCase()) || email === 'admin@gmail.com') {
+                  alert('⚠️ Email này đã được đăng ký cấp quyền hệ thống!');
+                  return;
+               }
+               accounts.push({ name, email, password, role });
+               localStorage.setItem('stayeasy_admin_accounts', JSON.stringify(accounts));
+               alert(`✅ Cấp tài khoản thành công cho nhân sự: ${name}`);
+               document.getElementById('adminRegisterForm').reset();
+            });
+         })();
          // ── Navbar scroll ──
          $(window).scroll(function () {
             if ($(this).scrollTop() > 50) {
@@ -2418,6 +2486,141 @@
             localStorage.removeItem('userEmail');
             window.location.reload();
          }
+         // ==========================================
+         // LOGIC HOẠT HỌA ẢNH TRƯỢT BÊN TRONG MODAL POPUP
+         // ==========================================
+         let popupCurrentSlide = 0;
+         const popupTotalSlides = 2;
+         let popupSliderTimer;
+
+         function goPopupSlide(idx) {
+            document.getElementById('slide-' + popupCurrentSlide).classList.remove('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.remove('active');
+            popupCurrentSlide = idx;
+            document.getElementById('slide-' + popupCurrentSlide).classList.add('active');
+            document.querySelectorAll('.dot-popup')[popupCurrentSlide].classList.add('active');
+            clearInterval(popupSliderTimer);
+            startPopupSlider();
+         }
+
+         function startPopupSlider() {
+            popupSliderTimer = setInterval(() => goPopupSlide((popupCurrentSlide + 1) % popupTotalSlides), 4000);
+         }
+         startPopupSlider();
+
+         function togglePopupPw(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.style.color = inp.type === 'text' ? '#1DAFD1' : '';
+         }
+
+         // ==========================================
+         // LOGIC PHÂN TÁCH TRẠNG THÁI FORM NỔI (ĐĂNG NHẬP / ĐĂNG KÝ)
+         // ==========================================
+         let currentPopupAuthMode = 'signup';
+
+         function initAuthForm(mode) {
+            currentPopupAuthMode = mode === 'signin' ? 'signup' : 'signin';
+            togglePopupAuthMode();
+         }
+
+         function togglePopupAuthMode() {
+            if (currentPopupAuthMode === 'signup') {
+               currentPopupAuthMode = 'signin';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome back to';
+               document.getElementById('popupFieldRowName').style.display = 'none';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'none';
+               document.getElementById('popupTermsRow').style.display = 'none';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN IN';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Create Account';
+            } else {
+               currentPopupAuthMode = 'signup';
+               document.getElementById('popupAuthTitleLabel').innerText = 'Welcome to';
+               document.getElementById('popupFieldRowName').style.display = 'block';
+               document.getElementById('popupFieldRowConfirmPw').style.display = 'block';
+               document.getElementById('popupTermsRow').style.display = 'flex';
+               document.getElementById('popupBtnSubmitAuth').innerText = 'SIGN UP';
+               document.getElementById('popupBtnSwitchMode').innerText = 'Sign In';
+            }
+         }
+
+         // ==========================================
+         // XỬ LÝ LOCALSTORAGE ĐĂNG KÝ / ĐĂNG NHẬP KHÁCH HÀNG
+         // ==========================================
+         function executePopupAuth() {
+            const name = document.getElementById('popupAuthInputName').value.trim();
+            const email = document.getElementById('popupAuthInputEmail').value.trim();
+            const pw1 = document.getElementById('popupAuthInputPw1').value;
+            const pw2 = document.getElementById('popupAuthInputPw2').value;
+
+            // Chỉ lấy dữ liệu khi cần, không lạm dụng biến toàn cục cho cả 2 mode nếu không cần thiết
+            if (currentPopupAuthMode === 'signup') {
+               const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+               if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
+               if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
+               if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
+
+               users.push({ name, email, password: pw1, role: 'user' });
+               localStorage.setItem('stayeasy_users', JSON.stringify(users));
+               alert('🎉 Đăng ký tài khoản khách thành công!');
+               togglePopupAuthMode();
+            } else {
+               // Mode: Login
+               if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
+
+               // 1. Kiểm tra tài khoản admin tối cao
+               if (email === 'admin@gmail.com' && pw1 === 'admin123') {
+                  localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Quản Trị Viên', role: 'superadmin' }));
+                  // Giữ lại isLoggedIn để tương thích ngược
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'superadmin');
+                  localStorage.setItem('adminEmail', 'admin@gmail.com');
+                  localStorage.setItem('userName', 'Quản Trị Viên');
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 2. Kiểm tra tài khoản nhân viên
+               const staffList = JSON.parse(localStorage.getItem('stayeasy_staff')) || [];
+               const matchedStaff = staffList.find(s => s.email === email && s.password === pw1 && s.active === true);
+               if (matchedStaff) {
+                  localStorage.setItem('adminSession', JSON.stringify({ email: matchedStaff.email, name: matchedStaff.name, role: 'staff' }));
+                  localStorage.setItem('isLoggedIn', 'true');
+                  localStorage.setItem('userRole', 'staff');
+                  localStorage.setItem('adminEmail', email);
+                  localStorage.setItem('userName', matchedStaff.name);
+                  window.location.href = 'admin.html';
+                  return;
+               }
+
+               // 3. Kiểm tra tài khoản người dùng thường
+               const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
+               const matchedUser = userList.find(u => u.email === email && u.password === pw1);
+               if (matchedUser) {
+                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
+                  localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
+                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
+                  localStorage.setItem('isUserLoggedIn', 'true');
+                  localStorage.setItem('userName', matchedUser.name);
+                  localStorage.setItem('userEmail', matchedUser.email);
+                  alert('🎉 Đăng nhập thành công!');
+                  window.location.reload();
+               } else {
+                  alert('❌ Tài khoản hoặc mật khẩu không chính xác!');
+               }
+            }
+         }
+         document.addEventListener('keydown', function (e) {
+            const isPopupAuthInput = e.target.matches(
+               '#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2'
+            );
+
+            if (isPopupAuthInput && e.key === 'Enter') {
+               e.preventDefault();
+               executePopupAuth();
+            }
+         });
       </script>
+      <script src="stayeasy-mobile-only.js?v=20260607-mobile-hotfix6"></script>
    </body>
 </html>

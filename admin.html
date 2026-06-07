@@ -404,6 +404,36 @@
                 background: #e2e8f0;
             }
         </style>
+        <link rel="stylesheet" href="stayeasy-mobile-only.css?v=20260607-mobile-hotfix8-no-x">
+
+        <style id="admin-desktop-no-x-final-patch">
+            /* HOTFIX 8 — Desktop/laptop không bao giờ hiện nút X cạnh logo admin.
+               Nút X chỉ dùng khi sidebar admin mở dạng offcanvas trên mobile. */
+            @media (min-width: 769px) {
+
+                .admin-sidebar .admin-mobile-sidebar-close,
+                .admin-sidebar button[aria-label*="Đóng menu"],
+                .admin-sidebar button[aria-label*="Đóng"],
+                .admin-sidebar button[title*="Đóng"] {
+                    display: none !important;
+                    visibility: hidden !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
+                    width: 0 !important;
+                    height: 0 !important;
+                    min-width: 0 !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    border: 0 !important;
+                    overflow: hidden !important;
+                }
+
+                .admin-sidebar>.p-4.border-bottom {
+                    justify-content: flex-start !important;
+                }
+            }
+        </style>
+
     </head>
     <body class="bg-light">
 
@@ -516,7 +546,8 @@
                     style="z-index: 1030;">
                     <div class="d-flex align-items-center gap-3">
                         <!-- Hamburger — chỉ hiện trên mobile -->
-                        <button id="mobileMenuToggle" onclick="toggleMobileSidebar()" title="Menu">
+                        <button id="mobileMenuToggle" type="button" aria-label="Mở menu quản trị" aria-expanded="false"
+                            title="Menu">
                             <i class="bi bi-list"></i>
                         </button>
                         <h5 class="fw-bold mb-0 text-dark" id="headerTitle">Tổng quan</h5>
@@ -1656,8 +1687,8 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-        <script src="../js/api.js"></script>
-        <script src="../js/admin.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/admin.js"></script>
         <script>
             // ===== MOBILE SIDEBAR TOGGLE =====
             function toggleMobileSidebar() {
@@ -1728,5 +1759,65 @@
                 </div>
             </div>
         </footer>
+        <script src="stayeasy-mobile-only.js?v=20260607-mobile-hotfix8-no-x"></script>
+
+        <script id="admin-desktop-no-x-final-script">
+            (function () {
+                function isDesktopAdmin() {
+                    return window.innerWidth > 768;
+                }
+
+                function getSidebarHeader() {
+                    return document.querySelector('.admin-sidebar > .p-4.border-bottom');
+                }
+
+                function removeDesktopSidebarCloseButtons() {
+                    var header = getSidebarHeader();
+                    if (!header) return;
+
+                    var closeButtons = header.querySelectorAll(
+                        '.admin-mobile-sidebar-close, button[aria-label*="Đóng menu"], button[aria-label*="Đóng"], button[title*="Đóng"]'
+                    );
+
+                    if (isDesktopAdmin()) {
+                        closeButtons.forEach(function (btn) { btn.remove(); });
+                        return;
+                    }
+
+                    // Mobile vẫn có nút đóng sidebar nếu cần.
+                    if (!header.querySelector('.admin-mobile-sidebar-close')) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'admin-mobile-sidebar-close';
+                        btn.setAttribute('aria-label', 'Đóng menu quản trị');
+                        btn.innerHTML = '<i class="bi bi-x-lg"></i>';
+                        btn.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            if (typeof window.closeMobileSidebar === 'function') {
+                                window.closeMobileSidebar();
+                            } else {
+                                document.querySelector('.admin-sidebar')?.classList.remove('sidebar-open');
+                                document.getElementById('sidebarBackdrop')?.classList.remove('show');
+                            }
+                        });
+                        header.appendChild(btn);
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    removeDesktopSidebarCloseButtons();
+                    setTimeout(removeDesktopSidebarCloseButtons, 50);
+                    setTimeout(removeDesktopSidebarCloseButtons, 300);
+                    setTimeout(removeDesktopSidebarCloseButtons, 1000);
+
+                    var observer = new MutationObserver(removeDesktopSidebarCloseButtons);
+                    observer.observe(document.body, { childList: true, subtree: true });
+                });
+
+                window.addEventListener('resize', removeDesktopSidebarCloseButtons);
+                window.addEventListener('orientationchange', removeDesktopSidebarCloseButtons);
+            })();
+        </script>
+
     </body>
 </html>
