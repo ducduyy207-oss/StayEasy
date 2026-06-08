@@ -1893,9 +1893,7 @@
 
          // Logic Hàm Đăng xuất
          window.logoutUser = function () {
-            // Xóa guestSession (key mới tách biệt)
             localStorage.removeItem('guestSession');
-            // Xóa các key cũ tương thích ngược
             localStorage.removeItem('isUserLoggedIn');
             localStorage.removeItem('userName');
             localStorage.removeItem('userEmail');

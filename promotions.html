@@ -2360,7 +2360,7 @@
                      } catch (e) { /* Polling lỗi thì bỏ qua, không crash */ }
                   }
 
-                  // Chạy polling ngay lần đầu sau 1s (để API load xong), sau đó mỗi 30s
+                  // Chạy polling ngay lần đầu sau
                   setTimeout(pollMyOrders, 1000);
                   setInterval(pollMyOrders, 30000);
                }
@@ -2369,7 +2369,7 @@
                $(document).on('click', function (e) { if (!$(e.target).closest('.user-dropdown').length) { $('.user-dropdown .user-menu-panel').slideUp(200); } });
             });
 
-            // Logic Hàm Đăng xuất (COPY TỪ INDEX)
+            // Logic Hàm Đăng xuất
             window.logoutUser = function () {
                localStorage.removeItem('guestSession');
                localStorage.removeItem('isUserLoggedIn');
