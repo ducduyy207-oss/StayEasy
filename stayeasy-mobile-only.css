@@ -1196,6 +1196,38 @@
     line-height: 1.45 !important;
     margin-bottom: 10px !important;
   }
+  #blogScroll {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  gap: 16px !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  }
+
+  #blogScroll .inspire-card {
+  flex: 0 0 90vw !important;
+  min-width: 90vw !important;
+  max-width: 90vw !important;
+  scroll-snap-align: start !important;
+  }
+
+  #blogScroll .inspire-img {
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  }
+
+  #blogScroll .inspire-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  }
 
   /* Dropdown tài khoản sau đăng nhập nằm gọn trong menu mobile, không bị mất đơn/đăng xuất */
   .navbar-custom .navbar-collapse .user-dropdown {
@@ -2424,7 +2456,7 @@
     border-radius: 14px !important;
     margin: 0 !important;
     flex: 0 0 39px !important;
-    background: #fff !important;
+    
   }
 
   body.stayeasy-admin-page table.admin-mobile-card-table tbody td.admin-mobile-actions .btn i,
@@ -2821,5 +2853,81 @@ body.stayeasy-detail-page {
   body.stayeasy-admin-page #searchBookingInput,
   body.stayeasy-admin-page #searchPromoInput {
     font-size: 16px !important;
+  }
+}/* FIX EXPLORE ARTICLE MODAL MOBILE BỊ LỆCH / CHỮ TRÀN SANG PHẢI */
+@media (max-width: 767.98px) {
+  .article-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 99999 !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 14px !important;
+    background: rgba(15, 23, 42, 0.68) !important;
+    overflow-y: auto !important;
+  }
+
+  .article-modal-overlay.open {
+    display: flex !important;
+  }
+
+  .article-modal-box {
+    width: 100% !important;
+    max-width: calc(100vw - 28px) !important;
+    max-height: calc(100dvh - 28px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    background: #fff !important;
+  }
+
+  .article-modal-box .article-modal-hero,
+  .article-modal-hero {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 260px !important;
+    min-height: 0 !important;
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+    align-self: auto !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    border-radius: 0 !important;
+  }
+
+  .article-modal-box .article-modal-body,
+  .article-modal-body {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    padding: 18px 18px 24px !important;
+    overflow-y: auto !important;
+    max-height: calc(100dvh - 316px) !important;
+  }
+
+  .article-modal-title,
+  .article-modal-content,
+  .article-modal-content p,
+  .article-modal-body p {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .article-modal-close {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    width: 38px !important;
+    height: 38px !important;
+    z-index: 20 !important;
+    border-radius: 50% !important;
   }
 }

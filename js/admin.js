@@ -553,7 +553,7 @@ function renderBookingTable() {
                    <span class="badge ${b.isPaid ? 'badge-soft-success' : 'bg-warning text-dark'} ms-1" style="font-size:10px;">${payLabel}</span>`;
             actionBtns += `
         <button class="btn btn-sm btn-light text-primary shadow-sm me-1" onclick="openEditBooking('${b.id}')" title="Sửa"><i class="bi bi-pencil"></i></button>
-        <button class="btn btn-sm btn-success shadow-sm me-1" onclick="updateBookingStatus('${b.id}', 'approved')" title="Duyệt đơn"><i class="bi bi-check-lg"></i></button>
+        <button class="btn btn-sm btn-light text-success shadow-sm me-1" onclick="updateBookingStatus('${b.id}', 'approved')" title="Duyệt đơn"><i class="bi bi-check-lg"></i></button>
         <button class="btn btn-sm btn-light text-danger shadow-sm" onclick="cancelBooking('${b.id}')" title="Huỷ"><i class="bi bi-x-lg"></i></button>
     `;
         } else if (b.status === 'approved') {
