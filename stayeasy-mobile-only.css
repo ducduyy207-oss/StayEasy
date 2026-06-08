@@ -2582,869 +2582,244 @@ body.stayeasy-detail-page {
     display: none !important;
   }
 }
-
-
-/* ===== EXPLORE MOBILE FINAL EXTERNALIZED START =====
-   Tách từ explore.html để HTML ngắn hơn. Chỉ tác động mobile/tablet.
-===== */
-/* =========================================================
-   STAYEASY EXPLORE — MOBILE ONLY CLEAN FINAL
-   Chỉ sửa giao diện mobile Explore. Desktop/laptop giữ nguyên.
-========================================================= */
-@media (max-width: 991.98px) {
-   html, body {
-      width: 100% !important;
-      max-width: 100% !important;
-      overflow-x: hidden !important;
-      -webkit-text-size-adjust: 100%;
-   }
-
-   *, *::before, *::after {
-      box-sizing: border-box !important;
-   }
-
-   img, video, canvas, iframe, svg {
-      max-width: 100% !important;
-   }
-
-   body {
-      background: #f8fafc !important;
-      font-family: 'DM Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-      font-size: 14px !important;
-   }
-
-   body.stayeasy-explore-menu-open,
-   body.stayeasy-menu-open {
-      overflow: hidden !important;
-      touch-action: none !important;
-   }
-
-   .container,
-   .container-fluid {
-      width: 100% !important;
-      max-width: 100% !important;
-      padding-left: 16px !important;
-      padding-right: 16px !important;
-   }
-
-   /* NAVBAR MOBILE GIỐNG INDEX */
-   .navbar-custom {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      width: 100% !important;
-      z-index: 1080 !important;
-      padding: 10px 0 !important;
-      background: rgba(15, 23, 42, .96) !important;
-      backdrop-filter: blur(14px) !important;
-      -webkit-backdrop-filter: blur(14px) !important;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, .16) !important;
-   }
-
-   .navbar-custom.navbar-scrolled {
-      background: #ffffff !important;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, .10) !important;
-   }
-
-   .navbar-custom .container {
-      min-height: 42px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      position: relative !important;
-   }
-
-   .navbar-custom .navbar-brand {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 7px !important;
-      max-width: calc(100vw - 90px) !important;
-      color: #ffffff !important;
-      text-shadow: 0 1px 3px rgba(0,0,0,.28) !important;
-      font-size: 16px !important;
-      font-weight: 800 !important;
-      line-height: 1 !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-   }
-
-   .navbar-custom.navbar-scrolled .navbar-brand {
-      color: #0f172a !important;
-      text-shadow: none !important;
-   }
-
-   .navbar-custom .navbar-toggler {
-      width: 42px !important;
-      height: 42px !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      padding: 0 !important;
-      border-radius: 13px !important;
-      border: 1px solid rgba(255,255,255,.22) !important;
-      background: rgba(255,255,255,.12) !important;
-      color: #ffffff !important;
-      box-shadow: none !important;
-      position: relative !important;
-      z-index: 1090 !important;
-   }
-
-   .navbar-custom.navbar-scrolled .navbar-toggler {
-      color: #0f172a !important;
-      background: #f8fafc !important;
-      border-color: #e2e8f0 !important;
-   }
-
-   .navbar-custom .navbar-toggler i {
-      font-size: 1.35rem !important;
-      line-height: 1 !important;
-   }
-
-   .navbar-custom .navbar-collapse {
-      position: fixed !important;
-      top: 64px !important;
-      left: 14px !important;
-      right: 14px !important;
-      width: auto !important;
-      max-width: none !important;
-      max-height: calc(100vh - 82px) !important;
-      overflow-y: auto !important;
-      background: #ffffff !important;
-      border: 1px solid rgba(226, 232, 240, .95) !important;
-      border-radius: 22px !important;
-      padding: 14px !important;
-      box-shadow: 0 24px 60px rgba(15, 23, 42, .22) !important;
-      z-index: 1085 !important;
-      -webkit-overflow-scrolling: touch !important;
-   }
-
-   .navbar-custom .navbar-collapse.collapsing {
-      transition: height .2s ease, opacity .2s ease, transform .2s ease !important;
-      opacity: .45 !important;
-      transform: translateY(-8px) scale(.98) !important;
-   }
-
-   .navbar-custom .navbar-collapse.show {
-      opacity: 1 !important;
-      transform: translateY(0) scale(1) !important;
-   }
-
-   .navbar-custom .navbar-nav {
-      margin-left: 0 !important;
-      gap: 4px !important;
-      align-items: stretch !important;
-   }
-
-   .navbar-custom .navbar-collapse .nav-link {
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      color: #0f172a !important;
-      text-shadow: none !important;
-      padding: 12px !important;
-      border-radius: 14px !important;
-      font-size: 14px !important;
-      font-weight: 700 !important;
-      line-height: 1.25 !important;
-   }
-
-   .navbar-custom .navbar-collapse .nav-link:hover,
-   .navbar-custom .navbar-collapse .nav-link:active {
-      background: #eff6ff !important;
-      color: #2563eb !important;
-      transform: none !important;
-   }
-
-   .navbar-custom .navbar-collapse .nav-link.text-warning,
-   .navbar-custom .navbar-collapse .nav-link.fw-bold.text-warning {
-      color: #2563eb !important;
-      background: #eff6ff !important;
-   }
-
-   .navbar-custom .navbar-collapse .navbar-nav.align-items-center,
-   .navbar-custom .navbar-collapse .navbar-nav.align-items-center.gap-3 {
-      gap: 4px !important;
-      margin-top: 8px !important;
-      padding-top: 10px !important;
-      border-top: 1px solid #f1f5f9 !important;
-   }
-
-   .navbar-custom .btn-nav-login,
-   .navbar-custom .btn-nav-register {
-      width: 100% !important;
-      justify-content: center !important;
-      text-align: center !important;
-      color: #0f172a !important;
-      background: #f8fafc !important;
-      border: 1px solid #e2e8f0 !important;
-      box-shadow: none !important;
-   }
-
-   .navbar-custom .btn-nav-register {
-      color: #ffffff !important;
-      background: #2563eb !important;
-      border-color: #2563eb !important;
-   }
-
-   .stayeasy-explore-menu-backdrop,
-   .stayeasy-mobile-backdrop {
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 1075 !important;
-      background: rgba(15, 23, 42, .44) !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      transition: opacity .22s ease !important;
-      backdrop-filter: blur(2px) !important;
-      -webkit-backdrop-filter: blur(2px) !important;
-   }
-
-   .stayeasy-explore-menu-backdrop.show,
-   .stayeasy-mobile-backdrop.show {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-   }
-
-   .user-dropdown .user-menu-panel {
-      position: fixed !important;
-      top: 70px !important;
-      left: 12px !important;
-      right: 12px !important;
-      width: auto !important;
-      min-width: 0 !important;
-      max-width: calc(100vw - 24px) !important;
-      max-height: calc(100vh - 86px) !important;
-      overflow-y: auto !important;
-      border-radius: 20px !important;
-      z-index: 1095 !important;
-   }
-}
-
+/* ===== MOBILE PRODUCT CARD ===== */
 @media (max-width: 767.98px) {
-   h1, .display-4, .display-5 {
-      font-size: clamp(28px, 8vw, 36px) !important;
-      line-height: 1.1 !important;
-      letter-spacing: -0.035em !important;
-   }
-
-   h2 { font-size: 22px !important; line-height: 1.22 !important; }
-   h3 { font-size: 19px !important; line-height: 1.3 !important; }
-   h4 { font-size: 17px !important; line-height: 1.35 !important; }
-   h5 { font-size: 16px !important; line-height: 1.35 !important; }
-   p, small, .small { overflow-wrap: anywhere !important; }
-
-   /* HERO EXPLORE */
-   .explore-hero {
-      min-height: 430px !important;
-      height: auto !important;
-      padding: 104px 0 50px !important;
-      margin-bottom: 0 !important;
-      background-attachment: scroll !important;
-      background-size: cover !important;
-      background-position: center center !important;
-      overflow: hidden !important;
-   }
-
-   .explore-hero::before,
-   .explore-hero::after {
-      pointer-events: none !important;
-   }
-
-   .explore-hero .container,
-   .explore-hero .container.mt-5 {
-      margin-top: 0 !important;
-      padding-left: 20px !important;
-      padding-right: 20px !important;
-   }
-
-   .explore-hero h1,
-   .explore-hero .display-4 {
-      margin-bottom: 14px !important;
-      text-shadow: 0 6px 20px rgba(0,0,0,.58) !important;
-   }
-
-   .explore-hero p {
-      font-size: 14.5px !important;
-      line-height: 1.55 !important;
-      margin-bottom: 12px !important;
-   }
-
-   .explore-hero p:first-child {
-      font-size: 11px !important;
-      letter-spacing: .10em !important;
-   }
-
-   body > .container.pt-0.py-5,
-   body > .container.py-5,
-   .container.pt-0.py-5 {
-      padding-top: 26px !important;
-      padding-bottom: 34px !important;
-   }
-
-   .section-eyebrow {
-      font-size: 11px !important;
-      letter-spacing: .10em !important;
-      margin-bottom: 5px !important;
-   }
-
-   .section-title {
-      font-size: 22px !important;
-      line-height: 1.22 !important;
-      letter-spacing: -0.03em !important;
-   }
-
-   .section-sub {
-      font-size: 13.5px !important;
-      line-height: 1.55 !important;
-   }
-
-   .d-flex.justify-content-between.align-items-end.mb-4 {
-      align-items: flex-start !important;
-      gap: 12px !important;
-   }
-
-   .d-flex.justify-content-between.align-items-end.mb-4 > div {
-      min-width: 0 !important;
-      flex: 1 1 auto !important;
-   }
-
-   .d-flex.justify-content-between.align-items-end.mb-4 > a {
-      flex: 0 0 auto !important;
-      font-size: 12.5px !important;
-      padding: 8px 10px !important;
-      border-radius: 999px !important;
-      background: #eff6ff !important;
-      white-space: nowrap !important;
-   }
-
-   /* ĐIỂM ĐẾN THỊNH HÀNH: 1 CARD / HÀNG, OVERLAY ĐỦ CHỮ */
-   .dest-grid {
-      display: grid !important;
-      grid-template-columns: 1fr !important;
-      grid-template-rows: none !important;
-      gap: 14px !important;
-      margin-bottom: 32px !important;
-   }
-
-   .dest-card,
-   .dest-card--sm,
-   .dest-card--lg,
-   .dest-card--wide,
-   .dest-card--tall {
-      grid-column: auto !important;
-      grid-row: auto !important;
-      width: 100% !important;
-      min-width: 0 !important;
-      height: auto !important;
-      min-height: 226px !important;
-      border-radius: 20px !important;
-      box-shadow: 0 14px 28px rgba(15, 23, 42, .10) !important;
-      overflow: hidden !important;
-      display: flex !important;
-      align-items: stretch !important;
-      position: relative !important;
-      background: #0f172a !important;
-   }
-
-   .dest-card img {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      z-index: 1 !important;
-   }
-
-   .dest-card::after {
-      content: '' !important;
-      position: absolute !important;
-      inset: 0 !important;
-      z-index: 2 !important;
-      background: linear-gradient(to top, rgba(15, 23, 42, .92) 0%, rgba(15, 23, 42, .62) 45%, rgba(15, 23, 42, .16) 100%) !important;
-      pointer-events: none !important;
-   }
-
-   .dest-info {
-      position: relative !important;
-      z-index: 3 !important;
-      left: auto !important;
-      right: auto !important;
-      bottom: auto !important;
-      width: 100% !important;
-      min-height: 226px !important;
-      padding: 92px 18px 18px !important;
-      background: transparent !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: flex-end !important;
-   }
-
-   .dest-info h4 {
-      display: block !important;
-      white-space: normal !important;
-      overflow: visible !important;
-      text-overflow: unset !important;
-      font-size: 18px !important;
-      line-height: 1.25 !important;
-      margin-bottom: 6px !important;
-   }
-
-   .dest-info p {
-      display: block !important;
-      white-space: normal !important;
-      overflow: visible !important;
-      text-overflow: unset !important;
-      font-size: 12.5px !important;
-      line-height: 1.45 !important;
-      margin-bottom: 0 !important;
-   }
-
-   .dest-badge {
-      z-index: 4 !important;
-      top: 14px !important;
-      left: 14px !important;
-      font-size: 11px !important;
-      padding: 5px 11px !important;
-   }
-
-   /* TAG / STATS / PROMO */
-   .tag-cloud,
-   .search-tabs,
-   #cityTabs {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      gap: 10px !important;
-      padding: 2px 2px 10px !important;
-      margin-left: -2px !important;
-      scroll-snap-type: x proximity !important;
-      -webkit-overflow-scrolling: touch !important;
-      scrollbar-width: none !important;
-   }
-
-   .tag-cloud::-webkit-scrollbar,
-   .search-tabs::-webkit-scrollbar,
-   #cityTabs::-webkit-scrollbar {
-      display: none !important;
-   }
-
-   .explore-tag,
-   .search-tabs .tab-item,
-   #cityTabs .nav-link {
-      flex: 0 0 auto !important;
-      scroll-snap-align: start !important;
-      white-space: nowrap !important;
-      min-height: 40px !important;
-      padding: 10px 14px !important;
-      font-size: 13px !important;
-      border-radius: 999px !important;
-   }
-
-   .stats-bar {
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      padding: 18px 12px !important;
-      border-radius: 20px !important;
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 0 !important;
-   }
-
-   .stat-divider {
-      display: none !important;
-   }
-
-   .stat-block,
-   .stat-item {
-      padding: 16px 8px !important;
-      border-right: 0 !important;
-      border-bottom: 1px solid rgba(255,255,255,.08) !important;
-      text-align: center !important;
-   }
-
-   .stat-num,
-   .stat-number {
-      font-size: 22px !important;
-   }
-
-   .stat-desc,
-   .stat-label {
-      font-size: 11.5px !important;
-   }
-
-   .promo-strip {
-      padding: 24px 20px !important;
-      border-radius: 22px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 16px !important;
-      text-align: left !important;
-      margin-bottom: 34px !important;
-   }
-
-   .promo-strip h2 {
-      font-size: 22px !important;
-      line-height: 1.18 !important;
-   }
-
-   .promo-strip p {
-      font-size: 14px !important;
-      line-height: 1.55 !important;
-   }
-
-   .promo-strip .promo-code-badge {
-      font-size: 14px !important;
-      padding: 7px 14px !important;
-      letter-spacing: .08em !important;
-   }
-
-   .promo-strip .btn-promo,
-   .promo-strip .promo-action,
-   .promo-strip .promo-action button {
-      width: 100% !important;
-   }
-
-   .promo-strip .btn-promo {
-      min-height: 46px !important;
-      border-radius: 14px !important;
-      font-size: 14px !important;
-      padding: 12px 18px !important;
-   }
-
-   /* EXPERIENCE GRID */
-   .exp-grid {
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 12px !important;
-      margin-bottom: 34px !important;
-   }
-
-   .exp-card {
-      padding: 20px 12px 18px !important;
-      border-radius: 18px !important;
-      min-height: 154px !important;
-   }
-
-   .exp-icon {
-      width: 50px !important;
-      height: 50px !important;
-      border-radius: 15px !important;
-      font-size: 22px !important;
-      margin-bottom: 12px !important;
-   }
-
-   .exp-card h6 {
-      font-size: 13.5px !important;
-      line-height: 1.25 !important;
-   }
-
-   .exp-card small {
-      font-size: 11.5px !important;
-      line-height: 1.35 !important;
-   }
-
-   .exp-count {
-      top: 10px !important;
-      right: 10px !important;
-      font-size: 10px !important;
-      padding: 3px 7px !important;
-   }
-
-   /* BLOG / INSPIRATION CAROUSEL MOBILE */
-   #blogScrollMirror {
-      display: none !important;
-   }
-
-   #blogScroll {
-      display: flex !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      gap: 14px !important;
-      padding: 2px 2px 14px !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      cursor: auto !important;
-      scrollbar-width: none !important;
-   }
-
-   #blogScroll::-webkit-scrollbar {
-      height: 0 !important;
-      display: none !important;
-   }
-
-   #blogScroll .inspire-card {
-      min-width: 84vw !important;
-      max-width: 84vw !important;
-      flex: 0 0 84vw !important;
-      scroll-snap-align: start !important;
-      border-radius: 20px !important;
-   }
-
-   .inspire-img {
-      height: 180px !important;
-   }
-
-   .inspire-body {
-      padding: 16px !important;
-   }
-
-   .inspire-body h5 {
-      font-size: 15px !important;
-      line-height: 1.35 !important;
-   }
-
-   .inspire-body p {
-      font-size: 13px !important;
-      line-height: 1.55 !important;
-   }
-
-   /* ARTICLE MODAL: CHUYỂN 1 CỘT, KHÔNG ÉP CHỮ */
-   .article-modal-overlay {
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 99999 !important;
-      display: none !important;
-      align-items: center !important;
-      justify-content: center !important;
-      padding: 14px !important;
-      background: rgba(15, 23, 42, .74) !important;
-      backdrop-filter: blur(6px) !important;
-      -webkit-backdrop-filter: blur(6px) !important;
-      overflow-y: auto !important;
-   }
-
-   .article-modal-overlay.open {
-      display: flex !important;
-   }
-
-   .article-modal-box {
-      width: 100% !important;
-      max-width: calc(100vw - 28px) !important;
-      height: auto !important;
-      max-height: calc(100vh - 28px) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      overflow: hidden !important;
-      border-radius: 22px !important;
-      background: #ffffff !important;
-      position: relative !important;
-      box-shadow: 0 28px 80px rgba(0,0,0,.28) !important;
-   }
-
-   .article-modal-box .article-modal-hero,
-   .article-modal-hero,
-   img.article-modal-hero {
-      width: 100% !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-      height: 210px !important;
-      min-height: 210px !important;
-      max-height: 210px !important;
-      flex: 0 0 210px !important;
-      display: block !important;
-      position: relative !important;
-      overflow: hidden !important;
-      object-fit: cover !important;
-      object-position: center center !important;
-      align-self: auto !important;
-      border-radius: 0 !important;
-   }
-
-   .article-modal-box .article-modal-body,
-   .article-modal-body {
-      width: 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      flex: 1 1 auto !important;
-      display: block !important;
-      padding: 22px 18px 26px !important;
-      overflow-y: auto !important;
-      max-height: calc(100vh - 266px) !important;
-      word-break: normal !important;
-      overflow-wrap: break-word !important;
-   }
-
-   .article-modal-category {
-      font-size: 11px !important;
-      margin-bottom: 8px !important;
-   }
-
-   .article-modal-title {
-      width: 100% !important;
-      font-size: 21px !important;
-      line-height: 1.28 !important;
-      margin-bottom: 12px !important;
-      white-space: normal !important;
-      overflow-wrap: break-word !important;
-   }
-
-   .article-modal-meta {
-      flex-wrap: wrap !important;
-      gap: 8px !important;
-      font-size: 12px !important;
-   }
-
-   .article-modal-content,
-   .article-modal-content p,
-   .article-modal-body p,
-   .article-modal-content li,
-   .article-modal-body li {
-      width: 100% !important;
-      max-width: 100% !important;
-      font-size: 14px !important;
-      line-height: 1.72 !important;
-      white-space: normal !important;
-      word-break: normal !important;
-      overflow-wrap: break-word !important;
-   }
-
-   .article-modal-content h3,
-   .article-modal-content h4 {
-      font-size: 17px !important;
-      line-height: 1.35 !important;
-   }
-
-   .article-cta {
-      padding: 20px 16px !important;
-      border-radius: 16px !important;
-   }
-
-   .article-cta .btn-cta {
-      width: 100% !important;
-      min-height: 44px !important;
-   }
-
-   .article-modal-close {
-      position: absolute !important;
-      top: 10px !important;
-      right: 10px !important;
-      width: 38px !important;
-      height: 38px !important;
-      border-radius: 50% !important;
-      z-index: 20 !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      background: rgba(15, 23, 42, .62) !important;
-      color: #ffffff !important;
-      border: 1px solid rgba(255,255,255,.22) !important;
-   }
-
-   /* FOOTER + MODALS */
-   .footer-custom {
-      padding: 38px 0 24px !important;
-   }
-
-   .footer-custom .row {
-      row-gap: 24px !important;
-   }
-
-   .footer-custom h5 {
-      font-size: 15px !important;
-      margin-bottom: 12px !important;
-   }
-
-   .footer-custom a,
-   .footer-custom p,
-   .footer-custom li,
-   .footer-custom small {
-      font-size: 13.5px !important;
-      line-height: 1.65 !important;
-   }
-
-   .footer-bottom {
-      margin-top: 22px !important;
-      padding-top: 16px !important;
-      font-size: 13px !important;
-   }
-
-   .modal-dialog {
-      margin: 10px !important;
-   }
-
-   .modal-auth-width,
-   #adminLoginModal .modal-dialog {
-      max-width: calc(100vw - 20px) !important;
-   }
-
-   .shell-popup {
-      min-height: auto !important;
-      height: auto !important;
-      max-height: calc(100vh - 20px) !important;
-      display: block !important;
-      border-radius: 20px !important;
-      overflow-y: auto !important;
-   }
-
-   .photo-panel,
-   .diagonal-slash,
-   .photo-panel::after {
-      display: none !important;
-   }
-
-   .form-panel {
-      width: 100% !important;
-      padding: 34px 20px 24px !important;
-   }
-
-   #adminLoginModal .login-card {
-      padding: 26px 18px !important;
-      border-radius: 18px !important;
-   }
+  #hotelContainer,
+  #homestayContainer,
+  #resortContainer {
+    --bs-gutter-x: 0 !important;
+    --bs-gutter-y: 18px !important;
+  }
+
+  #hotelContainer > [class*="col-"],
+  #homestayContainer > [class*="col-"],
+  #resortContainer > [class*="col-"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
+
+  .room-card,
+  .room-card-hover {
+    width: 100% !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    border: 1px solid #eef2f7 !important;
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08) !important;
+    margin: 0 !important;
+  }
+
+  .room-card .position-relative,
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    border-radius: 22px 22px 0 0 !important;
+  }
+
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    width: 100% !important;
+    height: 260px !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  .room-card .card-body {
+    padding: 18px 18px 20px !important;
+  }
+
+  .room-card .card-title,
+  .room-card h5 {
+    font-size: 20px !important;
+    line-height: 1.25 !important;
+    font-weight: 800 !important;
+    margin-bottom: 10px !important;
+    color: #111827 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  .room-card .text-warning {
+    font-size: 17px !important;
+    letter-spacing: -1px !important;
+  }
+
+  .room-card small,
+  .room-card .text-muted {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+  }
+
+  .room-card del,
+  .room-card .text-decoration-line-through {
+    font-size: 15px !important;
+    color: #8b8f98 !important;
+  }
+
+  .price-display,
+  .room-card .fw-bold.text-primary,
+  .room-card .text-primary.fw-bold {
+    font-size: 25px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    color: #2563eb !important;
+    white-space: nowrap !important;
+  }
+
+  .room-card .badge,
+  .room-card .badge-type {
+    border-radius: 999px !important;
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
 }
 
-@media (max-width: 420px) {
-   .explore-hero {
-      min-height: 400px !important;
-      padding-top: 94px !important;
-      padding-bottom: 42px !important;
-   }
+@media (max-width: 430px) {
+  .room-card .card-img-top,
+  .room-card img.card-img-top {
+    height: 230px !important;
+  }
 
-   .dest-card,
-   .dest-card--sm,
-   .dest-card--lg,
-   .dest-card--wide,
-   .dest-card--tall {
-      min-height: 218px !important;
-   }
+  .room-card .card-title,
+  .room-card h5 {
+    font-size: 18px !important;
+  }
 
-   .dest-info {
-      min-height: 218px !important;
-      padding-top: 86px !important;
-   }
-
-   .exp-grid {
-      grid-template-columns: 1fr 1fr !important;
-      gap: 10px !important;
-   }
-
-   .exp-card {
-      min-height: 142px !important;
-      padding: 18px 10px 16px !important;
-   }
-
-   #blogScroll .inspire-card {
-      min-width: 86vw !important;
-      max-width: 86vw !important;
-      flex-basis: 86vw !important;
-   }
-
-   .article-modal-box .article-modal-hero,
-   .article-modal-hero,
-   img.article-modal-hero {
-      height: 190px !important;
-      min-height: 190px !important;
-      max-height: 190px !important;
-      flex-basis: 190px !important;
-   }
-
-   .article-modal-box .article-modal-body,
-   .article-modal-body {
-      max-height: calc(100vh - 246px) !important;
-   }
+  .price-display,
+  .room-card .fw-bold.text-primary,
+  .room-card .text-primary.fw-bold {
+    font-size: 23px !important;
+  }
 }
-/* ===== EXPLORE MOBILE FINAL EXTERNALIZED END ===== */
+/* ===== DETAIL BOOKING FORM MOBILE - ROUNDED INPUTS ===== */
+@media (max-width: 767.98px) {
+  .booking-card {
+    border-radius: 28px !important;
+    padding: 22px 18px 26px !important;
+  }
+
+  .booking-card label,
+  #bookingForm label {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #667085 !important;
+  margin-bottom: 8px !important;
+  letter-spacing: 0 !important;
+  }
+
+  .booking-card .input-group,
+  #bookingForm .input-group {
+    min-height: 58px !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .booking-card .input-group-text,
+  #bookingForm .input-group-text {
+  width: 54px !important;
+  min-width: 54px !important;
+  border: none !important;
+  border-right: 1px solid #eef2f7 !important;
+  background: #ffffff !important;
+  color: #2563eb !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+}
+
+  .booking-card .form-control,
+  .booking-card .form-select,
+  #bookingForm .form-control,
+  #bookingForm .form-select,
+  #bookingForm textarea {
+  height: 56px !important;
+  min-height: 56px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  font-size: 14.5px !important;
+  font-weight: 400 !important;
+  color: #111827 !important;
+  padding-left: 14px !important;
+  letter-spacing: 0 !important;
+  box-shadow: none !important;
+  }
+
+  .booking-card .form-control:focus,
+  .booking-card .form-select:focus,
+  #bookingForm .form-control:focus,
+  #bookingForm .form-select:focus {
+    box-shadow: inset 0 0 0 2px rgba(37, 99, 235, .22) !important;
+  }
+
+  #promoCode {
+    letter-spacing: .08em !important;
+    font-weight: 400 !important;
+  }
+
+  #btnApplyPromo {
+  min-height: 56px !important;
+  border-radius: 0 18px 18px 0 !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  padding: 0 18px !important;
+  }
+}
+/* =========================================================
+   FIX iOS MOBILE INPUT AUTO ZOOM
+   Chống Safari/iPhone tự zoom khi nhập form
+   Chỉ áp dụng mobile, không ảnh hưởng desktop/laptop
+========================================================= */
+@media (max-width: 767.98px) {
+  input,
+  select,
+  textarea,
+  button,
+  .form-control,
+  .form-select,
+  .input-group .form-control,
+  .input-group .form-select,
+  .booking-card .form-control,
+  .booking-card .form-select,
+  #bookingForm .form-control,
+  #bookingForm .form-select,
+  #bookingForm textarea,
+  .search-input-group input,
+  .search-input-group select,
+  .custom-select-trigger,
+  .guest-display,
+  .time-display,
+  .flatpickr-input,
+  #locationInput,
+  #dateRangePicker,
+  #searchDateRange,
+  #bookingDateRange,
+  #promoCode,
+  #cName,
+  #cEmail,
+  #cPhone,
+  #cIn,
+  #cOut,
+  #checkinTime,
+  #checkoutTime {
+    font-size: 16px !important;
+  }
+}
+@media (max-width: 768px) {
+  body.stayeasy-admin-page input,
+  body.stayeasy-admin-page select,
+  body.stayeasy-admin-page textarea,
+  body.stayeasy-admin-page .form-control,
+  body.stayeasy-admin-page .form-select,
+  body.stayeasy-admin-page #searchRoomInput,
+  body.stayeasy-admin-page #searchBookingInput,
+  body.stayeasy-admin-page #searchPromoInput {
+    font-size: 16px !important;
+  }
+}

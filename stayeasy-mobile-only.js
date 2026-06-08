@@ -112,7 +112,15 @@
     var btn = document.getElementById('mobileBookingBtn');
 
     function syncPrice() {
-      if (!priceSource || !priceTarget) return;
+      if (!priceTarget) return;
+
+      if (window.__stayeasyMobileTotalPrice && window.formatVND) {
+        priceTarget.textContent = window.formatVND(window.__stayeasyMobileTotalPrice);
+        return;
+      }
+
+      if (!priceSource) return;
+
       var value = (priceSource.textContent || '').replace(/\s+/g, ' ').trim();
       priceTarget.textContent = value || '0 VNĐ';
     }
@@ -128,14 +136,23 @@
 
     if (btn && !btn.dataset.stayeasyDetailBound) {
       btn.dataset.stayeasyDetailBound = '1';
+
       btn.addEventListener('click', function () {
+        var form = document.getElementById('bookingForm');
+
+        if (form) {
+          if (typeof form.requestSubmit === 'function') {
+            form.requestSubmit();
+          } else {
+            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+          }
+          return;
+        }
+
         var card = document.querySelector('.booking-card');
         if (!card) return;
+
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(function () {
-          var first = card.querySelector('input, select, textarea, button');
-          if (first && isMobileDetail()) first.focus({ preventScroll: true });
-        }, 450);
       });
     }
   }
@@ -303,7 +320,7 @@
       var btn = ev.target.closest('.explore-tab-btn');
       if (btn && isMobilePublic()) {
         setTimeout(function () {
-          try { btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch (e) {}
+          try { btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); } catch (e) { }
         }, 30);
       }
     });
@@ -435,7 +452,7 @@
 
   function getCurrentUserEmail() {
     var guestSession = {};
-    try { guestSession = JSON.parse(localStorage.getItem('guestSession') || '{}') || {}; } catch (e) {}
+    try { guestSession = JSON.parse(localStorage.getItem('guestSession') || '{}') || {}; } catch (e) { }
     return guestSession.email || localStorage.getItem('userEmail') || '';
   }
 
@@ -449,7 +466,7 @@
         if (!raw) continue;
         var data = JSON.parse(raw);
         if (Array.isArray(data)) return data;
-      } catch (e) {}
+      } catch (e) { }
     }
     return [];
   }
@@ -482,16 +499,16 @@
       var total = o.totalPrice || o.price || o.total || 0;
       return '<div class="mb-2 order-card-item" style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:11px 12px;">' +
         '<div class="d-flex justify-content-between align-items-center gap-2 mb-2">' +
-          '<span class="fw-bold text-muted" style="font-size:11px;font-family:monospace;">#' + id + '</span>' +
-          '<div class="d-flex align-items-center gap-1 flex-wrap justify-content-end">' + statusBadge(o) + payBadge(o) + '</div>' +
+        '<span class="fw-bold text-muted" style="font-size:11px;font-family:monospace;">#' + id + '</span>' +
+        '<div class="d-flex align-items-center gap-1 flex-wrap justify-content-end">' + statusBadge(o) + payBadge(o) + '</div>' +
         '</div>' +
         '<div class="fw-semibold text-dark mb-2" style="font-size:13px;"><i class="bi bi-buildings me-1 text-primary opacity-75"></i>' + roomName + '</div>' +
         '<div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">' +
-          '<span class="text-muted" style="font-size:12px;"><i class="bi bi-calendar3 me-1"></i>' + checkIn + (checkIn || checkOut ? ' → ' : '') + checkOut + '</span>' +
-          '<span class="fw-bold" style="font-size:13px;color:#2563eb;">' + formatVND(total) + '</span>' +
+        '<span class="text-muted" style="font-size:12px;"><i class="bi bi-calendar3 me-1"></i>' + checkIn + (checkIn || checkOut ? ' → ' : '') + checkOut + '</span>' +
+        '<span class="fw-bold" style="font-size:13px;color:#2563eb;">' + formatVND(total) + '</span>' +
         '</div>' +
         (o.status === 'approved' && !o.isPaid ? '<div class="mt-2 px-2 py-1 rounded-2 d-flex align-items-center gap-1" style="background:#fff7ed;border:1px solid #fb923c;"><i class="bi bi-exclamation-circle-fill" style="font-size:11px;color:#ea580c;"></i><span style="font-size:11px;color:#c2410c;font-weight:600;">Vui lòng thanh toán để nhận phòng</span></div>' : '') +
-      '</div>';
+        '</div>';
     }).join('');
   }
 
@@ -512,7 +529,7 @@
           if (badge) badge.textContent = fresh.length ? fresh.length : '';
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function toggleMyOrdersPanel(forceOpen) {
@@ -816,104 +833,3 @@
   window.addEventListener('load', init);
   window.addEventListener('resize', schedule);
 })();
-
-
-/* ===== EXPLORE MOBILE FINAL EXTERNALIZED START =====
-   Tách từ explore.html để HTML ngắn hơn. Chỉ tác động menu/popup mobile Explore.
-===== */
-/* EXPLORE MOBILE ONLY: ổn định menu 3 gạch + popup bài viết */
-(function () {
-   'use strict';
-
-   function ready(fn) {
-      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
-      else fn();
-   }
-
-   function isMobile() {
-      return window.matchMedia('(max-width: 991.98px)').matches;
-   }
-
-   ready(function () {
-      var nav = document.querySelector('.navbar-custom');
-      var toggle = nav && nav.querySelector('.navbar-toggler[data-bs-target]');
-      var target = toggle && document.querySelector(toggle.getAttribute('data-bs-target'));
-
-      if (nav && toggle && target) {
-         var backdrop = document.querySelector('.stayeasy-explore-menu-backdrop');
-         if (!backdrop) {
-            backdrop = document.createElement('div');
-            backdrop.className = 'stayeasy-explore-menu-backdrop';
-            document.body.appendChild(backdrop);
-         }
-
-         function showBackdrop() {
-            if (!isMobile()) return;
-            backdrop.classList.add('show');
-            document.body.classList.add('stayeasy-explore-menu-open');
-            toggle.setAttribute('aria-expanded', 'true');
-         }
-
-         function hideMenu() {
-            if (!target) return;
-            backdrop.classList.remove('show');
-            document.body.classList.remove('stayeasy-explore-menu-open');
-            toggle.setAttribute('aria-expanded', 'false');
-
-            try {
-               if (window.bootstrap && bootstrap.Collapse) {
-                  var inst = bootstrap.Collapse.getOrCreateInstance(target, { toggle: false });
-                  if (target.classList.contains('show')) inst.hide();
-               }
-            } catch (e) {}
-
-            target.classList.remove('show');
-         }
-
-         target.addEventListener('show.bs.collapse', showBackdrop);
-         target.addEventListener('shown.bs.collapse', showBackdrop);
-         target.addEventListener('hide.bs.collapse', function () {
-            backdrop.classList.remove('show');
-            document.body.classList.remove('stayeasy-explore-menu-open');
-         });
-         target.addEventListener('hidden.bs.collapse', hideMenu);
-
-         toggle.addEventListener('click', function () {
-            setTimeout(function () {
-               if (!isMobile()) return;
-               if (target.classList.contains('show')) showBackdrop();
-               else if (!window.bootstrap) {
-                  target.classList.add('show');
-                  showBackdrop();
-               }
-            }, 80);
-         });
-
-         backdrop.addEventListener('click', hideMenu);
-
-         target.addEventListener('click', function (ev) {
-            var accountArea = ev.target.closest('.user-dropdown, .user-menu-panel, #userMenuToggle, #btnMyOrders, #myOrdersPanel');
-            if (accountArea) return;
-            var link = ev.target.closest('a.nav-link, .dropdown-item');
-            if (link && isMobile()) setTimeout(hideMenu, 80);
-         });
-
-         document.addEventListener('keydown', function (ev) {
-            if (ev.key === 'Escape') hideMenu();
-         });
-
-         window.addEventListener('resize', function () {
-            if (!isMobile()) hideMenu();
-         });
-      }
-
-      /* Khi mở popup bài viết trên mobile, khoá nền để popup không bị kéo lệch */
-      var overlay = document.getElementById('articleOverlay');
-      if (overlay && window.MutationObserver) {
-         new MutationObserver(function () {
-            document.body.classList.toggle('stayeasy-article-open', overlay.classList.contains('open'));
-         }).observe(overlay, { attributes: true, attributeFilter: ['class'] });
-      }
-   });
-})();
-/* ===== EXPLORE MOBILE FINAL EXTERNALIZED END ===== */

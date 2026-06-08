@@ -2,6 +2,7 @@ let currentRoom = null;
 let discountPercent = 0;
 
 const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
+window.formatVND = formatVND;
 
 function removeAccents(str) {
    if (!str) return '';
@@ -216,7 +217,7 @@ function calculatePrice() {
 
       if (d2 > d1) {
          const nights = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
-         const originalTotal = nights * currentRoom.price;
+         const originalTotal = nights * Number(currentRoom.price || 0);
          const discountAmount = originalTotal * discountPercent;
          const finalTotal = originalTotal - discountAmount;
 
@@ -224,18 +225,51 @@ function calculatePrice() {
 
          if (discountPercent > 0) {
             $('#originalPriceDisplay').html(`<del class="text-muted small">${formatVND(originalTotal)}</del>`);
-            $('#discountDisplay').text(`- ${formatVND(discountAmount)}`).parent().attr('style', 'display: flex !important;');
+            $('#discountDisplay')
+               .text(`- ${formatVND(discountAmount)}`)
+               .parent()
+               .attr('style', 'display: flex !important;');
          } else {
             $('#originalPriceDisplay').empty();
             $('#discountDisplay').parent().attr('style', 'display: none !important;');
          }
 
+         // Cập nhật tổng cộng trong box thanh toán
          $('#totalPriceDisplay').text(formatVND(finalTotal));
+
+         // Cập nhật thanh đặt phòng mobile ở dưới
+         window.__stayeasyMobileTotalPrice = finalTotal;
+
+         if (document.getElementById('mobileBookingPrice')) {
+            $('#mobileBookingPrice').text(formatVND(finalTotal));
+         }
+
+         const mobileLabel = document.querySelector('.mobile-booking-price small');
+         if (mobileLabel) {
+            mobileLabel.textContent = 'Tổng cộng';
+         }
+
          $('#priceSummary').slideDown(300);
          return finalTotal;
       }
    }
+
    $('#priceSummary').slideUp();
+
+   // Khi chưa chọn đủ ngày thì quay về giá mỗi đêm, không để 0 đ
+   if (currentRoom && document.getElementById('mobileBookingPrice')) {
+      const basePrice = Number(currentRoom.price) || 0;
+
+      window.__stayeasyMobileTotalPrice = basePrice;
+
+      $('#mobileBookingPrice').text(formatVND(basePrice));
+
+      const mobileLabel = document.querySelector('.mobile-booking-price small');
+      if (mobileLabel) {
+         mobileLabel.textContent = 'Giá mỗi đêm';
+      }
+   }
+
    return 0;
 }
 

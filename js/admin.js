@@ -603,7 +603,7 @@ let currentRevenuePage = 1;
 let currentReviewPage = 1;
 
 function renderRevenueTab() {
-    const confirmedBookings = allBookings.filter(b => b.status === "Confirmed");
+    const confirmedBookings = allBookings.filter(b => b.status === "approved" && b.isPaid);
     const totalRevenue = confirmedBookings.reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
 
     $('#revTotalAmount').text(formatVND(totalRevenue));
@@ -713,7 +713,7 @@ function renderCustomerTable() {
 
         const customer = customerMap.get(key);
         customer.bookingCount += 1;
-        if (b.status === "Confirmed") {
+        if (b.status === "approved" && b.isPaid) {
             customer.totalSpent += (Number(b.totalPrice) || 0);
         }
     });
