@@ -1921,8 +1921,6 @@
             });
             document.getElementById('promoCount').textContent = `Hiển thị ${count} ưu đãi`;
          }
-
-         // Copy code
          function copyCode(code) {
             if (navigator.clipboard) {
                navigator.clipboard.writeText(code).then(() => showToast(`✅ Đã sao chép mã: ${code}`));
@@ -1935,7 +1933,7 @@
             copyCode(code);
          }
 
-         // Validate mã khi khách đặt phòng (gọi từ trang booking)
+         // Validate mã khi khách đặt phòng
          window.validatePromoCode = function (code, roomName) {
             const promotions = JSON.parse(localStorage.getItem('stayeasy_promos')) || [];
             const promo = promotions.find(p => p.code === code.trim().toUpperCase());
@@ -1943,7 +1941,6 @@
 
             const rooms = promo.rooms || [];
             if (rooms.length === 0) {
-               // Áp dụng tất cả phòng
                return { valid: true, discount: promo.discount };
             }
 
@@ -2064,9 +2061,7 @@
                const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
-                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
                   localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
-                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);
@@ -2290,12 +2285,8 @@
                      try {
                         const orders = await API.getBookingsByEmail(userEmail);
                         localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(orders));
-
-                        // Cập nhật badge số đơn
                         const badge = document.getElementById('orderCountBadge');
                         if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
-
-                        // Cập nhật danh sách nếu panel đang mở
                         const panel = document.getElementById('myOrdersPanel');
                         if (panel && panel.style.display !== 'none') {
                            const listEl = document.getElementById('myOrdersList');
@@ -2336,8 +2327,6 @@
                               }
                            }
                         }
-
-                        // Rebuild navbar để cập nhật chuông thông báo
                         const dropdownItem = document.getElementById('userDropdownItem');
                         if (dropdownItem && !dropdownItem.querySelector('.user-menu-panel')) {
                            const temp = document.createElement('div');

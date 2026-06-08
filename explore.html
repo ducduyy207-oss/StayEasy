@@ -2487,12 +2487,9 @@
 </li>
 `;
                }
-
-               // Render user menu lần đầu — dùng [] tạm, fetch API ngay sau
                $('.btn-nav-login').parent().hide();
                $('.btn-nav-register').parent().hide();
                $('.navbar-nav.align-items-center').append(buildUserMenu([]));
-
                // Gắn toggle cho panel đơn của tôi sau khi render
                setTimeout(() => {
                   document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
@@ -2519,8 +2516,6 @@
                      // Cập nhật badge số đơn
                      const badge = document.getElementById('orderCountBadge');
                      if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
-
-                     // Cập nhật danh sách nếu panel đang mở
                      const panel = document.getElementById('myOrdersPanel');
                      if (panel && panel.style.display !== 'none') {
                         const listEl = document.getElementById('myOrdersList');
@@ -2612,9 +2607,9 @@
                mode: "range",
                minDate: "today",
                dateFormat: "d/m/Y",
-               showMonths: window.innerWidth > 991 ? 2 : 1, // PC hiện song song 2 tháng, Mobile hiện 1 tháng ngắn gọn
-               monthSelectorType: "dropdown", // Kích hoạt danh sách dropdown chọn Tháng nhanh
-               yearSelectorType: "static",  // Giữ năm dạng chữ tĩnh, không dùng select trình duyệt tô xanh
+               showMonths: window.innerWidth > 991 ? 2 : 1,
+               monthSelectorType: "dropdown",
+               yearSelectorType: "static",
                locale: {
                   rangeSeparator: " đến ",
                   weekdays: {
@@ -2652,10 +2647,7 @@
                const selectedCity = $(this).find('span.fw-bold').text();
                locInput.val(selectedCity);
                locDropdown.removeClass('show');
-
-               // Trigger filter and scroll to rooms
                applyFilters();
-
                const selectedType = $('#filterType').val();
                let targetSection = '#hotelSectionBlock';
                if (selectedType === 'Homestay') {
@@ -2687,8 +2679,6 @@
             sessionStorage.removeItem('adminPreviewName');
             window.location.reload();
          }
-
-         // ĐỒNG BỘ HIỆU ỨNG CUỘN ĐỂ CHỈ GHIM FIXED ĐỘC QUYỀN THANH NAVBAR
          $(window).scroll(function () {
             const scrollPos = $(this).scrollTop();
 
@@ -2765,26 +2755,20 @@
             const email = document.getElementById('popupAuthInputEmail').value.trim();
             const pw1 = document.getElementById('popupAuthInputPw1').value;
             const pw2 = document.getElementById('popupAuthInputPw2').value;
-
-            // Chỉ lấy dữ liệu khi cần, không lạm dụng biến toàn cục cho cả 2 mode nếu không cần thiết
             if (currentPopupAuthMode === 'signup') {
                const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
                if (pw1 !== pw2) { alert('⚠️ Mật khẩu xác nhận không khớp!'); return; }
                if (users.some(u => u.email === email)) { alert('⚠️ Email này đã được đăng ký!'); return; }
-
                users.push({ name, email, password: pw1, role: 'user' });
                localStorage.setItem('stayeasy_users', JSON.stringify(users));
                alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
-               // Mode: Login
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-
                // 1. Kiểm tra tài khoản admin tối cao
                if (email === 'admin@gmail.com' && pw1 === 'admin123') {
                   localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Quản Trị Viên', role: 'superadmin' }));
-                  // Giữ lại isLoggedIn để tương thích ngược
                   localStorage.setItem('isLoggedIn', 'true');
                   localStorage.setItem('userRole', 'superadmin');
                   localStorage.setItem('adminEmail', 'admin@gmail.com');
@@ -2792,7 +2776,6 @@
                   window.location.href = 'admin.html';
                   return;
                }
-
                // 2. Kiểm tra tài khoản nhân viên
                const staffList = JSON.parse(localStorage.getItem('stayeasy_staff')) || [];
                const matchedStaff = staffList.find(s => s.email === email && s.password === pw1 && s.active === true);
@@ -2810,9 +2793,7 @@
                const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
-                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
                   localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
-                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);

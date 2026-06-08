@@ -2153,10 +2153,7 @@
                   toggleCheckInPanel(false);
                }
             });
-
             updateCheckInDisplay();
-
-            // Check-out time picker
             const checkOutTrigger = document.querySelector('[id="cCheckOutTimeDisplay"]').parentElement;
             const checkOutPanel = document.getElementById('checkOutTimePanel');
             const checkOutDisplay = document.getElementById('cCheckOutTimeDisplay');
@@ -2220,10 +2217,7 @@
             const hiddenInput = document.getElementById('revRating');
             const scoreEl = document.getElementById('ratingScore');
             const textEl = document.getElementById('ratingText');
-
             if (!container) return;
-
-            // Build dots
             for (let i = 1; i <= 10; i++) {
                const btn = document.createElement('button');
                btn.type = 'button';
@@ -2235,7 +2229,6 @@
                });
                container.appendChild(btn);
             }
-
             function setRating(val) {
                hiddenInput.value = val;
                scoreEl.textContent = val;

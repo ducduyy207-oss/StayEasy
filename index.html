@@ -1701,13 +1701,9 @@
 </li>
 `;
                }
-
-               // Render user menu lần đầu — dùng [] tạm, fetch API ngay sau
                $('.btn-nav-login').parent().hide();
                $('.btn-nav-register').parent().hide();
                $('.navbar-nav.align-items-center').append(buildUserMenu([]));
-
-               // Gắn toggle cho panel đơn của tôi sau khi render
                setTimeout(() => {
                   document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
                      e.stopPropagation();
@@ -1729,12 +1725,8 @@
                   try {
                      const orders = await API.getBookingsByEmail(userEmail);
                      localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(orders));
-
-                     // Cập nhật badge số đơn
                      const badge = document.getElementById('orderCountBadge');
                      if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
-
-                     // Cập nhật danh sách nếu panel đang mở
                      const panel = document.getElementById('myOrdersPanel');
                      if (panel && panel.style.display !== 'none') {
                         const listEl = document.getElementById('myOrdersList');
@@ -1826,9 +1818,9 @@
                mode: "range",
                minDate: "today",
                dateFormat: "d/m/Y",
-               showMonths: window.innerWidth > 991 ? 2 : 1, // PC hiện song song 2 tháng, Mobile hiện 1 tháng ngắn gọn
-               monthSelectorType: "dropdown", // Kích hoạt danh sách dropdown chọn Tháng nhanh
-               yearSelectorType: "static",  // Giữ năm dạng chữ tĩnh, không dùng select trình duyệt tô xanh
+               showMonths: window.innerWidth > 991 ? 2 : 1,
+               monthSelectorType: "dropdown",
+               yearSelectorType: "static",
                locale: {
                   rangeSeparator: " đến ",
                   weekdays: {
@@ -1992,13 +1984,10 @@
                alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
-               // Mode: Login
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-
                // 1. Kiểm tra tài khoản admin tối cao
                if (email === 'admin@gmail.com' && pw1 === 'admin123') {
                   localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Quản Trị Viên', role: 'superadmin' }));
-                  // Giữ lại isLoggedIn để tương thích ngược
                   localStorage.setItem('isLoggedIn', 'true');
                   localStorage.setItem('userRole', 'superadmin');
                   localStorage.setItem('adminEmail', 'admin@gmail.com');
@@ -2024,9 +2013,7 @@
                const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
-                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
                   localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
-                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);
@@ -2065,32 +2052,21 @@
                   const value = this.dataset.value;
                   const icon = this.dataset.icon;
                   const label = this.dataset.label;
-
-                  // Cập nhật trigger button
                   btn.querySelector('.trigger-icon').className = 'bi ' + icon + ' trigger-icon';
                   btn.querySelector('.trigger-text').textContent = label;
-
-                  // Cập nhật selected state
                   dropdown.querySelectorAll('li').forEach(l => l.classList.remove('selected'));
                   this.classList.add('selected');
-
-                  // Khi chọn "Tất cả hạng phòng" → reset city về Tất cả
                   if (value === '') {
                      $('#searchName').val('');
                      $('.city-filter-bar .nav-link').removeClass('active');
                      $('.city-filter-bar .nav-link[data-city=""]').addClass('active');
                   }
-
-                  // Sync hidden select + trigger filter
                   hiddenSelect.value = value;
                   $(hiddenSelect).trigger('change');
                   $('#btnFilter').click();
-
                   closeDropdown();
                });
             });
-
-            // Đóng khi click ra ngoài
             document.addEventListener('click', function (e) {
                if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
                   closeDropdown();
@@ -2126,7 +2102,6 @@
                   document.querySelector(target).classList.add('active');
                });
             });
-
             // Toggle hiện mật khẩu
             document.querySelectorAll('#adminLoginModal .admin-pw-toggle').forEach(function (btn) {
                btn.addEventListener('click', function () {
@@ -2150,14 +2125,11 @@
                const accounts = getFreshAdminAccounts();
                const matchedUser = accounts.find(u => u.email === email && u.password === password);
                if (matchedUser) {
-                  // Lưu adminSession (tách biệt guestSession)
                   localStorage.setItem('adminSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name || 'Quản Trị Viên', role: matchedUser.role || 'superadmin' }));
-                  // Giữ lại key cũ tương thích ngược
                   localStorage.setItem('isLoggedIn', 'true');
                   localStorage.setItem('userRole', matchedUser.role || 'superadmin');
                   localStorage.setItem('adminEmail', email);
                   localStorage.setItem('userName', matchedUser.name || 'Quản Trị Viên');
-                  // Đóng modal rồi mở admin.html trên tab mới
                   const modal = bootstrap.Modal.getInstance(document.getElementById('adminLoginModal'));
                   if (modal) modal.hide();
                   setTimeout(() => window.open('admin.html', '_blank'), 300);

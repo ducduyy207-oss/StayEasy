@@ -3,20 +3,17 @@ const _adminSession = JSON.parse(localStorage.getItem('adminSession')) || {};
 const _adminEmail = _adminSession.email || '';
 const _adminRole = _adminSession.role || '';
 const _isAuthenticated = (_adminRole === 'superadmin' && _adminEmail !== '');
-
 if (!_isAuthenticated) {
-    // Hiển thị login modal khi DOM ready
     document.addEventListener('DOMContentLoaded', function () {
         const loginModalEl = document.getElementById('loginModal');
         if (!loginModalEl) {
-            // Fallback: nếu không có modal, set adminSession tự động (dev mode)
+            // Fallback: nếu không có modal, set adminSession tự động
             localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Admin', role: 'superadmin' }));
             location.reload();
             return;
         }
         const loginModal = new bootstrap.Modal(loginModalEl);
         loginModal.show();
-
         document.getElementById('btnLogin').addEventListener('click', function () {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
@@ -31,12 +28,11 @@ if (!_isAuthenticated) {
     });
 }
 
-// ============= TOAST SYSTEM (thay thế alert) =============
+// ============= TOAST SYSTEM =============
 window.showToast = function (message, type = 'info', duration = 3500) {
     const container = document.getElementById('toastContainer');
     if (!container) return;
     const toastId = 'toast-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
-
     const iconMap = {
         success: { icon: 'bi-check-circle-fill', class: 'toast-success' },
         error: { icon: 'bi-exclamation-circle-fill', class: 'toast-error' },
@@ -44,7 +40,6 @@ window.showToast = function (message, type = 'info', duration = 3500) {
         info: { icon: 'bi-info-circle-fill', class: 'toast-info' }
     };
     const config = iconMap[type] || iconMap.info;
-
     const toast = document.createElement('div');
     toast.id = toastId;
     toast.className = `toast-custom ${config.class}`;
@@ -56,7 +51,6 @@ window.showToast = function (message, type = 'info', duration = 3500) {
         </button>
     `;
     container.appendChild(toast);
-
     if (duration > 0) {
         setTimeout(() => {
             toast.classList.add('toast-fade-out');
@@ -65,14 +59,13 @@ window.showToast = function (message, type = 'info', duration = 3500) {
     }
 };
 
-// ============= CONFIRM MODAL CHUYÊN NGHIỆP (thay confirm) =============
+// ============= CONFIRM MODAL CHUYÊN NGHIỆP =============
 window.showConfirm = function (title, message, onConfirm, iconType = 'warning') {
     const modalEl = document.getElementById('confirmModal');
     if (!modalEl) { if (window.confirm(message)) onConfirm(); return; }
     const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
     document.getElementById('confirmTitle').textContent = title;
     document.getElementById('confirmMessage').textContent = message;
-
     const icon = document.getElementById('confirmIcon');
     icon.className = `confirm-modal-icon icon-${iconType}`;
     const iconMap = {
@@ -82,25 +75,20 @@ window.showConfirm = function (title, message, onConfirm, iconType = 'warning') 
         info: 'bi-info-circle-fill'
     };
     icon.innerHTML = `<i class="bi ${iconMap[iconType] || iconMap.warning}"></i>`;
-
     const okBtn = document.getElementById('confirmOkBtn');
     const newBtn = okBtn.cloneNode(true);
     okBtn.parentNode.replaceChild(newBtn, okBtn);
     newBtn.addEventListener('click', () => { modal.hide(); onConfirm(); });
-
     modal.show();
 };
-
 // Hàm toàn cục xử lý đăng xuất hệ thống an toàn
 window.logoutAdmin = function () {
     localStorage.removeItem('adminSession');
     window.location.href = 'index.html';
 }
-
 let allRooms = [];
 let allBookings = [];
 let itemsPerPage = 8;
-
 let currentRoomPage = 1;
 let currentBookingPage = 1;
 let currentCustomerPage = 1;
@@ -108,13 +96,12 @@ let roomModal;
 let revenueChart = null;
 let bookingStatusFilter = 'all';
 let bookingKeyword = '';
-
 let promotions = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
     { code: 'STAYEASY15', discount: 15, rooms: [] },
     { code: 'SUMMER2026', discount: 20, rooms: [] }
 ];
 let editingPromoIndex = -1;
-// Khởi tạo danh sách Đánh giá giả lập (Vì MockAPI chưa có bảng này)
+// Khởi tạo danh sách Đánh giá giả lập
 let fakeReviews = JSON.parse(localStorage.getItem('stayeasy_reviews')) || [];
 if (fakeReviews.length === 0) {
     fakeReviews = [
@@ -124,14 +111,12 @@ if (fakeReviews.length === 0) {
     ];
     localStorage.setItem('stayeasy_reviews', JSON.stringify(fakeReviews));
 }
-
 const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num || 0);
 
 function removeAccents(str) {
     if (!str) return '';
     return String(str).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
-
 // Điều hướng hoán đổi Tab thủ công chuẩn và mượt mà hơn bằng Native Bootstrap 5 JS API
 window.switchAdminTab = function (targetTabId) {
     const triggerEl = document.querySelector(`#adminSidebarMenu button[data-bs-target="${targetTabId}"]`);
@@ -140,34 +125,24 @@ window.switchAdminTab = function (targetTabId) {
         tab.show();
     }
 }
-
+// =================================================================
+// ĐỒNG BỘ THÔNG TIN TÀI KHOẢN ĐĂNG NHẬP THẬT LÊN DROPDOWN TRÊN HEADER
+// =================================================================
 $(document).ready(function () {
-    // =================================================================
-    // ĐỒNG BỘ THÔNG TIN TÀI KHOẢN ĐĂNG NHẬP THẬT LÊN DROPDOWN TRÊN HEADER
-    // =================================================================
+
     const _sess = JSON.parse(localStorage.getItem('adminSession')) || {};
     const currentAdminName = (_sess.name || 'Quản Trị Viên').replace(/Tổng /i, '').trim();
     const currentAdminRole = _sess.role || 'admin';
-
-    // Đổ text ra thanh Header ngoài
     $('#adminHeaderName').text(currentAdminName.toUpperCase());
     $('#adminHeaderRole').text(currentAdminRole === 'superadmin' ? '⭐ Quản Trị Viên' : '👤 Nhân viên');
-
-    // Đổ text ra phần khối tiêu đề nhỏ bên trong thẻ Dropdown panel
     $('#dropdownUserFullname').text(currentAdminName);
     $('#dropdownUserRole').text("Quyền hạn: " + currentAdminRole);
-
-    // Tự động tạo ảnh đại diện tròn theo Tên chữ cái viết tắt của người dùng (Avatar generator chuyên nghiệp)
     $('#adminHeaderAvatar').attr('src', `https://ui-avatars.com/api/?name=${encodeURIComponent(currentAdminName)}&background=2563eb&color=fff&bold=true`);
-
     roomModal = new bootstrap.Modal(document.getElementById('roomModal'));
-
     loadAdminData();
-
     $('#adminSidebarMenu button').on('shown.bs.tab', function (e) {
         $('#headerTitle').text($(e.target).text().trim());
     });
-
     $('#btnAddRoom').on('click', function () {
         $('#roomModalTitle').text('Thêm Phòng Mới');
         $('#roomForm')[0].reset();
@@ -179,7 +154,6 @@ $(document).ready(function () {
             showToast('Không có phòng nào để xoá.', 'warning');
             return;
         }
-
         showConfirm('Xoá toàn bộ phòng', `Xoá toàn bộ ${allRooms.length} phòng? Hành động này không thể hoàn tác!`, async function () {
             try {
                 await Promise.all(allRooms.map(room => API.deleteRoom(room.id)));
@@ -193,13 +167,10 @@ $(document).ready(function () {
         }, 'danger');
     });
 
-
     $('#roomForm').off('submit').on('submit', async function (e) {
         e.preventDefault();
-
         const btnSubmit = $(this).find('button[type="submit"]');
         btnSubmit.prop('disabled', true).text('Đang lưu...');
-
         const roomId = $('#adminRoomId').val();
         const roomData = {
             name: String($('#admName').val() || ''),
@@ -209,7 +180,6 @@ $(document).ready(function () {
             type: String($('#admType').val() || 'Standard'),
             image: String($('#admImage').val() || '')
         };
-
         try {
             if (roomId) {
                 await API.updateRoom(roomId, roomData);
@@ -223,11 +193,9 @@ $(document).ready(function () {
                 await API.createRoom(roomData);
                 showToast('Đã thêm phòng mới!', 'success');
             }
-
             roomModal.hide();
             $('body').removeClass('modal-open').css('padding-right', '');
             $('.modal-backdrop').remove();
-
             currentRoomPage = 1;
             await loadAdminData();
         } catch (error) {
@@ -237,69 +205,58 @@ $(document).ready(function () {
             btnSubmit.prop('disabled', false).text('Lưu Dữ Liệu');
         }
     });
-
     $('#searchRoomInput').on('input', function () {
         currentRoomPage = 1;
         renderRoomTable();
     });
-
     $('#searchBookingInput').on('input', function () {
         bookingKeyword = $(this).val();
         currentBookingPage = 1;
         renderBookingTable();
     });
-
-    // Search promo
+    // Tìm kiếm khuyến mãi
     $('#searchPromoInput').on('input', function () {
         renderPromotions();
     });
-
     $(document).on('click', '#roomPagination .page-link', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('disabled')) return;
         currentRoomPage = parseInt($(this).attr('data-page'));
         renderRoomTable();
     });
-
     $(document).on('click', '#bookingPagination .page-link', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('disabled')) return;
         currentBookingPage = parseInt($(this).attr('data-page'));
         renderBookingTable();
     });
-
     $(document).on('click', '#customerPagination .page-link', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('disabled')) return;
         currentCustomerPage = parseInt($(this).attr('data-page'));
         renderCustomerTable();
     });
-
     $(document).on('click', '#revenuePagination .page-link', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('disabled')) return;
         currentRevenuePage = parseInt($(this).attr('data-page'));
         renderRevenueTab();
     });
-
     $(document).on('click', '#reviewPagination .page-link', function (e) {
         e.preventDefault();
         if ($(this).parent().hasClass('disabled')) return;
         currentReviewPage = parseInt($(this).attr('data-page'));
         renderReviewTable();
     });
-
     $('#promoForm').on('submit', function (e) {
         e.preventDefault();
         const code = $('#promoCodeInput').val().trim().toUpperCase();
         const discount = parseInt($('#promoDiscountInput').val());
         const scope = $('input[name="promoScope"]:checked').val();
         const rooms = scope === 'all' ? [] : (window._promoSelectedRooms || []);
-
         if (scope === 'specific' && rooms.length === 0) {
             showToast('Vui lòng chọn ít nhất một phòng!', 'warning'); return;
         }
-
         if (editingPromoIndex >= 0) {
             if (promotions.some((p, i) => p.code === code && i !== editingPromoIndex)) {
                 showToast('Mã này đã tồn tại!', 'warning'); return;
@@ -311,7 +268,6 @@ $(document).ready(function () {
             }
             promotions.push({ code, discount, rooms });
         }
-
         localStorage.setItem('stayeasy_promos', JSON.stringify(promotions));
         const wasEditing = editingPromoIndex >= 0;
         $('#promoModal').modal('hide');
@@ -330,7 +286,6 @@ $(document).ready(function () {
         $('#promoRoomPanel').hide();
         $('#scopeAll').prop('checked', true);
     });
-
     $('#btnDeleteAllPromos').on('click', function () {
         if (promotions.length === 0) {
             showToast('Không có mã nào để xoá.', 'warning');
@@ -349,24 +304,19 @@ async function loadAdminData() {
     try {
         let resRooms = await API.getRooms().catch(() => []);
         let resBookings = await API.getBookings().catch(() => []);
-
         allRooms = Array.isArray(resRooms) ? resRooms : [];
-
-        // Load từ localStorage trước (booking mới từ detail.html)
+        // Load từ localStorage trước
         let localBookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
         // Merge với API bookings, ưu tiên localStorage
         let apiBookings = Array.isArray(resBookings) ? resBookings : [];
-
-        // Merge: local bookings + API bookings (tránh duplicate)
+        // Merge: local bookings + API bookings
         let mergedBookings = [...localBookings];
         apiBookings.forEach(apiB => {
             if (!mergedBookings.find(b => b.id === apiB.id)) {
                 mergedBookings.push(apiB);
             }
         });
-
         allBookings = mergedBookings;
-
         updateDashboardStats();
         renderRoomTable();
         renderBookingTable();
@@ -387,23 +337,19 @@ function updateDashboardStats() {
     $('#dashTotalRooms').text(allRooms.length);
     $('#roomCountBadge').text(`${allRooms.length} phòng`);
     $('#dashTotalBookings').text(allBookings.length);
-
     const pendingCount = allBookings.filter(b => b.status === 'pending').length;
     const approvedCount = allBookings.filter(b => b.status === 'approved').length;
-
     // Cập nhật 4 thẻ dashboard mới
     const revenue = allBookings.reduce((sum, b) => b.status === 'approved' ? sum + (Number(b.totalPrice) || 0) : sum, 0);
     $('#dashRevenue').text(formatVND(revenue));
     $('#dashPendingBookings').html(`<i class="bi bi-clock-history me-1"></i>${pendingCount} đơn chờ admin duyệt`);
     $('#dashPaidCount').text(pendingCount + ' đơn');
     $('#dashPendingCount').text(approvedCount + ' đơn');
-
     // Badge thông báo: đơn pending chờ duyệt
     const urgentCount = pendingCount;
     $('#notificationCount').text(urgentCount || '');
     const notiList = $('#notificationList');
     notiList.empty();
-
     const paidBookings = allBookings.filter(b => b.status === 'pending');
     if (paidBookings.length === 0) {
         notiList.append('<li><span class="dropdown-item text-muted text-center py-3">Không có thông báo mới</span></li>');
@@ -423,31 +369,26 @@ function updateDashboardStats() {
 function renderRoomTable() {
     const tbody = $('#adminRoomTable');
     tbody.empty();
-
     if (allRooms.length === 0) {
         tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Chưa có phòng nào trong hệ thống.</td></tr>`);
         $('#roomPagination').empty();
         $('#roomPaginationInfo').text('');
         return;
     }
-
     const keyword = removeAccents($('#searchRoomInput').val());
     const filtered = allRooms.filter(r =>
         removeAccents(r.name).includes(keyword) ||
         removeAccents(r.location).includes(keyword) ||
         removeAccents(r.type).includes(keyword)
     );
-
     if (filtered.length === 0) {
         tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Không tìm thấy phòng phù hợp.</td></tr>`);
         $('#roomPagination').empty();
         $('#roomPaginationInfo').text('');
         return;
     }
-
     const start = (currentRoomPage - 1) * itemsPerPage;
     const pagedRooms = filtered.slice(start, start + itemsPerPage);
-
     pagedRooms.forEach(room => {
         tbody.append(`
             <tr>
@@ -474,7 +415,6 @@ function renderRoomTable() {
             </tr>
         `);
     });
-
     const totalPages = Math.ceil(filtered.length / itemsPerPage);
     $('#roomPaginationInfo').text(`Trang ${currentRoomPage} / ${totalPages || 1}`);
     renderPaginationUI(totalPages, currentRoomPage, 'roomPagination');
@@ -483,7 +423,6 @@ function renderRoomTable() {
 function renderBookingTable() {
     const tbody = $('#adminBookingTable');
     tbody.empty();
-
     // Cập nhật badge đếm số lượng từng trạng thái
     const counts = { all: allBookings.length, pending: 0, approved: 0, cancelled: 0 };
     allBookings.forEach(b => { if (counts[b.status] !== undefined) counts[b.status]++; });
@@ -492,18 +431,15 @@ function renderBookingTable() {
     $('#countPending').text(counts.pending);
     $('#countPaid').text(counts.approved);
     $('#countUnpaid').text(unpaidCount);
-
     // Badge sidebar đỏ (đơn approved chờ duyệt) + vàng (đơn pending chờ TT)
     const paidBadge = document.getElementById('sidebarBadgePaid');
     const pendingBadge = document.getElementById('sidebarBadgePending');
     if (paidBadge) paidBadge.textContent = counts.approved || '';
     if (pendingBadge) pendingBadge.textContent = counts.pending || '';
-
     if (allBookings.length === 0) {
         tbody.html(`<tr><td colspan="7" class="text-center text-muted py-4">Hiện chưa có đơn đặt phòng nào.</td></tr>`);
         $('#bookingPagination').empty(); $('#bookingPaginationInfo').text(''); return;
     }
-
     let filtered = [...allBookings];
     if (bookingStatusFilter === 'unpaid') {
         filtered = filtered.filter(b => b.status !== 'cancelled' && !b.isPaid);
@@ -519,18 +455,16 @@ function renderBookingTable() {
             removeAccents(b.customerPhone || '').includes(kw)
         );
     }
-
     if (filtered.length === 0) {
         tbody.html(`<tr><td colspan="7" class="text-center text-muted py-4">Không có đơn phù hợp.</td></tr>`);
         $('#bookingPagination').empty(); $('#bookingPaginationInfo').text(''); return;
     }
-
     const statusPriority = { 'pending': 0, 'approved': 1, 'cancelled': 2 };
     let sortedBookings = [...filtered].sort((a, b) => {
         const pa = statusPriority[a.status] ?? 99;
         const pb = statusPriority[b.status] ?? 99;
         if (pa !== pb) return pa - pb;
-        // Cùng status: mới nhất lên trước (theo id hoặc createdAt)
+        // Cùng status: mới nhất lên trước
         const aTime = a.confirmedAt ? new Date(a.confirmedAt.split(' ')[0].split('/').reverse().join('-') + ' ' + (a.confirmedAt.split(' ')[1] || '')) : null;
         const bTime = b.confirmedAt ? new Date(b.confirmedAt.split(' ')[0].split('/').reverse().join('-') + ' ' + (b.confirmedAt.split(' ')[1] || '')) : null;
         if (bTime && aTime) return bTime - aTime;
@@ -540,13 +474,10 @@ function renderBookingTable() {
     });
     const start = (currentBookingPage - 1) * itemsPerPage;
     const pagedBookings = sortedBookings.slice(start, start + itemsPerPage);
-
     const methodMap = { bank: '🏦 Ngân hàng', momo: '📱 MoMo', card: '💳 Thẻ' };
-
     pagedBookings.forEach(b => {
         let statusBadge = '';
         let actionBtns = `<button class="btn btn-sm btn-light text-info shadow-sm me-1" onclick="viewBookingDetail('${b.id}')" title="Xem chi tiết"><i class="bi bi-eye"></i></button>`;
-
         if (b.status === 'pending') {
             const payLabel = b.isPaid ? '✅ Đã TT' : '⏳ Chưa TT';
             statusBadge = `<span class="badge badge-soft-warning"><i class="bi bi-hourglass-split me-1"></i>Chờ duyệt</span>
@@ -593,7 +524,6 @@ function renderBookingTable() {
             </tr>
         `);
     });
-
     const totalPages = Math.ceil(sortedBookings.length / itemsPerPage);
     $('#bookingPaginationInfo').text(`Trang ${currentBookingPage} / ${totalPages || 1}`);
     renderPaginationUI(totalPages, currentBookingPage, 'bookingPagination');
@@ -601,30 +531,23 @@ function renderBookingTable() {
 
 let currentRevenuePage = 1;
 let currentReviewPage = 1;
-
 function renderRevenueTab() {
     const confirmedBookings = allBookings.filter(b => b.status === "approved" && b.isPaid);
     const totalRevenue = confirmedBookings.reduce((sum, b) => sum + (Number(b.totalPrice) || 0), 0);
-
     $('#revTotalAmount').text(formatVND(totalRevenue));
     $('#revTotalBookings').text(confirmedBookings.length + " đơn");
-
     const tbody = $('#revenueTableBody');
     tbody.empty();
-
     if (confirmedBookings.length === 0) {
         tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Chưa có giao dịch nào thành công.</td></tr>`);
         $('#revenuePagination').empty();
         $('#revenuePaginationInfo').text('');
         return;
     }
-
     let sortedRevenue = [...confirmedBookings].reverse();
-
     // Phân trang
     const start = (currentRevenuePage - 1) * itemsPerPage;
     const pagedRevenue = sortedRevenue.slice(start, start + itemsPerPage);
-
     pagedRevenue.forEach(b => {
         tbody.append(`
             <tr>
@@ -635,19 +558,15 @@ function renderRevenueTab() {
             </tr>
         `);
     });
-
     const totalPages = Math.ceil(sortedRevenue.length / itemsPerPage);
     $('#revenuePaginationInfo').text(`Trang ${currentRevenuePage} / ${totalPages || 1}`);
     renderPaginationUI(totalPages, currentRevenuePage, 'revenuePagination');
 }
-
 function renderPromotions() {
     const tbody = $('#promoTableBody');
     tbody.empty();
-
     const searchTerm = $('#searchPromoInput').val().trim().toUpperCase();
-
-    // Migrate old data: roomName string → rooms array
+    // Di chuyển dữ liệu cũ: chuỗi roomName → mảng rooms
     promotions = promotions.map(p => {
         if (!p.rooms) {
             p.rooms = p.roomName ? [{ id: null, name: p.roomName }] : [];
@@ -655,17 +574,14 @@ function renderPromotions() {
         }
         return p;
     });
-
     const filteredPromos = promotions.filter(p =>
         p.code.toUpperCase().includes(searchTerm) ||
         (p.rooms && p.rooms.some(r => r.name.toUpperCase().includes(searchTerm)))
     );
-
     if (filteredPromos.length === 0) {
         tbody.html(`<tr><td colspan="5" class="text-center text-muted py-4">Chưa có mã khuyến mãi nào.</td></tr>`);
         return;
     }
-
     filteredPromos.forEach((p, index) => {
         const roomBadges = (!p.rooms || p.rooms.length === 0)
             ? `<span class="badge bg-secondary"><i class="bi bi-globe me-1"></i>Tất cả phòng</span>`
@@ -691,14 +607,11 @@ function renderPromotions() {
 `);
     });
 }
-
 function renderCustomerTable() {
     const tbody = $('#customerTableBody');
     tbody.empty();
-
     const uniqueCustomers = [];
     const customerMap = new Map();
-
     allBookings.forEach(b => {
         if (!b.customerName || !b.customerPhone) return;
         const key = b.customerPhone;
@@ -710,31 +623,25 @@ function renderCustomerTable() {
                 bookingCount: 0
             });
         }
-
         const customer = customerMap.get(key);
         customer.bookingCount += 1;
         if (b.status === "approved" && b.isPaid) {
             customer.totalSpent += (Number(b.totalPrice) || 0);
         }
     });
-
     uniqueCustomers.push(...customerMap.values());
-
     if (uniqueCustomers.length === 0) {
         tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Chưa có dữ liệu khách hàng.</td></tr>`);
         $('#customerPagination').empty();
         $('#customerPaginationInfo').text('');
         return;
     }
-
     const start = (currentCustomerPage - 1) * itemsPerPage;
     const pagedCustomers = uniqueCustomers.slice(start, start + itemsPerPage);
-
     pagedCustomers.forEach((c, index) => {
         let membership = '<span class="badge bg-secondary">Mới</span>';
         if (c.totalSpent >= 20000000) membership = '<span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>VIP Vàng</span>';
         else if (c.totalSpent >= 5000000) membership = '<span class="badge bg-info text-white"><i class="bi bi-star-half me-1"></i>Bạc</span>';
-
         tbody.append(`
             <tr>
                 <td class="ps-4">
@@ -749,37 +656,30 @@ function renderCustomerTable() {
             </tr>
         `);
     });
-
     const totalPages = Math.ceil(uniqueCustomers.length / itemsPerPage);
     $('#customerPaginationInfo').text(`Trang ${currentCustomerPage} / ${totalPages || 1}`);
     renderPaginationUI(totalPages, currentCustomerPage, 'customerPagination');
 }
-
 function renderReviewTable() {
     const tbody = $('#reviewTableBody');
     tbody.empty();
-
     if (fakeReviews.length === 0) {
         tbody.html(`<tr><td colspan="4" class="text-center text-muted py-4">Chưa có đánh giá nào.</td></tr>`);
         $('#reviewPagination').empty();
         $('#reviewPaginationInfo').text('');
         return;
     }
-
     // Phân trang
     const start = (currentReviewPage - 1) * itemsPerPage;
     const pagedReviews = fakeReviews.slice(start, start + itemsPerPage);
-
     pagedReviews.forEach((review, idx) => {
         const index = start + idx;
         let statusBadge = review.status === "published"
             ? '<span class="badge badge-soft-success">Đã duyệt</span>'
             : '<span class="badge badge-soft-danger">Đã ẩn</span>';
-
         let actionBtn = review.status === "published"
             ? `<button class="btn btn-sm btn-light text-danger shadow-sm" onclick="toggleReviewStatus(${index})" title="Ẩn đánh giá"><i class="bi bi-eye-slash"></i></button>`
             : `<button class="btn btn-sm btn-light text-success shadow-sm" onclick="toggleReviewStatus(${index})" title="Hiện đánh giá"><i class="bi bi-eye"></i></button>`;
-
         tbody.append(`
             <tr>
                 <td class="ps-4">
@@ -798,12 +698,10 @@ function renderReviewTable() {
             </tr>
         `);
     });
-
     const totalPages = Math.ceil(fakeReviews.length / itemsPerPage);
     $('#reviewPaginationInfo').text(`Trang ${currentReviewPage} / ${totalPages || 1}`);
     renderPaginationUI(totalPages, currentReviewPage, 'reviewPagination');
 }
-
 window.toggleReviewStatus = function (index) {
     if (fakeReviews[index].status === "published") {
         showConfirm('Ẩn đánh giá', 'Bạn muốn ẩn đánh giá này khỏi người dùng?', function () {
@@ -824,7 +722,6 @@ function renderPaginationUI(totalPages, currentPage, elementId) {
     const pag = $('#' + elementId);
     pag.empty();
     if (totalPages <= 1) return;
-
     pag.append(`<li class="page-item ${currentPage === 1 ? 'disabled' : ''}"><a class="page-link shadow-none border-0 rounded-circle mx-1 text-muted fw-bold" href="#" data-page="${currentPage - 1}">&laquo;</a></li>`);
     for (let i = 1; i <= totalPages; i++) {
         pag.append(`<li class="page-item ${currentPage === i ? 'active' : ''}"><a class="page-link shadow-none border-0 rounded-circle mx-1 fw-bold" href="#" data-page="${i}">${i}</a></li>`);
@@ -833,7 +730,6 @@ function renderPaginationUI(totalPages, currentPage, elementId) {
 }
 
 // ================= API ACTIONS =================
-
 window.editRoom = function (id) {
     const room = allRooms.find(r => r.id == id);
     if (!room) return;
@@ -943,7 +839,6 @@ window.openEditBooking = function (id) {
     document.getElementById('ebCheckOut').value = booking.checkOut || '';
     document.getElementById('ebCheckInTime').value = booking.checkInTime || '14:00';
     document.getElementById('ebCheckOutTime').value = booking.checkOutTime || '12:00';
-    // Sync display và active item cho custom picker
     window._pendingEbTimes = {
         checkIn: booking.checkInTime || '14:00',
         checkOut: booking.checkOutTime || '12:00'
@@ -987,7 +882,6 @@ window.openEditBooking = function (id) {
             if (el) el.setAttribute('disabled', true);
         });
     }
-
     document.getElementById('ebSaveBtn').style.display = readonly ? 'none' : '';
     bootstrap.Modal.getOrCreateInstance(document.getElementById('editBookingModal')).show();
 }
@@ -996,7 +890,6 @@ $(document).on('click', '#ebSaveBtn', async function () {
     const id = document.getElementById('ebId').value;
     const bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
     let idx = bookings.findIndex(b => b.id == id);
-
     // Nếu không có trong localStorage thì lấy từ allBookings (API)
     if (idx === -1) {
         const fromApi = allBookings.find(b => b.id == id);
@@ -1004,11 +897,9 @@ $(document).on('click', '#ebSaveBtn', async function () {
         bookings.unshift({ ...fromApi });
         idx = 0;
     }
-
     const old = { ...bookings[idx] };
     const now = new Date();
     const ts = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
     const changes = [];
     const newName = document.getElementById('ebName').value;
     const newPhone = document.getElementById('ebPhone').value;
@@ -1016,13 +907,11 @@ $(document).on('click', '#ebSaveBtn', async function () {
     const newCheckOut = document.getElementById('ebCheckOut').value;
     const newNote = document.getElementById('ebNote').value;
     const newStatus = document.getElementById('ebStatus').value;
-
     if (newName !== old.customerName) changes.push(`Tên: ${old.customerName} → ${newName}`);
     if (newPhone !== old.customerPhone) changes.push(`SĐT: ${old.customerPhone} → ${newPhone}`);
     if (newCheckIn !== old.checkIn) changes.push(`Check-in: ${old.checkIn} → ${newCheckIn}`);
     if (newCheckOut !== old.checkOut) changes.push(`Check-out: ${old.checkOut} → ${newCheckOut}`);
     if (newStatus !== old.status) changes.push(`Trạng thái: ${old.status} → ${newStatus}`);
-
     bookings[idx] = {
         ...bookings[idx],
         customerName: newName,
@@ -1043,7 +932,6 @@ $(document).on('click', '#ebSaveBtn', async function () {
             changes: changes.join(' | ') || 'Cập nhật ghi chú'
         }]
     };
-
     localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
     syncMyOrder(bookings[idx]);
     if (API.updateBooking) {
@@ -1190,16 +1078,13 @@ function renderTopRooms() {
             roomBookingCount[b.roomName] = (roomBookingCount[b.roomName] || 0) + 1;
         }
     });
-
     const topRooms = Object.entries(roomBookingCount)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3);
-
     if (topRooms.length === 0) {
         container.innerHTML = '<div class="empty-state"><i class="bi bi-inbox"></i><h6>Chưa có dữ liệu</h6></div>';
         return;
     }
-
     let html = '';
     topRooms.forEach((item, idx) => {
         const rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
@@ -1505,10 +1390,8 @@ async function saveBooking() {
 
     try {
         if (currentEditingBookingId) {
-            // Update existing - cả API và localStorage
             await API.updateBooking(currentEditingBookingId, bookingData);
 
-            // Update localStorage
             let bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
             const index = bookings.findIndex(b => b.id == currentEditingBookingId);
             if (index !== -1) {
@@ -1518,7 +1401,6 @@ async function saveBooking() {
 
             showToast('Cập nhật đơn đặt phòng thành công!', 'success');
         } else {
-            // Add new - cả API và localStorage
             const newBooking = await API.createBooking(bookingData);
 
             let bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
@@ -1543,12 +1425,8 @@ window.editBooking = function (bookingId) {
 // ===== DELETE CUSTOMER =====
 window.deleteCustomer = async function (phone) {
     if (!confirm(`Bạn có chắc muốn xoá tất cả đơn đặt phòng của khách hàng này?`)) return;
-
     try {
-        // Tìm tất cả booking của khách hàng này
         const customerBookings = allBookings.filter(b => b.customerPhone === phone);
-
-        // Xoá từ API
         for (const booking of customerBookings) {
             try {
                 await API.deleteBooking(booking.id);
@@ -1556,8 +1434,6 @@ window.deleteCustomer = async function (phone) {
                 console.warn('Không xoá được từ API:', booking.id);
             }
         }
-
-        // Xoá từ localStorage
         let bookings = JSON.parse(localStorage.getItem('stayeasy_bookings')) || [];
         bookings = bookings.filter(b => b.customerPhone !== phone);
         localStorage.setItem('stayeasy_bookings', JSON.stringify(bookings));
@@ -1572,9 +1448,7 @@ window.deleteCustomer = async function (phone) {
 
 window.deleteAllCustomers = async function () {
     if (!confirm('Bạn có chắc muốn xoá TẤT CẢ khách hàng và đơn đặt phòng? Hành động này không thể hoàn tác!')) return;
-
     try {
-        // Xoá tất cả từ API
         for (const booking of allBookings) {
             try {
                 await API.deleteBooking(booking.id);
@@ -1582,10 +1456,7 @@ window.deleteAllCustomers = async function () {
                 console.warn('Không xoá được từ API:', booking.id);
             }
         }
-
-        // Xoá tất cả từ localStorage
         localStorage.setItem('stayeasy_bookings', JSON.stringify([]));
-
         showToast('Xoá tất cả khách hàng thành công!', 'success');
         await loadAdminData();
     } catch (error) {
@@ -1629,8 +1500,6 @@ function initBookingTimePickers(modalId) {
         const display = document.getElementById(cfg.displayId);
         const hidden = document.getElementById(cfg.hiddenId);
         if (!trigger || !panel) return;
-
-        // Clone để xóa event listener cũ tránh bị bind nhiều lần
         const newTrigger = trigger.cloneNode(true);
         trigger.parentNode.replaceChild(newTrigger, trigger);
 
@@ -1654,7 +1523,6 @@ function initBookingTimePickers(modalId) {
                 e.stopPropagation();
                 const time = this.dataset.time;
                 if (hidden) hidden.value = time;
-                // Lấy lại display theo id thay vì dùng biến cũ bị stale sau clone
                 const freshDisplay = document.getElementById(cfg.displayId);
                 if (freshDisplay) freshDisplay.value = time;
                 panel.querySelectorAll('.atp-time-item').forEach(el => el.classList.remove('active'));
@@ -1664,7 +1532,7 @@ function initBookingTimePickers(modalId) {
         });
     });
 
-    // Đóng panel khi click ra ngoài (chỉ bind 1 lần)
+    // Đóng panel khi click ra ngoài
     if (!document._atpOutsideClick) {
         document._atpOutsideClick = true;
         document.addEventListener('click', function (e) {
@@ -1679,7 +1547,6 @@ function initBookingTimePickers(modalId) {
 document.addEventListener('shown.bs.modal', function (e) {
     if (e.target && (e.target.id === 'bookingFormModal' || e.target.id === 'editBookingModal')) {
         initBookingTimePickers(e.target.id);
-        // Set giờ SAU KHI picker đã init
         if (e.target.id === 'editBookingModal' && window._pendingEbTimes) {
             setTimePicker('eb', 'CheckIn', window._pendingEbTimes.checkIn);
             setTimePicker('eb', 'CheckOut', window._pendingEbTimes.checkOut);
@@ -1742,14 +1609,12 @@ function renderPromoSelectedTags() {
 window.removePromoRoom = function (i) {
     const removed = window._promoSelectedRooms[i];
     window._promoSelectedRooms.splice(i, 1);
-    // Nếu là phòng từ checkbox thì bỏ check
     if (removed && removed.id !== null) {
         $(`#pcb_${removed.id}`).prop('checked', false);
     }
     renderPromoSelectedTags();
 };
 
-// Event: radio scope toggle
 $(document).on('change', 'input[name="promoScope"]', function () {
     if ($(this).val() === 'specific') {
         $('#promoRoomPanel').show();
@@ -1761,12 +1626,10 @@ $(document).on('change', 'input[name="promoScope"]', function () {
     }
 });
 
-// Event: checkbox change
 $(document).on('change', '.promo-room-cb', function () {
     syncPromoRoomTags();
 });
 
-// Event: nút thêm phòng thủ công
 $(document).on('click', '#btnAddManualRoom', function () {
     const name = $('#promoRoomManualInput').val().trim();
     if (!name) return;

@@ -585,7 +585,7 @@
 
          /* ── TOAST ── */
          .toast-custom {
-            display: none !important;
+            display: none;
             position: fixed;
             bottom: 30px;
             left: 50%;
@@ -601,6 +601,7 @@
          }
 
          .toast-custom.show {
+            display: block;
             transform: translateX(-50%) translateY(0);
          }
 
@@ -2230,19 +2231,16 @@
                $('.navbar-toggler').addClass('border-white text-white').removeClass('text-dark border-dark');
             }
          });
-
          // ── Partner type card selection ──
          function selectPartnerType(el, type) {
             document.querySelectorAll('.partner-type-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
          }
-
          // ── Type button toggle in form ──
          function toggleType(btn) {
             document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
          }
-
          // ── FAQ accordion ──
          function toggleFaq(el) {
             const item = el.closest('.faq-item');
@@ -2250,7 +2248,6 @@
             document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
             if (!isOpen) item.classList.add('open');
          }
-
          // ── Partner form submit ──
          function submitPartnerForm() {
             const name = document.getElementById('partnerName').value.trim();
@@ -2267,15 +2264,10 @@
                showToast('⚠️ Vui lòng đồng ý với Điều khoản hợp tác');
                return;
             }
-
-            // Save to localStorage for demo
             const partners = JSON.parse(localStorage.getItem('stayeasy_partners') || '[]');
             partners.push({ name, contact, phone, email, date: new Date().toISOString() });
             localStorage.setItem('stayeasy_partners', JSON.stringify(partners));
-
             showToast('🎉 Đăng ký thành công! Chúng tôi sẽ liên hệ trong 24 giờ.');
-
-            // Reset form
             ['partnerName', 'partnerAddress', 'partnerContact', 'partnerPhone', 'partnerEmail', 'partnerWeb', 'partnerNote']
                .forEach(id => { document.getElementById(id).value = ''; });
             document.getElementById('partnerScale').value = '';
@@ -2283,8 +2275,6 @@
             document.getElementById('partnerTerms').checked = false;
             document.querySelectorAll('.type-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
          }
-
-         // ── Toast ──
          function showToast(msg) {
             const t = document.getElementById('toastMsg');
             t.textContent = msg;
@@ -2478,7 +2468,7 @@
             $(document).on('click', function (e) { if (!$(e.target).closest('.user-dropdown').length) { $('.user-dropdown .user-menu-panel').slideUp(200); } });
          });
 
-         // Logic Hàm Đăng xuất (COPY TỪ INDEX)
+         // Logic Hàm Đăng xuất
          window.logoutUser = function () {
             localStorage.removeItem('guestSession');
             localStorage.removeItem('isUserLoggedIn');
@@ -2552,8 +2542,6 @@
             const email = document.getElementById('popupAuthInputEmail').value.trim();
             const pw1 = document.getElementById('popupAuthInputPw1').value;
             const pw2 = document.getElementById('popupAuthInputPw2').value;
-
-            // Chỉ lấy dữ liệu khi cần, không lạm dụng biến toàn cục cho cả 2 mode nếu không cần thiết
             if (currentPopupAuthMode === 'signup') {
                const users = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                if (!name || !email || !pw1) { alert('⚠️ Vui lòng điền đầy đủ thông tin!'); return; }
@@ -2565,13 +2553,10 @@
                alert('🎉 Đăng ký tài khoản khách thành công!');
                togglePopupAuthMode();
             } else {
-               // Mode: Login
                if (!email || !pw1) { alert('⚠️ Vui lòng điền email và mật khẩu!'); return; }
-
                // 1. Kiểm tra tài khoản admin tối cao
                if (email === 'admin@gmail.com' && pw1 === 'admin123') {
                   localStorage.setItem('adminSession', JSON.stringify({ email: 'admin@gmail.com', name: 'Quản Trị Viên', role: 'superadmin' }));
-                  // Giữ lại isLoggedIn để tương thích ngược
                   localStorage.setItem('isLoggedIn', 'true');
                   localStorage.setItem('userRole', 'superadmin');
                   localStorage.setItem('adminEmail', 'admin@gmail.com');
@@ -2597,9 +2582,7 @@
                const userList = JSON.parse(localStorage.getItem('stayeasy_users')) || [];
                const matchedUser = userList.find(u => u.email === email && u.password === pw1);
                if (matchedUser) {
-                  // Lưu vào guestSession (tách biệt hoàn toàn với adminSession)
                   localStorage.setItem('guestSession', JSON.stringify({ email: matchedUser.email, name: matchedUser.name, role: 'customer' }));
-                  // Giữ lại isUserLoggedIn để tương thích ngược với các trang khác
                   localStorage.setItem('isUserLoggedIn', 'true');
                   localStorage.setItem('userName', matchedUser.name);
                   localStorage.setItem('userEmail', matchedUser.email);

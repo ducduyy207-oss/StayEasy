@@ -1,53 +1,38 @@
 let currentRoom = null;
 let discountPercent = 0;
-
 const formatVND = (num) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(num);
 window.formatVND = formatVND;
-
 function removeAccents(str) {
    if (!str) return '';
    return String(str).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
-
 $(document).ready(function () {
    const urlParams = new URLSearchParams(window.location.search);
    const roomId = urlParams.get('id');
-
    const urlIn = urlParams.get('in');
    const urlOut = urlParams.get('out');
    if (urlIn) $('#cIn').val(urlIn);
    if (urlOut) $('#cOut').val(urlOut);
-
    if (roomId) {
       loadRoomDetail(roomId);
    } else {
       alert("Không tìm thấy thông tin phòng!");
       window.location.href = 'index.html';
    }
-
    initDateValidation();
-
    // Tự động điền tên nếu người dùng đã đăng nhập tài khoản trước đó
    if (localStorage.getItem('isLoggedIn') === 'true' && localStorage.getItem('test_user_email')) {
       let userEmail = localStorage.getItem('test_user_email').split('@')[0];
       $('#revName').val(userEmail);
    }
-
-   // Gắn sự kiện nút áp dụng khuyến mãi
    $('#btnApplyPromo').on('click', applyPromoCode);
-
-   // Thay đổi ngày tự động tính tiền
    $('.calc-date').on('change', calculatePrice);
-
-   // SỰ KIỆN GỬI FORM ĐÁNH GIÁ MỚI
    $('#addReviewForm').on('submit', function (e) {
       e.preventDefault();
       if (!currentRoom) return;
-
       let reviews = JSON.parse(localStorage.getItem('stayeasy_reviews')) || [];
       const today = new Date();
       const dateStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
-
       const newReview = {
          id: Date.now(),
          roomName: currentRoom.name,
@@ -57,16 +42,12 @@ $(document).ready(function () {
          date: dateStr,
          status: "published"
       };
-
       reviews.unshift(newReview); // Thêm lên đầu mảng để đẩy bình luận cũ xuống dưới
       localStorage.setItem('stayeasy_reviews', JSON.stringify(reviews));
-
       alert('🎉 Cảm ơn bạn đã gửi đánh giá! Bình luận của bạn đã được lưu và hiển thị công khai.');
       $('#revContent').val('');
-
       renderRoomReviews(); // Gọi cập nhật render lại danh sách tại chỗ
    });
-
    // SỰ KIỆN CLICK NÚT XEM THÊM BÌNH LUẬN
    $(document).on('click', '#btnLoadMoreReviews', function (e) {
       e.preventDefault();
@@ -76,12 +57,10 @@ $(document).ready(function () {
       $(this).remove();
    });
 });
-
 async function loadRoomDetail(id) {
    try {
       const rooms = await API.getRooms();
       currentRoom = rooms.find(r => r.id == id);
-
       if (currentRoom) {
          $('#breadCrumbName').text(currentRoom.name);
          $('#dtlMainImg').attr('src', currentRoom.image);
@@ -89,16 +68,12 @@ async function loadRoomDetail(id) {
          $('#dtlName').text(currentRoom.name);
          $('#dtlDesc').text(currentRoom.description || 'Chưa có thông tin mô tả chi tiết cho phòng nghỉ này.');
          $('#dtlGuests').text(currentRoom.guests);
-
          const price = Number(currentRoom.price) || 0;
          $('#dtlPrice').text(formatVND(price));
          $('#dtlOldPrice').text(formatVND(price * 1.25));
-
          renderRoomReviews(); // Khởi chạy nạp bình luận
-
          $('#loadingDetail').hide();
          $('#detailContent').fadeIn(400);
-
          calculatePrice();
       } else {
          alert("Phòng không tồn tại!");
@@ -112,12 +87,9 @@ async function loadRoomDetail(id) {
 // HÀM ĐỒNG BỘ HIỂN THỊ ĐÁNH GIÁ CHÂN THỰC & KHỐNG CHẾ SỐ LƯỢNG VIEW
 function renderRoomReviews() {
    if (!currentRoom) return;
-
    let reviews = JSON.parse(localStorage.getItem('stayeasy_reviews')) || [];
-
    // Lọc ra danh sách bình luận thật của phòng này và đang hiển thị (published)
    const filteredReviews = reviews.filter(r => r.roomName === currentRoom.name && r.status === "published");
-
    // Định nghĩa 3 mẫu có sẵn cố định hệ thống
    const defaultReviews = [
       {
@@ -139,33 +111,26 @@ function renderRoomReviews() {
          date: "Đã xác thực chỗ nghỉ"
       }
    ];
-
    // Gộp bình luận thật lên trước để đẩy bình luận có sẵn xuống phía sau
    const allReviewsToRender = [...filteredReviews, ...defaultReviews];
-
    // Cập nhật tổng số lượng hiển thị trên badge tiêu đề
    const baseFakeCount = 142;
    const totalDisplayCount = allReviewsToRender.length + baseFakeCount;
    $('#dtlReviewCount').text(`Từ ${totalDisplayCount} đánh giá chân thực`);
-
    // Tính toán điểm số trung bình thực tế
    let sumScore = 0;
    allReviewsToRender.forEach(r => sumScore += parseFloat(r.rating));
    let avgScore = (sumScore / allReviewsToRender.length).toFixed(1);
    $('#dtlRatingNum').text(avgScore);
-
    let ratingText = "Tuyệt vời";
    if (parseFloat(avgScore) < 8.0) ratingText = "Tốt";
    else if (parseFloat(avgScore) < 9.0) ratingText = "Rất tốt";
    $('#dtlRatingText').text(ratingText);
-
    const reviewsHtml = [];
-
    // Duyệt mảng kết xuất giao diện và khống chế ẩn từ phần tử thứ 4 trở đi
    allReviewsToRender.forEach((r, index) => {
       // Nếu vị trí index >= 3 (tức là từ phần tử thứ 4), tự động thêm class d-none của Bootstrap để ẩn đi
       let hiddenClass = index >= 3 ? "d-none" : "";
-
       reviewsHtml.push(`
             <div class="review-card ${hiddenClass}">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -187,9 +152,7 @@ function renderRoomReviews() {
             </div>
       `);
    });
-
    $('#reviewsList').html(reviewsHtml.join(''));
-
    // Nếu tổng số lượng bình luận vượt quá 3, bổ sung thêm nút "Xem thêm bình luận" vào cuối danh sách
    if (allReviewsToRender.length > 3) {
       let remainCount = allReviewsToRender.length - 3;
@@ -200,29 +163,23 @@ function renderRoomReviews() {
        `);
    }
 }
-
 function initDateValidation() {
    // Ngày tháng giờ dùng flatpickr ở detail.html nên chỉ cần lắng nghe hidden inputs
    // Khi flatpickr set giá trị vào #cIn / #cOut, tính giá tự động
    $('#cIn, #cOut').on('change', calculatePrice);
 }
-
 function calculatePrice() {
    const inVal = $('#cIn').val();
    const outVal = $('#cOut').val();
-
    if (inVal && outVal && currentRoom) {
       const d1 = new Date(inVal);
       const d2 = new Date(outVal);
-
       if (d2 > d1) {
          const nights = Math.ceil(Math.abs(d2 - d1) / (1000 * 60 * 60 * 24));
          const originalTotal = nights * Number(currentRoom.price || 0);
          const discountAmount = originalTotal * discountPercent;
          const finalTotal = originalTotal - discountAmount;
-
          $('#totalNights').text(nights + ' đêm');
-
          if (discountPercent > 0) {
             $('#originalPriceDisplay').html(`<del class="text-muted small">${formatVND(originalTotal)}</del>`);
             $('#discountDisplay')
@@ -233,59 +190,45 @@ function calculatePrice() {
             $('#originalPriceDisplay').empty();
             $('#discountDisplay').parent().attr('style', 'display: none !important;');
          }
-
          // Cập nhật tổng cộng trong box thanh toán
          $('#totalPriceDisplay').text(formatVND(finalTotal));
-
          // Cập nhật thanh đặt phòng mobile ở dưới
          window.__stayeasyMobileTotalPrice = finalTotal;
-
          if (document.getElementById('mobileBookingPrice')) {
             $('#mobileBookingPrice').text(formatVND(finalTotal));
          }
-
          const mobileLabel = document.querySelector('.mobile-booking-price small');
          if (mobileLabel) {
             mobileLabel.textContent = 'Tổng cộng';
          }
-
          $('#priceSummary').slideDown(300);
          return finalTotal;
       }
    }
-
    $('#priceSummary').slideUp();
-
    // Khi chưa chọn đủ ngày thì quay về giá mỗi đêm, không để 0 đ
    if (currentRoom && document.getElementById('mobileBookingPrice')) {
       const basePrice = Number(currentRoom.price) || 0;
-
       window.__stayeasyMobileTotalPrice = basePrice;
-
       $('#mobileBookingPrice').text(formatVND(basePrice));
-
       const mobileLabel = document.querySelector('.mobile-booking-price small');
       if (mobileLabel) {
          mobileLabel.textContent = 'Giá mỗi đêm';
       }
    }
-
    return 0;
 }
 
 function applyPromoCode() {
    const codeInput = $('#promoCode').val().trim().toUpperCase(); // Tự đổi về in hoa để so sánh
-
    if (!codeInput) {
       alert("Vui lòng nhập mã khuyến mãi!");
       return;
    }
-
    const activePromos = JSON.parse(localStorage.getItem('stayeasy_promos')) || [
       { code: 'STAYEASY15', discount: 15 },
       { code: 'SUMMER2026', discount: 20 }
    ];
-
    const validPromo = activePromos.find(p => {
       if (p.code !== codeInput) return false;
       const rooms = p.rooms || (p.roomName ? [{ name: p.roomName }] : []);
@@ -293,7 +236,6 @@ function applyPromoCode() {
       if (rooms.length === 0) return true;
       return rooms.some(r => r.name && r.name.toLowerCase() === (currentRoom.name || '').toLowerCase());
    });
-
    if (validPromo) {
       discountPercent = validPromo.discount / 100;
       alert(`🎉 Áp dụng mã ${validPromo.code} thành công (Giảm ${validPromo.discount}%)!`);
@@ -306,23 +248,18 @@ function applyPromoCode() {
          alert('❌ Mã không hợp lệ hoặc đã bị vô hiệu hóa!');
       }
    }
-
    calculatePrice();
 }
 
 // ===== PAYMENT MODAL SYSTEM =====
 let pendingBookingPayload = null;
-
 $('#bookingForm').on('submit', async function (e) {
    e.preventDefault();
-
    const email = $('#cEmail').val().trim();
    if (!email.includes('@')) { $('#emailError').show(); $('#cEmail').focus(); return; }
    $('#emailError').hide();
-
    const finalPrice = calculatePrice();
    if (finalPrice <= 0) { alert('Vui lòng chọn ngày lưu trú hợp lệ!'); return; }
-
    const adults = parseInt($('#cAdults').val()) || 1;
    const children = parseInt($('#cChildren').val()) || 0;
    const maxGuests = parseInt(currentRoom.guests) || 2;
@@ -330,15 +267,12 @@ $('#bookingForm').on('submit', async function (e) {
       alert(`⚠️ Phòng chỉ chứa tối đa ${maxGuests} khách!`);
       return;
    }
-
    const now = new Date();
    const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
    const orderId = 'SE' + now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0') + String(now.getTime()).slice(-5);
-
    // Lấy userId từ guestSession (email đăng nhập) hoặc fallback về email nhập tay
    const guestSession = JSON.parse(localStorage.getItem('guestSession')) || {};
    const userId = guestSession.email || email;
-
    pendingBookingPayload = {
       id: orderId,
       userId: userId,
@@ -361,7 +295,6 @@ $('#bookingForm').on('submit', async function (e) {
       note: '',
       editHistory: []
    };
-
    openPaymentModal(pendingBookingPayload);
 });
 
@@ -393,23 +326,19 @@ $(document).on('click', '#btnConfirmPayment', async function () {
    const method = $('input[name="pmPayMethod"]:checked').val();
    if (!method) { alert('Vui lòng chọn phương thức thanh toán!'); return; }
    if (!pendingBookingPayload) return;
-
    pendingBookingPayload.paymentMethod = method;
    showPaymentStep(2);
-
    try {
       await new Promise(r => setTimeout(r, 2200));
       pendingBookingPayload.status = 'pending';
       pendingBookingPayload.isPaid = (method === 'bank');
       const now = new Date();
       pendingBookingPayload.paidAt = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
       const created = await API.createBooking(pendingBookingPayload);
       if (created && created.id) {
          pendingBookingPayload.id = created.id;
       }
       saveMyOrder(pendingBookingPayload);
-
       $('#pmOrderId').text(pendingBookingPayload.id);
       showPaymentStep(3);
       document.getElementById('bookingForm').reset();

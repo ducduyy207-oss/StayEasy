@@ -81,21 +81,6 @@
             background: #1d4ed8;
          }
 
-         /* Stats bar */
-         .stat-bar {
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-         }
-
-         .stat-item {
-            padding: 16px 24px;
-            border-right: 1px solid #e2e8f0;
-         }
-
-         .stat-item:last-child {
-            border-right: none;
-         }
-
          /* Nav Tabs Custom */
          .support-nav {
             border-bottom: 2px solid #e2e8f0;
@@ -543,7 +528,7 @@
 
          /* Toast notification */
          .toast-custom {
-            display: none !important;
+            display: none;
             position: fixed;
             bottom: 30px;
             left: 50%;
@@ -559,6 +544,7 @@
          }
 
          .toast-custom.show {
+            display: block;
             transform: translateX(-50%) translateY(0);
          }
 
@@ -2607,13 +2593,9 @@
 </li>
 `;
                }
-
-               // Render user menu lần đầu — dùng [] tạm, fetch API ngay sau
                $('.btn-nav-login').parent().hide();
                $('.btn-nav-register').parent().hide();
                $('.navbar-nav.align-items-center').append(buildUserMenu([]));
-
-               // Gắn toggle cho panel đơn của tôi sau khi render
                setTimeout(() => {
                   document.getElementById('btnMyOrders')?.addEventListener('click', function (e) {
                      e.stopPropagation();
@@ -2635,12 +2617,8 @@
                   try {
                      const orders = await API.getBookingsByEmail(userEmail);
                      localStorage.setItem('stayeasy_myorders_' + userEmail, JSON.stringify(orders));
-
-                     // Cập nhật badge số đơn
                      const badge = document.getElementById('orderCountBadge');
                      if (badge) badge.textContent = orders.length > 0 ? orders.length : '';
-
-                     // Cập nhật danh sách nếu panel đang mở
                      const panel = document.getElementById('myOrdersPanel');
                      if (panel && panel.style.display !== 'none') {
                         const listEl = document.getElementById('myOrdersList');
@@ -2727,69 +2705,6 @@
                   $('.user-dropdown .user-menu-panel').stop(true, true).slideUp(200);
                }
             });
-            // KHỞI TẠO BỘ LỊCH CHỌN NGÀY CHUYÊN NGHIỆP ĐỒNG BỘ PC & MOBILE
-            flatpickr("#searchDateRange", {
-               mode: "range",
-               minDate: "today",
-               dateFormat: "d/m/Y",
-               showMonths: window.innerWidth > 991 ? 2 : 1, // PC hiện song song 2 tháng, Mobile hiện 1 tháng ngắn gọn
-               monthSelectorType: "dropdown", // Kích hoạt danh sách dropdown chọn Tháng nhanh
-               yearSelectorType: "static",  // Giữ năm dạng chữ tĩnh, không dùng select trình duyệt tô xanh
-               locale: {
-                  rangeSeparator: " đến ",
-                  weekdays: {
-                     shorthand: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
-                     longhand: ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"]
-                  },
-                  months: {
-                     shorthand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-                     longhand: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"]
-                  },
-                  ordinal: () => "",
-                  firstDayOfWeek: 1
-               },
-               onChange: function (selectedDates, dateStr, instance) {
-                  if (selectedDates.length === 2) {
-                     $('#searchCheckIn').val(instance.formatDate(selectedDates[0], "Y-m-d"));
-                     $('#searchCheckOut').val(instance.formatDate(selectedDates[1], "Y-m-d"));
-                  }
-               }
-            });
-
-            const locInput = $('#searchName');
-            const locDropdown = $('#locationDropdown');
-
-            locInput.on('focus', function () { locDropdown.addClass('show'); });
-
-            $(document).on('click', function (e) {
-               if (!$(e.target).closest('#searchName').length && !$(e.target).closest('#locationDropdown').length) {
-                  locDropdown.removeClass('show');
-               }
-            });
-
-            $('.loc-item').on('click', function (e) {
-               e.preventDefault();
-               const selectedCity = $(this).find('span.fw-bold').text();
-               locInput.val(selectedCity);
-               locDropdown.removeClass('show');
-
-               // Trigger filter and scroll to rooms
-               applyFilters();
-
-               const selectedType = $('#filterType').val();
-               let targetSection = '#hotelSectionBlock';
-               if (selectedType === 'Homestay') {
-                  targetSection = '#homestaySectionBlock';
-               } else if (selectedType === 'Resort') {
-                  targetSection = '#resortSectionBlock';
-               }
-
-               $('html, body').animate({
-                  scrollTop: $(targetSection).offset().top - 100
-               }, 500);
-            });
-
-
          });
 
          // Logic Hàm Đăng xuất
