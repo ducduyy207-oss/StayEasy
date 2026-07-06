@@ -92,6 +92,7 @@ let itemsPerPage = 8;
 let currentRoomPage = 1;
 let currentBookingPage = 1;
 let currentCustomerPage = 1;
+let currentPromoPage = 1;
 let roomModal;
 let revenueChart = null;
 let bookingStatusFilter = 'all';
@@ -216,6 +217,7 @@ $(document).ready(function () {
     });
     // Tìm kiếm khuyến mãi
     $('#searchPromoInput').on('input', function () {
+        currentPromoPage = 1;
         renderPromotions();
     });
     $(document).on('click', '#roomPagination .page-link', function (e) {
@@ -235,6 +237,12 @@ $(document).ready(function () {
         if ($(this).parent().hasClass('disabled')) return;
         currentCustomerPage = parseInt($(this).attr('data-page'));
         renderCustomerTable();
+    });
+    $(document).on('click', '#promoPagination .page-link', function (e) {
+        e.preventDefault();
+        if ($(this).parent().hasClass('disabled')) return;
+        currentPromoPage = parseInt($(this).attr('data-page'));
+        renderPromotions();
     });
     $(document).on('click', '#revenuePagination .page-link', function (e) {
         e.preventDefault();
@@ -580,13 +588,22 @@ function renderPromotions() {
     );
     if (filteredPromos.length === 0) {
         tbody.html(`<tr><td colspan="5" class="text-center text-muted py-4">Chưa có mã khuyến mãi nào.</td></tr>`);
+        $('#promoPaginationInfo').text('Trang 1 / 1');
+        renderPaginationUI(1, 1, 'promoPagination');
         return;
     }
-    filteredPromos.forEach((p, index) => {
+    const totalPromoPages = Math.ceil(filteredPromos.length / itemsPerPage);
+    if (currentPromoPage > totalPromoPages) currentPromoPage = totalPromoPages;
+    if (currentPromoPage < 1) currentPromoPage = 1;
+    const promoStart = (currentPromoPage - 1) * itemsPerPage;
+    const pagedPromos = filteredPromos.slice(promoStart, promoStart + itemsPerPage);
+    $('#promoPaginationInfo').text(`Trang ${currentPromoPage} / ${totalPromoPages || 1}`);
+    renderPaginationUI(totalPromoPages, currentPromoPage, 'promoPagination');
+    pagedPromos.forEach((p, pagedIndex) => {
+        const index = promoStart + pagedIndex;
         const roomBadges = (!p.rooms || p.rooms.length === 0)
             ? `<span class="badge bg-secondary"><i class="bi bi-globe me-1"></i>Tất cả phòng</span>`
             : p.rooms.map(r => `<span class="badge bg-warning text-dark me-1 mb-1"><i class="bi bi-building me-1"></i>${r.name}</span>`).join('');
-
         tbody.append(`
     <tr>
         <td class="ps-4"><span class="badge bg-danger fs-6">${p.code}</span></td>
