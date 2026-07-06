@@ -924,7 +924,8 @@
                      <i class="bi bi-geo-alt"></i>
                      <div class="w-100">
                         <p class="search-label">Điểm đến của bạn?</p>
-                        <input type="text" id="searchName" placeholder="Tên thành phố, khu vực..." autocomplete="off"
+                        <input type="text" id="searchName" placeholder="Tên phòng, thành phố, khu vực..."
+                           autocomplete="off"
                            style="width: 100%; border: none; outline: none; background: transparent;">
 
                         <ul class="dropdown-menu shadow-lg border-0 rounded-4 mt-2" id="locationDropdown"
@@ -1842,37 +1843,340 @@
                }
             });
 
+            // =========================================================
+            // TÌM KIẾM PHÒNG / ĐỊA ĐIỂM TRÊN INDEX
+            // - Chỉ hiện gợi ý sau khi người dùng bắt đầu gõ.
+            // - Không dùng ảnh nhỏ trong danh sách gợi ý.
+            // - Enter hoặc chọn kết quả sẽ lọc và cuộn tới đúng phòng / nhóm phòng.
+            // =========================================================
             const locInput = $('#searchName');
             const locDropdown = $('#locationDropdown');
+            let smartSearchLoadWatcher = null;
 
-            locInput.on('focus', function () { locDropdown.addClass('show'); });
+            function normalizeIndexSearch(value) {
+               return String(value || '')
+                  .normalize('NFD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .replace(/đ/g, 'd')
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '');
+            }
 
-            $(document).on('click', function (e) {
-               if (!$(e.target).closest('#searchName').length && !$(e.target).closest('#locationDropdown').length) {
+            function escapeIndexSearchHtml(value) {
+               return String(value == null ? '' : value)
+                  .replace(/&/g, '&amp;')
+                  .replace(/</g, '&lt;')
+                  .replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;')
+                  .replace(/'/g, '&#039;');
+            }
+
+            function getIndexRoomId(room) {
+               return room && (room.id || room.ID || room.Id || room.roomId || room.roomID || '');
+            }
+
+            function getIndexRoomTypeLabel(type) {
+               if (type === 'Homestay') return 'Homestay';
+               if (type === 'Resort') return 'Resort';
+               if (type === 'Deluxe') return 'Căn hộ cao cấp';
+               return 'Khách sạn';
+            }
+
+            function getIndexSectionSelector(room) {
+               if (!room) return '#hotelSectionBlock';
+               if (room.type === 'Homestay') return '#homestaySectionBlock';
+               if (room.type === 'Resort') return '#resortSectionBlock';
+               return '#hotelSectionBlock';
+            }
+
+            function getIndexSectionKey(room) {
+               if (!room) return 'hotel';
+               if (room.type === 'Homestay') return 'homestay';
+               if (room.type === 'Resort') return 'resort';
+               return 'hotel';
+            }
+
+            function getIndexSearchMatches(query, selectedType) {
+               const normalizedQuery = normalizeIndexSearch(query);
+               const type = selectedType == null ? $('#filterType').val() : selectedType;
+
+               return (Array.isArray(allRooms) ? allRooms : []).filter(function (room) {
+                  const roomName = normalizeIndexSearch(room && room.name);
+                  const roomLocation = normalizeIndexSearch(room && room.location);
+                  const matchesKeyword = !normalizedQuery || roomName.includes(normalizedQuery) || roomLocation.includes(normalizedQuery);
+                  const matchesType = !type || room.type === type;
+                  return matchesKeyword && matchesType;
+               });
+            }
+
+            function syncIndexRoomTypeControl(type) {
+               const normalizedType = type || '';
+               const typeButton = document.getElementById('roomTypeBtn');
+               const typeDropdown = document.getElementById('roomTypeDropdown');
+               const option = typeDropdown ? typeDropdown.querySelector(`li[data-value="${normalizedType}"]`) : null;
+
+               $('#filterType').val(normalizedType).trigger('change');
+
+               if (typeButton && option) {
+                  const icon = option.dataset.icon || 'bi-grid';
+                  const label = option.dataset.label || 'Tất cả hạng phòng';
+                  typeButton.querySelector('.trigger-icon').className = 'bi ' + icon + ' trigger-icon';
+                  typeButton.querySelector('.trigger-text').textContent = label;
+                  typeDropdown.querySelectorAll('li').forEach(function (item) {
+                     item.classList.remove('selected');
+                  });
+                  option.classList.add('selected');
+               }
+            }
+
+            function resetIndexCityFilter() {
+               $('.city-filter-bar .nav-link').removeClass('active');
+               $('.city-filter-bar .nav-link[data-city=""]').addClass('active');
+            }
+
+            function setIndexSearchPageForRoom(room, query) {
+               if (!room) return;
+
+               const sectionRooms = getIndexSearchMatches(query, room.type).filter(function (item) {
+                  return getIndexSectionKey(item) === getIndexSectionKey(room);
+               });
+               const roomId = String(getIndexRoomId(room));
+               const roomIndex = sectionRooms.findIndex(function (item) {
+                  return String(getIndexRoomId(item)) === roomId;
+               });
+               const targetPage = roomIndex >= 0 ? Math.floor(roomIndex / itemsPerPage) + 1 : 1;
+
+               if (getIndexSectionKey(room) === 'homestay') currentHomestayPage = targetPage;
+               else if (getIndexSectionKey(room) === 'resort') currentResortPage = targetPage;
+               else currentHotelPage = targetPage;
+            }
+
+            function scrollIndexToSection(room) {
+               const target = $(getIndexSectionSelector(room));
+               if (!target.length) return;
+               $('html, body').stop(true).animate({ scrollTop: target.offset().top - 118 }, 500);
+            }
+
+            function scrollIndexToRoom(room) {
+               if (!room) return;
+               const roomId = String(getIndexRoomId(room));
+
+               window.setTimeout(function () {
+                  const targetCard = $('.room-link').filter(function () {
+                     return String($(this).attr('data-id')) === roomId;
+                  }).first();
+
+                  if (targetCard.length) {
+                     $('html, body').stop(true).animate({ scrollTop: targetCard.offset().top - 118 }, 550);
+                  } else {
+                     scrollIndexToSection(room);
+                  }
+               }, 60);
+            }
+
+            function renderIndexSearchSuggestions() {
+               const rawQuery = String(locInput.val() || '').trim();
+               const normalizedQuery = normalizeIndexSearch(rawQuery);
+
+               // Không mở dropdown và không hiển thị "Điểm đến phổ biến" khi chưa gõ.
+               if (!normalizedQuery) {
+                  locDropdown.empty().removeClass('show');
+                  return;
+               }
+
+               if (!Array.isArray(allRooms) || allRooms.length === 0) {
+                  locDropdown.html(`
+                     <li><div class="dropdown-item text-muted py-3 small"><i class="bi bi-hourglass-split me-2"></i>Đang tải dữ liệu phòng...</div></li>
+                  `).addClass('show');
+                  return;
+               }
+
+               const rooms = getIndexSearchMatches(rawQuery, '').slice(0, 8);
+               const locations = [];
+               const usedLocations = new Set();
+
+               rooms.forEach(function (room) {
+                  const location = String(room.location || '').trim();
+                  const locationKey = normalizeIndexSearch(location);
+                  if (location && locationKey && !usedLocations.has(locationKey)) {
+                     usedLocations.add(locationKey);
+                     locations.push(location);
+                  }
+               });
+
+               let html = `
+                  <li><h6 class="dropdown-header text-dark fw-bold fs-6"><i class="bi bi-search text-primary me-2"></i>Gợi ý phù hợp</h6></li>
+                  <li><hr class="dropdown-divider"></li>
+               `;
+
+               if (locations.length) {
+                  html += `<li><span class="dropdown-header text-muted small pt-1 pb-1">ĐỊA ĐIỂM</span></li>`;
+                  locations.slice(0, 4).forEach(function (location) {
+                     html += `
+                        <li>
+                           <a href="#" class="dropdown-item py-2 d-flex justify-content-between align-items-center index-search-suggestion" data-kind="location" data-location="${escapeIndexSearchHtml(location)}">
+                              <div>
+                                 <span class="fw-semibold d-block text-dark">${escapeIndexSearchHtml(location)}</span>
+                                 <small class="text-muted">Xem các chỗ nghỉ tại khu vực này</small>
+                              </div>
+                           </a>
+                        </li>
+                     `;
+                  });
+               }
+
+               if (rooms.length) {
+                  html += `<li><span class="dropdown-header text-muted small pt-2 pb-1">PHÒNG PHÙ HỢP</span></li>`;
+                  rooms.forEach(function (room) {
+                     const roomId = getIndexRoomId(room);
+                     html += `
+                        <li>
+                           <a href="#" class="dropdown-item py-2 d-flex justify-content-between align-items-center index-search-suggestion" data-kind="room" data-room-id="${escapeIndexSearchHtml(roomId)}">
+                              <div class="pe-2">
+                                 <span class="fw-semibold d-block text-dark">${escapeIndexSearchHtml(room.name || 'Phòng chưa cập nhật tên')}</span>
+                                 <small class="text-muted">${escapeIndexSearchHtml(room.location || 'Đang cập nhật địa điểm')} · ${escapeIndexSearchHtml(getIndexRoomTypeLabel(room.type))}</small>
+                              </div>
+                           </a>
+                        </li>
+                     `;
+                  });
+               }
+
+               if (!locations.length && !rooms.length) {
+                  html += `
+                     <li><div class="dropdown-item text-muted py-3 small"><i class="bi bi-search me-2"></i>Không tìm thấy phòng hoặc địa điểm phù hợp.</div></li>
+                  `;
+               }
+
+               locDropdown.html(html).addClass('show');
+            }
+
+            function runIndexSearch(options) {
+               const config = options || {};
+               const typedQuery = String(config.query != null ? config.query : locInput.val() || '').trim();
+               const targetRoom = config.room || null;
+               const targetLocation = config.location || '';
+
+               if (targetRoom) {
+                  locInput.val(targetRoom.name || typedQuery);
+                  resetIndexCityFilter();
+                  syncIndexRoomTypeControl(targetRoom.type || '');
+                  currentHotelPage = 1;
+                  currentHomestayPage = 1;
+                  currentResortPage = 1;
+                  setIndexSearchPageForRoom(targetRoom, targetRoom.name || typedQuery);
+                  applyFilters();
                   locDropdown.removeClass('show');
+                  scrollIndexToRoom(targetRoom);
+                  return;
+               }
+
+               if (targetLocation) locInput.val(targetLocation);
+               resetIndexCityFilter();
+               currentHotelPage = 1;
+               currentHomestayPage = 1;
+               currentResortPage = 1;
+               applyFilters();
+               locDropdown.removeClass('show');
+
+               const results = getIndexSearchMatches(String(locInput.val() || '').trim());
+               if (results.length === 1) {
+                  scrollIndexToRoom(results[0]);
+               } else if (results.length) {
+                  scrollIndexToSection(results[0]);
+               }
+            }
+
+            function runIndexSearchFromEnter() {
+               const typedQuery = String(locInput.val() || '').trim();
+               const normalizedQuery = normalizeIndexSearch(typedQuery);
+               if (!normalizedQuery) {
+                  currentHotelPage = 1;
+                  currentHomestayPage = 1;
+                  currentResortPage = 1;
+                  applyFilters();
+                  locDropdown.removeClass('show');
+                  return;
+               }
+
+               const exactRoom = (Array.isArray(allRooms) ? allRooms : []).find(function (room) {
+                  return normalizeIndexSearch(room.name) === normalizedQuery;
+               });
+
+               if (exactRoom) {
+                  runIndexSearch({ room: exactRoom });
+                  return;
+               }
+
+               const exactLocation = (Array.isArray(allRooms) ? allRooms : []).find(function (room) {
+                  return normalizeIndexSearch(room.location) === normalizedQuery;
+               });
+
+               if (exactLocation) {
+                  runIndexSearch({ location: exactLocation.location });
+                  return;
+               }
+
+               runIndexSearch({ query: typedQuery });
+            }
+
+            // Click vào ô chỉ đặt focus; dropdown chỉ mở khi có chữ được gõ.
+            locInput.off('focus.indexSearch').on('focus.indexSearch', function () {
+               if (String($(this).val() || '').trim()) renderIndexSearchSuggestions();
+            });
+
+            locInput.off('input.indexSearch').on('input.indexSearch', function () {
+               renderIndexSearchSuggestions();
+
+               // Trường hợp dữ liệu API đang về chậm: tự làm mới gợi ý ngay khi có dữ liệu.
+               if (!allRooms.length && !smartSearchLoadWatcher) {
+                  let attempts = 0;
+                  smartSearchLoadWatcher = window.setInterval(function () {
+                     attempts += 1;
+                     if (allRooms.length || attempts >= 80 || !String(locInput.val() || '').trim()) {
+                        window.clearInterval(smartSearchLoadWatcher);
+                        smartSearchLoadWatcher = null;
+                        renderIndexSearchSuggestions();
+                     }
+                  }, 125);
                }
             });
 
-            $('.loc-item').on('click', function (e) {
-               e.preventDefault();
-               const selectedCity = $(this).find('span.fw-bold').text();
-               locInput.val(selectedCity);
-               locDropdown.removeClass('show');
+            locInput.off('keydown.indexSearch').on('keydown.indexSearch', function (event) {
+               if (event.key === 'Enter') {
+                  event.preventDefault();
+                  runIndexSearchFromEnter();
+               }
+            });
 
-               // Trigger filter and scroll to rooms
-               applyFilters();
+            locDropdown.off('click.indexSearch', '.index-search-suggestion').on('click.indexSearch', '.index-search-suggestion', function (event) {
+               event.preventDefault();
+               const kind = $(this).attr('data-kind');
 
-               const selectedType = $('#filterType').val();
-               let targetSection = '#hotelSectionBlock';
-               if (selectedType === 'Homestay') {
-                  targetSection = '#homestaySectionBlock';
-               } else if (selectedType === 'Resort') {
-                  targetSection = '#resortSectionBlock';
+               if (kind === 'room') {
+                  const roomId = String($(this).attr('data-room-id') || '');
+                  const room = (Array.isArray(allRooms) ? allRooms : []).find(function (item) {
+                     return String(getIndexRoomId(item)) === roomId;
+                  });
+                  if (room) runIndexSearch({ room: room });
+                  return;
                }
 
-               $('html, body').animate({
-                  scrollTop: $(targetSection).offset().top - 100
-               }, 500);
+               if (kind === 'location') {
+                  runIndexSearch({ location: $(this).attr('data-location') || '' });
+               }
+            });
+
+            // Giữ nút kính lúp, nhưng dùng cùng luồng với Enter.
+            $('#btnFilter').off('click').on('click.indexSearch', function (event) {
+               event.preventDefault();
+               runIndexSearchFromEnter();
+            });
+
+            $(document).on('click.indexSearch', function (event) {
+               if (!$(event.target).closest('#searchName, #locationDropdown').length) {
+                  locDropdown.removeClass('show');
+               }
             });
 
             $('#popupAuthInputEmail, #popupAuthInputName, #popupAuthInputPw1, #popupAuthInputPw2').on('keypress', function (e) {
