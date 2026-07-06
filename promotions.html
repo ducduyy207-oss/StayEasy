@@ -1102,63 +1102,10 @@
                </div>
                <span class="badge text-bg-danger fw-bold fs-6 px-3 py-2 rounded-pill">⚡ Kết thúc lúc 23:59</span>
             </div>
-            <div class="flash-sale-card p-4 mb-4">
-               <div class="row g-4 align-items-center">
-                  <div class="col-lg-6">
-                     <div
-                        class="d-inline-block bg-warning bg-opacity-20 text-dark rounded-pill px-3 py-1 small fw-bold mb-3">
-                        ⚡ FLASH SALE — CÒN 47 PHÒNG</div>
-                     <h2 class="fw-bold text-white mb-2">Vinpearl Resort Phú Quốc</h2>
-                     <p class="text-slate-400 mb-3" style="color:#94a3b8;">Khu nghỉ dưỡng 5 sao đẳng cấp quốc tế. Bãi
-                        biển riêng, 3 hồ bơi, spa cao cấp.</p>
-                     <div class="d-flex align-items-center gap-4 mb-4">
-                        <div>
-                           <div class="text-muted small text-decoration-line-through" style="color:#64748b!important;">
-                              3.200.000 ₫/đêm</div>
-                           <div class="text-warning fw-bold fs-3">1.920.000 ₫</div>
-                           <div class="text-muted small" style="color:#64748b!important;">/đêm · Đã gồm thuế</div>
-                        </div>
-                        <div class="bg-red-500 rounded-2 px-3 py-2 text-center"
-                           style="background:#ef4444;border-radius:10px;">
-                           <div class="text-white fw-black fs-4 lh-1">-40%</div>
-                           <div class="text-white small opacity-75">giảm</div>
-                        </div>
-                     </div>
-                     <div class="d-flex gap-3 flex-wrap">
-                        <button class="btn btn-warning fw-bold rounded-pill px-4" onclick="copyCode('FLASH40')">
-                           <i class="bi bi-lightning-fill me-2"></i>Lấy deal ngay
-                        </button>
-                        <a href="index.html" class="btn btn-outline-light rounded-pill px-4">Xem chi tiết</a>
-                     </div>
-                  </div>
-                  <div class="col-lg-6">
-                     <div class="row g-3">
-                        <div class="col-6">
-                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
-                              <i class="bi bi-water fs-3 text-primary mb-2 d-block"></i>
-                              <div class="text-white small fw-semibold">3 Hồ bơi</div>
-                           </div>
-                        </div>
-                        <div class="col-6">
-                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
-                              <i class="bi bi-egg-fried fs-3 text-success mb-2 d-block"></i>
-                              <div class="text-white small fw-semibold">Bữa sáng miễn phí</div>
-                           </div>
-                        </div>
-                        <div class="col-6">
-                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
-                              <i class="bi bi-car-front fs-3 text-warning mb-2 d-block"></i>
-                              <div class="text-white small fw-semibold">Đưa đón sân bay</div>
-                           </div>
-                        </div>
-                        <div class="col-6">
-                           <div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);">
-                              <i class="bi bi-heart-pulse fs-3 text-danger mb-2 d-block"></i>
-                              <div class="text-white small fw-semibold">Spa & Wellness</div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+            <div class="flash-sale-card p-4 mb-4" id="flashSaleCard">
+               <div id="flashSaleContent" class="text-center py-4 text-white-50">
+                  <div class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></div>
+                  Đang tải phòng ưu đãi...
                </div>
             </div>
          </div>
@@ -1215,264 +1162,12 @@
          <div class="mb-5">
             <div class="d-flex justify-content-between align-items-center mb-4">
                <h3 class="fw-bold text-dark mb-0">Tất cả ưu đãi</h3>
-               <span class="text-muted small" id="promoCount">Hiển thị 9 ưu đãi</span>
+               <span class="text-muted small" id="promoCount">Đang tải ưu đãi...</span>
             </div>
             <div class="row g-4" id="promoGrid">
-               <!-- Card 1 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-35%</div>
-                        <div class="promo-type-tag">Resort</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Fusion Maia Resort Đà Nẵng</h6>
-                        <p class="text-muted small mb-2">Nghỉ dưỡng sang trọng bên bãi biển Mỹ Khê. Bao gồm spa và bữa
-                           sáng.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">4.500.000 ₫</span>
-                           <span class="fw-bold text-danger">2.925.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('DA35RESORT')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">DA35RESORT</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 15/06/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('DA35RESORT')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 2 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-25%</div>
-                        <div class="promo-type-tag">Khách sạn</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Mường Thanh Grand Hà Nội</h6>
-                        <p class="text-muted small mb-2">Khách sạn 5 sao trung tâm thủ đô. Miễn phí ăn sáng, hồ bơi
-                           rooftop.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">2.800.000 ₫</span>
-                           <span class="fw-bold text-danger">2.100.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('HN25HOTEL')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">HN25HOTEL</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 30/06/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('HN25HOTEL')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 3 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-40%</div>
-                        <div class="promo-type-tag">Homestay</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Sapa Mountain Homestay</h6>
-                        <p class="text-muted small mb-2">View ruộng bậc thang tuyệt đẹp, bếp riêng, lửa trại buổi tối.
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">800.000 ₫</span>
-                           <span class="fw-bold text-danger">480.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('SAPA40HOME')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">SAPA40HOME</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 20/06/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('SAPA40HOME')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 4 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="new all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-15%</div>
-                        <div class="promo-type-tag" style="background:#7c3aed;">Mới</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Ưu đãi Khách hàng mới</h6>
-                        <p class="text-muted small mb-2">Giảm 15% cho lần đặt phòng đầu tiên tại bất kỳ khách sạn nào
-                           trên StayEasy.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="fw-bold text-success">Áp dụng tất cả phòng</span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('STAYEASY15')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">STAYEASY15</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Không giới hạn thời gian</div>
-                        <button class="btn-get-promo" onclick="getPromo('STAYEASY15')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 5 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="resort all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-30%</div>
-                        <div class="promo-type-tag">Resort</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Premier Village Phú Quốc</h6>
-                        <p class="text-muted small mb-2">Biệt thự mặt biển, hồ bơi riêng, bao gồm bữa sáng và tối.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">8.000.000 ₫</span>
-                           <span class="fw-bold text-danger">5.600.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('PQ30VIP')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">PQ30VIP</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 10/07/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('PQ30VIP')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 6 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="hotel all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-20%</div>
-                        <div class="promo-type-tag">Khách sạn</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Novotel Danang Premier Han River</h6>
-                        <p class="text-muted small mb-2">Tầm nhìn sông Hàn tuyệt đẹp, hồ bơi tầng 35, ăn sáng tự chọn.
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">3.500.000 ₫</span>
-                           <span class="fw-bold text-danger">2.800.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('NOVOTEL20')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">NOVOTEL20</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 25/06/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('NOVOTEL20')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 7 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="member all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-45%</div>
-                        <div class="promo-type-tag" style="background:#d97706;">VIP</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1"><i class="bi bi-gem text-warning me-1"></i>Ưu đãi Thành viên
-                           Vàng</h6>
-                        <p class="text-muted small mb-2">Giảm thêm 45% tại 500+ khách sạn đối tác. Chỉ dành cho thành
-                           viên Gold.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="fw-bold text-success">Áp dụng cho tất cả phòng</span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('GOLD45VIP')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">GOLD45VIP</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 31/07/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('GOLD45VIP')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 8 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="homestay all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-50%</div>
-                        <div class="promo-type-tag">Homestay</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Hội An Ancient Town Stays</h6>
-                        <p class="text-muted small mb-2">Ở giữa lòng phố cổ. Miễn phí xe đạp, tour phố đêm.</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">1.200.000 ₫</span>
-                           <span class="fw-bold text-danger">600.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('HOIAN50')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">HOIAN50</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Hết hạn: 05/07/2026</div>
-                        <button class="btn-get-promo" onclick="getPromo('HOIAN50')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
-               </div>
-               <!-- Card 9 -->
-               <div class="col-md-6 col-lg-4 promo-item" data-cat="flash all">
-                  <div class="promo-card">
-                     <div class="promo-card-img">
-                        <img
-                           src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop"
-                           alt="">
-                        <div class="promo-discount-badge">-60%</div>
-                        <div class="promo-type-tag" style="background:#ef4444;">⚡ Flash</div>
-                     </div>
-                     <div class="promo-card-body">
-                        <h6 class="fw-bold text-dark mb-1">Sheraton Grand Da Nang Resort</h6>
-                        <p class="text-muted small mb-2">5 sao quốc tế, bãi biển Non Nước. Flash sale chỉ 24h!</p>
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                           <span class="text-decoration-line-through text-muted small">5.000.000 ₫</span>
-                           <span class="fw-bold text-danger">2.000.000 ₫<span
-                                 class="text-muted fw-normal small">/đêm</span></span>
-                        </div>
-                        <div class="promo-code-box" onclick="copyCode('FLASH60NOW')">
-                           <i class="bi bi-ticket-perforated text-muted"></i>
-                           <span class="promo-code-text">FLASH60NOW</span>
-                           <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
-                        </div>
-                        <div class="promo-expiry mb-3" style="color:#ef4444;"><i class="bi bi-clock"></i> ⚡ Còn 5 giờ 23
-                           phút</div>
-                        <button class="btn-get-promo" onclick="getPromo('FLASH60NOW')">Nhận ưu đãi ngay</button>
-                     </div>
-                  </div>
+               <div class="col-12 text-center py-4 text-muted" id="promoLoading">
+                  <div class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></div>
+                  Đang tải danh sách phòng...
                </div>
             </div>
          </div>
@@ -1904,23 +1599,287 @@
          updateCountdown();
          setInterval(updateCountdown, 1000);
 
+         // =========================================================
+         // PHÒNG KHUYẾN MÃI ĐỘNG — CHỈ DÙNG 9 PHÒNG THẬT TỪ API
+         // - Không có phòng mẫu, dữ liệu cũ hoặc localStorage.
+         // - Tên, ảnh, ID, vị trí, loại và giá đều đọc trực tiếp từ API.getRooms().
+         // - API có ít hơn 9 phòng hợp lệ thì chỉ hiển thị đúng số phòng API trả về.
+         // =========================================================
+         let promoRooms = [];
+         let currentPromoCategory = 'all';
+         const PROMO_MAX_ROOMS = 9;
+         const PROMO_DISCOUNT_OPTIONS = [12, 15, 18, 20, 22, 25, 28, 30, 35, 40];
+
+         function escapePromoHtml(value) {
+            return String(value == null ? '' : value)
+               .replace(/&/g, '&amp;')
+               .replace(/</g, '&lt;')
+               .replace(/>/g, '&gt;')
+               .replace(/"/g, '&quot;')
+               .replace(/'/g, '&#039;');
+         }
+
+         function formatPromoVND(value) {
+            return new Intl.NumberFormat('vi-VN', {
+               style: 'currency',
+               currency: 'VND'
+            }).format(Number(value) || 0);
+         }
+
+         function getPromoRoomId(room) {
+            return room?.id ?? room?.ID ?? room?.Id ?? room?.roomId ?? room?.roomID ?? '';
+         }
+
+         function getPromoRoomType(room) {
+            const rawType = String(room?.type ?? room?.roomType ?? room?.category ?? '').toLowerCase();
+            if (rawType.includes('resort')) return { key: 'resort', label: 'Resort', code: 'RESORT' };
+            if (rawType.includes('homestay')) return { key: 'homestay', label: 'Homestay', code: 'HOME' };
+            return { key: 'hotel', label: 'Khách sạn', code: 'HOTEL' };
+         }
+
+         function getPromoImage(room) {
+            const firstImage = Array.isArray(room?.images) ? room.images[0] : '';
+            const rawImage = room?.image ?? room?.imageUrl ?? room?.thumbnail ?? room?.coverImage ?? firstImage;
+            if (rawImage && typeof rawImage === 'object') return String(rawImage.url ?? rawImage.src ?? '').trim();
+            return String(rawImage || '').trim();
+         }
+
+         function normalizePromoText(value) {
+            return String(value || '')
+               .normalize('NFD')
+               .replace(/[\u0300-\u036f]/g, '')
+               .toUpperCase();
+         }
+
+         function getPromoHash(value) {
+            let hash = 0;
+            const text = String(value || '');
+            for (let i = 0; i < text.length; i++) {
+               hash = ((hash << 5) - hash) + text.charCodeAt(i);
+               hash |= 0;
+            }
+            return Math.abs(hash);
+         }
+
+         function getPromoLocationCode(room) {
+            const source = normalizePromoText(`${room?.location ?? room?.city ?? ''} ${room?.name ?? ''}`);
+            const presetCodes = [
+               ['HA NOI', 'HN'], ['HANOI', 'HN'], ['DA NANG', 'DA'], ['DANANG', 'DA'],
+               ['SA PA', 'SAPA'], ['SAPA', 'SAPA'], ['PHU QUOC', 'PQ'], ['NHA TRANG', 'NT'],
+               ['DA LAT', 'DL'], ['HOI AN', 'HA'], ['HA LONG', 'HL'], ['VUNG TAU', 'VT'],
+               ['QUY NHON', 'QN'], ['PHAN THIET', 'PT'], ['MUI NE', 'MN'], ['HUE', 'HUE']
+            ];
+            for (const [keyword, code] of presetCodes) {
+               if (source.includes(keyword)) return code;
+            }
+            const fallback = normalizePromoText(room?.location ?? room?.city ?? room?.name ?? '')
+               .replace(/[^A-Z0-9]+/g, ' ')
+               .trim()
+               .split(/\s+/)
+               .filter(Boolean)
+               .slice(0, 2)
+               .join('');
+            return (fallback || 'VN').slice(0, 5);
+         }
+
+         function getPromoData(room) {
+            const roomId = String(getPromoRoomId(room) || '');
+            const roomName = String(room?.name || '');
+            const hash = getPromoHash(`${roomId}|${roomName}`);
+            const discount = PROMO_DISCOUNT_OPTIONS[hash % PROMO_DISCOUNT_OPTIONS.length];
+            const originalPrice = Number(room?.price ?? room?.pricePerNight ?? room?.nightlyPrice ?? 0) || 0;
+            const roomType = getPromoRoomType(room);
+
+            return {
+               discount,
+               originalPrice,
+               salePrice: Math.round(originalPrice * (100 - discount) / 100),
+               // Dạng mã: DA35RESORT / HN25HOTEL / SAPA40HOME
+               code: `${getPromoLocationCode(room)}${discount}${roomType.code}`,
+               isFlash: hash % 3 === 0
+            };
+         }
+
+         function getPromoCategories(room, index) {
+            const roomType = getPromoRoomType(room).key;
+            const promotion = getPromoData(room);
+            const categories = ['all', roomType, 'new', 'member'];
+            if (promotion.isFlash || index === 0) categories.push('flash');
+            return categories.join(' ');
+         }
+
+         function getPromoDescription(room) {
+            const description = String(room?.description ?? room?.shortDescription ?? '').trim();
+            if (description) return description;
+            const location = String(room?.location ?? room?.city ?? 'Việt Nam').trim();
+            return `${getPromoRoomType(room).label} tại ${location}.`;
+         }
+
+         function getPromoAvailability(room) {
+            const available = room?.availableRooms ?? room?.available ?? room?.quantity ?? room?.stock ?? room?.remainingRooms;
+            const numericAvailable = Number(available);
+            return Number.isFinite(numericAvailable) && numericAvailable >= 0
+               ? `⚡ FLASH SALE — CÒN ${numericAvailable} PHÒNG`
+               : '⚡ FLASH SALE — ƯU ĐÃI GIỚI HẠN';
+         }
+
+         function renderFlashSale(room) {
+            const container = document.getElementById('flashSaleContent');
+            if (!container) return;
+
+            if (!room) {
+               container.className = 'text-center py-4 text-white-50';
+               container.innerHTML = '<i class="bi bi-info-circle me-2"></i>Hiện chưa có phòng từ API để hiển thị Flash Sale.';
+               return;
+            }
+
+            const promo = getPromoData(room);
+            const roomType = getPromoRoomType(room);
+            const roomName = escapePromoHtml(room.name);
+            const description = escapePromoHtml(getPromoDescription(room));
+            const detailId = encodeURIComponent(getPromoRoomId(room));
+
+            container.className = '';
+            container.innerHTML = `
+               <div class="row g-4 align-items-center">
+                  <div class="col-lg-6">
+                     <div class="d-inline-block bg-warning bg-opacity-20 text-dark rounded-pill px-3 py-1 small fw-bold mb-3">
+                        ${escapePromoHtml(getPromoAvailability(room))}
+                     </div>
+                     <h2 class="fw-bold text-white mb-2">${roomName}</h2>
+                     <p class="text-slate-400 mb-3" style="color:#94a3b8;">${description}</p>
+                     <div class="d-flex align-items-center gap-4 mb-4">
+                        <div>
+                           <div class="text-muted small text-decoration-line-through" style="color:#64748b!important;">${formatPromoVND(promo.originalPrice)}/đêm</div>
+                           <div class="text-warning fw-bold fs-3">${formatPromoVND(promo.salePrice)}</div>
+                           <div class="text-muted small" style="color:#64748b!important;">/đêm · Giá ưu đãi</div>
+                        </div>
+                        <div class="bg-red-500 rounded-2 px-3 py-2 text-center" style="background:#ef4444;border-radius:10px;">
+                           <div class="text-white fw-black fs-4 lh-1">-${promo.discount}%</div>
+                           <div class="text-white small opacity-75">giảm</div>
+                        </div>
+                     </div>
+                     <div class="d-flex gap-3 flex-wrap">
+                        <button class="btn btn-warning fw-bold rounded-pill px-4" data-promo-code="${escapePromoHtml(promo.code)}" onclick="copyCode(this.dataset.promoCode)">
+                           <i class="bi bi-lightning-fill me-2"></i>Lấy deal ngay
+                        </button>
+                        <a href="detail.html?id=${detailId}" class="btn btn-outline-light rounded-pill px-4">Xem chi tiết</a>
+                     </div>
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="row g-3">
+                        <div class="col-6"><div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);"><i class="bi bi-geo-alt fs-3 text-primary mb-2 d-block"></i><div class="text-white small fw-semibold">${escapePromoHtml(room.location ?? room.city ?? 'Việt Nam')}</div></div></div>
+                        <div class="col-6"><div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);"><i class="bi bi-building fs-3 text-success mb-2 d-block"></i><div class="text-white small fw-semibold">${escapePromoHtml(roomType.label)}</div></div></div>
+                        <div class="col-6"><div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);"><i class="bi bi-tag fs-3 text-warning mb-2 d-block"></i><div class="text-white small fw-semibold">Mã ${escapePromoHtml(promo.code)}</div></div></div>
+                        <div class="col-6"><div class="p-3 rounded-3 text-center" style="background:rgba(255,255,255,0.08);"><i class="bi bi-calendar-check fs-3 text-danger mb-2 d-block"></i><div class="text-white small fw-semibold">Đặt trực tuyến</div></div></div>
+                     </div>
+                  </div>
+               </div>`;
+         }
+
+         function renderPromoCards(rooms) {
+            const grid = document.getElementById('promoGrid');
+            const count = document.getElementById('promoCount');
+            if (!grid) return;
+
+            if (!rooms.length) {
+               grid.innerHTML = '<div class="col-12 text-center py-4 text-muted"><i class="bi bi-inbox me-2"></i>API hiện chưa có phòng đủ dữ liệu để hiển thị ưu đãi.</div>';
+               if (count) count.textContent = 'Hiển thị 0 ưu đãi';
+               return;
+            }
+
+            grid.innerHTML = rooms.map((room, index) => {
+               const promo = getPromoData(room);
+               const roomType = getPromoRoomType(room);
+               const roomName = escapePromoHtml(room.name);
+               const image = escapePromoHtml(getPromoImage(room));
+               const description = escapePromoHtml(getPromoDescription(room));
+               const category = escapePromoHtml(getPromoCategories(room, index));
+
+               return `
+                  <div class="col-md-6 col-lg-4 promo-item" data-cat="${category}" data-api-room-id="${escapePromoHtml(getPromoRoomId(room))}">
+                     <div class="promo-card">
+                        <div class="promo-card-img">
+                           <img src="${image}" alt="${roomName}">
+                           <div class="promo-discount-badge">-${promo.discount}%</div>
+                           <div class="promo-type-tag">${escapePromoHtml(roomType.label)}</div>
+                        </div>
+                        <div class="promo-card-body">
+                           <h6 class="fw-bold text-dark mb-1">${roomName}</h6>
+                           <p class="text-muted small mb-2">${description}</p>
+                           <div class="d-flex align-items-center gap-2 mb-1">
+                              <span class="text-decoration-line-through text-muted small">${formatPromoVND(promo.originalPrice)}</span>
+                              <span class="fw-bold text-danger">${formatPromoVND(promo.salePrice)}<span class="text-muted fw-normal small">/đêm</span></span>
+                           </div>
+                           <div class="promo-code-box" data-promo-code="${escapePromoHtml(promo.code)}" onclick="copyCode(this.dataset.promoCode)">
+                              <i class="bi bi-ticket-perforated text-muted"></i>
+                              <span class="promo-code-text">${escapePromoHtml(promo.code)}</span>
+                              <span class="promo-code-copy"><i class="bi bi-copy"></i> Copy</span>
+                           </div>
+                           <div class="promo-expiry mb-3"><i class="bi bi-clock"></i> Ưu đãi áp dụng trong thời gian có hạn</div>
+                           <button class="btn-get-promo" data-promo-code="${escapePromoHtml(promo.code)}" onclick="getPromo(this.dataset.promoCode)">Nhận ưu đãi ngay</button>
+                        </div>
+                     </div>
+                  </div>`;
+            }).join('');
+         }
+
+         async function loadDynamicPromotions() {
+            const grid = document.getElementById('promoGrid');
+            const count = document.getElementById('promoCount');
+
+            if (typeof API === 'undefined' || typeof API.getRooms !== 'function') {
+               if (grid) grid.innerHTML = '<div class="col-12 text-center py-4 text-muted"><i class="bi bi-exclamation-triangle me-2"></i>Không tìm thấy kết nối dữ liệu phòng.</div>';
+               if (count) count.textContent = 'Chưa thể tải ưu đãi';
+               renderFlashSale(null);
+               return;
+            }
+
+            try {
+               const result = await API.getRooms();
+               const apiRooms = Array.isArray(result) ? result : [];
+
+               // CHỈ chọn phòng đang thật sự được API trả về, tuyệt đối không bù bằng dữ liệu mẫu.
+               promoRooms = apiRooms
+                  .filter(room => room && typeof room === 'object')
+                  .filter(room => String(getPromoRoomId(room)).trim() !== '')
+                  .filter(room => String(room.name || '').trim() !== '')
+                  .filter(room => getPromoImage(room) !== '')
+                  .slice(0, PROMO_MAX_ROOMS);
+
+               renderPromoCards(promoRooms);
+               const flashRoom = promoRooms.find(room => getPromoData(room).isFlash) || promoRooms[0] || null;
+               renderFlashSale(flashRoom);
+
+               const activeButton = document.querySelector('.filter-tab.active');
+               filterPromo(currentPromoCategory, activeButton);
+            } catch (error) {
+               console.error('Không thể tải phòng khuyến mãi:', error);
+               if (grid) grid.innerHTML = '<div class="col-12 text-center py-4 text-muted"><i class="bi bi-exclamation-triangle me-2"></i>Không thể tải danh sách phòng khuyến mãi.</div>';
+               if (count) count.textContent = 'Chưa thể tải ưu đãi';
+               renderFlashSale(null);
+            }
+         }
+
          // Filter promo cards
          function filterPromo(cat, btn) {
+            currentPromoCategory = cat;
             document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            if (btn) btn.classList.add('active');
+
             const items = document.querySelectorAll('.promo-item');
             let count = 0;
             items.forEach(item => {
-               const cats = item.dataset.cat || '';
-               if (cat === 'all' || cats.includes(cat)) {
-                  item.style.display = 'block';
-                  count++;
-               } else {
-                  item.style.display = 'none';
-               }
+               const categories = (item.dataset.cat || '').split(/\s+/);
+               const shouldShow = cat === 'all' || categories.includes(cat);
+               item.style.display = shouldShow ? 'block' : 'none';
+               if (shouldShow) count++;
             });
-            document.getElementById('promoCount').textContent = `Hiển thị ${count} ưu đãi`;
+
+            const countElement = document.getElementById('promoCount');
+            if (countElement) countElement.textContent = `Hiển thị ${count} ưu đãi`;
          }
+
          function copyCode(code) {
             if (navigator.clipboard) {
                navigator.clipboard.writeText(code).then(() => showToast(`✅ Đã sao chép mã: ${code}`));
@@ -1932,6 +1891,8 @@
          function getPromo(code) {
             copyCode(code);
          }
+
+         document.addEventListener('DOMContentLoaded', loadDynamicPromotions);
 
          // Validate mã khi khách đặt phòng
          window.validatePromoCode = function (code, roomName) {
